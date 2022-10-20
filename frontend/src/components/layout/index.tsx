@@ -1,3 +1,4 @@
+import { AppBar, Toolbar } from "@mui/material";
 import { LayoutContainer, MainContainer } from "../../styles/layout";
 import Header from "./header";
 import Footer from "./navBar";
