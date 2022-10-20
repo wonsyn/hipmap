@@ -1,4 +1,4 @@
 package com.hipmap.domain.shorts;
 
-public interface ShortsService {
+public class ShortsServiceImpl {
 }

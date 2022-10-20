@@ -1,4 +1,4 @@
 package com.hipmap.domain.like;
 
-public interface LikeService {
+public class LikeServiceImpl {
 }

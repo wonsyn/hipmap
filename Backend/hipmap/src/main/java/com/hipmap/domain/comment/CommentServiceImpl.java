@@ -1,4 +1,4 @@
 package com.hipmap.domain.comment;
 
-public interface CommentService {
+public class CommentServiceImpl {
 }
