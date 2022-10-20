@@ -19,16 +19,17 @@ public class CommentEntity {
     private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "shortsId", referencedColumnName = "shortsId")
+    @JoinColumn(name = "shorts_id", referencedColumnName = "shortsId")
     private ShortsEntity shorts;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserEntity user;
 
+    @Lob
     private String content;
 
-    private Long group;
+    private Long comment_group;
 
     private Long sequence;
 

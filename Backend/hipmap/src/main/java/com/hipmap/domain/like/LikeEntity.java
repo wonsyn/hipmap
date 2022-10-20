@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="like")
+@Table(name="shorts_like")
 @Getter
 @Setter
 public class LikeEntity {
@@ -18,11 +18,11 @@ public class LikeEntity {
     private Long likeId;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "shortsId", referencedColumnName = "shortsId")
+    @JoinColumn(name = "shorts_id", referencedColumnName = "shortsId")
     private ShortsEntity shorts;
 
     @Column(nullable = false)
