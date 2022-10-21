@@ -18,10 +18,10 @@ public class BookmarkEntity {
     private Long bookmarkId;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "shortsId", referencedColumnName = "shortsId")
+    @JoinColumn(name = "shorts_id", referencedColumnName = "shortsId")
     private ShortsEntity shorts;
 }

@@ -43,7 +43,7 @@ public class ShortsEntity {
     private LocalDateTime createTime;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserEntity user;
 
 }
