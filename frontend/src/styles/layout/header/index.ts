@@ -18,6 +18,9 @@ export const HeaderTitleWrapper = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const LogoImg = styled.img`
