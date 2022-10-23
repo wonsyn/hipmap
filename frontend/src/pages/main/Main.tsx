@@ -2,6 +2,7 @@
 
 import { css } from "@emotion/react";
 import BestHipPlace from "./component/bestHipPlace";
+import HipVote from "./component/hipVote";
 import MyHipContainer from "./component/MyHip";
 import SameHipPlace from "./component/sameHipPlace";
 
@@ -21,6 +22,12 @@ const Main = () => {
       >
         <SameHipPlace />
       </div>
+      <HipVote />
+      <div
+        css={css`
+          margin-bottom: 10vh;
+        `}
+      ></div>
     </div>
   );
 };
