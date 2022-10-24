@@ -35,11 +35,14 @@ public class UserEntity {
 
     private String labelName;
 
+    private Boolean followOpen;
+
     @Lob
     private String labelCharSrc;
 
     private Boolean role;
 
-    private Boolean followPrivate;
+    private Boolean isPrivate;
+
 
 }
