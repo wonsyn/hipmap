@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from "@emotion/react";
 import BestHipPlace from "./component/bestHipPlace";
 import HipVote from "./component/hipVote";

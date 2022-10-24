@@ -71,16 +71,13 @@ const HipVote = () => {
   }, [thumbnailState, voteState]);
   const text = () => {
     const index = thumbnailState!.index;
-    console.log(index, voteState?.length);
     if (
       voteState &&
       thumbnailState &&
       thumbnailState.index + 1 < voteState.length
     ) {
-      console.log("aaaaaaaa");
       setTumbnailState({ shorts: voteState[index + 1], index: index + 1 });
     } else if (voteState && index && index + 1 >= voteState.length) {
-      console.log("bbbbbbbbbb");
       setTumbnailState({ shorts: voteState[0], index: 0 });
     }
   };
