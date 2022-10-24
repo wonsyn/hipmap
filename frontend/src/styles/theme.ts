@@ -12,6 +12,7 @@ const theme: Theme = {
     subColorDarkPurple: "#240046",
     subColorGradient1: "linear-gradient(183.5deg, #FA2FB5, #CEEEEC)",
     subColorGradient2: "linear-gradient(92.79deg,#EA047E,#FFC23C)",
+    subColorGradient3: "linear-gradient(98.02deg, #700B97 10.36%, #4AFCE2 88.02%)"
   },
 };
 

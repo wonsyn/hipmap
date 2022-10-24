@@ -1,11 +1,14 @@
 import { CharacterStyle } from "../../styles/welcome";
-
+import Logo from "../../../../assets/logo/HipMapLogo.png"
+import styled from "@emotion/styled";
 function Character(){
     return(
         <CharacterStyle>
-            3D 캐릭터가 들어갈 예정입니다.
+            <LogoImg src={Logo}/>
         </CharacterStyle>
     )
 }
-
+const LogoImg = styled.img`
+    width: 60%;
+`
 export default Character

@@ -1,10 +1,10 @@
-
+import { StartButtonStyled } from "../../styles/welcome"
 
 function StartButton(){
     return(
-            <button>
+            <StartButtonStyled >
                 Let's Hip!
-            </button>
+            </StartButtonStyled>
     )
 }
 
