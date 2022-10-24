@@ -11,8 +11,7 @@ interface CardProps {
   width: string;
   height: string;
   font_size: string;
-  content: string;
-  children: JSX.Element;
+  children: JSX.Element | string;
 }
 
 const Card = ({
@@ -26,7 +25,6 @@ const Card = ({
   width,
   height,
   font_size,
-  content,
   children,
 }: CardProps) => {
   return (
@@ -42,7 +40,6 @@ const Card = ({
       align_items={align_items}
       overflow={overflow}
     >
-      {content}
       {children}
     </CardContainer>
   );
@@ -59,7 +56,6 @@ Card.defaultProps = {
   width: "50vw",
   height: "50vh",
   font_size: "2rem",
-  content: "",
   children: <div></div>,
 };
 

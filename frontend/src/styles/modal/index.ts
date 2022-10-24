@@ -3,8 +3,15 @@ import styled from "@emotion/styled";
 interface modalProps {
   width: string;
   height: string;
-  border_radius: string | null;
-  backgroundcolor: string | null;
+  border_radius: string;
+  backgroundcolor: string;
+  display: string;
+  font_size: string;
+  font_weight: string;
+  justify_content: string;
+  align_items: string;
+  overflow: string;
+  color: string;
 }
 
 export const ModalContent = styled.div<modalProps>`
@@ -18,7 +25,15 @@ export const ModalContent = styled.div<modalProps>`
     props.backgroundcolor === null ? "white" : props.backgroundcolor};
   left: 50%;
   top: 50%;
+  color:${(props) => props.color};
   transform: translate(-50%, -50%);
+  display: ${(props) => props.display};
+  background: ${(props) => props.backgroundcolor};
+  font-size: ${(props) => props.font_size};
+  font-weight: ${(props) => props.font_weight};
+  justify-content: ${(props) => props.justify_content};
+  align-items: ${(props) => props.align_items};
+  overflow: ${(props) => props.overflow};
 `;
 
 export const ModalBackDrop = styled.div`
