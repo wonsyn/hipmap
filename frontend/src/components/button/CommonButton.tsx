@@ -4,7 +4,8 @@ interface ButtonProps {
   width: string;
   height: string;
   color: string;
-  onClick: () => void;
+  background: string;
+  onClick: (e: any) => void | {};
   children: JSX.Element;
 }
 
@@ -14,12 +15,14 @@ const CommonButton = ({
   color,
   onClick,
   children,
+  background,
 }: ButtonProps) => {
   return (
     <CommonButtonWrapper
       width={width}
       height={height}
       color={color}
+      background={background}
       onClick={onClick}
     >
       {children}
@@ -28,3 +31,10 @@ const CommonButton = ({
 };
 
 export default CommonButton;
+
+CommonButton.defaultProps = {
+  width: "10vw",
+  height: "5vh",
+  color: "black",
+  background: "white",
+};

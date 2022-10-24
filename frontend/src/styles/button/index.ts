@@ -4,6 +4,7 @@ interface ButtonProps {
   color: string;
   width: string;
   height: string;
+  background:string
 }
 
 export const CommonButtonWrapper = styled.button<ButtonProps>`
