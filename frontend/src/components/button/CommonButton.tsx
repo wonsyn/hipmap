@@ -7,6 +7,7 @@ interface ButtonProps {
   background: string;
   onClick: (e: any) => void | {};
   children: JSX.Element;
+  border_radius: string;
 }
 
 const CommonButton = ({
@@ -16,6 +17,7 @@ const CommonButton = ({
   onClick,
   children,
   background,
+  border_radius,
 }: ButtonProps) => {
   return (
     <CommonButtonWrapper
@@ -24,6 +26,7 @@ const CommonButton = ({
       color={color}
       background={background}
       onClick={onClick}
+      border_radius={border_radius}
     >
       {children}
     </CommonButtonWrapper>
@@ -37,4 +40,5 @@ CommonButton.defaultProps = {
   height: "5vh",
   color: "black",
   background: "white",
+  border_radius: "8px",
 };
