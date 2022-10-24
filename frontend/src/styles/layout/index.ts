@@ -7,4 +7,5 @@ export const LayoutContainer = styled.div`
 
 export const MainContainer = styled.main`
   min-height: 90vh;
+  height: 100%;
 `;

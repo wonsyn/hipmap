@@ -4,7 +4,8 @@ interface ButtonProps {
   color: string;
   width: string;
   height: string;
-  background:string
+  background: string;
+  border_radius: string;
 }
 
 export const CommonButtonWrapper = styled.button<ButtonProps>`
@@ -13,4 +14,5 @@ export const CommonButtonWrapper = styled.button<ButtonProps>`
   height: ${(props) => props.height};
   background: ${(props) => props.theme.colors.subColorGradient2};
   border: none;
+  border-radius: ${(props) => props.border_radius};
 `;
