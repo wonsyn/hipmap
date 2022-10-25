@@ -1,5 +1,5 @@
-import { AnnouncementStyle } from "../../styles/welcome";
-import AnnouncementText from "../../../../assets/labeling/welcome/AnnouncementText.png"
+import { AnnouncementStyle } from "../../../styles/welcome";
+import AnnouncementText from "../../../../../assets/labeling/welcome/AnnouncementText.png"
 import styled from "@emotion/styled";
 function Announcement(){
     return(
