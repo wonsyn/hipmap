@@ -10,16 +10,19 @@ import {
   LoginFormLoginWrapper,
   LogoWrapper,
 } from "./styles/loginForm";
+import { useNavigate } from "react-router-dom";
+
 const LoginWrapper = () => {
   const dispatch = useDispatch();
   const loginHandler = () => {
     dispatch(login());
   };
+  const navigate = useNavigate();
 
   return (
     <LoginFormLoginWrapper>
       <LoginFormBackgroundVideo muted loop autoPlay>
-        <source src="/movie/loginBackground.mp4" type="video/mp4"></source>
+        <source src="/movie/login2.mp4" type="video/mp4"></source>
       </LoginFormBackgroundVideo>
       <LogoWrapper src="/img/logo.png"></LogoWrapper>
       <LoginFormLoginDiv>
@@ -38,6 +41,9 @@ const LoginWrapper = () => {
             margin-top: 1%;
             color: cyan;
           `}
+          onClick={() => {
+            navigate("/signup");
+          }}
         >
           회원가입
         </div>
