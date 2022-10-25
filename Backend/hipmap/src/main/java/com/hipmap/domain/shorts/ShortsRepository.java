@@ -1,4 +1,8 @@
 package com.hipmap.domain.shorts;
 
-public interface ShortsRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ShortsRepository extends JpaRepository<ShortsEntity, Long> {
+
+
 }
