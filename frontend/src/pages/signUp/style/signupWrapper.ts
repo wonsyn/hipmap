@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const SignUpWrapperDiv = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,4 +99,30 @@ export const SignUpOption = styled.option`
   background: black;
   border: none;
   color: white;
+`;
+
+export const SignUpButton = styled.button`
+  border: none;
+  background: ${(props) => props.theme.colors.subColorGradient2};
+  margin-top: auto;
+  margin-bottom: 10vh;
+  color: white;
+  width: 20vw;
+  height: 5vh;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: 5%;
+  font-size: 1rem;
+  font-weight: bolder;
+`;
+
+export const SignUpInformation = styled.div`
+  font-size: 0.8rem;
+  width: 80%;
+`;
+
+export const SignUpAlert = styled.div`
+  font-size: 1rem;
+  width: 80%;
+  color: red;
 `;
