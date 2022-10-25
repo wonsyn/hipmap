@@ -19,8 +19,9 @@ public class BookmarkServiceImpl implements BookmarkService {
         return bookmarkRepository.save(newBookmark);
     }
 
-//    @Override
-//    public void deleteBookmark(Long userId, Long shortsId) {
-//
-//    }
+    @Override
+    public void deleteBookmark(Long userId, Long shortsId) {
+
+
+    }
 }
