@@ -1,5 +1,5 @@
-import { LogoNameStyle } from "../../styles/welcome"
-import Title from "../../../../assets/title/title.png"
+import { LogoNameStyle } from "../../../styles/welcome"
+import Title from "../../../../../assets/title/title.png"
 import styled from "@emotion/styled"
 function LogoName(){
     return(

@@ -1,9 +1,9 @@
-import { TieStyle } from "../../styles/welcome"
-import { ImgContainer } from "../../../main/styles/ImgStyle";
+import { TieStyle } from "../../../styles/welcome"
+import { ImgContainer } from "../../../../main/styles/ImgStyle";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import labelTie from "../../../../assets/labeling/welcome/labelTie.png"
+import labelTie from "../../../../../assets/labeling/welcome/labelTie.png"
 
 function SampleNextArrow() {
     return <div style={{ display: "none" }} />;
