@@ -49,6 +49,9 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+    //modelmapper
+//    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+
 }
 
 tasks.named('test') {
