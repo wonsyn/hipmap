@@ -3,7 +3,7 @@ package com.hipmap.domain.bookmark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("bookmarkService")
+@Service
 public class BookmarkServiceImpl implements BookmarkService {
 
     @Autowired
@@ -18,4 +18,9 @@ public class BookmarkServiceImpl implements BookmarkService {
         //newBookmark.setShorts(); => 쇼츠 완성 이후
         return bookmarkRepository.save(newBookmark);
     }
+
+//    @Override
+//    public void deleteBookmark(Long userId, Long shortsId) {
+//
+//    }
 }
