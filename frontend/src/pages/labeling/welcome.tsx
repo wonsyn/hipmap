@@ -1,9 +1,9 @@
 import styled from "@emotion/styled"
-import Tie from "./component/tie"
-import LogoName from "./component/logoName"
-import Character from "./component/character"
-import Announcement from "./component/announcement/indexl"
-import StartButton from "./component/startButton"
+import Tie from "./component/welcome/tie"
+import LogoName from "./component/welcome/logoName"
+import Character from "./component/welcome/character"
+import Announcement from "./component/welcome/announcement/indexl"
+import StartButton from "./component/welcome/startButton"
 import welcomePage from "../../assets/labeling/welcome/welcomePage.jpg";
 
 function WelcomePage() {

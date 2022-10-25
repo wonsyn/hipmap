@@ -1,5 +1,5 @@
-import { CharacterStyle } from "../../styles/welcome";
-import Logo from "../../../../assets/logo/HipMapLogo.png"
+import { CharacterStyle } from "../../../styles/welcome";
+import Logo from "../../../../../assets/logo/HipMapLogo.png"
 import styled from "@emotion/styled";
 function Character(){
     return(

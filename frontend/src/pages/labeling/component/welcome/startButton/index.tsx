@@ -1,4 +1,4 @@
-import { StartButtonStyled } from "../../styles/welcome"
+import { StartButtonStyled } from "../../../styles/welcome"
 
 function StartButton(){
     return(
