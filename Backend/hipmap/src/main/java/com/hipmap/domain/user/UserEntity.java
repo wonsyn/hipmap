@@ -4,7 +4,9 @@ package com.hipmap.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,6 +16,8 @@ import javax.persistence.*;
 @Table(name="user")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
 
     @Id
@@ -42,4 +46,16 @@ public class UserEntity {
 
     private Boolean followPrivate;
 
+    public UserEntity(String nickname, String userEmail, String proImgSrc) {
+        this.nickname = nickname;
+        this.userEmail = userEmail;
+        this.proImgSrc = proImgSrc;
+    }
+
+    public UserEntity update(String name, String picture) {
+        this.nickname = name;
+        this.proImgSrc = picture;
+
+        return this;
+    }
 }
