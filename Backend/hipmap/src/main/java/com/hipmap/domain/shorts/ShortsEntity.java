@@ -1,5 +1,6 @@
 package com.hipmap.domain.shorts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hipmap.domain.user.UserEntity;
 import lombok.Builder;
 import lombok.Data;

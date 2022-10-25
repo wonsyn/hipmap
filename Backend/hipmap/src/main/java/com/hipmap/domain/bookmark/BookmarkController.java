@@ -30,13 +30,13 @@ public class BookmarkController {
         return new ResponseEntity<BookmarkEntity>(bookmarkService.createBookmark(userId,shortsId), HttpStatus.OK);
     }
 
-    @DeleteMapping()
-    @ApiOperation(value = "북마크 삭제", notes = "북마크 삭제")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity<?> deleteBookmark(@RequestParam Long shortsId){
-        Long userId = Long.valueOf(0); // user 생기면 수정
-        return new ResponseEntity<>(bookmarkService.deleteBookmark(userId,shortsId), HttpStatus.OK);
-    }
+//    @DeleteMapping()
+//    @ApiOperation(value = "북마크 삭제", notes = "북마크 삭제")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity<?> deleteBookmark(@RequestParam Long shortsId){
+//        Long userId = Long.valueOf(0); // user 생기면 수정
+//        return new ResponseEntity<>(bookmarkService.deleteBookmark(userId,shortsId), HttpStatus.OK);
+//    }
 }

@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface ShortsService {
 
-    Page<ShortsEntity> getShorts(Pageable pageable);
+    Page<ShortsResDto> getShorts(Pageable pageable);
 }

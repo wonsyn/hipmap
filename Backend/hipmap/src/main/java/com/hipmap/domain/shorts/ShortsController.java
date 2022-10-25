@@ -16,7 +16,8 @@ public class ShortsController {
     ShortsService shortsService;
 
     @GetMapping()
-    List<ShortsEntity> getShorts(Pageable pageable) {
+    List<ShortsResDto> getShorts(Pageable pageable) {
+
         return shortsService.getShorts(pageable).getContent(); // 페이지 객체 어쩌구 : 필요함
     }
 
