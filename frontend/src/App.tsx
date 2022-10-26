@@ -5,6 +5,7 @@ import WelcomePage from "./pages/labeling/welcome";
 import ProcessingPage from "./pages/labeling/processting";
 import LoginWrapper from "./pages/login";
 import SignUpWrapper from "./pages/signUp";
+import MyPage from "./pages/myPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/processing" element={<ProcessingPage />}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
+          <Route path="/myPage" element={<MyPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

@@ -14,10 +14,11 @@ import { useNavigate } from "react-router-dom";
 
 const LoginWrapper = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loginHandler = () => {
     dispatch(login());
+    navigate("/");
   };
-  const navigate = useNavigate();
 
   return (
     <LoginFormLoginWrapper>
@@ -39,6 +40,7 @@ const LoginWrapper = () => {
         <div
           css={css`
             margin-top: 1%;
+            margin-bottom: 5%;
             color: cyan;
           `}
           onClick={() => {
@@ -47,6 +49,7 @@ const LoginWrapper = () => {
         >
           회원가입
         </div>
+        <img src="/img/kakao_login_wide.png" alt="카카오 로그인 버튼" />
       </LoginFormLoginDiv>
     </LoginFormLoginWrapper>
   );
