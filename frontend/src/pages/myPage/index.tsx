@@ -1,8 +1,11 @@
+import MyInfoWrapper from "./component/MyInfoWrapper";
+import { MyPageDiv } from "./styles/MyInfoWrapperStyle";
+
 const MyPage = () => {
   return (
-    <div>
-      <div></div>
-    </div>
+    <MyPageDiv>
+      <MyInfoWrapper></MyInfoWrapper>
+    </MyPageDiv>
   );
 };
 
