@@ -1,6 +1,7 @@
 package com.hipmap.domain.bookmark;
 
 
+import com.hipmap.domain.common.response.BaseResponseBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,17 +27,29 @@ public class BookmarkController {
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<?> createBookmark(@RequestParam Long shortsId){
-        Long userId = Long.valueOf(0); // user 생기면 수정
-        return new ResponseEntity<BookmarkEntity>(bookmarkService.createBookmark(userId,shortsId), HttpStatus.OK);
+        Long userId = Long.valueOf(1); // authentication 생기면 수정
+        BookmarkEntity bookmark = bookmarkService.createBookmark(userId,shortsId);
+        return new ResponseEntity<CreateBookmarkResponse>(new CreateBookmarkResponse(bookmark.getBookmarkId(), userId,shortsId), HttpStatus.OK);
     }
 
-//    @DeleteMapping()
-//    @ApiOperation(value = "북마크 삭제", notes = "북마크 삭제")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<?> deleteBookmark(@RequestParam Long shortsId){
-//        Long userId = Long.valueOf(0); // user 생기면 수정
-//        return new ResponseEntity<>(bookmarkService.deleteBookmark(userId,shortsId), HttpStatus.OK);
-//    }
+    @GetMapping()
+    @ApiOperation(value = "북마크 조회", notes = "유저별 북마크 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<?> getBookmarkByUser(@RequestParam Long userId){
+     /*
+     authentication 생기면 수정
+      */
+        return new ResponseEntity<>(bookmarkService.findBookmarksByUserId(userId), HttpStatus.OK);
+    }
+
+    @DeleteMapping()
+    @ApiOperation(value = "북마크 삭제", notes = "북마크 삭제")
+
+    public BaseResponseBody deleteBookmark(@RequestParam Long shortsId){
+        Long userId = Long.valueOf(1); // user 생기면 수정
+        bookmarkService.deleteBookmark(userId,shortsId);
+        return BaseResponseBody.of(200, "Success");
+    }
 }
