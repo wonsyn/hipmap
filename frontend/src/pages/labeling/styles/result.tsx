@@ -15,10 +15,11 @@ export const ContainerDiv = styled.div`
     width: 80vw;
     max-width: 500px;
     height: 92vh;
+    background-color: ${palette.mainColor};
     // boder 관련
     border: 5px solid transparent;
     border-radius: 20px;
-    border-image: ${palette.subColorGradient3};
+    border-image: ${palette.subColorGradient2};
     border-image-slice: 1;
     margin: 10px;
 `
@@ -74,5 +75,8 @@ export const WithButton = styled.button`
     font-size: 10%;
     color: white;
     border-radius: 10px;
+    border: none;
+    outline: none;
+    box-shadow: none;
     background: ${palette.subColorGradient2};
 `
