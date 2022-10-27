@@ -35,7 +35,6 @@ public class CommentController {
         Long userId = Long.valueOf(1); // authentication 생기면 수정
 
         CommentEntity comment = commentService.createComment(userId,shortsId,request);
-
         return new ResponseEntity<CreateCommentResponse>(
                 new CreateCommentResponse(
                         comment.getCommentId(),
