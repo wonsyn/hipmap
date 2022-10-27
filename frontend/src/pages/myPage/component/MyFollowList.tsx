@@ -2,6 +2,24 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Tab, Tabs } from "@material-ui/core";
+import {
+  FollowListWrapperDiv,
+  FollowSearchListDiv,
+  MyFollowAddButton,
+  MyFollowBackButton,
+  MyFollowIdWrapper,
+  MyFollowListArea,
+  MyFollowListDiv,
+  MyFollowListWrapperDiv,
+  MyFollowProfileImg,
+  MyFollowSearchAreaDiv,
+  MyFollowSearchBarInput,
+  MyFollowSearchBarWrapper,
+  MyFollowSearchTitleDiv,
+  MyFollowTab,
+  MyFollowTabBorder,
+  MyFollowTabs,
+} from "../styles/MyFollowWrapperStyle";
 
 interface followInterface {
   follow: {
@@ -113,8 +131,9 @@ const MyFollowList = () => {
   // 유저 아이디 넣기
   const location = useLocation();
 
-  const [follow, setFollow] = useState<Boolean | undefined>(undefined);
+  const [follow, setFollow] = useState<boolean | undefined>(undefined);
   const [followList, setFollowList] = useState<followInterface>();
+  const [followerList, setFollowerList] = useState<followInterface>();
 
   useEffect(() => {
     const state = location.state as { click: string };
@@ -127,11 +146,10 @@ const MyFollowList = () => {
 
   useEffect(() => {
     if (follow !== undefined) {
-      console.log(follow);
       if (follow === true) {
         setFollowList(dummyData);
       } else if (follow === false) {
-        setFollowList(anotherDummyData);
+        setFollowerList(anotherDummyData);
       }
     }
   }, [follow]);
@@ -146,25 +164,64 @@ const MyFollowList = () => {
   return (
     <div>
       <div>
-        <button>
-          <ArrowBackIcon />
-        </button>
+        <MyFollowBackButton>
+          <ArrowBackIcon fontSize="medium" />
+        </MyFollowBackButton>
       </div>
-      <Tabs>
-        {/* <div onClick={followingHandler}>팔로워</div>
-        <div onClick={followerHandler}>팔로잉</div> */}
-        <Tab label="팔로워" onClick={followingHandler} />
-        <Tab label="팔로잉" onClick={followerHandler} />
-      </Tabs>
-      <div>
-        {followList?.follow &&
-          followList.follow.map((e, i) => (
-            <div>
-              <div>{e.following_id}</div>
-              <img src={e.img_src} alt="프로필 이미지" />
-            </div>
-          ))}
-      </div>
+      <MyFollowTabs>
+        <MyFollowTab onClick={followingHandler}>팔로워</MyFollowTab>
+        <MyFollowTab onClick={followerHandler}>팔로잉</MyFollowTab>
+        {follow !== undefined && <MyFollowTabBorder select={follow} />}
+      </MyFollowTabs>
+
+      {follow !== undefined && (
+        // 탭 엘레멘트
+        <MyFollowListWrapperDiv>
+          <MyFollowListArea select={follow}>
+            <FollowSearchListDiv>
+              <MyFollowSearchBarWrapper>
+                <MyFollowSearchAreaDiv>
+                  <MyFollowSearchTitleDiv>팔로워</MyFollowSearchTitleDiv>
+                  <MyFollowSearchBarInput></MyFollowSearchBarInput>
+                </MyFollowSearchAreaDiv>
+              </MyFollowSearchBarWrapper>
+              {/* 리스트 */}
+              <FollowListWrapperDiv>
+                {followList?.follow &&
+                  followList.follow.map((e, i) => (
+                    <MyFollowListDiv key={i}>
+                      <MyFollowProfileImg src={e.img_src} alt="프로필 이미지" />
+                      <MyFollowIdWrapper>{e.following_id}</MyFollowIdWrapper>
+                      <MyFollowAddButton>팔로우</MyFollowAddButton>
+                    </MyFollowListDiv>
+                  ))}
+              </FollowListWrapperDiv>
+            </FollowSearchListDiv>
+
+            {/* 팔로잉 영역 */}
+            <FollowSearchListDiv>
+              <MyFollowSearchBarWrapper>
+                <MyFollowSearchAreaDiv>
+                  <MyFollowSearchTitleDiv>팔로잉</MyFollowSearchTitleDiv>
+                  <MyFollowSearchBarInput></MyFollowSearchBarInput>
+                </MyFollowSearchAreaDiv>
+              </MyFollowSearchBarWrapper>
+              {/* 리스트 */}
+              <FollowListWrapperDiv>
+                {followerList?.follow &&
+                  followerList.follow.map((e, i) => (
+                    <MyFollowListDiv key={i}>
+                      <MyFollowProfileImg src={e.img_src} alt="프로필 이미지" />
+                      <MyFollowIdWrapper>{e.following_id}</MyFollowIdWrapper>
+
+                      <MyFollowAddButton>삭제</MyFollowAddButton>
+                    </MyFollowListDiv>
+                  ))}
+              </FollowListWrapperDiv>
+            </FollowSearchListDiv>
+          </MyFollowListArea>
+        </MyFollowListWrapperDiv>
+      )}
     </div>
   );
 };
