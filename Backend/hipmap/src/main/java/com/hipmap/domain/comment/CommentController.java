@@ -35,7 +35,6 @@ public class CommentController {
         Long userId = Long.valueOf(1); // authentication 생기면 수정
 
         CommentEntity comment = commentService.createComment(userId,shortsId,request);
-
         return new ResponseEntity<CreateCommentResponse>(
                 new CreateCommentResponse(
                         comment.getCommentId(),
@@ -67,7 +66,10 @@ public class CommentController {
     public ResponseEntity<?> updateComment(@PathVariable Long shortsId, @PathVariable Long commentId, @RequestBody @Valid UpdateCommentRequest request){
         Long userId = Long.valueOf(1); // authentication 생기면 수정
 
+        System.out.println("Hello1");
+        System.out.println(request.toString() + "안녕하세요");
         CommentEntity comment = commentService.updateComment(userId,commentId,request);
+        System.out.println("Hello2");
 
         return new ResponseEntity<CreateCommentResponse>(
                 new CreateCommentResponse(
