@@ -21,6 +21,6 @@ public class LikeControllerAdvice {
     }
     @ExceptionHandler(LikeNotFoundException.class)
     public ResponseEntity<String> LikeNotFoundHandler() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

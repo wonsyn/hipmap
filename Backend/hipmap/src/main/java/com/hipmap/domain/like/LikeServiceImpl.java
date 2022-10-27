@@ -66,4 +66,12 @@ public class LikeServiceImpl implements LikeService {
 
         return responseDto;
     }
+
+    @Transactional
+    @Override
+    public Long delete(Long userId, Long shortsId) {
+        LikeEntity like = likeRepository.findByUserAndShorts(userId, shortsId).orElseThrow(LikeNotFoundException::new);
+        likeRepository.delete(like);
+        return likeRepository.countByIsLikeAndShorts(true, shortsId);
+    }
 }
