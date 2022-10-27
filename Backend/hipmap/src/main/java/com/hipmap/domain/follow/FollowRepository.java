@@ -1,4 +1,7 @@
 package com.hipmap.domain.follow;
 
-public interface FollowRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
 }

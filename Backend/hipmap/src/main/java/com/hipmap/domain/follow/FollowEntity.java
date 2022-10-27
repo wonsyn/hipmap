@@ -1,16 +1,16 @@
 package com.hipmap.domain.follow;
 
 import com.hipmap.domain.user.UserEntity;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="follow")
+@Table(name = "follow")
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FollowEntity {
 
     @Id
@@ -18,11 +18,11 @@ public class FollowEntity {
     private Long followId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "following_id", referencedColumnName = "userId")
+    @JoinColumn(name = "following_id")
     private UserEntity followingUser;
 
 }

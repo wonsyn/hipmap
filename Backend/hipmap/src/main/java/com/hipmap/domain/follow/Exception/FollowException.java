@@ -1,4 +1,4 @@
 package com.hipmap.domain.follow.Exception;
 
-public class FollowException {
+public class FollowException extends RuntimeException{
 }
