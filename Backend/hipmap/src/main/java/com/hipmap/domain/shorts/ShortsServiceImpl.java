@@ -1,10 +1,14 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.shorts.response.GetShortsByLabelResponse;
+import com.hipmap.domain.shorts.response.ShortsResDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -13,6 +17,8 @@ public class ShortsServiceImpl implements ShortsService{
     @Autowired
     ShortsRepository shortsRepository;
 
+    @Autowired
+    ShortsRepositorySupport shortsRepositorySupport;
 
     @Override
     public Page<ShortsResDto> getShorts(Pageable pageable) {
@@ -34,6 +40,22 @@ public class ShortsServiceImpl implements ShortsService{
                 .build());
         return boardDtoList;
 //        return shortsRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<GetShortsByLabelResponse> getShortsByLabel(String labeling) {
+        List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabel(labeling);
+        List<GetShortsByLabelResponse> boardDtoList = shortsEntities.stream().map(m -> GetShortsByLabelResponse.builder()
+                .shortsId(m.getShortsId())
+                .thumbnailSrc(m.getThumbnailSrc())
+                .build()).collect(Collectors.toList());
+        return boardDtoList;
+
+    }
+
+    @Override
+    public Long getShortsCountByUsername(String username) {
+        return shortsRepositorySupport.getShortsCountByUsername(username);
     }
 
 
