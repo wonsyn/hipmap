@@ -21,7 +21,6 @@ import java.util.Map;
 public class LikeController {
 
     private final LikeService likeService;
-    private final ShortsService shortsService;
 
     @PostMapping("isLike")
     @ApiOperation(value = "좋아요 추가", notes = "새로운 shorts에 좋아요를 추가한다.")
