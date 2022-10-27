@@ -14,6 +14,7 @@ declare module "@emotion/react" {
       subColorGradient1: string;
       subColorGradient2: string;
       subColorGradient3: string;
+      subColorGradient4: string;
     };
   }
 }

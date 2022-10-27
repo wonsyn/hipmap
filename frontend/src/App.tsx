@@ -6,8 +6,7 @@ import ProcessingPage from "./pages/labeling/processting";
 import ResultPage from "./pages/labeling/result";
 import LoginWrapper from "./pages/login";
 import { useEffect } from "react";
-
-
+import SignUpWrapper from "./pages/signUp";
 
 function App() {
   useEffect(()=>{
@@ -28,6 +27,7 @@ function App() {
           <Route path="/processing" element={<ProcessingPage/>}></Route>
           <Route path="/result" element={<ResultPage/>}></Route>
           <Route path="/login" element={<LoginWrapper />} />
+          <Route path="/signup" element={<SignUpWrapper />} />
         </Routes>
       </Layout>
     </BrowserRouter>
