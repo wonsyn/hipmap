@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 
 import MyPage from "./pages/myPage";
+import MyFollowList from "./pages/myPage/component/MyFollowList";
 
 function App() {
   useEffect(()=>{
@@ -31,7 +32,11 @@ function App() {
           <Route path="/result" element={<ResultPage/>}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
-          <Route path="/myPage" element={<MyPage />} />
+          <Route path="/myPage">
+            <Route path=":username" element={<MyPage />} />
+            <Route path="myProfile" element={<MyPage />} />
+            <Route path="followlist" element={<MyFollowList />} />
+          </Route>
         </Routes>
       </Layout>
     </BrowserRouter>
