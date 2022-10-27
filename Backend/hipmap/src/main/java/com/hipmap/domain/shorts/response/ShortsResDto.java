@@ -1,4 +1,4 @@
-package com.hipmap.domain.shorts;
+package com.hipmap.domain.shorts.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
