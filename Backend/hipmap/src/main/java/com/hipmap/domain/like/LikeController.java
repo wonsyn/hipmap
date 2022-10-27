@@ -1,10 +1,13 @@
 package com.hipmap.domain.like;
 
 import com.hipmap.domain.like.dto.LikeSaveRequestDto;
+import com.hipmap.domain.like.dto.LikeUpdateRequestDto;
+import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
 import com.hipmap.domain.shorts.ShortsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,3 +30,12 @@ public class LikeController {
         result.put("like_count", likeService.create(dto));
         return ResponseEntity.ok().body(result);
     }
+
+    @PutMapping("isLike")
+    @ApiOperation(value = "좋아요 변경", notes = "해당 shorts의 좋아요 상태를 반전시킨다.")
+    public ResponseEntity<LikeUpdateResponseDto> update(@RequestBody LikeUpdateRequestDto dto) {
+        Long userId = 1L;
+        return ResponseEntity.status(HttpStatus.OK).body(likeService.update(userId, dto));
+    }
+
+}

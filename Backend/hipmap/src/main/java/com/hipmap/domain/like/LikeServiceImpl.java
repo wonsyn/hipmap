@@ -1,7 +1,11 @@
 package com.hipmap.domain.like;
 
-import com.hipmap.domain.like.Exception.LikeDuplicateException;
+import com.hipmap.domain.like.Exception.LikeAlreadyExistsException;
+import com.hipmap.domain.like.Exception.LikeDuplicateProcessingException;
+import com.hipmap.domain.like.Exception.LikeNotFoundException;
 import com.hipmap.domain.like.dto.LikeSaveRequestDto;
+import com.hipmap.domain.like.dto.LikeUpdateRequestDto;
+import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.ShortsRepository;
@@ -12,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +38,32 @@ public class LikeServiceImpl implements LikeService {
                 .isLike(true)
                 .build();
 
-        if(!likeRepository.findByUserAndShorts(createLike.getUser().getUserId(), createLike.getShorts().getShortsId()).isPresent()){
+        if (!likeRepository.findByUserAndShorts(createLike.getUser().getUserId(), createLike.getShorts().getShortsId()).isPresent()) {
             likeRepository.save(createLike);
-        }else{
-            throw new LikeDuplicateException();
+        } else {
+            throw new LikeAlreadyExistsException();
         }
 
         return likeRepository.countByIsLikeAndShorts(createLike.getIsLike(), createLike.getShorts().getShortsId());
+    }
+
+    @Transactional
+    @Override
+    public LikeUpdateResponseDto update(Long userId, LikeUpdateRequestDto dto) {
+
+        LikeEntity like = likeRepository.findByUserAndShorts(userId, dto.getShortsId()).orElseThrow(LikeNotFoundException::new);
+
+        if(dto.getIsLike() != like.getIsLike()){
+            like.setIsLike(!like.getIsLike());
+        }else {
+            throw new LikeDuplicateProcessingException();
+        }
+
+        LikeUpdateResponseDto responseDto = new LikeUpdateResponseDto();
+
+        responseDto.setLikeCount(likeRepository.countByIsLikeAndShorts(like.getIsLike(), dto.getShortsId()));
+        responseDto.setIsLike(like.getIsLike());
+
+        return responseDto;
     }
 }
