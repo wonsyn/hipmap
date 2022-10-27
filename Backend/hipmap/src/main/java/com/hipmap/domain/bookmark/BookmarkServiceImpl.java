@@ -38,9 +38,9 @@ public class BookmarkServiceImpl implements BookmarkService {
             if(shortsOp.isPresent()) {
                 newBookmark.setShorts(shortsOp.get());
                 return bookmarkRepository.save(newBookmark);
-            }
+            }else throw new IllegalArgumentException("존재하지 않는 쇼츠입니다.");
         }
-        throw new IllegalArgumentException("존재하지 않는 유저입니다.");
+        else throw new IllegalArgumentException("존재하지 않는 유저입니다.");
 
 
     }
@@ -49,12 +49,10 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Transactional
     public void deleteBookmark(Long userId, Long shortsId) {
         Optional<UserEntity> user = userRepository.findById(userId);
-        System.out.println("BOMBOBMBOMBOMBOM");
         if (user.isPresent()) {
             Optional<ShortsEntity> shortsOp = shortsRepository.findById(shortsId);
             Long bookmarkId = bookmarkRepository.findBookmarkByUserAndShorts(user.get(),shortsOp.get()).getBookmarkId();
             bookmarkRepository.deleteById(bookmarkId);
-            System.out.println("QOQOQOQOQOQOQO");
         }else throw new IllegalArgumentException("존재하지 않는 유저입니다.");
 
     }
@@ -69,6 +67,6 @@ public class BookmarkServiceImpl implements BookmarkService {
                     .collect(Collectors.toList());
             return bookmarkResponses;
         }
-        throw new IllegalArgumentException("존재하지 않는 유저입니다.");
+        else throw new IllegalArgumentException("존재하지 않는 유저입니다.");
     }
 }
