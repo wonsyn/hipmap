@@ -39,6 +39,13 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.OK).body(followService.findAllByUsername(username));
     }
 
+    @GetMapping("followingList")
+    @ApiOperation(value = "팔로잉 리스트 조회", notes = "username을 follow하고 있는 유저 리스트")
+    public ResponseEntity<List<FollowerFindAllResponseDto>> findAllByFollowingUser(@RequestParam(name = "username") String username) {
+        // 나중에 반환할 때 profile_img도 반환하도록 수정해야함
+        return ResponseEntity.status(HttpStatus.OK).body(followService.findAllByFollowingUser(username));
+    }
+
     @GetMapping
     @ApiOperation(value = "팔로워 검색", notes = "팔로워를 키워드로 검색합니다.")
     public ResponseEntity<List<String>> findByUsername(@RequestParam("followerName") String followerName) {

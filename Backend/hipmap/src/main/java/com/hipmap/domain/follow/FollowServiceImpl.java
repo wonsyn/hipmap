@@ -52,6 +52,11 @@ public class FollowServiceImpl implements FollowService {
         return followRepository.findAllByUser(userEntity).stream().map(FollowerFindAllResponseDto::new)
                 .collect(Collectors.toList());
     }
+    public List<FollowerFindAllResponseDto> findAllByFollowingUser(String username){
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        return followRepository.findAllByFollowingUser(userEntity).stream().map(FollowerFindAllResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     @Override

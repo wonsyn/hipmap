@@ -5,14 +5,15 @@ import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
     List<FollowEntity> findAllByUser(UserEntity user);
-    // UserEntity user UserEntity followingUser
 
-    // loginUsername, opponentUsername find pk
+    List<FollowEntity> findAllByFollowingUser(UserEntity followingUser);
+
     Optional<FollowEntity> findByUserAndFollowingUser(UserEntity user, UserEntity followingUser);
 
     // DeleteByFollowId

@@ -12,6 +12,8 @@ public interface FollowService {
     List<FollowerFindAllResponseDto> findAllByUsername(String username);
     List<String> findAllSearchByfollowerName(String followerName, String loginUsername);
 
+    List<FollowerFindAllResponseDto> findAllByFollowingUser(String username);
+
 
     Long countByFollower(String username);
 
