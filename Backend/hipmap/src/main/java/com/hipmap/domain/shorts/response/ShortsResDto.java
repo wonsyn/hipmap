@@ -1,5 +1,6 @@
 package com.hipmap.domain.shorts.response;
 
+import com.hipmap.domain.shorts.FileType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +17,8 @@ public class ShortsResDto implements Serializable {
     @ApiModelProperty(name = "쇼츠 id", example = "2")
     Long shortsId;
 
-    @ApiModelProperty(name = "이미지 주소", example = "주소")
-    String imgSrc;
-
-    @ApiModelProperty(name = "비디오 주소", example = "주소")
-    String videoSrc;
+    @ApiModelProperty(name = "파일 주소", example = "주소")
+    String fileSrc;
 
     @ApiModelProperty(name = "썸네일 주소", example = "주소")
     String thumbnailSrc;
@@ -52,11 +50,13 @@ public class ShortsResDto implements Serializable {
     @ApiModelProperty(name = "유저 id", example = "1")
     Long userId;
 
+    @ApiModelProperty(name = "파일 타입", example = "video")
+    FileType fileType;
+
     @Builder
-    public ShortsResDto(Long shortsId, String imgSrc, String videoSrc, String thumbnailSrc, String locationSi, String locationGu, String locationDong, Boolean isMapped, String labelName, Double latitude, Double longitude, LocalDateTime createTime, Long userId) {
+    public ShortsResDto(Long shortsId, String fileSrc, String thumbnailSrc, String locationSi, String locationGu, String locationDong, Boolean isMapped, String labelName, Double latitude, Double longitude, LocalDateTime createTime, Long userId, FileType fileType) {
         this.shortsId = shortsId;
-        this.imgSrc = imgSrc;
-        this.videoSrc = videoSrc;
+        this.fileSrc = fileSrc;
         this.thumbnailSrc = thumbnailSrc;
         this.locationSi = locationSi;
         this.locationGu = locationGu;
@@ -67,5 +67,6 @@ public class ShortsResDto implements Serializable {
         this.longitude = longitude;
         this.createTime = createTime;
         this.userId = userId;
+        this.fileType = fileType;
     }
 }
