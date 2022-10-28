@@ -13,7 +13,7 @@ public interface FollowService {
     List<String> findAllSearchByfollowerName(String followerName, String loginUsername);
 
 
-    Long countMyFollower(String username);
+    Long countByFollower(String username);
 
     Long countByFollowing(String username);
 }

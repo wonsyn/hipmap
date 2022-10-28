@@ -55,9 +55,9 @@ public class FollowServiceImpl implements FollowService {
 
     @Transactional
     @Override
-    public Long countMyFollower(String username) {
+    public Long countByFollower(String username) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        return followRepository.countByfollowingUser(userEntity);
+        return followRepository.countByFollowingUser(userEntity);
     }
 
     @Transactional

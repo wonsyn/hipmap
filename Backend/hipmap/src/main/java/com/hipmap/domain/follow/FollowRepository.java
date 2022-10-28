@@ -19,7 +19,7 @@ public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
     void deleteByFollowId(Long followId);
 
     // follower count
-    Long countByfollowingUser(UserEntity followingUser);
+    Long countByFollowingUser(UserEntity followingUser);
 
 
     @Query("SELECT f.followingUser.username FROM FollowEntity f WHERE f.followingUser.username LIKE %:keyword% AND f.user.username = :username")

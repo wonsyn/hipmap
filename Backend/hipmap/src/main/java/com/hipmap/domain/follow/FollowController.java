@@ -50,7 +50,7 @@ public class FollowController {
     @GetMapping("followerCount/{username}")
     @ApiOperation(value = "유저 팔로워 수 조회", notes = "유저의 id(pk 말고 실제 로그인 id)가 팔로우하는 유저 수를 조회하는 api입니다.")
     public ResponseEntity<Long> getCountMyFollowers(@PathVariable String username) {
-        return ResponseEntity.status(HttpStatus.OK).body(followService.countMyFollower(username));
+        return ResponseEntity.status(HttpStatus.OK).body(followService.countByFollower(username));
     }
 
     // 팔로잉 수 조회
