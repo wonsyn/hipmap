@@ -1,11 +1,18 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.response.ShortsListResponse;
+import com.hipmap.domain.shorts.response.ShortsResDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,5 +29,42 @@ public class ShortsController {
     }
 
 
+    @GetMapping("/samelabel")
+    @ApiOperation(value = "레이블 별 쇼츠 조회", notes = "같은 레이블인 사람들이 올린 쇼츠 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+
+    public ResponseEntity<?> getShortsByLabel(@RequestParam String labeling) {
+
+        return new ResponseEntity<>(new ShortsListResponse(shortsService.getShortsByLabel(labeling)), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/user/count")
+    @ApiOperation(value = "게시물 수 조회", notes = "유저의 게시물 개수 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+
+    public ResponseEntity<?> getShortsCountByUser(@RequestParam String username){
+        return new ResponseEntity<>(shortsService.getShortsCountByUsername(username),HttpStatus.OK);
+    }
+
+    @GetMapping("/maplist")
+    @ApiOperation(value = "지도 내 게시물 조회", notes = "같은 레이블과 설정된 지역으로 필터링된 지도 상에 띄울 게시물 조회 ")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<?> getShortsOnLabelAndLocation(@RequestBody @Valid GetMapListFilterRequest request) {
+
+        /*
+        토큰 생기면 user 같이 넘겨서 레이블링 정보 가져올 예정
+         */
+
+        Long userId = Long.valueOf(1);
+        return new ResponseEntity<>(new ShortsListResponse(shortsService.getShortsByLabelAndLocation(userId,request)), HttpStatus.OK);
+
+    }
 
 }

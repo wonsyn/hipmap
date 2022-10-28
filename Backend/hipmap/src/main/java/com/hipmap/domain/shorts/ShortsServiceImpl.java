@@ -1,10 +1,18 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.response.GetShortsByLabelResponse;
+import com.hipmap.domain.shorts.response.ShortsResDto;
+import com.hipmap.domain.user.UserEntity;
+import com.hipmap.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -13,6 +21,11 @@ public class ShortsServiceImpl implements ShortsService{
     @Autowired
     ShortsRepository shortsRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ShortsRepositorySupport shortsRepositorySupport;
 
     @Override
     public Page<ShortsResDto> getShorts(Pageable pageable) {
@@ -34,6 +47,38 @@ public class ShortsServiceImpl implements ShortsService{
                 .build());
         return boardDtoList;
 //        return shortsRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<GetShortsByLabelResponse> getShortsByLabel(String labeling) {
+        List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabel(labeling);
+        List<GetShortsByLabelResponse> boardDtoList = shortsEntities.stream().map(m -> GetShortsByLabelResponse.builder()
+                .shortsId(m.getShortsId())
+                .thumbnailSrc(m.getThumbnailSrc())
+                .build()).collect(Collectors.toList());
+        return boardDtoList;
+
+    }
+
+    @Override
+    public List<GetShortsByLabelResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request) {
+        Optional<UserEntity> user = userRepository.findById(userId);
+        if(user.isPresent()){
+            String lableName =user.get().getLabelName();
+            List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabelAndLocation(lableName,request);
+            List<GetShortsByLabelResponse> boardDtoList = shortsEntities.stream().map(m -> GetShortsByLabelResponse.builder()
+                    .shortsId(m.getShortsId())
+                    .thumbnailSrc(m.getThumbnailSrc())
+                    .build()).collect(Collectors.toList());
+            return boardDtoList;
+        }else throw new RuntimeException("존재하지 않는 유저입니다");
+
+
+    }
+
+    @Override
+    public Long getShortsCountByUsername(String username) {
+        return shortsRepositorySupport.getShortsCountByUsername(username);
     }
 
 
