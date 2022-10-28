@@ -24,4 +24,6 @@ public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
 
     @Query("SELECT f.followingUser.username FROM FollowEntity f WHERE f.followingUser.username LIKE %:keyword% AND f.user.username = :username")
     List<String> findAllSearch(@Param("keyword") String keyword, @Param("username") String username);
+
+    Long countByUser(UserEntity userEntity);
 }

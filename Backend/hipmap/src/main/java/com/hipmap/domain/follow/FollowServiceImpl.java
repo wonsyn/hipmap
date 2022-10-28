@@ -19,6 +19,7 @@ public class FollowServiceImpl implements FollowService {
 
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
+
     @Transactional
     @Override
     public void createFollow(String loginUsername, String username) {
@@ -26,9 +27,9 @@ public class FollowServiceImpl implements FollowService {
         UserEntity opponentUser = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
         FollowSaveRequestDto dto = new FollowSaveRequestDto(loginUser, opponentUser);
-        if(!followRepository.findByUserAndFollowingUser(loginUser,opponentUser).isPresent()) {
+        if (!followRepository.findByUserAndFollowingUser(loginUser, opponentUser).isPresent()) {
             followRepository.save(dto.toEntity());
-        }else {
+        } else {
             throw new FollowDuplicateException("이미 처리된 정보입니다.");
         }
     }
@@ -43,6 +44,7 @@ public class FollowServiceImpl implements FollowService {
         Long UserAndFollowingUser = followRepository.findByUserAndFollowingUser(loginUsernameEntity, opponentUsernameEntity).orElseThrow(UserNotFoundException::new).getFollowId();
         followRepository.deleteByFollowId(UserAndFollowingUser);
     }
+
     @Transactional
     @Override
     public List<FollowerFindAllResponseDto> findAllByUsername(String username) {
@@ -53,15 +55,21 @@ public class FollowServiceImpl implements FollowService {
 
     @Transactional
     @Override
-    public Long countMyFollower(String username){
+    public Long countMyFollower(String username) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         return followRepository.countByfollowingUser(userEntity);
     }
+
     @Transactional
     @Override
-    public List<String> findAllSearchByfollowerName(String followerName, String loginUsername){
+    public List<String> findAllSearchByfollowerName(String followerName, String loginUsername) {
         List<String> Followers = followRepository.findAllSearch(followerName, loginUsername);
         return Followers;
+    }
+
+    public Long countByFollowing(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        return followRepository.countByUser(userEntity);
     }
 }
 

@@ -47,10 +47,18 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.OK).body(followService.findAllSearchByfollowerName(followerName,loginUsername));
     }
 
-    @GetMapping("countfollwers/{username}")
-    @ApiOperation(value = "유저 팔로워 수 조회", notes = "유저의 id로(pk 말고 실제 로그인 id) 팔로워 수 조회하는 api입니다.")
+    @GetMapping("followerCount/{username}")
+    @ApiOperation(value = "유저 팔로워 수 조회", notes = "유저의 id(pk 말고 실제 로그인 id)가 팔로우하는 유저 수를 조회하는 api입니다.")
     public ResponseEntity<Long> getCountMyFollowers(@PathVariable String username) {
         return ResponseEntity.status(HttpStatus.OK).body(followService.countMyFollower(username));
     }
+
+    // 팔로잉 수 조회
+    @GetMapping("followingCount/{username}")
+    @ApiOperation(value = "유저 팔로잉 수 조회", notes = "유저의 id(pk 말고 실제 로그인 id)를 팔로잉하는 유저 수를 조회하는 api입니다.")
+    public ResponseEntity<Long> getCountFollowing(@PathVariable String username) {
+        return ResponseEntity.status(HttpStatus.OK).body(followService.countByFollowing(username));
+    }
+    // 팔로잉 리스트 조회
 
 }

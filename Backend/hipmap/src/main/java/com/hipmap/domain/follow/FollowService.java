@@ -14,4 +14,6 @@ public interface FollowService {
 
 
     Long countMyFollower(String username);
+
+    Long countByFollowing(String username);
 }
