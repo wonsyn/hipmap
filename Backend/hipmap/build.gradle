@@ -50,8 +50,10 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
-    //modelmapper
-//    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+    // apache-commons
+    implementation('commons-io:commons-io:2.6')
+    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("org.apache.commons:commons-lang3:3.9")
 
 }
 
