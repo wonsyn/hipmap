@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -92,6 +93,11 @@ public class ShortsController {
     })
     public ResponseEntity<List<ShortsListEachUserResponse>> getusershorts(@PathVariable String username) {
         return ResponseEntity.status(HttpStatus.OK).body(shortsService.getUserContents(username));
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<Long> uploadFile(MultipartFile file, ShortsEntity shorts) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(shortsService.uploadFile(file, shorts));
     }
 
 }
