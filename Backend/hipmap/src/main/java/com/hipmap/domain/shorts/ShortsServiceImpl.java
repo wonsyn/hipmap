@@ -81,5 +81,18 @@ public class ShortsServiceImpl implements ShortsService{
         return shortsRepositorySupport.getShortsCountByUsername(username);
     }
 
+    @Override
+    public Long deleteShorts(Long userId, Long shortsId) {
+        /*
+        S3 로직 파악 후 썸네일, 비디오 삭제하는 코드 필요
+         */
+        Optional<ShortsEntity> shortsEntityOP = shortsRepository.findById(shortsId);
+        if(shortsEntityOP.isPresent()) {
+            return shortsRepository.deleteByShortsId(shortsId);
+        }else {
+            throw new IllegalStateException("존재하지 않는 shorts입니다.");
+        }
+    }
+
 
 }
