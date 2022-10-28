@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,9 @@ public class ShortsServiceImpl implements ShortsService{
 
     @Autowired
     ShortsRepositorySupport shortsRepositorySupport;
+
+    @Autowired
+    private S3Uploader s3Uploader;
 
     @Override
     public Page<ShortsResDto> getShorts(Pageable pageable) {
@@ -107,6 +112,17 @@ public class ShortsServiceImpl implements ShortsService{
 
 
         return shortsDtoList;
+    }
+
+    @Override
+    @Transactional
+    public Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception {
+        if(!file.isEmpty()) {
+            String storedFileName = s3Uploader.upload(file,"images");
+            shortsEntity.setVideoSrc(storedFileName);
+        }
+        ShortsEntity shortsEntityForSave = shortsRepository.save(shortsEntity);
+        return shortsEntityForSave.getShortsId();
     }
 
 
