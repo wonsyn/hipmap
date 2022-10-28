@@ -1,6 +1,7 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
 import com.hipmap.domain.shorts.response.ShortsListResponse;
 import com.hipmap.domain.shorts.response.ShortsResDto;
 import io.swagger.annotations.ApiOperation;
@@ -74,10 +75,23 @@ public class ShortsController {
 
     @DeleteMapping("/delete/{shortsId}")
     @Transactional
+    @ApiOperation(value = "쇼츠 삭제", notes = "내가 업로든 한 쇼츠 삭제 api")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
     public ResponseEntity<Long> deleteShorts(@PathVariable Long shortsId){
         // 헤더 접근 후 유저 정보 받아오기
         Long userId = Long.valueOf(1);
         return ResponseEntity.status(HttpStatus.OK).body(shortsService.deleteShorts(userId, shortsId));
+    }
+
+    @GetMapping("/getusershorts/{username}")
+    @ApiOperation(value = " 로그인 유저 및 상대방 유저의 게시물 조회", notes = "username으로 본인 및 상대방의 유저의 썸네일 주소 및 shortsId 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<List<ShortsListEachUserResponse>> getusershorts(@PathVariable String username) {
+        return ResponseEntity.status(HttpStatus.OK).body(shortsService.getUserContents(username));
     }
 
 }
