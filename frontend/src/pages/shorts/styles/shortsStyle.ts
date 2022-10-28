@@ -10,21 +10,7 @@ export const ShortsWrapperDiv = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  /* overflow-y: hidden; */
-  -webkit-scrollbar {
-    width: 0;
-    background: transparent;
-  }
-  margin-bottom: 10vh;
-`;
-
-export const ShortsVideoWrapperDiv = styled.div`
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  overflow-y: auto;
 `;
 
 export const ShortsVideoAreaDiv = styled.div`
