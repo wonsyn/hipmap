@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class ShortsController {
     ShortsService shortsService;
 
     @GetMapping()
+    @ApiOperation(value = "쇼츠 조회 - 위 아래로 넘기기", notes = "pagenation으로 10개씩 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
     List<ShortsResDto> getShorts(Pageable pageable) {
 
         return shortsService.getShorts(pageable).getContent(); // 페이지 객체 어쩌구 : 필요함
@@ -65,6 +70,14 @@ public class ShortsController {
         Long userId = Long.valueOf(1);
         return new ResponseEntity<>(new ShortsListResponse(shortsService.getShortsByLabelAndLocation(userId,request)), HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("/delete/{shortsId}")
+    @Transactional
+    public ResponseEntity<Long> deleteShorts(@PathVariable Long shortsId){
+        // 헤더 접근 후 유저 정보 받아오기
+        Long userId = Long.valueOf(1);
+        return ResponseEntity.status(HttpStatus.OK).body(shortsService.deleteShorts(userId, shortsId));
     }
 
 }

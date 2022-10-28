@@ -18,4 +18,6 @@ public interface ShortsService {
     List<GetShortsByLabelResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request);
 
     Long getShortsCountByUsername(String username);
+
+    Long deleteShorts(Long userId ,Long shortsId);
 }
