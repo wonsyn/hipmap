@@ -39,8 +39,7 @@ public class ShortsServiceImpl implements ShortsService{
         Page<ShortsEntity> shortsEntities =  shortsRepository.findAll(pageable);
         Page<ShortsResDto> boardDtoList = shortsEntities.map(m -> ShortsResDto.builder()
                 .shortsId(m.getShortsId())
-                .imgSrc(m.getImgSrc())
-                .videoSrc(m.getVideoSrc())
+                .fileSrc(m.getFileSrc())
                 .thumbnailSrc(m.getThumbnailSrc())
                 .locationSi(m.getLocationSi())
                 .locationGu(m.getLocationGu())
@@ -119,7 +118,7 @@ public class ShortsServiceImpl implements ShortsService{
     public Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception {
         if(!file.isEmpty()) {
             String storedFileName = s3Uploader.upload(file,"images");
-            shortsEntity.setVideoSrc(storedFileName);
+            shortsEntity.setFileSrc(storedFileName);
         }
         ShortsEntity shortsEntityForSave = shortsRepository.save(shortsEntity);
         return shortsEntityForSave.getShortsId();
