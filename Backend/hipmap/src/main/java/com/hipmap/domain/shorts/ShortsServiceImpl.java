@@ -2,7 +2,9 @@ package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.GetShortsByLabelResponse;
+import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
 import com.hipmap.domain.shorts.response.ShortsResDto;
+import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +94,19 @@ public class ShortsServiceImpl implements ShortsService{
         }else {
             throw new IllegalStateException("존재하지 않는 shorts입니다.");
         }
+    }
+
+    @Override
+    public List<ShortsListEachUserResponse> getUserContents(String username) {
+        UserEntity userEntityOp = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        List<ShortsEntity> shortsEntityList = shortsRepository.findAllByUser(userEntityOp);
+        List<ShortsListEachUserResponse> shortsDtoList = shortsEntityList.stream().map(m -> ShortsListEachUserResponse.builder()
+                .shortsId(m.getShortsId())
+                .thumbnailSrc(m.getThumbnailSrc())
+                .build()).collect(Collectors.toList());
+
+
+        return shortsDtoList;
     }
 
 
