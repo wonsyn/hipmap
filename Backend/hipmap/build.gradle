@@ -76,6 +76,12 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    // redis
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.7.5'
+    compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE')
+
 }
 
 tasks.named('test') {
