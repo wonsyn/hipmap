@@ -16,9 +16,9 @@ public class FollowController {
 
     private final FollowService followService;
 
-    @PostMapping
+    @PostMapping("{opponentUsername}")
     @ApiOperation(value = "팔로우 추가",notes = "팔로우를 추가합니다.")
-    public ResponseEntity<String> create(@RequestBody String username) {
+    public ResponseEntity<String> create(@PathVariable(name = "opponentUsername") String username) {
         String loginUsername = "ssafy1";
         followService.createFollow(loginUsername, username);
         return ResponseEntity.ok().body("성공");
@@ -27,7 +27,7 @@ public class FollowController {
     @DeleteMapping("{opponentUsername}")
     @ApiOperation(value = "팔로워 삭제", notes = "로그인 유저가 팔로우하고 있는 유저를 언팔로우합니다.")
     public ResponseEntity<String> delete(@PathVariable String opponentUsername) {
-        String loginUsername = "장싸피";  // 헤더 접근
+        String loginUsername = "ssafy1";  // 헤더 접근
         followService.deleteFollow(loginUsername, opponentUsername);
         return ResponseEntity.ok().body("성공");
     }
@@ -40,7 +40,7 @@ public class FollowController {
     }
 
     @GetMapping
-    @ApiOperation(value = "팔로워 검색", notes = "팔로워를 검색합니다.")
+    @ApiOperation(value = "팔로워 검색", notes = "팔로워를 키워드로 검색합니다.")
     public ResponseEntity<List<String>> findByUsername(@RequestParam("followerName") String followerName) {
         String loginUsername = "ssafy1";
         // 반환할 데이터 상의해바야댐. 명세서에는 아무것도없었음.

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
-    Optional<FollowEntity> findAllByUser(UserEntity user);
+    List<FollowEntity> findAllByUser(UserEntity user);
     // UserEntity user UserEntity followingUser
 
     // loginUsername, opponentUsername find pk
@@ -22,6 +22,6 @@ public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
     Long countByfollowingUser(UserEntity followingUser);
 
 
-    @Query("SELECT f.followingUser FROM FollowEntity f WHERE f.followingUser.username LIKE %:keyword% AND f.user.username = :username")
+    @Query("SELECT f.followingUser.username FROM FollowEntity f WHERE f.followingUser.username LIKE %:keyword% AND f.user.username = :username")
     List<String> findAllSearch(@Param("keyword") String keyword, @Param("username") String username);
 }

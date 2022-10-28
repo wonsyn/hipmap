@@ -1,5 +1,6 @@
 package com.hipmap.domain.follow;
 
+import com.hipmap.domain.follow.Exception.FollowDuplicateException;
 import com.hipmap.domain.follow.dto.FollowSaveRequestDto;
 import com.hipmap.domain.follow.dto.FollowerFindAllResponseDto;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
@@ -25,7 +26,11 @@ public class FollowServiceImpl implements FollowService {
         UserEntity opponentUser = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
         FollowSaveRequestDto dto = new FollowSaveRequestDto(loginUser, opponentUser);
-        followRepository.save(dto.toEntity());
+        if(!followRepository.findByUserAndFollowingUser(loginUser,opponentUser).isPresent()) {
+            followRepository.save(dto.toEntity());
+        }else {
+            throw new FollowDuplicateException("이미 처리된 정보입니다.");
+        }
     }
 
     @Transactional
