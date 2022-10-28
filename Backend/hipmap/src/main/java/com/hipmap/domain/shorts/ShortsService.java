@@ -7,6 +7,7 @@ import com.hipmap.domain.shorts.response.ShortsResDto;
 import com.hipmap.domain.user.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface ShortsService {
     Long deleteShorts(Long userId ,Long shortsId);
 
     List<ShortsListEachUserResponse> getUserContents(String username);
+
+    Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception;
 }
