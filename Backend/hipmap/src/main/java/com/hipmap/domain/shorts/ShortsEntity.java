@@ -22,10 +22,9 @@ public class ShortsEntity {
     private Long shortsId;
 
     @Builder
-    public ShortsEntity(Long shortsId, String imgSrc, String videoSrc, String thumbnailSrc, String locationSi, String locationGu, String locationDong, Boolean isMapped, String labelName, Double latitude, Double longitude, LocalDateTime createTime, UserEntity user) {
+    public ShortsEntity(Long shortsId, String fileSrc, String videoSrc, String thumbnailSrc, String locationSi, String locationGu, String locationDong, Boolean isMapped, String labelName, Double latitude, Double longitude, LocalDateTime createTime, UserEntity user, FileType fileType) {
         this.shortsId = shortsId;
-        this.imgSrc = imgSrc;
-        this.videoSrc = videoSrc;
+        this.fileSrc = fileSrc;
         this.thumbnailSrc = thumbnailSrc;
         this.locationSi = locationSi;
         this.locationGu = locationGu;
@@ -36,13 +35,11 @@ public class ShortsEntity {
         this.longitude = longitude;
         this.createTime = createTime;
         this.user = user;
+        this.fileType = fileType;
     }
 
     @Lob
-    private String imgSrc;
-
-    @Lob
-    private String videoSrc;
+    private String fileSrc;
 
     @Lob
     private String thumbnailSrc;
@@ -70,4 +67,7 @@ public class ShortsEntity {
     public ShortsEntity() {
 
     }
+
+    @Enumerated(EnumType.STRING)
+    private FileType fileType;
 }
