@@ -74,6 +74,12 @@ public class UserController {
     }
 
     @PutMapping("/edit")
+    @ApiOperation(value = "유저 정보 수정", notes = "입력받은 정보로 유저 정보를 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 401, message = "유저 정보 없음 (access token)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<?> update(@RequestBody UserEditRequest userInfo, HttpServletRequest request) {
         userService.update(jwtUtil.getUserInfo(request.getHeader("accessToken")).getId(),
                 userInfo.getNickname(), userInfo.getLabel(), userInfo.isFollowPrivate());
