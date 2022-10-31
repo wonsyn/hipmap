@@ -2,12 +2,14 @@ package com.hipmap.domain.user;
 
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Exception.LoginFailException;
+import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
@@ -51,5 +53,11 @@ public class UserService implements UserDetailsService {
 
     public boolean idCheck(String username) {
         return userRepository.findByUsername(username).isEmpty();
+    }
+
+    @Transactional
+    public void update(Long userId, String nickname, String label, boolean followPrivate) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        user.updateInfo(nickname, label, followPrivate);
     }
 }

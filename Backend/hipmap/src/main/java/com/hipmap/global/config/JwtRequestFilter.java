@@ -69,6 +69,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throw new AuthenticationException("expired access token; add \"refresh_token\" at HEADER");
         }
 
-//        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
 }
