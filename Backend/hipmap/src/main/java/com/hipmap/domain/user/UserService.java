@@ -48,4 +48,8 @@ public class UserService implements UserDetailsService {
                 .followPrivate(false)
                 .build());
     }
+
+    public boolean idCheck(String username) {
+        return userRepository.findByUsername(username).isEmpty();
+    }
 }
