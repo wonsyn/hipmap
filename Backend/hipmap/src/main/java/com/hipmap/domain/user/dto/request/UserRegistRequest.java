@@ -2,11 +2,14 @@ package com.hipmap.domain.user.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "유저 회원가입 정보", description = "회원가입 할 유저의 정보가 담긴 객체")
 public class UserRegistRequest {
     @ApiModelProperty(value = "유저 ID (username)")
