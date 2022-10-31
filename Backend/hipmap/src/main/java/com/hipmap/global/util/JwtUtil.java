@@ -1,4 +1,4 @@
-package com.hipmap.domain.jwt;
+package com.hipmap.global.util;
 
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Admin;
