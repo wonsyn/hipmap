@@ -1,12 +1,13 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.global.util.JwtUtil;
-import com.hipmap.global.util.RedisUtil;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
+import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
 import com.hipmap.domain.user.dto.response.UserIdDupCheckResponse;
 import com.hipmap.domain.user.dto.response.UserLoginResponse;
+import com.hipmap.global.util.JwtUtil;
+import com.hipmap.global.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,5 +71,12 @@ public class UserController {
     })
     public UserIdDupCheckResponse idCheck(@PathVariable String username) {
         return UserIdDupCheckResponse.builder().result(userService.idCheck(username)).build();
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<?> update(@RequestBody UserEditRequest userInfo, HttpServletRequest request) {
+        userService.update(jwtUtil.getUserInfo(request.getHeader("accessToken")).getId(),
+                userInfo.getNickname(), userInfo.getLabel(), userInfo.isFollowPrivate());
+        return ResponseEntity.ok().build();
     }
 }

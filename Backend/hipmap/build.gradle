@@ -83,6 +83,8 @@ dependencies {
 //    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.7.5'
     compile ('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE')
 
+    // p6spy
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1")
 }
 
 tasks.named('test') {
