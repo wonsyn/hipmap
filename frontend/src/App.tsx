@@ -28,10 +28,10 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/welcome" element={<WelcomePage/>}></Route>
-          <Route path="/processing" element={<ProcessingPage/>}></Route>
-          <Route path="/result" element={<ResultPage/>}></Route>
-          <Route path="/fullmap" element={<FullMapPage/>}></Route>
+          <Route path="/welcome" element={<WelcomePage />}></Route>
+          <Route path="/processing" element={<ProcessingPage />}></Route>
+          <Route path="/result" element={<ResultPage />}></Route>
+          <Route path="/fullmap" element={<FullMapPage />}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
           <Route path="/myPage">
@@ -40,10 +40,6 @@ function App() {
             <Route path="followlist" element={<MyFollowList />} />
           </Route>
           <Route path="/shorts" element={<Shorts />} />
-          <Route
-            path="/comments"
-            element={<CommentsWrapper comments={commentsDummy} />}
-          />
         </Routes>
       </Layout>
     </BrowserRouter>

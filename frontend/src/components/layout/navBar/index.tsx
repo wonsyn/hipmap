@@ -12,7 +12,11 @@ const Footer = () => {
   return (
     <FooterWrapper>
       <FooterContentsWrapperDiv>
-        <FooterShortsButtons>
+        <FooterShortsButtons
+          onClick={() => {
+            navigate("/shorts");
+          }}
+        >
           <FooterShortsImg
             src="/img/Shorts.png"
             width="auto"
@@ -28,11 +32,7 @@ const Footer = () => {
             alt="글작성 버튼"
           />
         </FooterWriteButton>
-        <FooterShortsButtons
-          onClick={() => {
-            navigate("/comments");
-          }}
-        >
+        <FooterShortsButtons>
           <FooterShortsImg
             src="/img/randomHip.png"
             width="auto"

@@ -36,9 +36,9 @@ export const FooterShortsImg = styled.img`
 `;
 
 export const FooterWriteButton = styled.button`
-  width: 70px;
-  height: 70px;
-  margin-bottom: 10%;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 7%;
   display: flex;
   align-items: center;
   background: none;
@@ -46,6 +46,6 @@ export const FooterWriteButton = styled.button`
 `;
 
 export const FooterWriteImg = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
 `;

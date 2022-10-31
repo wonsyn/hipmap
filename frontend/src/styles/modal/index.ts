@@ -25,7 +25,7 @@ export const ModalContent = styled.div<modalProps>`
     props.backgroundcolor === null ? "white" : props.backgroundcolor};
   left: 50%;
   top: 50%;
-  color:${(props) => props.color};
+  color: ${(props) => props.color};
   transform: translate(-50%, -50%);
   display: ${(props) => props.display};
   background: ${(props) => props.backgroundcolor};
@@ -34,6 +34,8 @@ export const ModalContent = styled.div<modalProps>`
   justify-content: ${(props) => props.justify_content};
   align-items: ${(props) => props.align_items};
   overflow: ${(props) => props.overflow};
+  flex-wrap: wrap;
+  
 `;
 
 export const ModalBackDrop = styled.div`

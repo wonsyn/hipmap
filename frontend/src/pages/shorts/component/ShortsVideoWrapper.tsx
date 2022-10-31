@@ -2,6 +2,7 @@ import {
   LocationDiv,
   ShortsVideoDiv,
   ShortsVideoElementDiv,
+  ShortsVideoModalWrapper,
   ShortsVoteCommentWrapperDiv,
   ShortVoteDiv,
 } from "../styles/shortsStyle";
@@ -11,6 +12,8 @@ import ShortsVideoPlayer from "./VideoPlayer";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import CommentIcon from "@mui/icons-material/Comment";
+
+import CommentsWrapper from "../../../components/comments";
 
 interface shortsInterface {
   shorts: {
@@ -27,12 +30,18 @@ interface shortsInterface {
     is_like: number;
     file_type: number;
   };
+  modalOpen: (e: number) => void;
 }
 
-const ShortsVideoWrapper = ({ shorts }: shortsInterface) => {
+const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
   const [location, setLocation] = useState<string>(
     shorts.location_si + " " + shorts.location_gu + " " + shorts.location_dong
   );
+
+  const commentHander = () => {
+    modalOpen(shorts.shorts_id);
+  };
+
   return (
     <ShortsVideoElementDiv>
       <ShortsVideoDiv>
@@ -47,7 +56,7 @@ const ShortsVideoWrapper = ({ shorts }: shortsInterface) => {
             <ThumbDownOffAltIcon fontSize="medium"></ThumbDownOffAltIcon>
             {shorts.hate_count}
           </ShortVoteDiv>
-          <ShortVoteDiv>
+          <ShortVoteDiv onClick={commentHander}>
             <CommentIcon fontSize="medium"></CommentIcon>
             {shorts.comments_count}
           </ShortVoteDiv>
