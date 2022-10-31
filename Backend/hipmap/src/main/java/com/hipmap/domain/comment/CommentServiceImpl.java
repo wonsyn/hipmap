@@ -76,7 +76,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentEntity> commentEntities = commentReposiotrySupport.findCommentsByShortsId(shortsId);
 
         List<GetCommentResponse> commentList = commentEntities.stream()
-                .map(m -> new GetCommentResponse(m.getCommentId(), m.getContent(), m.getCommentGroup(), m.getSequence(), m.getCreateTime()))
+                .map(m-> new GetCommentResponse(m.getCommentId(),m.getContent(),m.getCommentGroup(),m.getSequence(),m.getCreateTime(),m.getUser().getNickname()))
                 .collect(Collectors.toList());
         return commentList;
     }
