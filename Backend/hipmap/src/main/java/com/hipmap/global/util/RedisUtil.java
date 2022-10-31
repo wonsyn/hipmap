@@ -1,4 +1,4 @@
-package com.hipmap.domain.jwt;
+package com.hipmap.global.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;

@@ -13,7 +13,7 @@ import java.util.Map;
 public class ReIssueResponse {
     @ApiModelProperty(value = "응답 메시지")
     String message;
-    @ApiModelProperty(value = "재발급된 토큰(access, refresh)")
+    @ApiModelProperty(value = "재발급된 토큰(newAccessToken, newRefreshToken)")
     Map<String, String> tokens;
     @ApiModelProperty(value = "만료 시간")
     Long expireMilliSec;

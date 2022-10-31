@@ -1,10 +1,11 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.jwt.JwtUtil;
-import com.hipmap.domain.jwt.RedisUtil;
+import com.hipmap.global.util.JwtUtil;
+import com.hipmap.global.util.RedisUtil;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
+import com.hipmap.domain.user.dto.response.UserIdDupCheckResponse;
 import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,10 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,5 +59,15 @@ public class UserController {
                 .tokens(map)
                 .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
                 .build();
+    }
+
+    @GetMapping("/{username}/exists")
+    @ApiOperation(value = "아이디 중복확인", notes = "입력받은 ID로 가입이 가능한지 체크")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public UserIdDupCheckResponse idCheck(@PathVariable String username) {
+        return UserIdDupCheckResponse.builder().result(userService.idCheck(username)).build();
     }
 }
