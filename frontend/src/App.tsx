@@ -10,6 +10,8 @@ import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
+import CommentsWrapper from "./components/comments";
+import { commentsDummy } from "./components/comments/commentsDummy";
 
 function App() {
   useEffect(() => {
@@ -36,6 +38,10 @@ function App() {
             <Route path="followlist" element={<MyFollowList />} />
           </Route>
           <Route path="/shorts" element={<Shorts />} />
+          <Route
+            path="/comments"
+            element={<CommentsWrapper comments={commentsDummy} />}
+          />
         </Routes>
       </Layout>
     </BrowserRouter>
