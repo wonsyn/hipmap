@@ -15,6 +15,7 @@ import java.util.Map;
 public class JwtService {
     private final JwtUtil jwtUtil;
     private final UserService userService;
+    private final RedisUtil redisUtil;
 
     public ReIssueResponse reIssue(String refreshToken) {
         String username = null;
@@ -22,7 +23,7 @@ public class JwtService {
         if(refreshToken != null) {
             username = jwtUtil.getUsername(refreshToken);
         }
-        if(username != null) {
+        if(username != null && redisUtil.getData(refreshToken).equals(username)) {
             UserDetails userDetails = userService.loadUserByUsername(username);
             if(jwtUtil.validateToken(refreshToken, userDetails)) {
                 JwtUserInfo info = jwtUtil.getUserInfo(refreshToken);
