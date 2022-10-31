@@ -60,6 +60,14 @@ dependencies {
     //S3 Upload
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // springboot security
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.5'
+
+    // OAuth2
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '2.7.5'
+
 }
 
 tasks.named('test') {
