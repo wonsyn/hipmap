@@ -15,7 +15,7 @@ public class NotificationEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "receiverId")
-    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_notification_to_receiver"))
+    @JoinColumn(name = "receiverId",nullable = false, foreignKey = @ForeignKey(name = "fk_notification_to_receiver"))
     private UserEntity receiver;
 
     private String content;

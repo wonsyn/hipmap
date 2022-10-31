@@ -67,9 +67,10 @@ public class NotificationService {
         }
     }
     @Transactional
-    public void send(UserEntity receiver,String content) {
-        NotificationEntity notification = createNotification(receiver, content);
+    public void send(UserEntity receiver,String content, String url) {
+        NotificationEntity notification = createNotification(receiver, content, url);
         String userId = String.valueOf(receiver.getUserId());
+
         notificationRepository.save(notification);
         Map<String, SseEmitter> sseEmitters = emitterRepository.findAllEmitterStartWithByMemberId(userId);
         sseEmitters.forEach(
@@ -80,11 +81,11 @@ public class NotificationService {
         );
     }
 
-    private NotificationEntity createNotification(UserEntity receiver, String content) {
+    private NotificationEntity createNotification(UserEntity receiver, String content, String url) {
         return NotificationEntity.builder()
                 .receiver(receiver)
                 .content(content)
-                .url("/reviews/")
+                .url(url)
                 .isRead(false)
                 .build();
     }

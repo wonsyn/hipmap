@@ -50,6 +50,6 @@ public class NotificationController {
     })
     public ResponseEntity<Void> readNotification(@PathVariable Long id) {
         notificationService.readNotification(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
