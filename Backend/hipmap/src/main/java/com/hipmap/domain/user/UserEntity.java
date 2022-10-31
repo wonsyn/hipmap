@@ -55,11 +55,14 @@ public class UserEntity implements UserDetails {
         this.proImgSrc = proImgSrc;
     }
 
-    public UserEntity update(String name, String picture) {
-        this.nickname = name;
-        this.proImgSrc = picture;
+    public void updateInfo(String nickname, String labelName, boolean followPrivate) {
+        this.nickname = nickname;
+        this.labelName = labelName;
+        this.followPrivate = followPrivate;
+    }
 
-        return this;
+    public void updateProfileImg(String proImgSrc, String labelName, boolean followPrivate) {
+        this.proImgSrc = proImgSrc;
     }
 
     @Enumerated(EnumType.STRING)
