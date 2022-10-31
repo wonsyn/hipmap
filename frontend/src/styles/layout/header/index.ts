@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
 export const HeaderContainer = styled.header`
+  width: 100vw;
+  position: fixed;
   min-height: 32px;
   height: 5vh;
   font-size: larger;
@@ -12,6 +14,9 @@ export const HeaderContainer = styled.header`
   align-items: center;
   padding-left: 3%;
   padding-right: 3%;
+  top: 0;
+  left: 0;
+  z-index: 9998;
 `;
 
 export const HeaderTitleWrapper = styled.div`
