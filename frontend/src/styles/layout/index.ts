@@ -6,6 +6,9 @@ export const LayoutContainer = styled.div`
 `;
 
 export const MainContainer = styled.main`
-  min-height: 90vh;
+  width: 100%;
+  margin-top: 6vh;
   height: 100%;
+  /* height: 100%; */
+  /* margin-bottom: 6vh; */
 `;

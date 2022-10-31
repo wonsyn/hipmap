@@ -24,7 +24,6 @@ const MyInfoWrapper = () => {
   const [user, setUser] = useState<userType>();
   const userInfo = useSelector((store: RootState) => store.userReducer.user);
   const urlMatch = useMatch("/myPage/myProfile");
-  console.log(userInfo);
   useEffect(() => {
     if (urlMatch !== null) {
       setIsMyPage(true);

@@ -34,7 +34,7 @@ function Header() {
           <CommonButton
             onClick={onClick}
             color="white"
-            width="100vw"
+            width="20vw"
             height="75%"
           >
             <div>로그인</div>

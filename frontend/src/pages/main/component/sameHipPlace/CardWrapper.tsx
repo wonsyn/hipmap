@@ -1,4 +1,5 @@
-/** @jsxImportSource @emotion/react */ import { css } from "@emotion/react";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import Card from "../../../../components/card/Card";
 import { SameHipPlaceCardWrapperDiv } from "../../styles/sameHipPlace";
 
