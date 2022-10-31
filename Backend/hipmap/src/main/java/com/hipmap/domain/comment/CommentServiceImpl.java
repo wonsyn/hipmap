@@ -3,8 +3,10 @@ package com.hipmap.domain.comment;
 import com.hipmap.domain.comment.request.CreateCommentRequest;
 import com.hipmap.domain.comment.request.UpdateCommentRequest;
 import com.hipmap.domain.comment.response.GetCommentResponse;
+import com.hipmap.domain.notification.NotificationService;
 import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.ShortsRepository;
+import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     ShortsRepository shortsRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
     @Override
     @Transactional
     public CommentEntity createComment(Long userId, Long shortsId, CreateCommentRequest request) {
@@ -48,6 +53,8 @@ public class CommentServiceImpl implements CommentService {
                         .sequence(request.getSequence())
                         .createTime(LocalDateTime.now())
                         .build();
+                UserEntity receiver = userRepository.findById(shortsOp.get().getUser().getUserId()).orElseThrow(UserNotFoundException::new);
+                notificationService.send(receiver,"댓글이 작성되었습니다","/shorts/상세주소"); // 차후 url 변경 예정
                 return commentRepository.save(newComment);
             } else throw new IllegalArgumentException("존재하지 않는 쇼츠입니다.");
         } else throw new IllegalArgumentException("존재하지 않는 유저입니다.");
@@ -57,11 +64,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentEntity updateComment(Long shortsId, Long commentId, UpdateCommentRequest request) {
         Optional<CommentEntity> cmtOp = commentRepository.findById(commentId);
-        if(cmtOp.isPresent()){
+        if (cmtOp.isPresent()) {
             CommentEntity updateCmt = cmtOp.get();
             updateCmt.setContent(request.getContent());
             return updateCmt;
-        }else throw new IllegalArgumentException("존재하지 않는 commentId입니다.");
+        } else throw new IllegalArgumentException("존재하지 않는 commentId입니다.");
     }
 
     @Override
@@ -77,10 +84,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long userId, Long commentId) {
 
-           Optional<CommentEntity> commentOp = commentRepository.findById(commentId);
-           if(commentOp.isPresent()){
-               commentRepository.deleteById(commentId);
-           }else throw new IllegalArgumentException("존재하지 않는 commentid입니다.");
+        Optional<CommentEntity> commentOp = commentRepository.findById(commentId);
+        if (commentOp.isPresent()) {
+            commentRepository.deleteById(commentId);
+        } else throw new IllegalArgumentException("존재하지 않는 commentid입니다.");
 
     }
 }
