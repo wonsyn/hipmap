@@ -63,10 +63,10 @@ public class JwtUtil {
         Claims claims = Jwts.claims();
         claims.put("id", user.getUserId());
         claims.put("username", user.getUsername());
-        claims.put("email", user.getUserEmail());
+        claims.put("email", user.getEmail());
         claims.put("nickname", user.getUsername());
         claims.put("label_name", user.getUsername());
-        claims.put("role", user.getAdmin());
+        claims.put("role", user.getRole());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -78,7 +78,6 @@ public class JwtUtil {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsername(token);
-
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
