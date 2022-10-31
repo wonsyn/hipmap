@@ -24,9 +24,9 @@ public class JwtUserInfo {
         return UserEntity.builder()
                 .userId(id)
                 .username(username)
-                .userEmail(email)
+                .email(email)
                 .labelName(label_name)
-                .admin(role)
+                .role(role)
                 .build();
     }
 }
