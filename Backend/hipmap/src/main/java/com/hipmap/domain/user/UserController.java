@@ -1,7 +1,7 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.jwt.JwtUtil;
-import com.hipmap.domain.jwt.RedisUtil;
+import com.hipmap.global.util.JwtUtil;
+import com.hipmap.global.util.RedisUtil;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;

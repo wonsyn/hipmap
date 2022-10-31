@@ -1,7 +1,7 @@
 package com.hipmap.global.config;
 
 import com.hipmap.domain.jwt.Exception.IllegalTokenException;
-import com.hipmap.domain.jwt.JwtUtil;
+import com.hipmap.global.util.JwtUtil;
 import com.hipmap.domain.user.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
