@@ -1,12 +1,15 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.like.LikeService;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
 import com.hipmap.domain.shorts.response.ShortsListResponse;
 import com.hipmap.domain.shorts.response.ShortsResDto;
+import com.hipmap.domain.shorts.response.ShortsTop5Response;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,11 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/shorts")
+@RequiredArgsConstructor
 public class ShortsController {
 
+    private final LikeService likeService;
     @Autowired
     ShortsService shortsService;
 
@@ -54,8 +60,8 @@ public class ShortsController {
             @ApiResponse(code = 200, message = "성공"),
     })
 
-    public ResponseEntity<?> getShortsCountByUser(@RequestParam String username){
-        return new ResponseEntity<>(shortsService.getShortsCountByUsername(username),HttpStatus.OK);
+    public ResponseEntity<?> getShortsCountByUser(@RequestParam String username) {
+        return new ResponseEntity<>(shortsService.getShortsCountByUsername(username), HttpStatus.OK);
     }
 
     @GetMapping("/maplist")
@@ -70,7 +76,7 @@ public class ShortsController {
          */
 
         Long userId = Long.valueOf(1);
-        return new ResponseEntity<>(new ShortsListResponse(shortsService.getShortsByLabelAndLocation(userId,request)), HttpStatus.OK);
+        return new ResponseEntity<>(new ShortsListResponse(shortsService.getShortsByLabelAndLocation(userId, request)), HttpStatus.OK);
 
     }
 
@@ -80,7 +86,7 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<Long> deleteShorts(@PathVariable Long shortsId){
+    public ResponseEntity<Long> deleteShorts(@PathVariable Long shortsId) {
         // 헤더 접근 후 유저 정보 받아오기
         Long userId = Long.valueOf(1);
         return ResponseEntity.status(HttpStatus.OK).body(shortsService.deleteShorts(userId, shortsId));
@@ -96,8 +102,17 @@ public class ShortsController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Long> uploadFile(MultipartFile file, ShortsEntity shorts) throws Exception{
+    public ResponseEntity<Long> uploadFile(MultipartFile file, ShortsEntity shorts) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(shortsService.uploadFile(file, shorts));
+    }
+
+    @GetMapping("/mainBest")
+    public ResponseEntity<ShortsListResponse> shortsTop5() {
+        // Like 테이블에서 shorts_id로 그룹바이해서 sum한 값 select하고, 이때 orderBy sum 으로 탑5의 ShortsEntity 가져와서 반환
+        List<ShortsTop5Response> collect = likeService.shortsTop5ByCountLike().stream()
+                .map(m -> new ShortsTop5Response(m.getShortsId(), m.getThumbnailSrc()))
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new ShortsListResponse(collect));
     }
 
 }

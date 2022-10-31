@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService {
@@ -53,9 +55,9 @@ public class LikeServiceImpl implements LikeService {
 
         LikeEntity like = likeRepository.findByUserAndShorts(userId, dto.getShortsId()).orElseThrow(LikeNotFoundException::new);
 
-        if(dto.getIsLike() != like.getIsLike()){
+        if (dto.getIsLike() != like.getIsLike()) {
             like.setIsLike(!like.getIsLike());
-        }else {
+        } else {
             throw new LikeDuplicateProcessingException();
         }
 
@@ -73,5 +75,11 @@ public class LikeServiceImpl implements LikeService {
         LikeEntity like = likeRepository.findByUserAndShorts(userId, shortsId).orElseThrow(LikeNotFoundException::new);
         likeRepository.delete(like);
         return likeRepository.countByIsLikeAndShorts(true, shortsId);
+    }
+
+    @Override
+    public List<ShortsEntity> shortsTop5ByCountLike() {
+        // 1. Like 테이블에서 shorts_id로 그룹바이해서 sum한 값 select하고, 이때 orderBy sum 으로 탑5의 shorts_id 가져오기
+        return likeRepository.findTop5ByShortsId();
     }
 }
