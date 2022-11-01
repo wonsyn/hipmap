@@ -10,4 +10,42 @@ export const FooterWrapper = styled.footer`
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   padding: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const FooterContentsWrapperDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 3vh;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+export const FooterShortsButtons = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  height: 3vh;
+`;
+
+export const FooterShortsImg = styled.img`
+  height: 5vh;
+`;
+
+export const FooterWriteButton = styled.button`
+  width: 60px;
+  height: 60px;
+  margin-bottom: 7%;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+`;
+
+export const FooterWriteImg = styled.img`
+  width: 60px;
+  height: 60px;
 `;

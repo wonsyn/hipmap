@@ -12,6 +12,8 @@ interface CardProps {
   height: string;
   font_size: string;
   children: JSX.Element | string;
+  margin_left: string;
+  margin_right: string;
 }
 
 const Card = ({
@@ -26,6 +28,8 @@ const Card = ({
   height,
   font_size,
   children,
+  margin_left,
+  margin_right,
 }: CardProps) => {
   return (
     <CardContainer
@@ -39,6 +43,8 @@ const Card = ({
       display={display}
       align_items={align_items}
       overflow={overflow}
+      margin_left={margin_left}
+      margin_right={margin_right}
     >
       {children}
     </CardContainer>
@@ -57,6 +63,8 @@ Card.defaultProps = {
   height: "50vh",
   font_size: "2rem",
   children: <div></div>,
+  margin_left: "",
+  margin_right: "",
 };
 
 export default Card;

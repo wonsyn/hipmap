@@ -13,7 +13,16 @@ export const ShortsWrapperDiv = styled.div`
   /* overflow-y: scroll; */
 `;
 
-export const ShortsVideoAreaDiv = styled.div`
+export const ShortsVideoElementWrapperDiv = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ShortsVideoAreaDiv = styled.div<{ isModalOpen: boolean }>`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -89,4 +98,21 @@ export const ShortVoteDiv = styled.div`
   font-size: 1.1rem;
   text-shadow: 4px 2px 2px gray;
   margin-bottom: 0.5vh;
+`;
+
+export const ShortsVideoModalWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+`;
+
+export const CommentModalInfoWrapperDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 3%;
+  align-items: center;
+`;
+
+export const CommentModalCloseHandlerDiv = styled.div`
+  font-size: 1rem;
 `;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { ModalBackDrop, ModalContent } from "../../styles/modal";
 
@@ -14,6 +14,7 @@ interface ModalHandlerProps {
   align_items: string;
   overflow: string;
   color: string;
+  margin_bottom: string;
   modalHandler: () => void;
   children: JSX.Element | string;
 }
@@ -31,6 +32,7 @@ const Modal = ({
   align_items,
   overflow,
   color,
+  margin_bottom,
   children,
 }: ModalHandlerProps) => {
   return createPortal(
@@ -46,6 +48,7 @@ const Modal = ({
         justify_content={justify_content}
         align_items={align_items}
         color={color}
+        margin_bottom={margin_bottom}
         overflow={overflow}
       >
         {children}
@@ -69,5 +72,6 @@ Modal.defaultProps = {
   justify_content: "center",
   align_items: "center",
   overflow: "",
+  margin_bottom: "",
   color: "black",
 };

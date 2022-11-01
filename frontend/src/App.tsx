@@ -11,6 +11,8 @@ import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
+import CommentsWrapper from "./components/comments";
+import { commentsDummy } from "./components/comments/commentsDummy";
 
 function App() {
 
