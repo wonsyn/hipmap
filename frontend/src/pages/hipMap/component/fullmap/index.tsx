@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { FullMapWrappingDiv, FullMapDiv, GridDiv, DotSpan, NotDotSpan } from "../../styles/fullmap";
+import { useState } from "react";
+import { FullMapWrappingDiv, FullMapDiv, GridDiv, NotDotSpan } from "../../styles/fullmap";
 // import {SudogwanImg, GwandongImg, HoseoImg, HonamImg, YungnamImg, JejuImg} from "../../styles/fullmap";
 // import sudogwon from "../../../../assets/hipMap/sudogwon.png"
 // import gwandong from "../../../../assets/hipMap/gwandong.png"
@@ -78,7 +78,6 @@ function FullMap(){
           <GridDiv>
             {dots.map((dot, j) =>{
               if(dot !== -1){
-                console.log(i, j)
                 if(i === 0){
                   if(j === 8){
                     return(
