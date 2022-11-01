@@ -11,6 +11,8 @@ interface CardProps {
   width: string;
   height: string;
   font_size: string;
+  margin_left: string;
+  margin_right: string;
 }
 
 export const CardContainer = styled.div<CardProps>`
@@ -24,4 +26,7 @@ export const CardContainer = styled.div<CardProps>`
   height: ${(props) => props.height};
   font-size: ${(props) => props.font_size};
   overflow: ${(props) => props.overflow};
+  margin-left: ${(props) => props.margin_left};
+  margin-right: ${(props) => props.margin_right};
+  position: relative;
 `;

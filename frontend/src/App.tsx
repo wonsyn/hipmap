@@ -11,6 +11,8 @@ import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
+import CommentsWrapper from "./components/comments";
+import { commentsDummy } from "./components/comments/commentsDummy";
 
 function App() {
 
@@ -26,10 +28,10 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/welcome" element={<WelcomePage/>}></Route>
-          <Route path="/processing" element={<ProcessingPage/>}></Route>
-          <Route path="/result" element={<ResultPage/>}></Route>
-          <Route path="/fullmap" element={<FullMapPage/>}></Route>
+          <Route path="/welcome" element={<WelcomePage />}></Route>
+          <Route path="/processing" element={<ProcessingPage />}></Route>
+          <Route path="/result" element={<ResultPage />}></Route>
+          <Route path="/fullmap" element={<FullMapPage />}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
           <Route path="/myPage">

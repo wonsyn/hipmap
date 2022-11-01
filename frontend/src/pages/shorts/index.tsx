@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { FullPage, Slide } from "react-full-page";
+import CommentsWrapper from "../../components/comments";
 import ShortsVideoWrapper from "./component/ShortsVideoWrapper";
-import { ShortsVideoAreaDiv, ShortsWrapperDiv } from "./styles/shortsStyle";
+import Modal from "../../components/modal/Modal";
+import {
+  CommentModalCloseHandlerDiv,
+  CommentModalInfoWrapperDiv,
+  ShortsVideoAreaDiv,
+  ShortsVideoElementWrapperDiv,
+  ShortsVideoModalWrapper,
+  ShortsWrapperDiv,
+} from "./styles/shortsStyle";
 
 interface shortsInterface {
   shorts_id: number;
@@ -163,20 +172,74 @@ const dummyData: shortsInterface[] = [
 
 const Shorts = () => {
   const [shortsData, setShortsData] = useState<shortsInterface[]>(dummyData);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [shortsId, setShortsId] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [prevScroll, setPrevScroll] = useState<number>(0);
+
+  const getCurrentIndex = () => {
+    console.log(prevScroll, window.scrollY);
+    const scroll = window.scrollY;
+    if (prevScroll < scroll) {
+      setCurrentIndex((prev) => {
+        return prev + 1;
+      });
+      setPrevScroll((prev) => {
+        return scroll;
+      });
+    } else if (prevScroll > scroll) {
+      setCurrentIndex((prev) => {
+        return prev - 1;
+      });
+      setPrevScroll((prev) => {
+        return scroll;
+      });
+    }
+  };
+
+  const modalOpen = (e: number) => {
+    setShortsId(e);
+    setIsModalOpen((prev) => {
+      return !prev;
+    });
+  };
+
+  const modalClose = () => {
+    setIsModalOpen(false);
+  };
   return (
     <ShortsWrapperDiv>
-      <ShortsVideoAreaDiv id="list">
-        <FullPage>
-          {shortsData &&
-            shortsData.map((e: shortsInterface, i) => (
-              <Slide key={i}>
-                <ShortsVideoAreaDiv>
-                  <ShortsVideoWrapper shorts={e} />
-                </ShortsVideoAreaDiv>
-              </Slide>
-            ))}
-        </FullPage>
+      <ShortsVideoAreaDiv id="list" isModalOpen={isModalOpen}>
+        {!isModalOpen ? (
+          <FullPage initialSlide={currentIndex} afterChange={getCurrentIndex}>
+            {shortsData &&
+              shortsData.map((e: shortsInterface, i) => (
+                <Slide key={i}>
+                  <ShortsVideoElementWrapperDiv>
+                    <ShortsVideoWrapper shorts={e} modalOpen={modalOpen} />
+                  </ShortsVideoElementWrapperDiv>
+                </Slide>
+              ))}
+          </FullPage>
+        ) : (
+          <Modal
+            modalHandler={modalClose}
+            width="90%"
+            height="85%"
+            backgroundcolor="#222222"
+            color="white"
+          >
+            <ShortsVideoModalWrapper>
+              <CommentModalInfoWrapperDiv>
+                <div>댓글</div>
+                <CommentModalCloseHandlerDiv onClick={modalClose}>
+                  닫기
+                </CommentModalCloseHandlerDiv>
+              </CommentModalInfoWrapperDiv>
+              <CommentsWrapper shortsId={shortsId}></CommentsWrapper>
+            </ShortsVideoModalWrapper>
+          </Modal>
+        )}
       </ShortsVideoAreaDiv>
     </ShortsWrapperDiv>
   );
