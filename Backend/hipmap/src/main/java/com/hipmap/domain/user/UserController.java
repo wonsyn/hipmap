@@ -6,6 +6,7 @@ import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
 import com.hipmap.domain.user.dto.response.UserIdDupCheckResponse;
 import com.hipmap.domain.user.dto.response.UserLoginResponse;
+import com.hipmap.domain.user.dto.response.UserReadResponse;
 import com.hipmap.global.util.JwtUtil;
 import com.hipmap.global.util.RedisUtil;
 import io.swagger.annotations.Api;
@@ -84,5 +85,17 @@ public class UserController {
         userService.update(jwtUtil.getUserInfo(request.getHeader("accessToken")).getId(),
                 userInfo.getNickname(), userInfo.getLabel(), userInfo.isFollowPrivate());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "유저 정보 조회", notes = "입력받은 유저 고유 ID(Long)로 유저 정보를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 204, message = "유저 정보 없음(존재하지 않는 유저)"),
+            @ApiResponse(code = 401, message = "유저 정보 없음 (access token)"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public UserReadResponse readInfo(@PathVariable Long userId) {
+        return userService.readInfo(userId);
     }
 }
