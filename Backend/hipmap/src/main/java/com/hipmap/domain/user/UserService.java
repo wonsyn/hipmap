@@ -3,6 +3,7 @@ package com.hipmap.domain.user;
 import com.hipmap.domain.follow.FollowRepository;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.shorts.ShortsRepository;
+import com.hipmap.domain.user.Exception.EmailDuplicatedException;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
@@ -42,6 +43,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void regist(UserRegistRequest userInfo) {
+        UserEntity user = userRepository.findByEmail(userInfo.getEmail()).orElseThrow(EmailDuplicatedException::new);
+
         userRepository.save(UserEntity.builder()
                 .email(userInfo.getEmail())
                 .nickname(userInfo.getNickname())
