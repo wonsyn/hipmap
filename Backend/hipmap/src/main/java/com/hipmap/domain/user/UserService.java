@@ -1,9 +1,12 @@
 package com.hipmap.domain.user;
 
+import com.hipmap.domain.follow.FollowRepository;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
+import com.hipmap.domain.shorts.ShortsRepository;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
+import com.hipmap.domain.user.dto.response.UserReadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +21,8 @@ import java.util.Collections;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final ShortsRepository shortsRepository;
+    private final FollowRepository followRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -59,5 +64,26 @@ public class UserService implements UserDetailsService {
     public void update(Long userId, String nickname, String label, boolean followPrivate) {
         UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         user.updateInfo(nickname, label, followPrivate);
+    }
+
+    public UserReadResponse readInfo(Long userId) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Long shortsCount = shortsRepository.countByUser(user);
+        Long followerCount = followRepository.countByFollowingUser(user);
+        Long followingCount = followRepository.countByUser(user);
+
+        return UserReadResponse.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .proImgSrc(user.getProImgSrc())
+                .labelName(user.getLabelName())
+                .nickname(user.getNickname())
+                .shortsCount(shortsCount)
+                .followerCount(followerCount)
+                .followingCount(followingCount)
+                .followPrivate(user.getFollowPrivate())
+                .build();
     }
 }
