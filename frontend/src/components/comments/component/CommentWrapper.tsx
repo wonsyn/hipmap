@@ -43,7 +43,7 @@ const CommentWrapper = ({
     <CommentButton root={sequence > 1 ? false : true} onClick={getCommentId}>
       <Card
         width={sequence > 1 ? "90%" : "100%"}
-        height="15vh"
+        height="10vh"
         display="flex"
         font_size="1rem"
         margin_left="auto"

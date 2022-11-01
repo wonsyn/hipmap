@@ -2,18 +2,14 @@ import {
   LocationDiv,
   ShortsVideoDiv,
   ShortsVideoElementDiv,
-  ShortsVideoModalWrapper,
   ShortsVoteCommentWrapperDiv,
   ShortVoteDiv,
 } from "../styles/shortsStyle";
-import ReactPlayer from "react-player/lazy";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ShortsVideoPlayer from "./VideoPlayer";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import CommentIcon from "@mui/icons-material/Comment";
-
-import CommentsWrapper from "../../../components/comments";
 
 interface shortsInterface {
   shorts: {
