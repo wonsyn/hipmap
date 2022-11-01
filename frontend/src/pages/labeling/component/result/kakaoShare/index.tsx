@@ -12,7 +12,8 @@ function KakaoShare(){
 
     return(
         <KakaoShareDiv>
-            친구의 결과를 알고싶다면?
+            이 테스트를 공유하고 싶다면?
+            <br /><br />
             <KakaoShareButton onClick={shareKakao}>
         <img
           src={kakao_share}
