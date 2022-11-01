@@ -38,17 +38,21 @@ export const ShortsVideoElementDiv = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  @media (max-width: 699px) {
+    padding-bottom: 40%;
+  }
 `;
 
 export const ShortsVideoDiv = styled.div`
   width: 80vw;
-  height: 80vh;
+  height: 70vh;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${(props) => props.theme.colors.subColorGradient4};
   position: relative;
+  max-width: 1024px;
 `;
 
 export const ShortsVideoPlayerWrapperDiv = styled.div`

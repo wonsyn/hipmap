@@ -45,7 +45,7 @@ const MyInfoWrapper = () => {
       </MyInfoDiv>
       <MyInfoButtonWrapperDiv>
         <MyFollowWrapper />
-        <MyButton>안녕하세요</MyButton>
+        <MyButton>팔로우</MyButton>
       </MyInfoButtonWrapperDiv>
     </MyInfoWrapperDiv>
   );

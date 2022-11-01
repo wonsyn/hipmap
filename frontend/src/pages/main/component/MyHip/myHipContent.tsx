@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@material-ui/core";
 import Card from "../../../../components/card/Card";
 import {
   MyHipContentCardWrapperDiv,
@@ -19,9 +20,10 @@ interface MyHipContainerProps {
 }
 
 const MyHipContent = ({ content, text }: MyHipContainerProps) => {
+  const isMobile = useMediaQuery("(max-width:1024px)");
   return (
     <MyHipContentCardWrapperDiv>
-      <Card width="95%" height="8vh">
+      <Card width="90%" height={isMobile ? "8vh" : "35vh"}>
         <MyHipContentWrapperDiv>
           <MyHipContentTextDiv>{text}</MyHipContentTextDiv>
           <MyHipContentImg

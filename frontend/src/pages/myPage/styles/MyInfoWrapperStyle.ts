@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const MyPageDiv = styled.div`
   width: 100%;
   margin-top: 10%;
-  height: 35%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,14 +25,18 @@ export const MyInfoDiv = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1rem;
+  @media (min-width: 1024px) {
+    font-size: 2rem;
+  }
 `;
+
+export const MyInfoNicknameDiv = styled.div``;
 
 export const MyInfoButtonWrapperDiv = styled.div`
   width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: center;
   align-items: center;
 `;
@@ -40,6 +44,7 @@ export const MyInfoButtonWrapperDiv = styled.div`
 export const MyButton = styled.button`
   border-radius: 8px;
   width: 60%;
+  max-width: 100px;
   height: 3vh;
   color: white;
   margin-top: 15%;
