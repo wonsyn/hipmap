@@ -1,3 +1,4 @@
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 interface modalProps {
@@ -14,6 +15,15 @@ interface modalProps {
   margin_bottom: string;
   color: string;
 }
+
+const ModalAnimation = keyframes`
+  0%{
+    transform: translate(-50%,100%);
+  }
+  100%{
+    transform:translate(-50%,-50%);
+  }
+`;
 
 export const ModalContent = styled.div<modalProps>`
   position: fixed;
@@ -37,6 +47,7 @@ export const ModalContent = styled.div<modalProps>`
   overflow: ${(props) => props.overflow};
   margin-bottom: ${(props) => props.margin_bottom};
   flex-wrap: wrap;
+  animation: ${ModalAnimation} 0.4s ease;
 `;
 
 export const ModalBackDrop = styled.div`

@@ -1,14 +1,23 @@
 import styled from "@emotion/styled";
 
 export const LayoutContainer = styled.div`
-  min-width: 100%;
+  max-width: 100%;
   min-height: 100%;
 `;
 
 export const MainContainer = styled.main`
   width: 100%;
-  margin-top: 6vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5vh;
   height: 100%;
   /* height: 100%; */
-  /* margin-bottom: 6vh; */
+  margin-bottom: 6vh;
+`;
+
+export const MainWrapperDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 1024px;
 `;

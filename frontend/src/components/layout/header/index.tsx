@@ -18,28 +18,52 @@ function Header() {
   };
   return (
     <HeaderContainer>
-      <Title />
       <div
         css={css`
-          margin-left: auto;
-          width: 25vw;
+          width: 100%;
           height: 100%;
           display: flex;
+          max-width: 1024px;
+          /* justify-content: center; */
           align-items: center;
         `}
       >
-        {auth ? (
-          <ProfileImgWrapper />
-        ) : (
-          <CommonButton
-            onClick={onClick}
-            color="white"
-            width="20vw"
-            height="75%"
-          >
-            <div>로그인</div>
-          </CommonButton>
-        )}
+        <Title />
+        <div
+          css={css`
+            margin-left: auto;
+            width: 60%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            margin-right: 5%;
+            @media (min-width: 700px) {
+              font-size: 0.8rem;
+              width: 35%;
+              margin-right: 2%;
+            }
+            @media (min-width: 1024px) {
+              font-size: 1.1rem;
+              width: 30%;
+              margin-right: 2%;
+            }
+            font-size: 0.6rem;
+          `}
+        >
+          {auth ? (
+            <ProfileImgWrapper />
+          ) : (
+            <CommonButton
+              onClick={onClick}
+              color="white"
+              width="20vw"
+              height="75%"
+            >
+              <div>로그인</div>
+            </CommonButton>
+          )}
+        </div>
       </div>
     </HeaderContainer>
   );

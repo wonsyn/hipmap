@@ -7,7 +7,7 @@ import SameHipPlace from "./component/sameHipPlace";
 
 const Main = () => {
   return (
-    <div style={{ marginBottom: "10%" }}>
+    <div>
       <BestHipPlace />
       <MyHipContainer />
       <div
