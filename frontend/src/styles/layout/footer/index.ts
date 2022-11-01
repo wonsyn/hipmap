@@ -32,7 +32,7 @@ export const FooterShortsButtons = styled.button`
 `;
 
 export const FooterShortsImg = styled.img`
-  height: 5vh;
+  height: 4vh;
 `;
 
 export const FooterWriteButton = styled.button`

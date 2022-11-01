@@ -1,4 +1,8 @@
-import { LayoutContainer, MainContainer } from "../../styles/layout";
+import {
+  LayoutContainer,
+  MainContainer,
+  MainWrapperDiv,
+} from "../../styles/layout";
 import Header from "./header";
 import Footer from "./navBar";
 import { useMediaQuery } from "@material-ui/core";
@@ -9,11 +13,12 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const isMobile = useMediaQuery("(max-width:700px)");
-  console.log(isMobile);
   return (
     <LayoutContainer>
       <Header></Header>
-      <MainContainer>{children}</MainContainer>
+      <MainContainer>
+        <MainWrapperDiv>{children}</MainWrapperDiv>
+      </MainContainer>
       {isMobile && <Footer></Footer>}
     </LayoutContainer>
   );
