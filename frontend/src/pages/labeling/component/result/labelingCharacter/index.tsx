@@ -1,7 +1,7 @@
 import { LabelingCharacterDiv } from "../../../styles/result";
 import { ImgContainer } from "../../../../main/styles/ImgStyle";
 import result_sample from "../../../../../assets/labeling/result/result_sample.png"
-import { selectLabelingChar } from "../labelingCalc";
+import { SelectLabelingChar } from "../labelingCalc";
 
 interface LabelingCharacterProps{
     url: string
