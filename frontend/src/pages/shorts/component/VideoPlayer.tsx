@@ -12,7 +12,7 @@ const ShortsVideoPlayer = ({ file_src }: { file_src: string }) => {
   return (
     <ShortsVideoPlayerWrapperDiv ref={videoRef}>
       {isLoaded ? (
-        <ShortsVideoPlayerVideo ref={elementRef} muted loop autoPlay controls>
+        <ShortsVideoPlayerVideo ref={elementRef} muted loop autoPlay>
           <source src={file_src} type="video/mp4"></source>
         </ShortsVideoPlayerVideo>
       ) : (
