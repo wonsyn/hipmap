@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +24,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final ShortsRepository shortsRepository;
     private final FollowRepository followRepository;
+    private final AuthEmailService authEmailService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -59,6 +60,8 @@ public class UserService implements UserDetailsService {
                 .labelName(userInfo.getLabeling())
                 .followPrivate(false)
                 .build());
+
+        authEmailService.sendAuthMail(userInfo.getEmail());
     }
 
     public boolean idCheck(String username) {
