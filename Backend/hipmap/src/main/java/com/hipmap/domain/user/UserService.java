@@ -48,8 +48,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(UserEntity.builder()
                 .email(userInfo.getEmail())
                 .nickname(userInfo.getNickname())
-                .role(Admin.USER)// 최초 가입시 USER 로 설정
-                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
+                .role(Admin.ROLE_USER)// 최초 가입시 USER 로 설정
                 .password(userInfo.getPassword())
                 .username(userInfo.getUsername())
                 .proImgSrc(null)
