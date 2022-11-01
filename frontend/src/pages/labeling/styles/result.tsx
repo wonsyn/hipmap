@@ -36,6 +36,9 @@ export const KakaoShareButton = styled.button`
     border: none;
     outline: none;
     box-shadow: none;
+    :hover{
+        cursor: pointer;
+    }
 `
 
 export const LabelingCharacterDiv = styled.div`
@@ -72,11 +75,14 @@ export const  LabelingNameDiv = styled.div`
 export const WithButton = styled.button`
     width: 80%;
     height: 4%;
-    font-size: 10%;
+    font-size: 80%;
     color: white;
     border-radius: 10px;
     border: none;
     outline: none;
     box-shadow: none;
     background: ${palette.subColorGradient2};
+    :hover{
+        cursor: pointer;
+    }
 `

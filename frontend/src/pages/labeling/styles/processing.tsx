@@ -38,4 +38,7 @@ export const SelectButton = styled.button`
     color: white;
     font-weight: bold;
     border-radius: 8px ;
+    :hover{
+        cursor: pointer;
+    }
 `

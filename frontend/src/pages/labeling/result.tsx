@@ -5,21 +5,23 @@ import LabelingName from "./component/result/labelingName/indes"
 import With from "./component/result/withButton"
 import { WrappingDiv } from "./styles/result"
 import { ContainerDiv } from "./styles/result"
-import { selectLabeling, selectLabelingChar, selectLabelingDetail } from "./component/result/labelingCalc";
+import { SelectLabeling, SelectLabelingChar, SelectLabelingDetail } from "./component/result/labelingCalc";
 import { useEffect, useState } from "react"
-
+import { useNavigate } from "react-router-dom"
  
 function ResultPage(){
     const [labelingResult, setLabelingResult ] = useState<string>("");
     const [labelingChar, setLabelingChar ] = useState<string>("");
     const [labelingDetail, setLabelingDetail ] = useState<string[]>([]);
+    const navigate = useNavigate()
     useEffect(()=>{
-        setLabelingResult(selectLabeling());
-        setLabelingChar(selectLabelingChar());
-        setLabelingDetail(selectLabelingDetail());
+        setLabelingResult(SelectLabeling());
+        setLabelingChar(SelectLabelingChar());
+        setLabelingDetail(SelectLabelingDetail());
     },[])
     const clickEvent = () => {
        // 메인 페이지로 연결
+       navigate(`/main`)
     }
 
     return(

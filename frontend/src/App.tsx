@@ -26,10 +26,10 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/welcome" element={<WelcomePage/>}></Route>
-          <Route path="/processing" element={<ProcessingPage/>}></Route>
-          <Route path="/result" element={<ResultPage/>}></Route>
-          <Route path="/fullmap" element={<FullMapPage/>}></Route>
+          <Route path="/labeling/welcome" element={<WelcomePage/>}></Route>
+          <Route path="/labeling/processing" element={<ProcessingPage/>}></Route>
+          <Route path="/labeling/result" element={<ResultPage/>}></Route>
+          <Route path="/hipmap/fullmap" element={<FullMapPage/>}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
           <Route path="/myPage">
