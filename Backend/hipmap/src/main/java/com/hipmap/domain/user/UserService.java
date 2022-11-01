@@ -45,7 +45,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void regist(UserRegistRequest userInfo) {
-        UserEntity user = userRepository.findByEmail(userInfo.getEmail()).orElseThrow(EmailDuplicatedException::new);
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(userInfo.getEmail());
+        if(optionalUser.isPresent()) throw new EmailDuplicatedException();
 
         userRepository.save(UserEntity.builder()
                 .email(userInfo.getEmail())
