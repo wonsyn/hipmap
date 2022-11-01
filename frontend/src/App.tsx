@@ -13,13 +13,13 @@ import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
 
 function App() {
-  useEffect(() => {
-    if (!window.Kakao.isInitialized()) {
-      console.log("taet");
-      window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
-      console.log(window.Kakao.isInitialized()); // init되면 true, 아니면 false를 반환한다
-    }
-  }, []);
+
+  useEffect(()=>{
+      if(!window.Kakao.isInitialized()){
+        window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);  
+      }
+  },[])
+
   return (
     <BrowserRouter>
       <Layout>
