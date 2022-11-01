@@ -11,6 +11,7 @@ interface modalProps {
   justify_content: string;
   align_items: string;
   overflow: string;
+  margin_bottom: string;
   color: string;
 }
 
@@ -34,8 +35,8 @@ export const ModalContent = styled.div<modalProps>`
   justify-content: ${(props) => props.justify_content};
   align-items: ${(props) => props.align_items};
   overflow: ${(props) => props.overflow};
+  margin-bottom: ${(props) => props.margin_bottom};
   flex-wrap: wrap;
-  
 `;
 
 export const ModalBackDrop = styled.div`

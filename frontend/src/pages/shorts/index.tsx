@@ -4,6 +4,8 @@ import CommentsWrapper from "../../components/comments";
 import ShortsVideoWrapper from "./component/ShortsVideoWrapper";
 import Modal from "../../components/modal/Modal";
 import {
+  CommentModalCloseHandlerDiv,
+  CommentModalInfoWrapperDiv,
   ShortsVideoAreaDiv,
   ShortsVideoElementWrapperDiv,
   ShortsVideoModalWrapper,
@@ -228,10 +230,12 @@ const Shorts = () => {
             color="white"
           >
             <ShortsVideoModalWrapper>
-              <div>
+              <CommentModalInfoWrapperDiv>
                 <div>댓글</div>
-                <div>닫기</div>
-              </div>
+                <CommentModalCloseHandlerDiv onClick={modalClose}>
+                  닫기
+                </CommentModalCloseHandlerDiv>
+              </CommentModalInfoWrapperDiv>
               <CommentsWrapper shortsId={shortsId}></CommentsWrapper>
             </ShortsVideoModalWrapper>
           </Modal>

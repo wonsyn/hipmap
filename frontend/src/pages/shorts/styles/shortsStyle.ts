@@ -105,3 +105,14 @@ export const ShortsVideoModalWrapper = styled.div`
   height: 100%;
   overflow-y: scroll;
 `;
+
+export const CommentModalInfoWrapperDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 3%;
+  align-items: center;
+`;
+
+export const CommentModalCloseHandlerDiv = styled.div`
+  font-size: 1rem;
+`;
