@@ -1,5 +1,5 @@
 package com.hipmap.domain.user;
 
 public enum Admin {
-    USER, ADMIN
+    ROLE_USER, ROLE_ADMIN
 }
