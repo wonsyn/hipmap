@@ -49,3 +49,31 @@ export const HeaderTitleTextWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+
+export const HeaderContentsWrapperDiv = styled.div`
+  display: flex;
+  flex: 1;
+  height: 100%;
+  /* margin-right: auto; */
+  align-items: center;
+  justify-content: space-around;
+`;
+
+export const HeaderShortsButtons = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  height: 3vh;
+  margin-right: 1vw;
+`;
+
+export const HeaderContentWriteButton = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  height: 5vh;
+  margin-left: auto;
+  margin-top: 2%;
+`;

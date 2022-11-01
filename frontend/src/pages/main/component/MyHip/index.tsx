@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import Card from "../../../../components/card/Card";
 import {
@@ -76,6 +77,7 @@ const DummyData: MyHipContainerProps = {
 
 const MyHipContainer = () => {
   const [myHipData, setMyHipData] = useState<MyHipContainerProps>();
+  const isMobile = useMediaQuery("(max-width:1024px)");
   useEffect(() => {
     setMyHipData(DummyData);
   }, []);
@@ -83,7 +85,7 @@ const MyHipContainer = () => {
     <MyHipContainerDiv>
       <Card
         width="90vw"
-        height="35vh"
+        height={isMobile ? "35vh" : "48vh"}
         background="linear-gradient(92.79deg,#FFC23C,#EA047E)"
       >
         <div>

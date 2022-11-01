@@ -1,14 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useMediaQuery } from "@material-ui/core";
 import Card from "../../../../components/card/Card";
 import { SameHipPlaceCardWrapperDiv } from "../../styles/sameHipPlace";
 
 const SameHipPlaceCardWrapper = () => {
+  const isMobile = useMediaQuery("(max-width:1024px)");
   return (
     <SameHipPlaceCardWrapperDiv>
       <Card
-        width="50vw"
-        height="25vh"
+        width="50vh"
+        height={isMobile ? "25vh" : "30vh"}
         overflow="hidden"
         justify_content="center"
         align_items="center"
@@ -37,8 +39,8 @@ const SameHipPlaceCardWrapper = () => {
           `}
         >
           <Card
-            width="40vw"
-            height="12vh"
+            width={isMobile ? "40vw" : "20vw"}
+            height={isMobile ? "12vh" : "15vh"}
             overflow="hidden"
             align_items="center"
             justify_content="center"
@@ -61,8 +63,8 @@ const SameHipPlaceCardWrapper = () => {
           `}
         >
           <Card
-            width="40vw"
-            height="12vh"
+            width={isMobile ? "40vw" : "20vw"}
+            height={isMobile ? "12vh" : "15vh"}
             overflow="hidden"
             align_items="center"
             justify_content="center"

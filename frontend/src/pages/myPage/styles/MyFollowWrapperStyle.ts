@@ -80,6 +80,7 @@ export const MyFollowListWrapperDiv = styled.div`
 export const MyFollowListDiv = styled.div`
   display: flex;
   width: 85%;
+  margin-bottom: 40px;
   height: 5vh;
   align-items: center;
 `;
@@ -97,7 +98,9 @@ export const MyFollowAddButton = styled.button`
   border-radius: 8px;
   background: #3a3a3a;
   margin-left: auto;
-  width: 8vw;
+
+  width: 100px;
+  min-height: 4vh;
   height: 50%;
   color: white;
   font-size: 1rem;
@@ -137,10 +140,10 @@ export const MyFollowSearchTitleDiv = styled.div`
 `;
 
 export const MyFollowListArea = styled.div<{ select: boolean }>`
-  width: 200vw;
+  width: 200%;
   display: flex;
   justify-content: center;
-  transform: translateX(${(props) => (props.select ? `0vw` : `-100vw`)});
+  transform: translateX(${(props) => (props.select ? `0vw` : `-50%`)});
   transition: 0.3s;
 `;
 
