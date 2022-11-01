@@ -1,21 +1,21 @@
 package com.hipmap.domain.follow;
 
-import com.hipmap.domain.follow.dto.FollowerFindAllResponseDto;
+import com.hipmap.domain.follow.dto.FollowInfoResponseDto;
 
 import java.util.List;
 
 public interface FollowService {
-    void createFollow(String loginUsername,String username);
+    void createFollow(Long loginUsername,Long username);
 
-    void deleteFollow(String loginUsername, String opponentUsername);
+    void deleteFollow(Long loginUserId, Long opponentUserId);
 
-    List<FollowerFindAllResponseDto> findAllByUsername(String username);
-    List<String> findAllSearchByfollowerName(String followerName, String loginUsername);
+    List<FollowInfoResponseDto> getFollowerList(Long userId);
+    List<String> searchFollowers(String keyword, Long loginUserId);
 
-    List<FollowerFindAllResponseDto> findAllByFollowingUser(String username);
+    List<FollowInfoResponseDto> getFollowingList(Long userId);
 
 
-    Long countByFollower(String username);
+    Long countFollowing(Long userId);
 
-    Long countByFollowing(String username);
+    Long countFollower(Long userId);
 }
