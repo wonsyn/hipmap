@@ -1,8 +1,8 @@
 package com.hipmap.domain.follow;
 
 import com.hipmap.domain.follow.Exception.FollowDuplicateException;
+import com.hipmap.domain.follow.dto.FollowInfoResponseDto;
 import com.hipmap.domain.follow.dto.FollowSaveRequestDto;
-import com.hipmap.domain.follow.dto.FollowerFindAllResponseDto;
 import com.hipmap.domain.notification.NotificationService;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
@@ -25,9 +25,9 @@ public class FollowServiceImpl implements FollowService {
 
     @Transactional
     @Override
-    public void createFollow(String loginUsername, String username) {
-        UserEntity loginUser = userRepository.findByUsername(loginUsername).orElseThrow(UserNotFoundException::new);
-        UserEntity opponentUser = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    public void createFollow(Long loginUserId, Long opponentUserId) {
+        UserEntity loginUser = userRepository.findById(loginUserId).orElseThrow(UserNotFoundException::new);
+        UserEntity opponentUser = userRepository.findById(opponentUserId).orElseThrow(UserNotFoundException::new);
 
         FollowSaveRequestDto dto = new FollowSaveRequestDto(loginUser, opponentUser);
         if (!followRepository.findByUserAndFollowingUser(loginUser, opponentUser).isPresent()) {
@@ -41,44 +41,48 @@ public class FollowServiceImpl implements FollowService {
 
     @Transactional
     @Override
-    public void deleteFollow(String loginUsername, String opponentUsername) {
+    public void deleteFollow(Long loginUserId, Long opponentUserId) {
 //        UserEntity
-        UserEntity loginUsernameEntity = userRepository.findByUsername(loginUsername).orElseThrow(UserNotFoundException::new);
-        UserEntity opponentUsernameEntity = userRepository.findByUsername(opponentUsername).orElseThrow(UserNotFoundException::new);
+        UserEntity loginUser = userRepository.findById(loginUserId).orElseThrow(UserNotFoundException::new);
+        UserEntity opponentUser = userRepository.findById(opponentUserId).orElseThrow(UserNotFoundException::new);
 
-        Long UserAndFollowingUser = followRepository.findByUserAndFollowingUser(loginUsernameEntity, opponentUsernameEntity).orElseThrow(UserNotFoundException::new).getFollowId();
+        Long UserAndFollowingUser = followRepository.findByUserAndFollowingUser(loginUser, opponentUser).orElseThrow(UserNotFoundException::new).getFollowId();
         followRepository.deleteByFollowId(UserAndFollowingUser);
     }
 
     @Transactional
     @Override
-    public List<FollowerFindAllResponseDto> findAllByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        return followRepository.findAllByUser(userEntity).stream().map(FollowerFindAllResponseDto::new)
+    public List<FollowInfoResponseDto> getFollowerList(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        return followRepository.findAllByFollowingUser(userEntity).stream()
+                .map(m -> userRepository.findById(m.getUser().getUserId()).orElseThrow(UserNotFoundException::new))
+                .map(m -> new FollowInfoResponseDto(m.getUserId(), m.getUsername(), m.getProImgSrc()))
                 .collect(Collectors.toList());
     }
-    public List<FollowerFindAllResponseDto> findAllByFollowingUser(String username){
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        return followRepository.findAllByFollowingUser(userEntity).stream().map(FollowerFindAllResponseDto::new)
+    public List<FollowInfoResponseDto> getFollowingList(Long userId){
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return followRepository.findAllByUser(userEntity).stream()
+                .map(m -> userRepository.findById(m.getFollowingUser().getUserId()).orElseThrow(UserNotFoundException::new))
+                .map(m -> new FollowInfoResponseDto(m.getUserId(), m.getUsername(), m.getProImgSrc()))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
-    public Long countByFollower(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    public Long countFollowing(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return followRepository.countByFollowingUser(userEntity);
     }
 
     @Transactional
     @Override
-    public List<String> findAllSearchByfollowerName(String followerName, String loginUsername) {
-        List<String> Followers = followRepository.findAllSearch(followerName, loginUsername);
-        return Followers;
+    public List<String> searchFollowers(String keyword, Long loginUserId) {
+        return followRepository.findAllSearch(keyword, loginUserId);
     }
 
-    public Long countByFollowing(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    public Long countFollower(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return followRepository.countByUser(userEntity);
     }
 }
