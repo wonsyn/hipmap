@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -42,6 +43,13 @@ public class UserEntity {
 
     private Boolean followPrivate;
 
+    private Boolean isCerted;
+
+    private LocalDateTime regDateTime;
+
+    @Enumerated(EnumType.STRING)
+    private Admin role;
+
     public UserEntity(String nickname, String userEmail, String proImgSrc) {
         this.nickname = nickname;
         this.email = userEmail;
@@ -57,7 +65,4 @@ public class UserEntity {
     public void updateProfileImg(String proImgSrc, String labelName, boolean followPrivate) {
         this.proImgSrc = proImgSrc;
     }
-
-    @Enumerated(EnumType.STRING)
-    private Admin role;
 }

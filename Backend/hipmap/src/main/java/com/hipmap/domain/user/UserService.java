@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -59,6 +60,8 @@ public class UserService implements UserDetailsService {
                 .labelCharSrc(null)
                 .labelName(userInfo.getLabeling())
                 .followPrivate(false)
+                .regDateTime(LocalDateTime.now())
+                .isCerted(false)
                 .build());
 
         authEmailService.sendAuthMail(userInfo.getEmail());
