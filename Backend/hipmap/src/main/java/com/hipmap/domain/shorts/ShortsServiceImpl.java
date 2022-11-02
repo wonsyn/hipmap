@@ -1,11 +1,9 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.like.LikeRepository;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.GetShortsByLabelResponse;
-import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
-import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
-import com.hipmap.domain.shorts.response.ShortsResDto;
+import com.hipmap.domain.shorts.response.*;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
@@ -13,6 +11,7 @@ import com.hipmap.global.util.S3Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +29,9 @@ public class ShortsServiceImpl implements ShortsService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    LikeRepository likeRepository;
 
     @Autowired
     ShortsRepositorySupport shortsRepositorySupport;
@@ -128,9 +130,28 @@ public class ShortsServiceImpl implements ShortsService {
     }
 
     @Override
+//    @Scheduled(cron = "0 0 0 1/1 * ? *")
+    @Transactional
+    public void updateMappedStates() {
+
+        List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
+        for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
+            ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
+            if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
+                shorts.setIsMapped(true);
+            }else{
+                shorts.setIsMapped(false);
+            }
+        }
+
+    }
+
+
+
     @Transactional(readOnly = true)
     public String getThumbnail(ShortsIdAndLikeCntProjectionInterface m) {
         return shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new).getThumbnailSrc();
+
     }
 
 
