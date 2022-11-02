@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = FollowController.class)
+//@ExtendWith(SpringExtension.class)
+//@WebMvcTest(controllers = FollowController.class)
 class FollowControllerTest {
 
     @Autowired
