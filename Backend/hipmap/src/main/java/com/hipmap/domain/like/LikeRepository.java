@@ -4,7 +4,6 @@ import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
 import com.hipmap.domain.shorts.response.ShortsIdAndTotalCntProjectionInterface;
 import com.hipmap.domain.user.UserEntity;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

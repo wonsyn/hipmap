@@ -1,6 +1,5 @@
 package com.hipmap.domain.like;
 
-import com.hipmap.domain.like.dto.LikeUpdateRequestDto;
 import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
 import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
 
