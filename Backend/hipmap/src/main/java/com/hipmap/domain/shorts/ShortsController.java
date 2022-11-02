@@ -3,10 +3,8 @@ package com.hipmap.domain.shorts;
 import com.hipmap.domain.like.LikeService;
 import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
-import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
-import com.hipmap.domain.shorts.response.ShortsListResponse;
-import com.hipmap.domain.shorts.response.ShortsResDto;
+import com.hipmap.domain.shorts.response.*;
+import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -18,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
@@ -29,6 +28,8 @@ import java.util.stream.Collectors;
 public class ShortsController {
 
     private final LikeService likeService;
+
+    private final JwtUtil jwtUtil;
     @Autowired
     ShortsService shortsService;
 
@@ -37,11 +38,20 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    List<ShortsResDto> getShorts(Pageable pageable) {
+    List<ShortsResponse> getShorts(Pageable pageable) {
 
         return shortsService.getShorts(pageable).getContent(); // 페이지 객체 어쩌구 : 필요함
     }
 
+//    @GetMapping()
+//    @ApiOperation(value = "쇼츠 상세 조회", notes = "shortId를 이용해 쇼츠 정보 상세 조회")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity<?> getShortsInfoById(@RequestParam Long shortsId) {
+//
+//        return new ResponseEntity<>(shortsService.getShortsInfoByShortsId(shortsId), HttpStatus.OK);
+//    }
 
     @GetMapping("/samelabel")
     @ApiOperation(value = "레이블 별 쇼츠 조회", notes = "같은 레이블인 사람들이 올린 쇼츠 조회")
@@ -70,13 +80,10 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<?> getShortsOnLabelAndLocation(@RequestBody @Valid GetMapListFilterRequest request) {
+    public ResponseEntity<?> getShortsOnLabelAndLocation(@RequestBody @Valid GetMapListFilterRequest request, HttpServletRequest httpRequest) {
 
-        /*
-        토큰 생기면 user 같이 넘겨서 레이블링 정보 가져올 예정
-         */
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
 
-        Long userId = Long.valueOf(1);
         return new ResponseEntity<>(new ShortsListResponse(shortsService.getShortsByLabelAndLocation(userId, request)), HttpStatus.OK);
 
     }
@@ -87,9 +94,8 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<Long> deleteShorts(@PathVariable Long shortsId) {
-        // 헤더 접근 후 유저 정보 받아오기
-        Long userId = Long.valueOf(1);
+    public ResponseEntity<Long> deleteShorts(@PathVariable Long shortsId, HttpServletRequest httpRequest) {
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
         return ResponseEntity.status(HttpStatus.OK).body(shortsService.deleteShorts(userId, shortsId));
     }
 

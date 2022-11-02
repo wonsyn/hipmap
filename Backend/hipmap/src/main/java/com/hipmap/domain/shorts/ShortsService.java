@@ -1,10 +1,7 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.GetShortsByLabelResponse;
-import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
-import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
-import com.hipmap.domain.shorts.response.ShortsResDto;
+import com.hipmap.domain.shorts.response.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +11,7 @@ import java.util.List;
 
 public interface ShortsService {
 
-    Page<ShortsResDto> getShorts(Pageable pageable);
+    Page<ShortsResponse> getShorts(Pageable pageable);
 
     List<GetShortsByLabelResponse> getShortsByLabel(String labeling);
 
@@ -32,5 +29,7 @@ public interface ShortsService {
     void updateMappedStates();
 
     String getThumbnail(ShortsIdAndLikeCntProjectionInterface m);
+
+//    ShortsInfoResDto getShortsInfoByShortsId(Long shortsId);
 
 }

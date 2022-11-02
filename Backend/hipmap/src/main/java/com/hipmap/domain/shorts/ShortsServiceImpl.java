@@ -40,21 +40,21 @@ public class ShortsServiceImpl implements ShortsService {
     private S3Util s3Uploader;
 
     @Override
-    public Page<ShortsResDto> getShorts(Pageable pageable) {
+    public Page<ShortsResponse> getShorts(Pageable pageable) {
         Page<ShortsEntity> shortsEntities = shortsRepository.findAll(pageable);
-        Page<ShortsResDto> boardDtoList = shortsEntities.map(m -> ShortsResDto.builder()
+        Page<ShortsResponse> boardDtoList = shortsEntities.map(m -> ShortsResponse.builder()
                 .shortsId(m.getShortsId())
                 .fileSrc(m.getFileSrc())
                 .thumbnailSrc(m.getThumbnailSrc())
                 .locationSi(m.getLocationSi())
                 .locationGu(m.getLocationGu())
                 .locationDong(m.getLocationDong())
-                .isMapped(m.getIsMapped())
-                .labelName(m.getLabelName())
-                .latitude(m.getLatitude())
-                .longitude(m.getLongitude())
                 .createTime(m.getCreateTime())
-                .userId(m.getUser().getUserId())
+//                .likeCount()
+//                .hateCount()
+//                .commentsCount()
+//                .isLike(likeRepository.findByUserAndShorts(m.getShortsId()).isPresent())
+                .fileType(m.getFileType())
                 .build());
         return boardDtoList;
 //        return shortsRepository.findAll(pageable);
@@ -153,6 +153,8 @@ public class ShortsServiceImpl implements ShortsService {
         return shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new).getThumbnailSrc();
 
     }
+
+
 
 
 }
