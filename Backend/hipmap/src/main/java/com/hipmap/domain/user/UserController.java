@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -112,5 +113,18 @@ public class UserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+    }
+
+    @PostMapping("/profile/img")
+    @ApiOperation(value = "유저 프로필 사진 변경", notes = "요청한 파일을 S3에 저장 후, 프로필 사진으로 등록해주는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 400, message = "해당하는 유저가 없음. 또는 업로드 실패"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<?> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) {
+        Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+        userService.uploadProfile(file, userId);
+        return ResponseEntity.ok().body("업로드 성공");
     }
 }
