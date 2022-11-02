@@ -14,6 +14,7 @@ import Shorts from "./pages/shorts";
 import CommentsWrapper from "./components/comments";
 import { commentsDummy } from "./components/comments/commentsDummy";
 import Write from "./pages/write";
+import KakaoRedirect from "./pages/login/component/KakaoRedirect";
 
 function App() {
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
           </Route>
           <Route path="/shorts" element={<Shorts />} />
           <Route path="/write" element={<Write />} />
+          <Route path="/oauth/kakao" element={<KakaoRedirect />} />
         </Routes>
       </Layout>
     </BrowserRouter>

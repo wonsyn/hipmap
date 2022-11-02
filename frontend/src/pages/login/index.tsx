@@ -11,6 +11,7 @@ import {
   LogoWrapper,
 } from "./styles/loginForm";
 import { useNavigate } from "react-router-dom";
+import KakaoLogin from "./component/kakaoLogin";
 
 const LoginWrapper = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const LoginWrapper = () => {
         >
           회원가입
         </div>
-        <img src="/img/kakao_login_wide.png" alt="카카오 로그인 버튼" />
+        <KakaoLogin />
       </LoginFormLoginDiv>
     </LoginFormLoginWrapper>
   );
