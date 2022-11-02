@@ -27,4 +27,6 @@ public interface ShortsService {
     List<ShortsListEachUserResponse> getUserContents(String username);
 
     Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception;
+
+    void updateMappedStates();
 }

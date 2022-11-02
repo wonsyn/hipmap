@@ -10,6 +10,7 @@ import com.hipmap.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -122,6 +123,12 @@ public class ShortsServiceImpl implements ShortsService{
         }
         ShortsEntity shortsEntityForSave = shortsRepository.save(shortsEntity);
         return shortsEntityForSave.getShortsId();
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 1/1 * ? *")
+    public void updateMappedStates() {
+
     }
 
 
