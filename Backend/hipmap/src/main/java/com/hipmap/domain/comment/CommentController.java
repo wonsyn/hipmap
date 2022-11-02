@@ -32,7 +32,7 @@ public class CommentController {
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<?> createComment(@PathVariable Long shortsId, @RequestBody @Valid CreateCommentRequest request){
-        Long userId = Long.valueOf(1); // authentication 생기면 수정
+        Long userId = Long.valueOf(4); // authentication 생기면 수정
 
         CommentEntity comment = commentService.createComment(userId,shortsId,request);
         return new ResponseEntity<CreateCommentResponse>(
