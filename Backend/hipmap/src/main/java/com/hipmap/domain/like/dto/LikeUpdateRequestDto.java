@@ -14,6 +14,6 @@ public class LikeUpdateRequestDto {
     @ApiModelProperty(value = "해당 shorts의 id")
     Long shortsId;
     @ApiModelProperty(value = "변경하려는 like 상태")
-    Boolean isLike;
+    Boolean vote;
 
 }

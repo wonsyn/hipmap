@@ -3,8 +3,6 @@ package com.hipmap.domain.like;
 import com.hipmap.domain.like.Exception.LikeAlreadyExistsException;
 import com.hipmap.domain.like.Exception.LikeDuplicateProcessingException;
 import com.hipmap.domain.like.Exception.LikeNotFoundException;
-import com.hipmap.domain.like.dto.LikeSaveRequestDto;
-import com.hipmap.domain.like.dto.LikeUpdateRequestDto;
 import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.ShortsEntity;
@@ -16,7 +14,6 @@ import com.hipmap.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -30,42 +27,45 @@ public class LikeServiceImpl implements LikeService {
 
     @Transactional
     @Override
-    public Long create(@RequestBody LikeSaveRequestDto dto) {
+    public Long create(Long userId, Long shortsId, Boolean vote) {
 
-        UserEntity user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFoundException::new);
-        ShortsEntity shorts = shortsRepository.findById(dto.getShorts()).orElseThrow(ShortsNotFoundException::new);
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        ShortsEntity shortsEntity = shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new);
 
-        LikeEntity createLike = LikeEntity.builder()
-                .user(user)
-                .shorts(shorts)
-                .isLike(true)
-                .build();
 
-        if (!likeRepository.findByUserAndShorts(createLike.getUser().getUserId(), createLike.getShorts().getShortsId()).isPresent()) {
+        if (!likeRepository.findByUserAndShorts(userEntity, shortsEntity).isPresent()) {
+            LikeEntity createLike = LikeEntity.builder()
+                    .user(userEntity)
+                    .shorts(shortsEntity)
+                    .vote(vote)
+                    .build();
             likeRepository.save(createLike);
         } else {
             throw new LikeAlreadyExistsException();
         }
 
-        return likeRepository.countByIsLikeAndShorts(createLike.getIsLike(), createLike.getShorts().getShortsId());
+        return likeRepository.countByVoteAndShorts(true, shortsEntity);
     }
 
     @Transactional
     @Override
-    public LikeUpdateResponseDto update(Long userId, LikeUpdateRequestDto dto) {
+    public LikeUpdateResponseDto update(Long userId, Long shortsId, Boolean vote) {
 
-        LikeEntity like = likeRepository.findByUserAndShorts(userId, dto.getShortsId()).orElseThrow(LikeNotFoundException::new);
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        ShortsEntity shortsEntity = shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new);
 
-        if (dto.getIsLike() != like.getIsLike()) {
-            like.setIsLike(!like.getIsLike());
+        LikeEntity likeEntity = likeRepository.findByUserAndShorts(userEntity, shortsEntity).orElseThrow(LikeNotFoundException::new);
+
+        if (vote!= likeEntity.getVote()) {
+            likeEntity.setVote(vote);
         } else {
             throw new LikeDuplicateProcessingException();
         }
 
         LikeUpdateResponseDto responseDto = new LikeUpdateResponseDto();
 
-        responseDto.setLikeCount(likeRepository.countByIsLikeAndShorts(like.getIsLike(), dto.getShortsId()));
-        responseDto.setIsLike(like.getIsLike());
+        responseDto.setLikeCount(likeRepository.countByVoteAndShorts(true, shortsEntity));
+        responseDto.setVote(likeEntity.getVote());
 
         return responseDto;
     }
@@ -73,9 +73,12 @@ public class LikeServiceImpl implements LikeService {
     @Transactional
     @Override
     public Long delete(Long userId, Long shortsId) {
-        LikeEntity like = likeRepository.findByUserAndShorts(userId, shortsId).orElseThrow(LikeNotFoundException::new);
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        ShortsEntity shortsEntity = shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new);
+
+        LikeEntity like = likeRepository.findByUserAndShorts(userEntity, shortsEntity).orElseThrow(LikeNotFoundException::new);
         likeRepository.delete(like);
-        return likeRepository.countByIsLikeAndShorts(true, shortsId);
+        return likeRepository.countByVoteAndShorts(true, shortsEntity);
     }
 
     @Override
