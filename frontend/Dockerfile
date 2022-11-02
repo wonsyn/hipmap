@@ -19,7 +19,7 @@ RUN yarn
 COPY . ./
 RUN yarn install
 
-COPY  . /var/jenkins_home/workspace/hipmapdpl/Frontend/hipmap/
+COPY  ./module/index.d.ts ./node_modules/react-full-page/lib/
 
 RUN yarn build
 
