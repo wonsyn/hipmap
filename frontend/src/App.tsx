@@ -9,6 +9,7 @@ import SignUpWrapper from "./pages/signUp";
 import { useEffect } from "react";
 
 
+import MyPage from "./pages/myPage";
 
 function App() {
   useEffect(()=>{
@@ -26,11 +27,11 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/" element={<Navigate replace to="/main" />} />
           <Route path="/welcome" element={<WelcomePage />}></Route>
-          <Route path="/welcome" element={<WelcomePage/>}></Route>
           <Route path="/processing" element={<ProcessingPage/>}></Route>
           <Route path="/result" element={<ResultPage/>}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
+          <Route path="/myPage" element={<MyPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

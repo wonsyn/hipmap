@@ -22,7 +22,7 @@ function Header() {
       <div
         css={css`
           margin-left: auto;
-          width: 20vw;
+          width: 25vw;
           height: 100%;
           display: flex;
           align-items: center;
