@@ -10,10 +10,7 @@ import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
 import com.hipmap.global.util.JwtUtil;
 import com.hipmap.global.util.RedisUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -107,6 +104,11 @@ public class UserController {
     }
 
     @GetMapping("/auth/{key}")
+    @ApiOperation(value = "유저 이메일 인증", notes = "이메일 인증 링크를 클릭 시 도달하는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<?> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
         authEmailService.authEmail(key);
         URI redirectUri = new URI("https://www.naver.com/");
