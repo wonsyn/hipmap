@@ -33,14 +33,14 @@ public class LikeController {
     @PutMapping("isLike")
     @ApiOperation(value = "좋아요 변경", notes = "해당 shorts의 좋아요 상태를 반전시킨다.")
     public ResponseEntity<LikeUpdateResponseDto> update(@RequestBody LikeUpdateRequestDto dto) {
-        Long userId = 1L;
+        Long userId = 4L;
         return ResponseEntity.status(HttpStatus.OK).body(likeService.update(userId, dto));
     }
 
     @DeleteMapping
     @ApiOperation(value = "좋아요 삭제", notes = "로그인 유저와 요청 shortsId의 데이터로 좋아요를 삭제한다.")
     public ResponseEntity<Long> delete(@RequestParam Long shortsId) {
-        Long userId = 1L;
+        Long userId = 4L;
         return ResponseEntity.status(HttpStatus.OK).body(likeService.delete(userId, shortsId));
     }
 

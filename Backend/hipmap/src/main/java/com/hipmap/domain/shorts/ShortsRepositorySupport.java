@@ -1,5 +1,7 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.like.LikeEntity;
+import com.hipmap.domain.like.QLikeEntity;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,6 +19,7 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
 
     QShortsEntity qShortsEntity = QShortsEntity.shortsEntity;
 
+    QLikeEntity qLike =QLikeEntity.likeEntity;
     public ShortsRepositorySupport(JPAQueryFactory jpaQueryFactory) {
         super(ShortsEntity.class);
         this.jpaQueryFactory = jpaQueryFactory;
@@ -75,9 +78,16 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
     }
 
 
-
-
     public Long getShortsCountByUsername(String username){
         return  jpaQueryFactory.selectFrom(qShortsEntity).where(qShortsEntity.user.username.eq(username)).stream().count();
     }
+
+//    public void updateMappedStatesByDay(){
+//        List<Long> shortsIds = jpaQueryFactory.select(qLike.shorts.shortsId).from(qLike).where(qLike.shorts.eq());
+//
+////        jpaQueryFactory.update(qShortsEntity).set(qShortsEntity.isMapped,false)
+////                .where(qShortsEntity.shortsId.eq(jpaQueryFactory.selectFrom(qLike).where()));
+//
+//
+//    }
 }
