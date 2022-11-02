@@ -1,7 +1,10 @@
-import { FullMapWrappingDiv, GwandongMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, GwandongMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { GwandongSpanRegional } from "../../styles/fullmap";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveGwandong, saveGwandongMobile, saveName } from "../../../../store/hipMap/hipMapStore";
 function Gwandong(){
+    const dispatch = useDispatch()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -26,8 +29,24 @@ function Gwandong(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+
+    function GwandongSelect(){
+      dispatch(saveClick())
+      dispatch(saveGwandong())
+      dispatch(saveGwandongMobile({
+        isGwandongMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+
+      }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => GwandongSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <GwandongMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>

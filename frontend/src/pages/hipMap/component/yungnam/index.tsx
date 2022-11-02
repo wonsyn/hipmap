@@ -1,7 +1,11 @@
-import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { YungnamSpanRegional } from "../../styles/fullmap";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveYungnam, saveYungnamMobile, saveName } from "../../../../store/hipMap/hipMapStore";
 
 function Yungnam(){
+    const dispatch = useDispatch()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -26,8 +30,22 @@ function Yungnam(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+    function YungnamSelect(){
+      dispatch(saveClick())
+      dispatch(saveYungnam())
+      dispatch(saveYungnamMobile({
+        isYungnamMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+      }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => YungnamSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <YungnamMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>

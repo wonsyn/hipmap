@@ -1,7 +1,10 @@
-import { FullMapWrappingDiv, JejuMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, JejuMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { JejuSpanRegional } from "../../styles/fullmap";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveJeju, saveJejuMobile, saveName } from "../../../../store/hipMap/hipMapStore";
 function Jeju(){
+    const dispatch = useDispatch()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -26,8 +29,22 @@ function Jeju(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+    function JejuSelect(){
+      dispatch(saveClick())
+      dispatch(saveJeju())
+      dispatch(saveJejuMobile({
+        isJejuMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+    }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => JejuSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <JejuMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>

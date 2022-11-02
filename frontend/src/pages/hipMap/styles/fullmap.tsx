@@ -4,10 +4,15 @@ import { palette } from "../../../assets/Palette"
 
 interface SelectProps{
     select: boolean;
-    onMouseOver: () => void;
-    // onMouseOver: React.MouseEventHandler<HTMLSpanElement> | undefined;
-    onMouseOut: () => void;
-    // onMouseOut: React.MouseEventHandler<HTMLSpanElement> | undefined
+    onMouseOver?: () => void;
+    onMouseOut?: () => void;
+    onClick?: () => void;
+    onTouchStart?: () => void;
+    onTouchEnd?: () => void;
+}
+
+interface ButtonProps{
+    name: string;
 }
 
 export const WrappingDiv = styled.div`
@@ -30,7 +35,18 @@ export const FullMapDiv = styled.div`
     align-items: center;
     width: 100vw;
     max-width: 600px;
-    height: 85vh;
+    height: 70vh;
+    margin: 30px 0 0 0;
+    @media screen and (max-width: 700px){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100vw;
+        max-width: 600px;
+        height: 60vh;
+        margin: 30px 0 0 0;
+    }
 `
 export const SudogwanMapDiv = styled.div`
     display: flex;
@@ -42,8 +58,8 @@ export const SudogwanMapDiv = styled.div`
     height: 92vh;
     position: fixed;
     top: 30vh;
-    right: 7vw;
-    @media screen and (max-width: 600px){
+    right: 26vw;
+    @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -66,9 +82,9 @@ export const GwandongMapDiv = styled.div`
     height: 92vh;
     /* margin: 0 250px 0 0; */
     position: fixed;
-    top: 20vh;
-    right: 25vw;
-    @media screen and (max-width: 600px){
+    top: 25vh;
+    right: 35vw;
+    @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -89,8 +105,8 @@ export const HoseoMapDiv = styled.div`
     max-width: 600px;
     height: 92vh;
     position: fixed;
-    right: 9vw;
-    @media screen and (max-width: 600px){
+    right: 27vw;
+    @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -112,8 +128,8 @@ export const HonamMapDiv = styled.div`
     height: 92vh;
     position: fixed;
     bottom: 10vh;
-    left: 33vw;
-    @media screen and (max-width: 600px){
+    left: 38vw;
+    @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -136,8 +152,8 @@ export const YungnamMapDiv = styled.div`
     height: 92vh;
     margin: 0 300px 0 0;
     position: fixed;
-    left: 6vw;
-    @media screen and (max-width: 600px){
+    left: 24vw;
+    @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -146,8 +162,8 @@ export const YungnamMapDiv = styled.div`
         max-width: 600px;
         height: 92vh;
         position: fixed;
-        /* bottom: 10vh; */
-        left: -40vw;
+        top: 1vh;
+        left: -35vw;
     }
 `
 export const JejuMapDiv = styled.div`
@@ -160,8 +176,8 @@ export const JejuMapDiv = styled.div`
     height: 92vh;
     position: fixed;
     bottom: 40vh;
-    left: 34vw;
-    @media screen and (max-width: 600px){
+    left: 40vw;
+    @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -192,8 +208,8 @@ export const GridDivRegional = styled.div`
 `
 
 export const NotDotSpan = styled.span`
-    width: 3px;
-    height: 3px;
+    width: 5px;
+    height: 5px;
     visibility: hidden;
 `
 export const NotDotSpanRegional = styled.span`
@@ -204,8 +220,8 @@ export const NotDotSpanRegional = styled.span`
 `
 
 export const SudogwanSpan = styled.span<SelectProps>`
-    width: 9px;
-    height: 9px;
+    width: 5px;
+    height: 5px;
     border: 2px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `red` : `white`};
@@ -227,8 +243,8 @@ export const SudogwanSpanRegional = styled.span`
 `
 
 export const GwandongSpan = styled.span<SelectProps>`
-    width: 9px;
-    height: 9px;
+    width: 5px;
+    height: 5px;
     border: 2px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `green` : `white`};
@@ -249,8 +265,8 @@ export const GwandongSpanRegional = styled.span`
     }
 `
 export const HoseoSpan = styled.span<SelectProps>`
-    width: 9px;
-    height: 9px;
+    width: 5px;
+    height: 5px;
     border: 2px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `blue` : `white`};
@@ -271,8 +287,8 @@ export const HoseoSpanRegional = styled.span`
     }
 `
 export const HonamSpan = styled.span<SelectProps>`
-    width: 9px;
-    height: 9px;
+    width: 5px;
+    height: 5px;
     border: 2px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `brown` : `white`};
@@ -293,8 +309,8 @@ export const HonamSpanRegional = styled.span`
     }
 `
 export const YungnamSpan = styled.span<SelectProps>`
-    width: 9px;
-    height: 9px;
+    width: 5px;
+    height: 5px;
     border: 2px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `purple` : `white`};
@@ -316,8 +332,8 @@ export const YungnamSpanRegional = styled.span`
 `
 
 export const JejuSpan = styled.span<SelectProps>`
-    width: 9px;
-    height: 9px;
+    width: 5px;
+    height: 5px;
     border: 2px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `pink` : `white`};
@@ -333,6 +349,40 @@ export const JejuSpanRegional = styled.span`
     background-color: white;
     border-radius: 30%;
     font-size: 0;
+    :hover{
+        cursor: pointer;
+    }
+`
+
+export const ArrowDiv = styled.div`
+    position: fixed;
+    top: 15vh;
+    left: 2vw;
+    z-index: 10000;
+    :hover{
+        cursor: pointer;
+    }
+`
+
+export const RegionNameDiv = styled.div`
+    margin: 8vh 0 0 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+`
+
+export const RegionNameButton = styled.button<ButtonProps>`
+    margin: 8vh 0 0 0;
+    width: 25vh;
+    height: 5vh;
+    color: white;
+    font-weight: bold;
+    border: 1px solid white;
+    background:${(props) => props.name === "수도권" && `red`};
+    background:${(props) => props.name === "관동(강원)" && `green`};
+    background:${(props) => props.name === "호서(충청)" && `blue`};
+    background:${(props) => props.name === "호남" && `brown`};
+    background:${(props) => props.name === "영남" && `purple`};
+    background:${(props) => props.name === "제주" && `pink`};
     :hover{
         cursor: pointer;
     }

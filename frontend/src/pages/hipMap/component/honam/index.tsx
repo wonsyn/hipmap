@@ -1,7 +1,11 @@
-import { FullMapWrappingDiv, HonamMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, HonamMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { HonamSpanRegional } from "../../styles/fullmap";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveHonam, saveHonamMobile, saveName } from "../../../../store/hipMap/hipMapStore";
 
 function Honam(){
+    const dispatch = useDispatch()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -26,8 +30,22 @@ function Honam(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+    function HonamSelect(){
+      dispatch(saveClick())
+      dispatch(saveHonam())
+      dispatch(saveHonamMobile({
+        isHonamMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+      }
         return (
           <FullMapWrappingDiv>
+             <ArrowDiv onClick={() => HonamSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <HonamMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>

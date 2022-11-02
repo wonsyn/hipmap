@@ -1,6 +1,11 @@
-import { FullMapWrappingDiv, SudogwanMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, SudogwanMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { SudogwanSpanRegional } from "../../styles/fullmap";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveSudogwan, saveSudogwanMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+
 function Sudogwan(){
+    const dispatch = useDispatch()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -25,8 +30,23 @@ function Sudogwan(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+
+    function SudogwanSelect(){
+      dispatch(saveClick())
+      dispatch(saveSudogwan())
+      dispatch(saveSudogwanMobile({
+        isSudogwanMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+    }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => SudogwanSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <SudogwanMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>

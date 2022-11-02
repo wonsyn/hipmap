@@ -1,6 +1,10 @@
-import { FullMapWrappingDiv, HoseoMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, HoseoMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { HoseoSpanRegional } from "../../styles/fullmap";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveHoseo, saveHoseoMobile, saveName } from "../../../../store/hipMap/hipMapStore";
 function Hoseo(){
+    const dispatch = useDispatch()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -25,8 +29,23 @@ function Hoseo(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+
+    function HoseoSelect(){
+      dispatch(saveClick())
+      dispatch(saveHoseo())
+      dispatch(saveHoseoMobile({
+        isHoseoMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+      }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => HoseoSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <HoseoMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>
