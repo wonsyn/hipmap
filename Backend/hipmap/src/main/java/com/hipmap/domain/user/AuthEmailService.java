@@ -8,11 +8,13 @@ import com.hipmap.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -52,5 +54,11 @@ public class AuthEmailService {
 
         redisUtil.deleteData(key);
         user.auth();
+    }
+
+    @Scheduled(cron = "0 0 4 * * ?")
+    public void removeAuth() {
+        List<UserEntity> userList = userRepository.findByIsCertedFalseAndRegDateTimeLessThanEqual(LocalDateTime.now().minusDays(1));
+        userRepository.deleteAll(userList);
     }
 }
