@@ -12,6 +12,7 @@ import { useEffect } from "react";
 
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
+import Shorts from "./pages/shorts";
 
 function App() {
   useEffect(()=>{
@@ -36,6 +37,7 @@ function App() {
             <Route path="myProfile" element={<MyPage />} />
             <Route path="followlist" element={<MyFollowList />} />
           </Route>
+          <Route path="/shorts" element={<Shorts />} />
         </Routes>
       </Layout>
     </BrowserRouter>
