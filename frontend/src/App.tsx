@@ -6,10 +6,8 @@ import ProcessingPage from "./pages/labeling/processting";
 import ResultPage from "./pages/labeling/result";
 import FullMapPage from "./pages/hipMap/fullmap";
 import LoginWrapper from "./pages/login";
-import SignUpWrapper from "./pages/signUp";
 import { useEffect } from "react";
-
-
+import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
@@ -17,11 +15,13 @@ import CommentsWrapper from "./components/comments";
 import { commentsDummy } from "./components/comments/commentsDummy";
 
 function App() {
+
   useEffect(()=>{
       if(!window.Kakao.isInitialized()){
         window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
       }
   },[])
+
   return (
     <BrowserRouter>
       <Layout>
