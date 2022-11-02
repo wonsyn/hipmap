@@ -13,14 +13,14 @@ import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
 import CommentsWrapper from "./components/comments";
 import { commentsDummy } from "./components/comments/commentsDummy";
+import Write from "./pages/write";
 
 function App() {
-
-  useEffect(()=>{
-      if(!window.Kakao.isInitialized()){
-        window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);  
-      }
-  },[])
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
+    }
+  }, []);
 
   return (
     <BrowserRouter>
@@ -28,10 +28,13 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/labeling/welcome" element={<WelcomePage/>}></Route>
-          <Route path="/labeling/processing" element={<ProcessingPage/>}></Route>
-          <Route path="/labeling/result" element={<ResultPage/>}></Route>
-          <Route path="/hipmap/fullmap" element={<FullMapPage/>}></Route>
+          <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
+          <Route
+            path="/labeling/processing"
+            element={<ProcessingPage />}
+          ></Route>
+          <Route path="/labeling/result" element={<ResultPage />}></Route>
+          <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
           <Route path="/login" element={<LoginWrapper />} />
           <Route path="/signup" element={<SignUpWrapper />} />
           <Route path="/myPage">
@@ -40,6 +43,7 @@ function App() {
             <Route path="followlist" element={<MyFollowList />} />
           </Route>
           <Route path="/shorts" element={<Shorts />} />
+          <Route path="/write" element={<Write />} />
         </Routes>
       </Layout>
     </BrowserRouter>

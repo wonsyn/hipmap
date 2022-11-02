@@ -14,12 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 import CommonButton from "../../button/CommonButton";
 import { useMediaQuery } from "@material-ui/core";
-import {
-  FooterContentsWrapperDiv,
-  FooterShortsButtons,
-  FooterShortsImg,
-  FooterWriteButton,
-} from "../../../styles/layout/footer";
+import { FooterShortsImg } from "../../../styles/layout/footer";
 
 function Header() {
   const auth = useSelector((store: RootState) => store.userReducer.auth);
@@ -64,8 +59,16 @@ function Header() {
               />
             </HeaderShortsButtons>
             {auth && (
-              <HeaderContentWriteButton>
-                <FooterShortsImg
+              <HeaderContentWriteButton
+                onClick={() => {
+                  navigator("/write");
+                }}
+              >
+                <img
+                  css={css`
+                    height: 5vh;
+                    max-height: 40px;
+                  `}
                   src="/img/largeScreenWriteButton.png"
                   alt="대동힙지도 버튼"
                 />

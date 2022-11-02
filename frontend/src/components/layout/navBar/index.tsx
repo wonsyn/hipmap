@@ -24,7 +24,11 @@ const Footer = () => {
             alt="shorts 버튼"
           />
         </FooterShortsButtons>
-        <FooterWriteButton>
+        <FooterWriteButton
+          onClick={() => {
+            navigate("/write");
+          }}
+        >
           <FooterWriteImg
             src="/img/writeButton.png"
             width="auto"
