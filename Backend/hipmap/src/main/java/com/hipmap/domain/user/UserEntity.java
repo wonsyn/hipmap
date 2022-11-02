@@ -62,7 +62,11 @@ public class UserEntity {
         this.followPrivate = followPrivate;
     }
 
-    public void updateProfileImg(String proImgSrc, String labelName, boolean followPrivate) {
+    public void updateProfileImg(String proImgSrc) {
         this.proImgSrc = proImgSrc;
+    }
+
+    public void auth() {
+        this.isCerted = true;
     }
 }
