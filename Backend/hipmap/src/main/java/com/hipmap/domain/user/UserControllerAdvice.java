@@ -2,6 +2,7 @@ package com.hipmap.domain.user;
 
 import com.hipmap.domain.user.Exception.EmailDuplicatedException;
 import com.hipmap.domain.user.Exception.FailedUploadProfileException;
+import com.hipmap.domain.user.Exception.ExpiredEmailAuthException;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,11 @@ public class UserControllerAdvice {
 
     @ExceptionHandler(FailedUploadProfileException.class)
     public ResponseEntity<?> handleFailedUploadProfileException() {
-        return ResponseEntity.badRequest().body("프로필 이미지 업로드 실패");
+        return ResponseEntity.badRequest().body("프로필 이미지 업로드 실패");   
+    }
+
+    @ExceptionHandler(ExpiredEmailAuthException.class)
+    public ResponseEntity<?> handleExpiredEmailAuthException() {
+        return ResponseEntity.badRequest().body("인증 기간이 지났습니다.");
     }
 }
