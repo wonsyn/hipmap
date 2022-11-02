@@ -17,6 +17,10 @@ WORKDIR /var/jenkins_home/workspace/hipmapdpl/Frontend/hipmap
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./
+RUN yarn install
+
+COPY  . /var/jenkins_home/workspace/hipmapdpl/Frontend/hipmap/
+
 RUN yarn build
 
 FROM nginx:stable-alpine as production-stage
