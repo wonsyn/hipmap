@@ -40,10 +40,6 @@ function App() {
             <Route path="followlist" element={<MyFollowList />} />
           </Route>
           <Route path="/shorts" element={<Shorts />} />
-          <Route
-            path="/comments"
-            element={<CommentsWrapper comments={commentsDummy} />}
-          />
         </Routes>
       </Layout>
     </BrowserRouter>

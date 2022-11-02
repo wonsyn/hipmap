@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCommentSort } from "../../hoc/useCommetSort";
 import Card from "../card/Card";
+import { commentsDummy } from "./commentsDummy";
 import { CommentWrapperDiv } from "./commentStyle";
 import CommentWrapper from "./component/CommentWrapper";
 import WriteComment from "./component/writeComment";
@@ -26,8 +27,8 @@ export interface commentsProps {
   comments: comment[];
 }
 
-const CommentsWrapper = ({ comments }: commentsProps) => {
-  const sortedComments = useCommentSort(comments);
+const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
+  const sortedComments = useCommentSort(commentsDummy);
   const [selectComments, setSelectComment] = useState<selectComment>();
   const getComment = (e: selectComment) => {
     setSelectComment(e);
