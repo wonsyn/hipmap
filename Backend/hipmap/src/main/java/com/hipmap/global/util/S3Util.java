@@ -1,4 +1,4 @@
-package com.hipmap.domain.shorts;
+package com.hipmap.global.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
 @Component
 @Service
-public class S3Uploader {
+public class S3Util {
 
     private final AmazonS3Client amazonS3Client;
 
