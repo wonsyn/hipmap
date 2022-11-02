@@ -7,6 +7,7 @@ import com.hipmap.domain.shorts.response.ShortsResDto;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
+import com.hipmap.global.util.S3Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class ShortsServiceImpl implements ShortsService{
     ShortsRepositorySupport shortsRepositorySupport;
 
     @Autowired
-    private S3Uploader s3Uploader;
+    private S3Util s3Uploader;
 
     @Override
     public Page<ShortsResDto> getShorts(Pageable pageable) {
@@ -123,6 +124,4 @@ public class ShortsServiceImpl implements ShortsService{
         ShortsEntity shortsEntityForSave = shortsRepository.save(shortsEntity);
         return shortsEntityForSave.getShortsId();
     }
-
-
 }

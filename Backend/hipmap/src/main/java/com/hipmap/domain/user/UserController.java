@@ -10,15 +10,13 @@ import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
 import com.hipmap.global.util.JwtUtil;
 import com.hipmap.global.util.RedisUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -106,11 +104,42 @@ public class UserController {
     }
 
     @GetMapping("/auth/{key}")
+    @ApiOperation(value = "유저 이메일 인증", notes = "이메일 인증 링크를 클릭 시 도달하는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     public ResponseEntity<?> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
         authEmailService.authEmail(key);
         URI redirectUri = new URI("https://www.naver.com/");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+    }
+
+    @PostMapping("/profile/img")
+    @ApiOperation(value = "유저 프로필 사진 변경", notes = "요청한 파일을 S3에 저장 후, 프로필 사진으로 등록해주는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 400, message = "해당하는 유저가 없음. 또는 업로드 실패"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<?> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) {
+        Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+        userService.uploadProfile(file, userId);
+        return ResponseEntity.ok().body("업로드 성공");
+    }
+
+    @DeleteMapping("/profile/img")
+    @ApiOperation(value = "유저 프로필 사진 삭제", notes = "현재 프로필 사진을 삭제해주는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 400, message = "해당하는 유저가 없음"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<?> deleteProfileImg(HttpServletRequest request) {
+        Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+        userService.deleteProfile(userId);
+        return ResponseEntity.ok().body("삭제 성공");
     }
 }
