@@ -10,18 +10,20 @@ const Write = () => {
   return (
     <div
       css={css`
-        width: 100%;
+        width: 100vw;
         min-height: 50vh;
-        height: 70vh;
+        min-height: 70vh;
         max-width: 1024px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 2vh;
       `}
     >
       <h1
         css={css`
           width: 100%;
+          max-width: 1024px;
           display: flex;
           justify-content: center;
           margin-top: 3%;
@@ -33,14 +35,14 @@ const Write = () => {
       <div
         css={css`
           width: 100%;
-          flex: 1;
           height: 100%;
           border: 2px white solid;
           border-radius: 8px;
-          padding: 3%;
+          padding-top: 3%;
+          padding-bottom: 3%;
           display: flex;
           flex-direction: column;
-          @media (min-width: 1024px) {
+          @media (min-width: 700px) {
             flex-direction: row;
           }
         `}

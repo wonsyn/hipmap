@@ -9,9 +9,18 @@ const MovieUpload = () => {
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 5vh;
       `}
     >
+      <h2
+        css={css`
+          margin-bottom: 3%;
+        `}
+      >
+        힙한 동영상을 올려주세요!
+      </h2>
       <div
         css={css`
           width: 55%;
