@@ -8,6 +8,7 @@ import com.hipmap.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class AuthEmailService {
     private final RedisUtil redisUtil;
     private final JavaMailSender emailSender;
 
+    @Async
     public void sendMail(String to, String sub, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -32,6 +34,7 @@ public class AuthEmailService {
         emailSender.send(message);
     }
 
+    @Async
     public void sendAuthMail(String email) throws NotFoundException {
         String AUTH_LINK = "http://localhost:8080/api/user/auth/";
         if(email == null) throw new EmailAuthNotFoundException("멤버가 조회되지 않음");
