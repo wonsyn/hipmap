@@ -65,4 +65,8 @@ public class UserEntity {
     public void updateProfileImg(String proImgSrc, String labelName, boolean followPrivate) {
         this.proImgSrc = proImgSrc;
     }
+
+    public void auth() {
+        this.isCerted = true;
+    }
 }
