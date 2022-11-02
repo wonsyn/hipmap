@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Optional;
 
 @Slf4j
@@ -69,4 +71,17 @@ public class S3Util {
         return Optional.empty();
     }
 
+    public void delete(String source) {
+        source = source.replace("https://hipmap.s3.ap-northeast-2.amazonaws.com/", "");
+        try {
+            source = URLDecoder.decode(source, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        deleteS3(source);
+    }
+
+    private void deleteS3(String source) {
+        amazonS3Client.deleteObject(bucket, source);
+    }
 }

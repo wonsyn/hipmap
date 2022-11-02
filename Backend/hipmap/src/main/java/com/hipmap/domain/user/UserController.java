@@ -129,4 +129,17 @@ public class UserController {
         userService.uploadProfile(file, userId);
         return ResponseEntity.ok().body("업로드 성공");
     }
+
+    @DeleteMapping("/profile/img")
+    @ApiOperation(value = "유저 프로필 사진 삭제", notes = "현재 프로필 사진을 삭제해주는 API")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 400, message = "해당하는 유저가 없음"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<?> deleteProfileImg(HttpServletRequest request) {
+        Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+        userService.deleteProfile(userId);
+        return ResponseEntity.ok().body("삭제 성공");
+    }
 }
