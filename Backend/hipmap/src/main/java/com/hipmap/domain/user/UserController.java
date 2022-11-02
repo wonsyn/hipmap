@@ -1,6 +1,7 @@
 package com.hipmap.domain.user;
 
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
+import com.hipmap.domain.user.Exception.EmailAuthNotFoundException;
 import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
@@ -14,10 +15,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +34,7 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
+    private final AuthEmailService authEmailService;
 
     @PostMapping("/regist")
     @ApiOperation(value = "회원가입", notes = "입력받은 회원정보를 이용해 가입 진행")
@@ -97,5 +103,14 @@ public class UserController {
     })
     public UserReadResponse readInfo(@PathVariable Long userId) {
         return userService.readInfo(userId);
+    }
+
+    @GetMapping("/auth/{key}")
+    public ResponseEntity<?> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
+        authEmailService.authEmail(key);
+        URI redirectUri = new URI("https://www.naver.com/");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUri);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
     }
 }
