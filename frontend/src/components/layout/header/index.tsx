@@ -22,7 +22,7 @@ function Header() {
       <div
         css={css`
           margin-left: auto;
-          width: 10vw;
+          width: 20vw;
           height: 100%;
           display: flex;
           align-items: center;
@@ -31,7 +31,12 @@ function Header() {
         {auth ? (
           <ProfileImgWrapper />
         ) : (
-          <CommonButton onClick={onClick} color="white" height="50%">
+          <CommonButton
+            onClick={onClick}
+            color="white"
+            width="100vw"
+            height="75%"
+          >
             <div>로그인</div>
           </CommonButton>
         )}

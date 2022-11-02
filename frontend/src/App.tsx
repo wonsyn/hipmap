@@ -5,6 +5,7 @@ import WelcomePage from "./pages/labeling/welcome";
 import ProcessingPage from "./pages/labeling/processting";
 import ResultPage from "./pages/labeling/result";
 import LoginWrapper from "./pages/login";
+import SignUpWrapper from "./pages/signUp";
 import { useEffect } from "react";
 
 
@@ -14,7 +15,7 @@ function App() {
       if(!window.Kakao.isInitialized()){
 
         console.log("taet")
-        window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);  
+        window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
         console.log(window.Kakao.isInitialized()); // init되면 true, 아니면 false를 반환한다
       }
   },[])
@@ -24,10 +25,12 @@ function App() {
         <Routes>
           <Route path="/main" element={<Main />} />
           <Route path="/" element={<Navigate replace to="/main" />} />
+          <Route path="/welcome" element={<WelcomePage />}></Route>
           <Route path="/welcome" element={<WelcomePage/>}></Route>
           <Route path="/processing" element={<ProcessingPage/>}></Route>
           <Route path="/result" element={<ResultPage/>}></Route>
           <Route path="/login" element={<LoginWrapper />} />
+          <Route path="/signup" element={<SignUpWrapper />} />
         </Routes>
       </Layout>
     </BrowserRouter>
