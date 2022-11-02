@@ -1,7 +1,9 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.GetShortsByLabelResponse;
+import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
 import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
 import com.hipmap.domain.shorts.response.ShortsResDto;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class ShortsServiceImpl implements ShortsService{
+public class ShortsServiceImpl implements ShortsService {
 
     @Autowired
     ShortsRepository shortsRepository;
@@ -36,7 +38,7 @@ public class ShortsServiceImpl implements ShortsService{
 
     @Override
     public Page<ShortsResDto> getShorts(Pageable pageable) {
-        Page<ShortsEntity> shortsEntities =  shortsRepository.findAll(pageable);
+        Page<ShortsEntity> shortsEntities = shortsRepository.findAll(pageable);
         Page<ShortsResDto> boardDtoList = shortsEntities.map(m -> ShortsResDto.builder()
                 .shortsId(m.getShortsId())
                 .fileSrc(m.getFileSrc())
@@ -69,15 +71,15 @@ public class ShortsServiceImpl implements ShortsService{
     @Override
     public List<GetShortsByLabelResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request) {
         Optional<UserEntity> user = userRepository.findById(userId);
-        if(user.isPresent()){
-            String lableName =user.get().getLabelName();
-            List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabelAndLocation(lableName,request);
+        if (user.isPresent()) {
+            String lableName = user.get().getLabelName();
+            List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabelAndLocation(lableName, request);
             List<GetShortsByLabelResponse> boardDtoList = shortsEntities.stream().map(m -> GetShortsByLabelResponse.builder()
                     .shortsId(m.getShortsId())
                     .thumbnailSrc(m.getThumbnailSrc())
                     .build()).collect(Collectors.toList());
             return boardDtoList;
-        }else throw new RuntimeException("존재하지 않는 유저입니다");
+        } else throw new RuntimeException("존재하지 않는 유저입니다");
 
 
     }
@@ -93,9 +95,9 @@ public class ShortsServiceImpl implements ShortsService{
         S3 로직 파악 후 썸네일, 비디오 삭제하는 코드 필요
          */
         Optional<ShortsEntity> shortsEntityOP = shortsRepository.findById(shortsId);
-        if(shortsEntityOP.isPresent()) {
+        if (shortsEntityOP.isPresent()) {
             return shortsRepository.deleteByShortsId(shortsId);
-        }else {
+        } else {
             throw new IllegalStateException("존재하지 않는 shorts입니다.");
         }
     }
@@ -116,12 +118,18 @@ public class ShortsServiceImpl implements ShortsService{
     @Override
     @Transactional
     public Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception {
-        if(!file.isEmpty()) {
-            String storedFileName = s3Uploader.upload(file,"images");
+        if (!file.isEmpty()) {
+            String storedFileName = s3Uploader.upload(file, "images");
             shortsEntity.setFileSrc(storedFileName);
         }
         ShortsEntity shortsEntityForSave = shortsRepository.save(shortsEntity);
         return shortsEntityForSave.getShortsId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getThumbnail(ShortsIdAndLikeCntProjectionInterface m) {
+        return shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new).getThumbnailSrc();
     }
 
 

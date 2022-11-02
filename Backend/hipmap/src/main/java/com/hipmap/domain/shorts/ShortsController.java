@@ -1,11 +1,12 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.like.LikeService;
+import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
 import com.hipmap.domain.shorts.response.ShortsListEachUserResponse;
 import com.hipmap.domain.shorts.response.ShortsListResponse;
 import com.hipmap.domain.shorts.response.ShortsResDto;
-import com.hipmap.domain.shorts.response.ShortsTop5Response;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -107,10 +108,12 @@ public class ShortsController {
     }
 
     @GetMapping("/mainBest")
+    @ApiOperation(value = "좋아요 top5 게시물 조회", notes = "좋아요 순위 상위 5개 쇼츠 게시물을 조회합니다. ")
     public ResponseEntity<ShortsListResponse> shortsTop5() {
         // Like 테이블에서 shorts_id로 그룹바이해서 sum한 값 select하고, 이때 orderBy sum 으로 탑5의 ShortsEntity 가져와서 반환
-        List<ShortsTop5Response> collect = likeService.shortsTop5ByCountLike().stream()
-                .map(m -> new ShortsTop5Response(m.getShortsId(), m.getThumbnailSrc()))
+        List<ShortsIdAndLikeCntProjectionInterface> shortsIdAndLikeCntProjectionInterfaces = likeService.shortsTop5ByCountLike();
+        List<LikeTop5ResponseDto> collect = shortsIdAndLikeCntProjectionInterfaces.stream()
+                .map(m -> new LikeTop5ResponseDto(m.getShortsId(), m.getLikeCnt(), shortsService.getThumbnail(m)))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(new ShortsListResponse(collect));
     }
