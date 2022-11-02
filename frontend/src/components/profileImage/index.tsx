@@ -25,30 +25,35 @@ const ProfileImgWrapper = () => {
     <div
       css={css`
         display: flex;
-        width: 100%;
+        width: 70%;
         height: 100%;
         align-items: center;
+        margin-left: auto;
       `}
-      onClick={myPageHandler}
     >
       <div
         css={css`
+          width: 100%;
           display: flex;
           align-items: center;
-          margin-right: center;
+          justify-content: end;
         `}
+        onClick={myPageHandler}
       >
         <AccountCircleIcon /> {userNickName}님
       </div>
-      <div
+      <img
         css={css`
           display: flex;
+          width: 30%;
+          max-width: 40px;
           margin-left: auto;
+          align-items: center;
         `}
         onClick={logoutHandler}
-      >
-        로그아웃
-      </div>
+        src="/img/logout.png"
+        alt=""
+      ></img>
     </div>
   );
 };
