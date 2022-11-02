@@ -9,6 +9,7 @@ import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.ShortsRepository;
+import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,9 +56,9 @@ public class LikeServiceImpl implements LikeService {
 
         LikeEntity like = likeRepository.findByUserAndShorts(userId, dto.getShortsId()).orElseThrow(LikeNotFoundException::new);
 
-        if(dto.getIsLike() != like.getIsLike()){
+        if (dto.getIsLike() != like.getIsLike()) {
             like.setIsLike(!like.getIsLike());
-        }else {
+        } else {
             throw new LikeDuplicateProcessingException();
         }
 
@@ -73,5 +76,14 @@ public class LikeServiceImpl implements LikeService {
         LikeEntity like = likeRepository.findByUserAndShorts(userId, shortsId).orElseThrow(LikeNotFoundException::new);
         likeRepository.delete(like);
         return likeRepository.countByIsLikeAndShorts(true, shortsId);
+    }
+
+    @Override
+    @Transactional
+    public List<ShortsIdAndLikeCntProjectionInterface> shortsTop5ByCountLike() {
+        // 1. Like 테이블에서 shorts_id로 그룹바이해서 sum한 값 select하고, 이때 orderBy sum 으로 탑5의 shorts_id 가져오기
+        List<ShortsIdAndLikeCntProjectionInterface> top5ByShortsId = likeRepository.findTop5ByShortsId();
+
+        return top5ByShortsId;
     }
 }

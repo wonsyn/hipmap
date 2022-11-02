@@ -1,6 +1,7 @@
 package com.hipmap.domain.user;
 
 import com.hipmap.domain.user.Exception.EmailDuplicatedException;
+import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.ExpiredEmailAuthException;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
@@ -23,6 +24,11 @@ public class UserControllerAdvice {
     @ExceptionHandler(EmailDuplicatedException.class)
     public ResponseEntity<?> handleEmailDuplicatedException() {
         return ResponseEntity.badRequest().body("이미 가입된 이메일입니다.");
+    }
+
+    @ExceptionHandler(FailedUploadProfileException.class)
+    public ResponseEntity<?> handleFailedUploadProfileException() {
+        return ResponseEntity.badRequest().body("프로필 이미지 업로드 실패");   
     }
 
     @ExceptionHandler(ExpiredEmailAuthException.class)

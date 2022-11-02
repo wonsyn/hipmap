@@ -1,4 +1,4 @@
-package com.hipmap.domain.shorts;
+package com.hipmap.global.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,13 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
 @Component
 @Service
-public class S3Uploader {
+public class S3Util {
 
     private final AmazonS3Client amazonS3Client;
 
@@ -70,4 +71,17 @@ public class S3Uploader {
         return Optional.empty();
     }
 
+    public void delete(String source) {
+        source = source.replace("https://hipmap.s3.ap-northeast-2.amazonaws.com/", "");
+        try {
+            source = URLDecoder.decode(source, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        deleteS3(source);
+    }
+
+    private void deleteS3(String source) {
+        amazonS3Client.deleteObject(bucket, source);
+    }
 }

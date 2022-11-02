@@ -4,17 +4,21 @@ import com.hipmap.domain.follow.FollowRepository;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.shorts.ShortsRepository;
 import com.hipmap.domain.user.Exception.EmailDuplicatedException;
+import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
+import com.hipmap.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,6 +30,7 @@ public class UserService implements UserDetailsService {
     private final ShortsRepository shortsRepository;
     private final FollowRepository followRepository;
     private final AuthEmailService authEmailService;
+    private final S3Util s3util;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -96,5 +101,33 @@ public class UserService implements UserDetailsService {
                 .followingCount(followingCount)
                 .followPrivate(user.getFollowPrivate())
                 .build();
+    }
+
+    @Transactional
+    public void uploadProfile(MultipartFile file, Long userId) {
+        String storedFileName;
+
+        if(!file.isEmpty()) {
+            try {
+                storedFileName = s3util.upload(file, "profile");
+            } catch (IOException e) {
+                throw new FailedUploadProfileException();
+            }
+
+            UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+            if(user.getProImgSrc() != null) {
+                s3util.delete(user.getProImgSrc());
+            }
+            user.updateProfileImg(storedFileName);
+        }
+    }
+
+    @Transactional
+    public void deleteProfile(Long userId) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if(user.getProImgSrc() != null) {
+            s3util.delete(user.getProImgSrc());
+        }
+        user.updateProfileImg(null);
     }
 }
