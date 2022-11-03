@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +30,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().oauth2Login();
+        http.csrf().disable().oauth2Login()
+                .and()
+                .cors().configurationSource(corsConfigurationSource());
         http.httpBasic().disable()
                         .authorizeRequests()
 //                        .antMatchers("/swagger-resources/**").permitAll() // swagger
@@ -77,4 +82,21 @@ public class SecurityConfig {
 //                    "/swagger-ui.html", "/webjars/**","/swagger/**", "/user/regist")
 //                    .and().ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 //    }
+
+    // CORS 허용 적용
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("localhost:3000");
+        configuration.addAllowedOrigin("http://k7b108.ssafy.io");
+        configuration.addAllowedOrigin("https://k7b108.ssafy.io");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
