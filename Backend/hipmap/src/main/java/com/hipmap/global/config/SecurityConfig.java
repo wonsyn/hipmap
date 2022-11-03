@@ -88,7 +88,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
 //        configuration.addAllowedOrigin("http://k7b108.ssafy.io");
 //        configuration.addAllowedOrigin("https://k7b108.ssafy.io");
         configuration.addAllowedHeader("*");
