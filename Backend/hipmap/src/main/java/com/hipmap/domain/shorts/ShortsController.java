@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +39,9 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    List<ShortsResponse> getShorts(Pageable pageable) {
-
-        return shortsService.getShorts(pageable).getContent(); // 페이지 객체 어쩌구 : 필요함
+    public ResponseEntity<?> getShorts(Pageable pageable) {
+        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
+        return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
     }
 
     @GetMapping("{shortsId}")
