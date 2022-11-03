@@ -10,34 +10,53 @@ import { WrappingDiv } from "./styles/fullmap"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { RegionNameDiv, RegionNameButton } from "./styles/fullmap"
-import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju } from "../../store/hipMap/hipMapStore"
+import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamMobile, saveYungnamAnime, saveJejuAnime } from "../../store/hipMap/hipMapStore"
 function FullMapPage(){
     const dispatch = useDispatch()
     const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
     function MobileRegionalMap(){
         if(hipmapSelector.isSudogwanMobile){
-            dispatch(saveClick())
-            dispatch(saveSudogwan())
+            setTimeout(() => {
+                dispatch(saveClick())
+                dispatch(saveSudogwan())
+                
+            }, 1000);
+            dispatch(saveSudogwanAnime())
         }
         else if(hipmapSelector.isGwandongMobile){
-            dispatch(saveClick())
-            dispatch(saveGwandong())
+            setTimeout(() => {
+                dispatch(saveClick())
+                dispatch(saveGwandong())
+            }, 1000);
+            dispatch(saveGwandongAnime())
         }
         else if(hipmapSelector.isHoseoMobile){
-            dispatch(saveClick())
-            dispatch(saveHoseo())
+            setTimeout(() => {
+                dispatch(saveClick())
+                dispatch(saveHoseo())
+            }, 1000);
+            dispatch(saveHoseoAnime())
         }
         else if(hipmapSelector.isHonamMobile){
-            dispatch(saveClick())
-            dispatch(saveHonam())
+            setTimeout(() => {
+                dispatch(saveClick())
+                dispatch(saveHonam())
+            }, 1000);
+            dispatch(saveHonamAnime())
         }
         else if(hipmapSelector.isYungnamMobile){
-            dispatch(saveClick())
-            dispatch(saveYungnam())
+            setTimeout(() => {
+                dispatch(saveClick())
+                dispatch(saveYungnam())
+            }, 1000);
+            dispatch(saveYungnamAnime())
         }
         else if(hipmapSelector.isJejuMobile){
-            dispatch(saveClick())
-            dispatch(saveJeju())
+            setTimeout(() => {
+                dispatch(saveClick())
+                dispatch(saveJeju())
+            }, 1000);
+            dispatch(saveJejuAnime())
         }
         console.log("변화가 있나요?", hipmapSelector)
     }

@@ -4,6 +4,7 @@ import { palette } from "../../../assets/Palette"
 
 interface SelectProps{
     select: boolean;
+    animation?: boolean;
     onMouseOver?: () => void;
     onMouseOut?: () => void;
     onClick?: () => void;
@@ -222,9 +223,11 @@ export const NotDotSpanRegional = styled.span`
 export const SudogwanSpan = styled.span<SelectProps>`
     width: 5px;
     height: 5px;
-    border: 2px solid ${palette.subColorCyan};
+    border: 1px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `red` : `white`};
+    transform: ${(props) => props.animation? `scale(4) translate(2vw, 7vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -245,9 +248,11 @@ export const SudogwanSpanRegional = styled.span`
 export const GwandongSpan = styled.span<SelectProps>`
     width: 5px;
     height: 5px;
-    border: 2px solid ${palette.subColorCyan};
+    border: 1px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `green` : `white`};
+    transform: ${(props) => props.animation? `scale(4) translate(-2vw, 7vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -267,9 +272,11 @@ export const GwandongSpanRegional = styled.span`
 export const HoseoSpan = styled.span<SelectProps>`
     width: 5px;
     height: 5px;
-    border: 2px solid ${palette.subColorCyan};
+    border: 1px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `blue` : `white`};
+    transform: ${(props) => props.animation? `scale(4) translate(1vw, 4vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -289,9 +296,11 @@ export const HoseoSpanRegional = styled.span`
 export const HonamSpan = styled.span<SelectProps>`
     width: 5px;
     height: 5px;
-    border: 2px solid ${palette.subColorCyan};
+    border: 1px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `brown` : `white`};
+    transform: ${(props) => props.animation? `scale(4) translate(3vw, -5vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -311,9 +320,13 @@ export const HonamSpanRegional = styled.span`
 export const YungnamSpan = styled.span<SelectProps>`
     width: 5px;
     height: 5px;
-    border: 2px solid ${palette.subColorCyan};
+    border: 1px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `purple` : `white`};
+    transform: ${(props) => props.animation? `scale(4) translate(-2vw, -3vh)`: ``};
+    /* padding: ${(props) => props.animation? `5px `: `0`};
+    margin: ${(props) => props.animation? `20px `: `0`}; */
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -334,9 +347,11 @@ export const YungnamSpanRegional = styled.span`
 export const JejuSpan = styled.span<SelectProps>`
     width: 5px;
     height: 5px;
-    border: 2px solid ${palette.subColorCyan};
+    border: 1px solid ${palette.subColorCyan};
     border-radius: 2px;
     background-color: ${(props)=>props.select? `pink` : `white`};
+    transform: ${(props) => props.animation? `scale(4) translate(3vw, -9vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
     font-size: 0;
     :hover{
         cursor: pointer;

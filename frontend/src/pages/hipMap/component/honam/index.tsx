@@ -2,10 +2,11 @@ import { FullMapWrappingDiv, HonamMapDiv, GridDivRegional, NotDotSpanRegional, A
 import { HonamSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveHonam, saveHonamMobile, saveName } from "../../../../store/hipMap/hipMapStore";
-
+import { saveClick, saveHonam, saveHonamAnime, saveHonamMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { useNavigate } from "react-router-dom";
 function Honam(){
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -33,6 +34,7 @@ function Honam(){
     function HonamSelect(){
       dispatch(saveClick())
       dispatch(saveHonam())
+      dispatch(saveHonamAnime())
       dispatch(saveHonamMobile({
         isHonamMobile: false
       }))
@@ -40,6 +42,9 @@ function Honam(){
         {
           name: ""
         }))
+      }
+      function HonamClick(){
+        navigate('/hipmap/result')
       }
         return (
           <FullMapWrappingDiv>
@@ -54,7 +59,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -78,7 +83,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -101,7 +106,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -124,7 +129,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 1 || j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -147,7 +152,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -170,7 +175,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -193,7 +198,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5){
                               return(
-                                <HonamSpanRegional>
+                                <HonamSpanRegional onClick={() => HonamClick()}>
                                   {dot}
                                 </HonamSpanRegional>
                               )

@@ -2,9 +2,12 @@ import { FullMapWrappingDiv, HoseoMapDiv, GridDivRegional, NotDotSpanRegional, A
 import { HoseoSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveHoseo, saveHoseoMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveHoseo, saveHoseoAnime, saveHoseoMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { useNavigate } from "react-router-dom";
+
 function Hoseo(){
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -33,6 +36,7 @@ function Hoseo(){
     function HoseoSelect(){
       dispatch(saveClick())
       dispatch(saveHoseo())
+      dispatch(saveHoseoAnime())
       dispatch(saveHoseoMobile({
         isHoseoMobile: false
       }))
@@ -41,6 +45,9 @@ function Hoseo(){
           name: ""
         }))
       }
+    function HoseoClick(){
+      navigate('/hipmap/result')
+    }
         return (
           <FullMapWrappingDiv>
             <ArrowDiv onClick={() => HoseoSelect()} >
@@ -54,7 +61,7 @@ function Hoseo(){
                       if(dot !== -1){
                           if(j === 6 || j === 7 || j === 8){
                             return(
-                              <HoseoSpanRegional>
+                              <HoseoSpanRegional onClick={() => HoseoClick()}>
                                 {dot}
                               </HoseoSpanRegional>
                             )
@@ -78,7 +85,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6 || j === 7 || j === 8 || j === 9){
                               return(
-                                <HoseoSpanRegional>
+                                <HoseoSpanRegional onClick={() => HoseoClick()}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -101,7 +108,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6 || j === 7){
                               return(
-                                <HoseoSpanRegional>
+                                <HoseoSpanRegional onClick={() => HoseoClick()}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -124,7 +131,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <HoseoSpanRegional>
+                                <HoseoSpanRegional onClick={() => HoseoClick()}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -147,7 +154,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <HoseoSpanRegional>
+                                <HoseoSpanRegional onClick={() => HoseoClick()}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -170,7 +177,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 5 || j === 6){
                                 return(
-                                <HoseoSpanRegional>
+                                <HoseoSpanRegional onClick={() => HoseoClick()}>
                                     {dot}
                                 </HoseoSpanRegional>
                                 )

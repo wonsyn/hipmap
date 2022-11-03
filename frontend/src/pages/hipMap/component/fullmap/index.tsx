@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FullMapWrappingDiv, FullMapDiv, GridDiv, NotDotSpan } from "../../styles/fullmap";
 import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveName,
-saveSudogwanMobile, saveGwandongMobile, saveHoseoMobile, saveHonamMobile, saveYungnamMobile, saveJejuMobile, saveDeskTop } from "../../../../store/hipMap/hipMapStore";
+saveSudogwanMobile, saveGwandongMobile, saveHoseoMobile, saveHonamMobile, saveYungnamMobile, saveJejuMobile, saveDeskTop, 
+saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime } from "../../../../store/hipMap/hipMapStore";
 // import {SudogwanImg, GwandongImg, HoseoImg, HonamImg, YungnamImg, JejuImg} from "../../styles/fullmap";
 // import sudogwon from "../../../../assets/hipMap/sudogwon.png"
 // import gwandong from "../../../../assets/hipMap/gwandong.png"
@@ -20,32 +21,58 @@ function FullMap(){
   const [honam, setHonam] = useState(false)
   const [yungnam, setYungnam] = useState(false)
   const [jeju, setJeju] = useState(false)
+
   const dispatch = useDispatch()
   const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
   
   function SudogwanClickFunc(){
-     dispatch(saveClick())
-     dispatch(saveSudogwan())
+    dispatch(saveSudogwanAnime())
+    setTimeout(() => {
+      dispatch(saveClick())
+      dispatch(saveSudogwan())
+    }, 1000);
+    setSudogwan(false)
     }
   function GwandongClickFunc(){
-     dispatch(saveClick())
-     dispatch(saveGwandong())
+    dispatch(saveGwandongAnime())
+    setTimeout(() => {
+      dispatch(saveClick())
+      dispatch(saveGwandong())
+    }, 1000);
+    setGwandong(false)
+     
     }
   function HoseoClickFunc(){
-     dispatch(saveClick())
-     dispatch(saveHoseo())
+    dispatch(saveHoseoAnime())
+    setTimeout(() => {
+      dispatch(saveClick())
+      dispatch(saveHoseo())
+    }, 1000);
+    setHoseo(false)
     }
   function HonamClickFunc(){
-     dispatch(saveClick())
-     dispatch(saveHonam())
+    dispatch(saveHonamAnime())
+    setTimeout(() => {
+      dispatch(saveClick())
+      dispatch(saveHonam())
+    }, 1000);
+    setHonam(false)
     }
   function YungnamClickFunc(){
-     dispatch(saveClick())
-     dispatch(saveYungnam())
+    dispatch(saveYungnamAnime())
+    setTimeout(() => {
+      dispatch(saveClick())
+      dispatch(saveYungnam())
+    }, 1000);
+    setYungnam(false)
     }
   function JejuClickFunc(){
-     dispatch(saveClick())
-     dispatch(saveJeju())
+    dispatch(saveJejuAnime())
+    setTimeout(() => {
+      dispatch(saveClick())
+      dispatch(saveJeju())
+    }, 1000);
+    setJeju(false)
     }
   function SudogwanFunc(){
     setSudogwan((prev)=>{
@@ -337,10 +364,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong}>
+                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>): 
-                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()}>
+                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} >
                         {dot}
                         </GwandongSpan>)}
                       </>
@@ -352,10 +379,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}>
+                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}  animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>): 
-                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()}>
+                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>)}
                       </>
@@ -365,10 +392,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong}>
+                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>): 
-                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()}>
+                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>)}
                       </>
@@ -380,10 +407,10 @@ function FullMap(){
                     return(
                      <>
                         {isMobile? 
-                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}>
+                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>): 
-                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()}>
+                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>)}
                       </>
@@ -393,10 +420,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong}>
+                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>): 
-                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()}>
+                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>)}
                       </>
@@ -408,10 +435,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}>
+                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>): 
-                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()}>
+                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>)}
                       </>
@@ -421,10 +448,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong}>
+                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>): 
-                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()}>
+                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>)}
                       </>
@@ -436,10 +463,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}>
+                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>): 
-                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()}>
+                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>)}
                       </>
@@ -449,10 +476,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong}>
+                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>): 
-                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()}>
+                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>)}
                       </>
@@ -464,10 +491,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}>
+                        (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>): 
-                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()}>
+                        (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime}>
                         {dot}
                         </SudogwanSpan>)}
                       </>
@@ -477,10 +504,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo}>
+                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>): 
-                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()}>
+                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>)}
                       </>
@@ -490,10 +517,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong}>
+                        (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>): 
-                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()}>
+                        (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime}>
                         {dot}
                         </GwandongSpan>)}
                       </>
@@ -505,10 +532,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo}>
+                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>): 
-                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()}>
+                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>)}
                       </>
@@ -518,10 +545,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -533,10 +560,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo}>
+                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>): 
-                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()}>
+                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>)}
                       </>
@@ -546,10 +573,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -561,10 +588,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo}>
+                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>): 
-                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()}>
+                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>)}
                       </>
@@ -574,10 +601,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -589,10 +616,10 @@ function FullMap(){
                     return(
                      <>
                         {isMobile? 
-                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo}>
+                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>): 
-                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()}>
+                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>)}
                       </>
@@ -602,10 +629,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -617,10 +644,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                       </>
@@ -630,10 +657,10 @@ function FullMap(){
                     return(
                      <>
                         {isMobile? 
-                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo}>
+                        (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>): 
-                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()}>
+                        (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime}>
                         {dot}
                         </HoseoSpan>)}
                       </>
@@ -643,10 +670,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -658,10 +685,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                       </>
@@ -671,10 +698,10 @@ function FullMap(){
                     return(
                      <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -686,10 +713,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                       </>
@@ -699,10 +726,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -714,10 +741,10 @@ function FullMap(){
                     return(
                        <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                       </>
@@ -727,10 +754,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -742,10 +769,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                     </>
@@ -755,10 +782,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -770,10 +797,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                     </>
@@ -783,10 +810,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam}>
+                        (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>): 
-                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()}>
+                        (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime}>
                         {dot}
                         </YungnamSpan>)}
                       </>
@@ -798,10 +825,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam}>
+                        (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>): 
-                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()}>
+                        (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime}>
                         {dot}
                         </HonamSpan>)}
                       </>
@@ -813,10 +840,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<JejuSpan onTouchStart={() => JejuMobileFunc()} select={jeju}>
+                        (<JejuSpan onTouchStart={() => JejuMobileFunc()} select={jeju} animation={hipmapSelector.jejuAnime}>
                         {dot}
                         </JejuSpan>): 
-                        (<JejuSpan onMouseOver={()=>JejuFunc()} onMouseOut={() => JejuFunc()} select={jeju} onClick={() => JejuClickFunc()}>
+                        (<JejuSpan onMouseOver={()=>JejuFunc()} onMouseOut={() => JejuFunc()} select={jeju} onClick={() => JejuClickFunc()} animation={hipmapSelector.jejuAnime}>
                         {dot}
                         </JejuSpan>)}
                       </>
@@ -828,10 +855,10 @@ function FullMap(){
                     return(
                       <>
                         {isMobile? 
-                        (<JejuSpan onTouchStart={() => JejuMobileFunc()} select={jeju}>
+                        (<JejuSpan onTouchStart={() => JejuMobileFunc()} select={jeju} animation={hipmapSelector.jejuAnime}>
                         {dot}
                         </JejuSpan>): 
-                        (<JejuSpan onMouseOver={()=>JejuFunc()} onMouseOut={() => JejuFunc()} select={jeju} onClick={() => JejuClickFunc()}>
+                        (<JejuSpan onMouseOver={()=>JejuFunc()} onMouseOut={() => JejuFunc()} select={jeju} onClick={() => JejuClickFunc()} animation={hipmapSelector.jejuAnime}>
                         {dot}
                         </JejuSpan>)}
                       </>

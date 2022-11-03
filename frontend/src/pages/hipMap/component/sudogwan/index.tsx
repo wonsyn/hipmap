@@ -2,10 +2,12 @@ import { FullMapWrappingDiv, SudogwanMapDiv, GridDivRegional, NotDotSpanRegional
 import { SudogwanSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveSudogwan, saveSudogwanMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveSudogwan, saveSudogwanMobile, saveName, saveSudogwanAnime } from "../../../../store/hipMap/hipMapStore";
+import { useNavigate } from "react-router-dom";
 
 function Sudogwan(){
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -34,6 +36,7 @@ function Sudogwan(){
     function SudogwanSelect(){
       dispatch(saveClick())
       dispatch(saveSudogwan())
+      dispatch(saveSudogwanAnime())
       dispatch(saveSudogwanMobile({
         isSudogwanMobile: false
       }))
@@ -41,6 +44,9 @@ function Sudogwan(){
         {
           name: ""
         }))
+    }
+    function SudogwanClick(){
+      navigate('/hipmap/result')
     }
         return (
           <FullMapWrappingDiv>
@@ -55,7 +61,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 4 || j === 5){
                               return(
-                                <SudogwanSpanRegional>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick()}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -78,7 +84,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 3 || j === 4 || j === 5){
                               return(
-                                <SudogwanSpanRegional>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick()}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -101,7 +107,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <SudogwanSpanRegional>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick()}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -124,7 +130,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <SudogwanSpanRegional>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick()}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -147,7 +153,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 3 || j === 4 || j === 5){
                               return(
-                                <SudogwanSpanRegional>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick()}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )

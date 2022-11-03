@@ -17,6 +17,12 @@ interface hipMapState {
    isYungnamMobile: boolean
    isJejuMobile: boolean
    isDeskTop: boolean
+   sudogwanAnime: boolean
+   gwandongAnime: boolean
+   hoseoAnime: boolean
+   honamAnime: boolean
+   yungnamAnime: boolean
+   jejuAnime: boolean
 
 }
 
@@ -36,6 +42,12 @@ const initialState: hipMapState = {
    isYungnamMobile: false,
    isJejuMobile: false,
    isDeskTop: false,
+   sudogwanAnime: false,
+   gwandongAnime: false,
+   hoseoAnime: false,
+   honamAnime: false,
+   yungnamAnime: false,
+   jejuAnime: false,
 }
 
 export const HipMapSlice = createSlice({
@@ -86,6 +98,24 @@ export const HipMapSlice = createSlice({
       },
       saveDeskTop(state){
         state.isDeskTop = !state.isDeskTop
+      },
+      saveSudogwanAnime(state){
+        state.sudogwanAnime = !state.sudogwanAnime
+      },
+      saveGwandongAnime(state){
+        state.gwandongAnime = !state.gwandongAnime
+      },
+      saveHoseoAnime(state){
+        state.hoseoAnime = !state.hoseoAnime
+      },
+      saveHonamAnime(state){
+        state.honamAnime = !state.honamAnime
+      },
+      saveYungnamAnime(state){
+        state.yungnamAnime = !state.yungnamAnime
+      },
+      saveJejuAnime(state){
+        state.jejuAnime = !state.jejuAnime
       }
     },
   });
@@ -93,6 +123,7 @@ export const HipMapSlice = createSlice({
 export const { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveName} = HipMapSlice.actions
 
 export const { saveSudogwanMobile, saveGwandongMobile, saveHoseoMobile, saveHonamMobile, saveYungnamMobile, saveJejuMobile, saveDeskTop } = HipMapSlice.actions
+export const { saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime } = HipMapSlice.actions
  
 export const hipMapState = (state: RootState) => state.labelingReducer;
 
