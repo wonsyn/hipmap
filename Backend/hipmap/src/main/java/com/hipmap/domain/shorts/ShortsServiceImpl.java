@@ -1,6 +1,10 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.comment.CommentReposiotrySupport;
+import com.hipmap.domain.comment.CommentRepository;
+import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeRepository;
+import com.hipmap.domain.like.LikeRepositorySupport;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
@@ -37,29 +41,46 @@ public class ShortsServiceImpl implements ShortsService {
     ShortsRepositorySupport shortsRepositorySupport;
 
     @Autowired
+    LikeRepositorySupport likeRepositorySupport;
+
+    @Autowired
+    CommentReposiotrySupport commentReposiotrySupport;
+
+    @Autowired
     private S3Util s3Uploader;
 
     @Override
-    public Page<ShortsResDto> getShorts(Pageable pageable) {
+    public Page<ShortsResponse> getShorts(Pageable pageable) {
         Page<ShortsEntity> shortsEntities = shortsRepository.findAll(pageable);
-        Page<ShortsResDto> boardDtoList = shortsEntities.map(m -> ShortsResDto.builder()
+        Page<ShortsResponse> boardDtoList = shortsEntities.map(m -> ShortsResponse.builder()
                 .shortsId(m.getShortsId())
                 .fileSrc(m.getFileSrc())
                 .thumbnailSrc(m.getThumbnailSrc())
                 .locationSi(m.getLocationSi())
                 .locationGu(m.getLocationGu())
                 .locationDong(m.getLocationDong())
-                .isMapped(m.getIsMapped())
-                .labelName(m.getLabelName())
-                .latitude(m.getLatitude())
-                .longitude(m.getLongitude())
                 .createTime(m.getCreateTime())
-                .userId(m.getUser().getUserId())
+                .likeCount(likeRepositorySupport.countLikeByShortsId(m.getShortsId()))
+                .hateCount(likeRepositorySupport.countHateByShortsId(m.getShortsId()))
+                .commentsCount(commentReposiotrySupport.countCommentsByShortsId(m.getShortsId()))
+                .isLike(setLikeType(m.getUser(),shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new)))
+                .fileType(m.getFileType())
                 .build());
         return boardDtoList;
-//        return shortsRepository.findAll(pageable);
     }
 
+    public LikeType setLikeType(UserEntity user, ShortsEntity shorts){
+        Optional<LikeEntity> likeEntityOp = likeRepository.findByUserAndShorts(user,shorts);
+        if(likeEntityOp.isPresent()){
+            if(likeEntityOp.get().getVote()){
+                return LikeType.love;
+            }else{
+                return LikeType.hate;
+            }
+        }else{
+            return LikeType.none;
+        }
+    }
     @Override
     public List<GetShortsByLabelResponse> getShortsByLabel(String labeling) {
         List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabel(labeling);
@@ -130,7 +151,7 @@ public class ShortsServiceImpl implements ShortsService {
     }
 
     @Override
-//    @Scheduled(cron = "0 0 0 1/1 * ? *")
+//    @Scheduled(cron = "0 0 0 1/1 * ? *") // 스케쥴링 예정
     @Transactional
     public void updateMappedStates() {
 
@@ -152,6 +173,28 @@ public class ShortsServiceImpl implements ShortsService {
     public String getThumbnail(ShortsIdAndLikeCntProjectionInterface m) {
         return shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new).getThumbnailSrc();
 
+    }
+
+    @Override
+    public ShortsInfoResponse getShortsInfoByShortsId(Long shortsId) {
+        ShortsEntity shorts = shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new);
+        ShortsInfoResponse response = ShortsInfoResponse.builder()
+                .shortsId(shorts.getShortsId())
+                .fileSrc(shorts.getFileSrc())
+                .thumbnailSrc(shorts.getThumbnailSrc())
+                .locationSi(shorts.getLocationSi())
+                .locationGu(shorts.getLocationGu())
+                .locationDong(shorts.getLocationDong())
+                .createTime(shorts.getCreateTime())
+                .likeCount(likeRepositorySupport.countLikeByShortsId(shortsId))
+                .hateCount(likeRepositorySupport.countHateByShortsId(shortsId))
+                .commentsCount(commentReposiotrySupport.countCommentsByShortsId(shortsId))
+                .isLike(setLikeType(shorts.getUser(),shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new)))
+                .fileType(shorts.getFileType())
+                .userId(shorts.getUser().getUserId())
+                .nickname(shorts.getUser().getNickname())
+                .build();
+        return response;
     }
 
 

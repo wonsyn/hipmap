@@ -33,24 +33,23 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
 
         if(request.getIsFilterChecked()){
             return jpaQueryFactory.selectFrom(qShortsEntity)
-                    .where(eqLocationSi(request.getLocationSi()),
+                    .where(qShortsEntity.isMapped.isTrue(),
+                            eqLocationSi(request.getLocationSi()),
                             eqLocationGu(request.getLocationGu()),
                             eqLocationDong(request.getLocationDong()),
                             qShortsEntity.labelName.eq(labeling),
-                            qShortsEntity.latitude.goe(request.getStartLat()),
-                            qShortsEntity.longitude.goe(request.getStartLng()),
-                            qShortsEntity.latitude.loe(request.getEndLat()),
-                            qShortsEntity.longitude.loe(request.getEndLng()))
+                            qShortsEntity.latitude.between(request.getStartLat(),request.getEndLat()),
+                            qShortsEntity.longitude.between(request.getStartLng(),request.getEndLng())
+                         )
                     .fetch();
         }else{
             return jpaQueryFactory.selectFrom(qShortsEntity)
-                    .where(eqLocationSi(request.getLocationSi()),
+                    .where(qShortsEntity.isMapped.isTrue(),
+                            eqLocationSi(request.getLocationSi()),
                             eqLocationGu(request.getLocationGu()),
                             eqLocationDong(request.getLocationDong()),
-                            qShortsEntity.latitude.goe(request.getStartLat()),
-                            qShortsEntity.longitude.goe(request.getStartLng()),
-                            qShortsEntity.latitude.loe(request.getEndLat()),
-                            qShortsEntity.longitude.loe(request.getEndLng()))
+                            qShortsEntity.latitude.between(request.getStartLat(),request.getEndLat()),
+                            qShortsEntity.longitude.between(request.getStartLng(),request.getEndLng()))
                     .fetch();
         }
 
@@ -82,12 +81,5 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
         return  jpaQueryFactory.selectFrom(qShortsEntity).where(qShortsEntity.user.username.eq(username)).stream().count();
     }
 
-//    public void updateMappedStatesByDay(){
-//        List<Long> shortsIds = jpaQueryFactory.select(qLike.shorts.shortsId).from(qLike).where(qLike.shorts.eq());
-//
-////        jpaQueryFactory.update(qShortsEntity).set(qShortsEntity.isMapped,false)
-////                .where(qShortsEntity.shortsId.eq(jpaQueryFactory.selectFrom(qLike).where()));
-//
-//
-//    }
+
 }
