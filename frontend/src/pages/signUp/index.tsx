@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch } from "../../hoc/useStoreHooks";
+import { fetchSignUpThunk, signUpType } from "../../store/login/loginStore";
+import http from "../../utils/http-commons";
+import regex from "../../utils/regex";
 import {
   SignUpAlert,
   SignUpButton,
@@ -40,8 +44,11 @@ const SignUpWrapper = () => {
   const [correctPassword, setCorretPassword] = useState<boolean>(false);
   const [acceptEmail, setAcceptEmail] = useState<boolean>(false);
   const [acceptNickname, setAcceptNickname] = useState<boolean>(false);
+  const [acceptId, setAcceptId] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
+    setSignUpPressCheck(false);
     setSelectEmail(e.target.value);
     if (e.target.value === "self") {
       setEmailState("");
@@ -51,6 +58,7 @@ const SignUpWrapper = () => {
   };
 
   const passwordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignUpPressCheck(false);
     setUserInfoState((prev) => {
       return {
         ...prev,
@@ -65,17 +73,20 @@ const SignUpWrapper = () => {
   };
 
   const emailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignUpPressCheck(false);
     setEmailState((prev) => {
       return e.target.value;
     });
   };
 
   const emailFront = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignUpPressCheck(false);
     setEmailFrontState((prev) => {
       return e.target.value;
     });
   };
   const correct = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignUpPressCheck(false);
     if (e.target.value === userInfoState.password) {
       setCorretPassword(true);
     } else {
@@ -97,7 +108,6 @@ const SignUpWrapper = () => {
       test.test(userInfoState.id) !== true &&
       correctPassword
     ) {
-      console.log("test");
       const passwordResult = regTest({
         num: 3,
         content: userInfoState.password,
@@ -110,13 +120,72 @@ const SignUpWrapper = () => {
         num: 1,
         content: userInfoState.nickname,
       });
+      console.log(emailResult);
       if (!passwordResult || !emailResult || !nicknameResult) {
         setAcceptPassword(passwordResult);
         setAcceptEmail(emailResult);
         setAcceptNickname(nicknameResult);
+      } else if (passwordResult && emailResult && nicknameResult) {
+        setAcceptPassword(true);
+        setAcceptEmail(true);
+        setAcceptNickname(true);
       }
     }
   };
+
+  const IDCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //id는 영어 숫자 혼합 가능 5자부터 20자까지
+    const id = e.currentTarget.value;
+    setSignUpPressCheck(false);
+    setUserInfoState((prev) => {
+      return {
+        ...prev,
+        id,
+      };
+    });
+    const test = new RegExp(regex.userId);
+    if (test.test(id)) {
+      http.get(`/user/test1234/exists`).then((response) => {
+        if (response.status === 200 && response.data.result) setAcceptId(true);
+        console.log(response);
+      });
+    } else {
+      setAcceptId(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log("이메일", acceptEmail);
+    if (
+      signUpPressCheck &&
+      acceptPassword &&
+      acceptEmail &&
+      acceptId &&
+      correctPassword
+    ) {
+      dispatch(
+        fetchSignUpThunk({
+          user_id: userInfoState.id,
+          username: userInfoState.nickname,
+          labeling: "조선힙스터",
+          email: emailFrontState + "@" + emailState,
+          password: userInfoState.password,
+        })
+      );
+    }
+  }, [
+    acceptEmail,
+    acceptId,
+    acceptPassword,
+    correctPassword,
+    emailFrontState,
+    dispatch,
+    emailState,
+    signUpPressCheck,
+    userInfoState.id,
+    userInfoState.nickname,
+    userInfoState.password,
+  ]);
 
   return (
     <SignUpWrapperDiv>
@@ -125,17 +194,11 @@ const SignUpWrapper = () => {
         <SignUpYourLabelingDiv>조선 힙스터</SignUpYourLabelingDiv>
       </SignUpLabelingWrapperDiv>
       <SignUpInputWrapper>
-        <SignUpInput
-          placeholder="ID"
-          onChange={(e) => {
-            setUserInfoState((prev) => {
-              return {
-                ...prev,
-                id: e.target.value,
-              };
-            });
-          }}
-        />
+        <SignUpInput placeholder="ID" onChange={IDCheck} />
+        <SignUpInformation>
+          아이디는 영어와 숫자를 사용할 수 있으며 영어는 필수로 들어가야합니다.
+          5자~20까지 가능합니다.
+        </SignUpInformation>
         <SignUpInput
           placeholder="Password"
           id="password"
@@ -194,6 +257,7 @@ const SignUpWrapper = () => {
       </SignUpInputWrapper>
       {signUpPressCheck &&
         (!acceptPassword ||
+          !acceptId ||
           !correctPassword ||
           !acceptEmail ||
           !acceptNickname) && (
