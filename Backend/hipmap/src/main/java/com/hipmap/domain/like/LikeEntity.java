@@ -27,7 +27,7 @@ public class LikeEntity {
     @JoinColumn(name = "shorts_id")
     private ShortsEntity shorts;
 
-    @Column(name = "is_like",nullable = false)
+    @Column(name = "vote",nullable = false)
     private Boolean vote;
 
 }

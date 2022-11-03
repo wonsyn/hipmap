@@ -21,6 +21,7 @@ import java.util.Map;
 public class LikeController {
 
     private final LikeService likeService;
+    private final LikeRepositorySupport likeRepositorySupport;
     private final JwtUtil jwtUtil;
 
     @PostMapping("isLike")
@@ -50,4 +51,5 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+   
 }

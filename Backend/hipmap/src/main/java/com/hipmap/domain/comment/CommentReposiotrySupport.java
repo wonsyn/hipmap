@@ -20,4 +20,8 @@ public class CommentReposiotrySupport extends QuerydslRepositorySupport {
     public List<CommentEntity> findCommentsByShortsId(Long shortsId){
         return jpaQueryFactory.selectFrom(qComment).where(qComment.shorts.shortsId.eq(shortsId)).fetch();
     }
+
+    public Long countCommentsByShortsId(Long shortsId){
+        return jpaQueryFactory.select(qComment.count()).from(qComment).where(qComment.shorts.shortsId.eq(shortsId)).fetchOne();
+    }
 }
