@@ -175,7 +175,12 @@ public class ShortsServiceImpl implements ShortsService {
 
     }
 
+    @Override
+    public ShortsInfoResponse getShortsInfoByShortsId(Long shortsId) {
 
+
+        return null;
+    }
 
 
 }

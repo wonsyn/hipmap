@@ -43,15 +43,15 @@ public class ShortsController {
         return shortsService.getShorts(pageable).getContent(); // 페이지 객체 어쩌구 : 필요함
     }
 
-//    @GetMapping()
-//    @ApiOperation(value = "쇼츠 상세 조회", notes = "shortId를 이용해 쇼츠 정보 상세 조회")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<?> getShortsInfoById(@RequestParam Long shortsId) {
-//
-//        return new ResponseEntity<>(shortsService.getShortsInfoByShortsId(shortsId), HttpStatus.OK);
-//    }
+    @GetMapping()
+    @ApiOperation(value = "쇼츠 상세 조회", notes = "shortId를 이용해 쇼츠 정보 상세 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<?> getShortsInfoById(@RequestParam Long shortsId) {
+
+        return new ResponseEntity<>(shortsService.getShortsInfoByShortsId(shortsId), HttpStatus.OK);
+    }
 
     @GetMapping("/samelabel")
     @ApiOperation(value = "레이블 별 쇼츠 조회", notes = "같은 레이블인 사람들이 올린 쇼츠 조회")

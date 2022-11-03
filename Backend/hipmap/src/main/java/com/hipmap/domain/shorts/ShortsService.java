@@ -30,6 +30,6 @@ public interface ShortsService {
 
     String getThumbnail(ShortsIdAndLikeCntProjectionInterface m);
 
-//    ShortsInfoResDto getShortsInfoByShortsId(Long shortsId);
+    ShortsInfoResponse getShortsInfoByShortsId(Long shortsId);
 
 }
