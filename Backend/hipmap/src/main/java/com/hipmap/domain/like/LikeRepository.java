@@ -16,10 +16,10 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     Optional<LikeEntity> findByUserAndShorts(UserEntity user, ShortsEntity shorts);
 
     // 1. Like 테이블에서 shorts_id로 그룹바이해서 count한 값 select하고, 이때 orderBy sum 으로 탑5의 shorts_id 가져오기
-    @Query(value = "SELECT shorts_id as shortsId, sum(is_like) AS likeCnt FROM shorts_like GROUP BY shorts_id ORDER BY sum(is_like) DESC limit 5", nativeQuery = true)
+    @Query(value = "SELECT shorts_id as shortsId, sum(vote) AS likeCnt FROM shorts_like GROUP BY shorts_id ORDER BY sum(vote) DESC limit 5", nativeQuery = true)
     List<ShortsIdAndLikeCntProjectionInterface> findTop5ByShortsId();
 
-    @Query(value = "SELECT shorts_id as shortsId, count(is_like) AS totalCnt,sum(is_like) AS likeCnt FROM shorts_like GROUP BY shorts_id", nativeQuery = true)
+    @Query(value = "SELECT shorts_id as shortsId, count(vote) AS totalCnt,sum(vote) AS likeCnt FROM shorts_like GROUP BY shorts_id", nativeQuery = true)
     List<ShortsIdAndTotalCntProjectionInterface> getShortsTotalLikeAndSumLike();
 
 }
