@@ -31,6 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         System.out.println("path: " + path);
         if ("/api/user/login".equals(path) || "/api/user/regist".equals(path) || "/api/jwt/re-issue".equals(path) ||
             path.equals("/api/") || path.matches("/api/user(.*)/exists") || path.matches("/api/user/auth/(.*)") ||
+            path.matches("/api/oauth(.*)") ||
             path.matches("/api/v2/api-docs(.*)") || path.matches("/api/configuration/ui(.*)") || path.matches("/api/swagger-resources(.*)") ||
             path.matches("/api/configuration/security(.*)") || path.matches("/api/swagger-ui.html(.*)") || path.matches("/api/webjars(.*)") ||
             path.matches("/api/swagger(.*)")
