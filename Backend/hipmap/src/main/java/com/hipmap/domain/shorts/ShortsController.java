@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<?> getShorts(Pageable pageable) {
+    public ResponseEntity<?> getShorts(@PageableDefault(size = 10)Pageable pageable) {
         Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
         return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
     }
