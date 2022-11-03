@@ -4,4 +4,5 @@ import java.util.Map;
 
 public interface OAuthKakaoService {
     Map<String, String> auth(String code);
+    Map<String, String> getUserInfo(String token);
 }

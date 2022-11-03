@@ -1,5 +1,7 @@
 package com.hipmap.domain.oauth2;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -9,6 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -54,6 +57,24 @@ public class OAuthKakaoServiceImpl implements OAuthKakaoService{
 
         System.out.println("response : ");
         System.out.println(response.toString());
+        System.out.println("response body : ");
+        System.out.println(response.getBody());
+
+        JSONObject body = new JSONObject(response.getBody());
+
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", body.getString("access_token"));
+        tokens.put("refreshToken", body.getString("refresh_token"));
+        return tokens;
+    }
+
+    @Override
+    public Map<String, String> getUserInfo(String token) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers  = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 
         return null;
     }
