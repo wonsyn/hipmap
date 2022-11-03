@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MyFollowWrapper from "./MyFollowWrapper";
-import { useMatch } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 interface userType {
@@ -24,6 +24,7 @@ const MyInfoWrapper = () => {
   const [user, setUser] = useState<userType>();
   const userInfo = useSelector((store: RootState) => store.userReducer.user);
   const urlMatch = useMatch("/myPage/myProfile");
+  const navigate = useNavigate();
   useEffect(() => {
     if (urlMatch !== null) {
       setIsMyPage(true);
@@ -45,7 +46,15 @@ const MyInfoWrapper = () => {
       </MyInfoDiv>
       <MyInfoButtonWrapperDiv>
         <MyFollowWrapper />
-        <MyButton>팔로우</MyButton>
+        <MyButton
+          onClick={() => {
+            if (isMyPage) {
+              navigate("/profileModify");
+            }
+          }}
+        >
+          {isMyPage ? `프로필수정` : `팔로우`}
+        </MyButton>
       </MyInfoButtonWrapperDiv>
     </MyInfoWrapperDiv>
   );

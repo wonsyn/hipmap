@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import http from "../../utils/http-commons";
 import type { RootState } from "../store";
 
 interface userLoginState {
@@ -34,8 +33,6 @@ export const fetchSignUpThunk = createAsyncThunk(
     { user_id, labeling, password, email, username }: signUpType,
     tunkAPI
   ) => {
-    // const { user_id, labeling, password, email, username } = params;
-    console.log(user_id, labeling, password, email, username);
     const response = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/user/regist`,
       {
@@ -48,6 +45,36 @@ export const fetchSignUpThunk = createAsyncThunk(
     );
     console.log(response);
     return response.data;
+  }
+);
+
+export const fetchLoginThunk = createAsyncThunk(
+  "user/fetchLogin",
+  async (
+    { id, password }: { id: string; password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(
+        `
+        ${process.env.REACT_APP_BACKEND_URL}/user/login`,
+        {
+          username: id,
+          password,
+        }
+      );
+
+      console.log(response);
+      const token = JSON.stringify({
+        accesstoken: response.data.tokens.access_token,
+
+        refresh_token: response.data.tokens.refresh_token,
+      });
+      localStorage.setItem("token", token);
+      return response.data;
+    } catch (e: any) {
+      return rejectWithValue(e.response.data);
+    }
   }
 );
 
@@ -72,16 +99,6 @@ export const LoginSlice = createSlice({
   name: "LoginStore",
   initialState,
   reducers: {
-    login: (state) => {
-      console.log("test");
-      state.user.user_id = 0;
-      state.user.username = "테스트계정";
-      state.user.nickname = "테스트닉네임";
-      state.user.labeling = "조선힙스터";
-      state.user.email = "test@test.com";
-      state.user.isAdmin = "";
-      state.auth = true;
-    },
     logout: (state) => {
       state.user = {
         user_id: 0,
@@ -105,10 +122,28 @@ export const LoginSlice = createSlice({
     builder.addCase(fetchSignUpThunk.rejected, (state) => {
       state.isLoading = false;
     });
+    builder.addCase(fetchLoginThunk.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchLoginThunk.fulfilled, (state, action) => {
+      state.isLoading = false;
+      console.log(action.payload);
+      state.auth = true;
+      state.token = {
+        access_token: action.payload,
+        refresh_token: action.payload,
+      };
+      // state.user = {
+      //   user_id:action.payload
+      // }
+    });
+    builder.addCase(fetchLoginThunk.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 
-export const { login, logout } = LoginSlice.actions;
+export const { logout } = LoginSlice.actions;
 
 export const loginState = (state: RootState) => state.userReducer;
 

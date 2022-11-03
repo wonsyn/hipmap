@@ -11,10 +11,9 @@ import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
-import CommentsWrapper from "./components/comments";
-import { commentsDummy } from "./components/comments/commentsDummy";
 import Write from "./pages/write";
 import KakaoRedirect from "./pages/login/component/KakaoRedirect";
+import MyProfileModify from "./pages/myPage/component/MyProfileModify";
 
 function App() {
   useEffect(() => {
@@ -46,6 +45,7 @@ function App() {
           <Route path="/shorts" element={<Shorts />} />
           <Route path="/write" element={<Write />} />
           <Route path="/oauth/kakao" element={<KakaoRedirect />} />
+          <Route path="/profileModify" element={<MyProfileModify />} />
         </Routes>
       </Layout>
     </BrowserRouter>
