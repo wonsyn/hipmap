@@ -1,6 +1,7 @@
 package com.hipmap.domain.shorts.response;
 
 import com.hipmap.domain.shorts.FileType;
+import com.hipmap.domain.shorts.LikeType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,14 +45,14 @@ public class ShortsResponse implements Serializable {
     Long commentsCount;
 
     @ApiModelProperty(name = "좋아요인지", example = "0")
-    Long isLike;
+    LikeType isLike;
 
 
     @ApiModelProperty(name = "파일 타입", example = "video")
     FileType fileType;
 
     @Builder
-    public ShortsResponse(Long shortsId, String fileSrc, String thumbnailSrc, String locationSi, String locationGu, String locationDong, LocalDateTime createTime, Long likeCount, Long hateCount, Long commentsCount, Long isLike, FileType fileType) {
+    public ShortsResponse(Long shortsId, String fileSrc, String thumbnailSrc, String locationSi, String locationGu, String locationDong, LocalDateTime createTime, Long likeCount, Long hateCount, Long commentsCount, LikeType isLike, FileType fileType) {
         this.shortsId = shortsId;
         this.fileSrc = fileSrc;
         this.thumbnailSrc = thumbnailSrc;

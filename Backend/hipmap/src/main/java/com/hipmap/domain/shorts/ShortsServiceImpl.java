@@ -1,6 +1,10 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.comment.CommentReposiotrySupport;
+import com.hipmap.domain.comment.CommentRepository;
+import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeRepository;
+import com.hipmap.domain.like.LikeRepositorySupport;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
@@ -37,6 +41,12 @@ public class ShortsServiceImpl implements ShortsService {
     ShortsRepositorySupport shortsRepositorySupport;
 
     @Autowired
+    LikeRepositorySupport likeRepositorySupport;
+
+    @Autowired
+    CommentReposiotrySupport commentReposiotrySupport;
+
+    @Autowired
     private S3Util s3Uploader;
 
     @Override
@@ -50,16 +60,27 @@ public class ShortsServiceImpl implements ShortsService {
                 .locationGu(m.getLocationGu())
                 .locationDong(m.getLocationDong())
                 .createTime(m.getCreateTime())
-//                .likeCount()
-//                .hateCount()
-//                .commentsCount()
-//                .isLike(likeRepository.findByUserAndShorts(m.getShortsId()).isPresent())
+                .likeCount(likeRepositorySupport.countLikeByShortsId(m.getShortsId()))
+                .hateCount(likeRepositorySupport.countHateByShortsId(m.getShortsId()))
+                .commentsCount(commentReposiotrySupport.countCommentsByShortsId(m.getShortsId()))
+                .isLike(setLikeType(m.getUser(),shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new)))
                 .fileType(m.getFileType())
                 .build());
         return boardDtoList;
-//        return shortsRepository.findAll(pageable);
     }
 
+    public LikeType setLikeType(UserEntity user, ShortsEntity shorts){
+        Optional<LikeEntity> likeEntityOp = likeRepository.findByUserAndShorts(user,shorts);
+        if(likeEntityOp.isPresent()){
+            if(likeEntityOp.get().getVote()){
+                return LikeType.love;
+            }else{
+                return LikeType.hate;
+            }
+        }else{
+            return LikeType.none;
+        }
+    }
     @Override
     public List<GetShortsByLabelResponse> getShortsByLabel(String labeling) {
         List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabel(labeling);
