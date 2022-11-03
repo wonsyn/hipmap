@@ -1,11 +1,10 @@
 package com.hipmap.domain.jwt.dto.response;
 
+import com.hipmap.domain.user.dto.Tokens;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.Map;
 
 @Data
 @Builder
@@ -14,7 +13,5 @@ public class ReIssueResponse {
     @ApiModelProperty(value = "응답 메시지")
     String message;
     @ApiModelProperty(value = "재발급된 토큰(newAccessToken, newRefreshToken)")
-    Map<String, String> tokens;
-    @ApiModelProperty(value = "만료 시간")
-    Long expireMilliSec;
+    Tokens tokens;
 }
