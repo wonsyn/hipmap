@@ -34,7 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             path.matches("/api/oauth(.*)") ||
             path.matches("/api/v2/api-docs(.*)") || path.matches("/api/configuration/ui(.*)") || path.matches("/api/swagger-resources(.*)") ||
             path.matches("/api/configuration/security(.*)") || path.matches("/api/swagger-ui.html(.*)") || path.matches("/api/webjars(.*)") ||
-            path.matches("/api/swagger(.*)")
+            path.matches("/api/swagger(.*)") || path.matches("/api/csrf(.*)")
         ) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
@@ -43,7 +43,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String jwtToken = httpServletRequest.getHeader(JwtUtil.ACCESS_TOKEN_NAME);
         String username = null;
         String jwt = null;
-
 
         try{
             if(jwtToken != null){
