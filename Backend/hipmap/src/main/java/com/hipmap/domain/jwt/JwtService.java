@@ -3,14 +3,12 @@ package com.hipmap.domain.jwt;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.jwt.dto.response.ReIssueResponse;
 import com.hipmap.domain.user.UserService;
+import com.hipmap.domain.user.dto.Tokens;
 import com.hipmap.global.util.JwtUtil;
 import com.hipmap.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -31,20 +29,20 @@ public class JwtService {
                 JwtUserInfo info = jwtUtil.getUserInfo(refreshToken);
                 String access = jwtUtil.generateToken(info.toEntity());
                 String refresh = jwtUtil.generateRefreshToken(info.toEntity());
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("newAccessToken", access);
-                tokens.put("newRefreshToken", refresh);
+                Tokens tokens = Tokens.builder()
+                        .accessToken(access)
+                        .refreshToken(refresh)
+                        .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
+                        .build();
                 return ReIssueResponse.builder()
                         .message("success")
                         .tokens(tokens)
-                        .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
                         .build();
             }
         }
         return ReIssueResponse.builder()
                 .message("refresh token error; expired or wrong value;")
                 .tokens(null)
-                .expireMilliSec(null)
                 .build();
     }
 }
