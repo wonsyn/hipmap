@@ -81,12 +81,5 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
         return  jpaQueryFactory.selectFrom(qShortsEntity).where(qShortsEntity.user.username.eq(username)).stream().count();
     }
 
-//    public void updateMappedStatesByDay(){
-//        List<Long> shortsIds = jpaQueryFactory.select(qLike.shorts.shortsId).from(qLike).where(qLike.shorts.eq());
-//
-////        jpaQueryFactory.update(qShortsEntity).set(qShortsEntity.isMapped,false)
-////                .where(qShortsEntity.shortsId.eq(jpaQueryFactory.selectFrom(qLike).where()));
-//
-//
-//    }
+
 }

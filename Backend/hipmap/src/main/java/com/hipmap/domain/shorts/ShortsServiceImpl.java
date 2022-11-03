@@ -151,7 +151,7 @@ public class ShortsServiceImpl implements ShortsService {
     }
 
     @Override
-//    @Scheduled(cron = "0 0 0 1/1 * ? *")
+//    @Scheduled(cron = "0 0 0 1/1 * ? *") // 스케쥴링 예정
     @Transactional
     public void updateMappedStates() {
 
@@ -177,9 +177,24 @@ public class ShortsServiceImpl implements ShortsService {
 
     @Override
     public ShortsInfoResponse getShortsInfoByShortsId(Long shortsId) {
-
-
-        return null;
+        ShortsEntity shorts = shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new);
+        ShortsInfoResponse response = ShortsInfoResponse.builder()
+                .shortsId(shorts.getShortsId())
+                .fileSrc(shorts.getFileSrc())
+                .thumbnailSrc(shorts.getThumbnailSrc())
+                .locationSi(shorts.getLocationSi())
+                .locationGu(shorts.getLocationGu())
+                .locationDong(shorts.getLocationDong())
+                .createTime(shorts.getCreateTime())
+                .likeCount(likeRepositorySupport.countLikeByShortsId(shortsId))
+                .hateCount(likeRepositorySupport.countHateByShortsId(shortsId))
+                .commentsCount(commentReposiotrySupport.countCommentsByShortsId(shortsId))
+                .isLike(setLikeType(shorts.getUser(),shortsRepository.findById(shortsId).orElseThrow(ShortsNotFoundException::new)))
+                .fileType(shorts.getFileType())
+                .userId(shorts.getUser().getUserId())
+                .nickname(shorts.getUser().getNickname())
+                .build();
+        return response;
     }
 
 

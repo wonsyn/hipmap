@@ -43,12 +43,12 @@ public class ShortsController {
         return shortsService.getShorts(pageable).getContent(); // 페이지 객체 어쩌구 : 필요함
     }
 
-    @GetMapping()
+    @GetMapping("{shortsId}")
     @ApiOperation(value = "쇼츠 상세 조회", notes = "shortId를 이용해 쇼츠 정보 상세 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<?> getShortsInfoById(@RequestParam Long shortsId) {
+    public ResponseEntity<?> getShortsInfoById(@PathVariable Long shortsId) {
 
         return new ResponseEntity<>(shortsService.getShortsInfoByShortsId(shortsId), HttpStatus.OK);
     }
