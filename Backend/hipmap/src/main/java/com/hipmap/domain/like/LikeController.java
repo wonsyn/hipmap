@@ -21,6 +21,7 @@ import java.util.Map;
 public class LikeController {
 
     private final LikeService likeService;
+    private final LikeRepositorySupport likeRepositorySupport;
     private final JwtUtil jwtUtil;
 
     @PostMapping("isLike")
@@ -50,4 +51,8 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @GetMapping // 테스트용 삭제해야함
+    public Long getLikes(@RequestParam Long shortsId){
+        return likeRepositorySupport.countLikeByShortsId(shortsId);
+    }
 }
