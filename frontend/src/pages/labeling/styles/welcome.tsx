@@ -46,6 +46,9 @@ export const StartButtonStyled = styled.button`
     font-weight: bold;
     color: white;
     margin-bottom: 5%;
+    :hover{
+        cursor: pointer;
+    }
 
 `
 
