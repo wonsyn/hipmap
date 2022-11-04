@@ -25,7 +25,6 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* overflow-x: hidden; */
 
 `
 const Container = styled.div`
@@ -36,6 +35,7 @@ const Container = styled.div`
     width: 100vw;
     max-width: 500px;
     height: 92vh;
+    /* overflow: hidden; */
     ::before{
         width: 100vw;
         max-width: 500px;
