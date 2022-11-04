@@ -2,8 +2,13 @@ package com.hipmap.domain.jwt;
 
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.jwt.dto.response.ReIssueResponse;
+import com.hipmap.domain.jwt.dto.response.RefreshResponse;
+import com.hipmap.domain.user.Exception.UserNotFoundException;
+import com.hipmap.domain.user.UserEntity;
+import com.hipmap.domain.user.UserRepository;
 import com.hipmap.domain.user.UserService;
 import com.hipmap.domain.user.dto.Tokens;
+import com.hipmap.domain.user.dto.response.LoginUserInfo;
 import com.hipmap.global.util.JwtUtil;
 import com.hipmap.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +21,7 @@ public class JwtService {
     private final JwtUtil jwtUtil;
     private final UserService userService;
     private final RedisUtil redisUtil;
+    private final UserRepository userRepository;
 
     public ReIssueResponse reIssue(String refreshToken) {
         String username = null;
@@ -43,6 +49,19 @@ public class JwtService {
         return ReIssueResponse.builder()
                 .message("refresh token error; expired or wrong value;")
                 .tokens(null)
+                .build();
+    }
+
+    public RefreshResponse refresh(String token) {
+        JwtUserInfo tokenUserInfo = jwtUtil.getUserInfo(token);
+        UserEntity user = userRepository.findById(tokenUserInfo.getId()).orElseThrow(UserNotFoundException::new);
+        return RefreshResponse.builder()
+                .userInfo(LoginUserInfo.makeInfo(user))
+                .tokens(Tokens.builder()
+                        .accessToken(jwtUtil.generateToken(user))
+                        .refreshToken(jwtUtil.generateRefreshToken(user))
+                        .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
+                        .build())
                 .build();
     }
 }
