@@ -1,5 +1,6 @@
 package com.hipmap.global.util;
 
+import com.hipmap.domain.jwt.Exception.IllegalTokenException;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Admin;
 import com.hipmap.domain.user.UserEntity;
@@ -82,7 +83,12 @@ public class JwtUtil {
     }
 
     public JwtUserInfo getUserInfo(String token) {
-        Claims body = extractAllClaims(token);
+        Claims body;
+        if(token != null) {
+            body = extractAllClaims(token);
+        } else {
+            throw new IllegalTokenException("토큰이 존재하지 않습니다.");
+        }
         return JwtUserInfo.builder()
                 .id(Long.parseLong(Integer.toString((int)body.get("id"))))
                 .username((String)body.get("username"))
