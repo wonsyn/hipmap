@@ -66,9 +66,9 @@ export const fetchLoginThunk = createAsyncThunk(
 
       console.log(response);
       const token = JSON.stringify({
-        accesstoken: response.data.tokens.access_token,
+        accessToken: response.data.tokens.accessToken,
 
-        refresh_token: response.data.tokens.refresh_token,
+        refreshToken: response.data.tokens.refreshToken,
       });
       localStorage.setItem("token", token);
       return response.data;
@@ -109,6 +109,14 @@ export const LoginSlice = createSlice({
         isAdmin: "",
       };
       state.auth = false;
+      localStorage.removeItem("token");
+    },
+    userModify: (state, action) => {
+      state.user = {
+        ...state.user,
+        nickname: action.payload.nickname,
+        labeling: action.payload.labeling,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -127,15 +135,19 @@ export const LoginSlice = createSlice({
     });
     builder.addCase(fetchLoginThunk.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       state.auth = true;
       state.token = {
-        access_token: action.payload,
-        refresh_token: action.payload,
+        access_token: action.payload.tokens.accessToken,
+        refresh_token: action.payload.tokens.refreshToken,
       };
-      // state.user = {
-      //   user_id:action.payload
-      // }
+      state.user = {
+        user_id: action.payload.user.userId,
+        email: action.payload.user.email,
+        labeling: action.payload.user.labeling,
+        nickname: action.payload.user.nickname,
+        isAdmin: action.payload.user.isAdmin,
+        username: action.payload.user.username,
+      };
     });
     builder.addCase(fetchLoginThunk.rejected, (state) => {
       state.isLoading = false;
@@ -143,7 +155,7 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const { logout } = LoginSlice.actions;
+export const { logout,userModify } = LoginSlice.actions;
 
 export const loginState = (state: RootState) => state.userReducer;
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hoc/useStoreHooks";
 import { fetchSignUpThunk, signUpType } from "../../store/login/loginStore";
 import http from "../../utils/http-commons";
@@ -46,6 +47,7 @@ const SignUpWrapper = () => {
   const [acceptNickname, setAcceptNickname] = useState<boolean>(false);
   const [acceptId, setAcceptId] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSignUpPressCheck(false);
@@ -120,7 +122,6 @@ const SignUpWrapper = () => {
         num: 1,
         content: userInfoState.nickname,
       });
-      console.log(emailResult);
       if (!passwordResult || !emailResult || !nicknameResult) {
         setAcceptPassword(passwordResult);
         setAcceptEmail(emailResult);
@@ -147,7 +148,6 @@ const SignUpWrapper = () => {
     if (test.test(id)) {
       http.get(`/user/test1234/exists`).then((response) => {
         if (response.status === 200 && response.data.result) setAcceptId(true);
-        console.log(response);
       });
     } else {
       setAcceptId(false);
@@ -155,7 +155,6 @@ const SignUpWrapper = () => {
   };
 
   useEffect(() => {
-    console.log("이메일", acceptEmail);
     if (
       signUpPressCheck &&
       acceptPassword &&
@@ -171,7 +170,11 @@ const SignUpWrapper = () => {
           email: emailFrontState + "@" + emailState,
           password: userInfoState.password,
         })
-      );
+      )
+        .unwrap()
+        .then((res) => {
+          navigate("/");
+        });
     }
   }, [
     acceptEmail,

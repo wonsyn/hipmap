@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Tab, Tabs } from "@material-ui/core";
 import {
   FollowListWrapperDiv,
   FollowSearchListDiv,
@@ -20,120 +19,17 @@ import {
   MyFollowTabBorder,
   MyFollowTabs,
 } from "../styles/MyFollowWrapperStyle";
-
-interface followInterface {
-  follow: {
-    user_id: string;
-    following_id: string;
-    img_src: string;
-  }[];
-}
-const anotherDummyData: followInterface = {
-  follow: [
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/979195859524788244/1014134412025bc65e924b01d5ffd1a3578c7262.gif",
-    },
-  ],
-};
-const dummyData: followInterface = {
-  follow: [
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-    {
-      user_id: "첫번째",
-      following_id: "두번째",
-      img_src:
-        "https://cdn.discordapp.com/attachments/433506654009425921/1021418121933885460/unknown.png",
-    },
-  ],
-};
+import { useFetchUserFollow } from "../../../hoc/useFetch";
+import MyFollows from "./MyFollows";
 
 const MyFollowList = () => {
   // 유저 아이디 넣기
   const location = useLocation();
 
   const [follow, setFollow] = useState<boolean | undefined>(undefined);
-  const [followList, setFollowList] = useState<followInterface>();
-  const [followerList, setFollowerList] = useState<followInterface>();
+
+  const params = useParams();
+  console.log(params);
 
   useEffect(() => {
     const state = location.state as { click: string };
@@ -144,15 +40,15 @@ const MyFollowList = () => {
     }
   }, [location.state]);
 
-  useEffect(() => {
-    if (follow !== undefined) {
-      if (follow === true) {
-        setFollowList(dummyData);
-      } else if (follow === false) {
-        setFollowerList(anotherDummyData);
-      }
-    }
-  }, [follow]);
+  // useEffect(() => {
+  //   if (follow !== undefined) {
+  //     if (follow === true && followingData) {
+  //       setFollowList(followingData.follow);
+  //     } else if (follow === false && followerData) {
+  //       setFollowerList(followerData.follow);
+  //     }
+  //   }
+  // }, [follow]);
   const followingHandler = () => {
     setFollow(true);
   };
@@ -160,7 +56,6 @@ const MyFollowList = () => {
   const followerHandler = () => {
     setFollow(false);
   };
-
   return (
     <div>
       <div>
@@ -177,49 +72,7 @@ const MyFollowList = () => {
       {follow !== undefined && (
         // 탭 엘레멘트
         <MyFollowListWrapperDiv>
-          <MyFollowListArea select={follow}>
-            <FollowSearchListDiv>
-              <MyFollowSearchBarWrapper>
-                <MyFollowSearchAreaDiv>
-                  <MyFollowSearchTitleDiv>팔로워</MyFollowSearchTitleDiv>
-                  <MyFollowSearchBarInput></MyFollowSearchBarInput>
-                </MyFollowSearchAreaDiv>
-              </MyFollowSearchBarWrapper>
-              {/* 리스트 */}
-              <FollowListWrapperDiv>
-                {followList?.follow &&
-                  followList.follow.map((e, i) => (
-                    <MyFollowListDiv key={i}>
-                      <MyFollowProfileImg src={e.img_src} alt="프로필 이미지" />
-                      <MyFollowIdWrapper>{e.following_id}</MyFollowIdWrapper>
-                      <MyFollowAddButton>팔로우</MyFollowAddButton>
-                    </MyFollowListDiv>
-                  ))}
-              </FollowListWrapperDiv>
-            </FollowSearchListDiv>
-
-            {/* 팔로잉 영역 */}
-            <FollowSearchListDiv>
-              <MyFollowSearchBarWrapper>
-                <MyFollowSearchAreaDiv>
-                  <MyFollowSearchTitleDiv>팔로잉</MyFollowSearchTitleDiv>
-                  <MyFollowSearchBarInput></MyFollowSearchBarInput>
-                </MyFollowSearchAreaDiv>
-              </MyFollowSearchBarWrapper>
-              {/* 리스트 */}
-              <FollowListWrapperDiv>
-                {followerList?.follow &&
-                  followerList.follow.map((e, i) => (
-                    <MyFollowListDiv key={i}>
-                      <MyFollowProfileImg src={e.img_src} alt="프로필 이미지" />
-                      <MyFollowIdWrapper>{e.following_id}</MyFollowIdWrapper>
-
-                      <MyFollowAddButton>삭제</MyFollowAddButton>
-                    </MyFollowListDiv>
-                  ))}
-              </FollowListWrapperDiv>
-            </FollowSearchListDiv>
-          </MyFollowListArea>
+          <MyFollows />
         </MyFollowListWrapperDiv>
       )}
     </div>

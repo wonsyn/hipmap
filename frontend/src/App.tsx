@@ -14,6 +14,7 @@ import Shorts from "./pages/shorts";
 import Write from "./pages/write";
 import KakaoRedirect from "./pages/login/component/KakaoRedirect";
 import MyProfileModify from "./pages/myPage/component/MyProfileModify";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
   useEffect(() => {
@@ -21,32 +22,34 @@ function App() {
       window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
     }
   }, []);
-
+  const client = new QueryClient();
   return (
     <BrowserRouter>
       <Layout>
-        <Routes>
-          <Route path="/main" element={<Main />} />
-          <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
-          <Route
-            path="/labeling/processing"
-            element={<ProcessingPage />}
-          ></Route>
-          <Route path="/labeling/result" element={<ResultPage />}></Route>
-          <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
-          <Route path="/login" element={<LoginWrapper />} />
-          <Route path="/signup" element={<SignUpWrapper />} />
-          <Route path="/myPage">
-            <Route path=":username" element={<MyPage />} />
-            <Route path="myProfile" element={<MyPage />} />
-            <Route path="followlist" element={<MyFollowList />} />
-          </Route>
-          <Route path="/shorts" element={<Shorts />} />
-          <Route path="/write" element={<Write />} />
-          <Route path="/oauth/kakao" element={<KakaoRedirect />} />
-          <Route path="/profileModify" element={<MyProfileModify />} />
-        </Routes>
+        <QueryClientProvider client={client}>
+          <Routes>
+            <Route path="/main" element={<Main />} />
+            <Route path="/" element={<Navigate replace to="/main" />} />
+            <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
+            <Route
+              path="/labeling/processing"
+              element={<ProcessingPage />}
+            ></Route>
+            <Route path="/labeling/result" element={<ResultPage />}></Route>
+            <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
+            <Route path="/login" element={<LoginWrapper />} />
+            <Route path="/signup" element={<SignUpWrapper />} />
+            <Route path="/myPage">
+              <Route path=":username" element={<MyPage />} />
+              <Route path="myProfile" element={<MyPage />} />
+              <Route path="followlist/:userid" element={<MyFollowList />} />
+            </Route>
+            <Route path="/shorts" element={<Shorts />} />
+            <Route path="/write" element={<Write />} />
+            <Route path="/oauth/kakao" element={<KakaoRedirect />} />
+            <Route path="/profileModify" element={<MyProfileModify />} />
+          </Routes>
+        </QueryClientProvider>
       </Layout>
     </BrowserRouter>
   );

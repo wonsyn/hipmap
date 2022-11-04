@@ -10,13 +10,12 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     let loginToken: string | null = null;
-    if (localStorage.getItem("accessToken")) {
-      loginToken = localStorage.getItem("accessToken");
+    if (localStorage.getItem("token")) {
+      loginToken = localStorage.getItem("token");
     }
-    console.log(loginToken);
     if (loginToken != null) {
       config.headers = {
-        Authoriztion: `Bearer ${loginToken}`,
+        accessToken: `${JSON.parse(loginToken).accessToken}`,
       };
     }
     return config;
