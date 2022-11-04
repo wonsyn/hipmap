@@ -1,7 +1,9 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.shorts.request.CreateShortsRequest;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
+import com.hipmap.domain.user.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +25,7 @@ public interface ShortsService {
 
     List<ShortsListEachUserResponse> getUserContents(String username);
 
-    Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception;
+    Long uploadFile(MultipartFile file, CreateShortsRequest request, Long user) throws Exception;
 
 
     void updateMappedStates();

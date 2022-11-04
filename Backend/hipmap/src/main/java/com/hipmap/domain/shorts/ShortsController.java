@@ -2,6 +2,7 @@ package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.like.LikeService;
 import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
+import com.hipmap.domain.shorts.request.CreateShortsRequest;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
 import com.hipmap.global.util.JwtUtil;
@@ -111,8 +112,12 @@ public class ShortsController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Long> uploadFile(MultipartFile file, ShortsEntity shorts) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(shortsService.uploadFile(file, shorts));
+    public ResponseEntity<Long> uploadFile(
+            @RequestPart(value = "file") MultipartFile file,
+            @RequestPart(value = "CreateShortsRequest") CreateShortsRequest request,
+            HttpServletRequest httpRequest) throws Exception {
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
+        return ResponseEntity.status(HttpStatus.OK).body(shortsService.uploadFile(file, request,userId));
     }
 
     @GetMapping("/mainBest")

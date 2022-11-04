@@ -6,6 +6,7 @@ import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.Get;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class LikeController {
 
     private final LikeService likeService;
     private final LikeRepositorySupport likeRepositorySupport;
+    private final LikeRepository likeRepository;
     private final JwtUtil jwtUtil;
 
     @PostMapping("isLike")
