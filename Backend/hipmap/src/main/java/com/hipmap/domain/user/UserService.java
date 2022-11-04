@@ -7,8 +7,13 @@ import com.hipmap.domain.user.Exception.EmailDuplicatedException;
 import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
+import com.hipmap.domain.user.dto.Tokens;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
+import com.hipmap.domain.user.dto.response.LoginUserInfo;
+import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
+import com.hipmap.global.util.JwtUtil;
+import com.hipmap.global.util.RedisUtil;
 import com.hipmap.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,12 +30,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
-
+    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final ShortsRepository shortsRepository;
     private final FollowRepository followRepository;
     private final AuthEmailService authEmailService;
     private final S3Util s3util;
+    private final RedisUtil redisUtil;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,15 +45,29 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public JwtUserInfo login(String username, String password) {
+    public UserLoginResponse login(String username, String password) {
         UserEntity user = userRepository.findByUsernameAndPassword(username, password).orElseThrow(LoginFailException::new);
-        return JwtUserInfo.builder()
+
+        JwtUserInfo userInfo = JwtUserInfo.builder()
                 .id(user.getUserId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .nickname(user.getNickname())
                 .label_name(user.getLabelName())
                 .role(user.getRole())
+                .build();
+
+        final String token = jwtUtil.generateToken(userInfo.toEntity());
+        final String refreshJwt = jwtUtil.generateRefreshToken(userInfo.toEntity());
+        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+
+        return UserLoginResponse.builder()
+                .tokens(Tokens.builder()
+                        .accessToken(token)
+                        .refreshToken(refreshJwt)
+                        .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
+                        .build())
+                .user(LoginUserInfo.makeInfo(user))
                 .build();
     }
 
