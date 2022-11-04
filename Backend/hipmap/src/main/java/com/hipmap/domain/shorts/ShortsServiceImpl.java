@@ -145,7 +145,15 @@ public class ShortsServiceImpl implements ShortsService {
     @Transactional
     public Long uploadFile(MultipartFile file, CreateShortsRequest request , Long userId) throws Exception {
         if (!file.isEmpty()) {
-            String storedFileSrc = s3Uploader.upload(file, "images");
+                String dirname;
+            if(request.getFileType()==FileType.video){
+                dirname = "videos";
+            }else if(request.getFileType()==FileType.image){
+                dirname = "images";
+            }else{
+                dirname = "voices";
+            }
+            String storedFileSrc = s3Uploader.upload(file, dirname);
             UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException ::new);
             ShortsEntity shorts = ShortsEntity.builder()
                     .fileSrc(storedFileSrc)
