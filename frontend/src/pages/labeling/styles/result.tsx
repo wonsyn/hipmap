@@ -1,5 +1,12 @@
 import styled from "@emotion/styled";
 import { palette } from "../../../assets/Palette";
+import { keyframes } from "@emotion/react";
+
+const infiniteRotate = keyframes`
+    100%{
+        transform: rotate(360deg);
+    }
+` 
 
 export const WrappingDiv = styled.div`
     display: flex;
@@ -19,7 +26,7 @@ export const ContainerDiv = styled.div`
     // boder 관련
     border: 5px solid transparent;
     border-radius: 20px;
-    border-image: ${palette.subColorGradient2};
+    border-image: ${palette.subColorGradient4};
     border-image-slice: 1;
     margin: 10px;
 `
@@ -32,7 +39,7 @@ export const KakaoShareDiv = styled.div`
     justify-content: space-evenly;
     align-items: center;
 `
-export const KakaoShareButton = styled.button`
+export const KakaoShareImg = styled.img`
     border: none;
     outline: none;
     box-shadow: none;
@@ -64,17 +71,18 @@ export const MappingDiv = styled.div`
 
 export const  LabelingNameDiv = styled.div`
     // 텍스트에 그라데이션
-    background: ${palette.subColorGradient2};
+    background: ${palette.subColorGradient4};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     //
     font-size: 2rem;
     font-weight: bold;
+    animation: ${infiniteRotate} 6s linear infinite;
 `
 
 export const WithButton = styled.button`
     width: 80%;
-    height: 4%;
+    height: 6%;
     font-size: 80%;
     color: white;
     border-radius: 10px;
