@@ -1,7 +1,7 @@
 package com.hipmap.domain.follow;
 
 import com.hipmap.domain.follow.Exception.FollowDuplicateException;
-import com.hipmap.domain.follow.dto.FollowInfoResponseDto;
+import com.hipmap.domain.follow.dto.FollowUserInfoResponseDto;
 import com.hipmap.domain.follow.dto.FollowSaveRequestDto;
 import com.hipmap.domain.notification.NotificationService;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
@@ -29,20 +29,19 @@ public class FollowServiceImpl implements FollowService {
         UserEntity loginUser = userRepository.findById(loginUserId).orElseThrow(UserNotFoundException::new);
         UserEntity opponentUser = userRepository.findById(opponentUserId).orElseThrow(UserNotFoundException::new);
 
-        FollowSaveRequestDto dto = new FollowSaveRequestDto(loginUser, opponentUser);
+        FollowSaveRequestDto saveRequestDto = new FollowSaveRequestDto(loginUser, opponentUser);
         if (!followRepository.findByUserAndFollowingUser(loginUser, opponentUser).isPresent()) {
-            followRepository.save(dto.toEntity());
+            followRepository.save(saveRequestDto.toEntity());
             String nickname = loginUser.getNickname();
             notificationService.send(opponentUser,nickname + "님이 팔로우하셨습니다.","/팔로우 창"); // 차후 url 변경 예정
         } else {
-            throw new FollowDuplicateException("이미 처리된 정보입니다.");
+            throw new FollowDuplicateException();
         }
     }
 
     @Transactional
     @Override
     public void deleteFollow(Long loginUserId, Long opponentUserId) {
-//        UserEntity
         UserEntity loginUser = userRepository.findById(loginUserId).orElseThrow(UserNotFoundException::new);
         UserEntity opponentUser = userRepository.findById(opponentUserId).orElseThrow(UserNotFoundException::new);
 
@@ -52,19 +51,19 @@ public class FollowServiceImpl implements FollowService {
 
     @Transactional
     @Override
-    public List<FollowInfoResponseDto> getFollowerList(Long userId) {
+    public List<FollowUserInfoResponseDto> getFollowerList(Long userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
         return followRepository.findAllByFollowingUser(userEntity).stream()
                 .map(m -> userRepository.findById(m.getUser().getUserId()).orElseThrow(UserNotFoundException::new))
-                .map(m -> new FollowInfoResponseDto(m.getUserId(), m.getUsername(), m.getProImgSrc()))
+                .map(m -> new FollowUserInfoResponseDto(m.getUserId(), m.getUsername(), m.getProImgSrc()))
                 .collect(Collectors.toList());
     }
-    public List<FollowInfoResponseDto> getFollowingList(Long userId){
+    public List<FollowUserInfoResponseDto> getFollowingList(Long userId){
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return followRepository.findAllByUser(userEntity).stream()
                 .map(m -> userRepository.findById(m.getFollowingUser().getUserId()).orElseThrow(UserNotFoundException::new))
-                .map(m -> new FollowInfoResponseDto(m.getUserId(), m.getUsername(), m.getProImgSrc()))
+                .map(m -> new FollowUserInfoResponseDto(m.getUserId(), m.getUsername(), m.getProImgSrc()))
                 .collect(Collectors.toList());
     }
 
