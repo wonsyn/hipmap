@@ -1,8 +1,6 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Exception.EmailAuthNotFoundException;
-import com.hipmap.domain.user.dto.Tokens;
 import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
@@ -53,18 +51,7 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public UserLoginResponse login(@RequestBody UserLoginRequest user) {
-        final JwtUserInfo userInfo = userService.login(user.getUsername(), user.getPassword());
-        final String token = jwtUtil.generateToken(userInfo.toEntity());
-        final String refreshJwt = jwtUtil.generateRefreshToken(userInfo.toEntity());
-        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-
-        return UserLoginResponse.builder()
-                .tokens(Tokens.builder()
-                        .accessToken(token)
-                        .refreshToken(refreshJwt)
-                        .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
-                        .build())
-                .build();
+        return userService.login(user.getUsername(), user.getPassword());
     }
 
     @GetMapping("/{username}/exists")

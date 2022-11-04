@@ -10,6 +10,9 @@ import lombok.Data;
 @Builder
 @ApiModel(value = "로그인 결과 토큰 리스트", description = "로그인 결과로 생성된 JWT토큰과 만료일자가 담긴 객체")
 public class UserLoginResponse {
-    @ApiModelProperty(value = "JWT 토큰, (accessToken, refreshToken)")
+    @ApiModelProperty(value = "JWT 토큰")
     Tokens tokens;
+
+    @ApiModelProperty("로그인 유저 정보")
+    LoginUserInfo user;
 }
