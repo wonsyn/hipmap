@@ -1,7 +1,13 @@
-import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { YungnamSpanRegional } from "../../styles/fullmap";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveYungnam, saveYungnamMobile, saveName, saveYungnamAnime } from "../../../../store/hipMap/hipMapStore";
+import { useNavigate } from "react-router-dom";
 
 function Yungnam(){
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -26,8 +32,26 @@ function Yungnam(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+    function YungnamSelect(){
+      dispatch(saveClick())
+      dispatch(saveYungnam())
+      dispatch(saveYungnamAnime())
+      dispatch(saveYungnamMobile({
+        isYungnamMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+      }
+    function YungnamClick(){
+      navigate('/hipmap/result')
+    }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => YungnamSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <YungnamMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>
@@ -36,7 +60,7 @@ function Yungnam(){
                     if(dot !== -1){
                         if(j === 10 || j === 11){
                           return(
-                            <YungnamSpanRegional>
+                            <YungnamSpanRegional onClick={() => YungnamClick()}>
                               {dot}
                             </YungnamSpanRegional>
                           )
@@ -59,7 +83,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -82,7 +106,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -105,7 +129,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -128,7 +152,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11 || j === 12){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -151,7 +175,7 @@ function Yungnam(){
                         if(dot !==-1){
                             if(j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -174,7 +198,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -197,7 +221,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -220,7 +244,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -243,7 +267,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 6 || j === 8 || j === 9){
                               return(
-                                <YungnamSpanRegional>
+                                <YungnamSpanRegional onClick={() => YungnamClick()}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
