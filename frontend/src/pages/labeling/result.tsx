@@ -28,7 +28,7 @@ function ResultPage(){
         <WrappingDiv>
             <ContainerDiv>
                 <LabelingName name={labelingResult}/>
-                <LabelingCharacter url={labelingChar}/>
+                {/* <LabelingCharacter url={labelingChar}/> */}
                 <LabelingDetail list={labelingDetail}/>
                 <With clickEvent={clickEvent}/>
                 <KakaoShare/>
