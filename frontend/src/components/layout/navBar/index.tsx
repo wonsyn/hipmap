@@ -10,7 +10,10 @@ import { useNavigate } from "react-router-dom";
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <FooterWrapper>
+    <>
+      {(window.location.pathname === "/labeling/welcome") || (window.location.pathname === "/labeling/processing") || (window.location.pathname === "/labeling/result")?
+      (<></>):
+    (<FooterWrapper>
       <FooterContentsWrapperDiv>
         <FooterShortsButtons
           onClick={() => {
@@ -41,7 +44,9 @@ const Footer = () => {
           />
         </FooterShortsButtons>
       </FooterContentsWrapperDiv>
-    </FooterWrapper>
+    </FooterWrapper>)}
+    </>
+   
   );
 };
 

@@ -48,7 +48,7 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
 
 export default function LinearWithValueLabel({number}: LinearWithValueLabelProps) {
 
-  const progress = number * 10 + 10
+  const progress = (100 / 11) + number * (100 / 11) 
 
   return (
     <ProcessBarDiv>

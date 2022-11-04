@@ -35,6 +35,7 @@ const Container = styled.div`
     width: 100vw;
     max-width: 500px;
     height: 92vh;
+    /* overflow: hidden; */
     ::before{
         width: 100vw;
         max-width: 500px;
