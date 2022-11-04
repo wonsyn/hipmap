@@ -17,8 +17,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JwtRequestFilter jwtRequestFilter;
+//
+//    private final JwtRequestFilter jwtRequestFilter;
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
             return (web) -> web.ignoring().antMatchers("/api/user/login","/api/v2/api-docs",  "/api/configuration/ui",
