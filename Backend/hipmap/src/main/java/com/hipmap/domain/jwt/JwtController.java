@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class JwtController {
     private final JwtService jwtService;
 
-    @PostMapping("/re-issue")
+    @GetMapping("/re-issue")
     @ApiOperation(value = "Token 재발급", notes = "기존 refreshToken을 이용해 accessToken과 refreshToken을 재발급 받는 요청")
     @ApiResponses({
             @ApiResponse(code = 200, message = "요청 성공"),
