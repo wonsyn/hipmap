@@ -4,6 +4,7 @@ import com.hipmap.domain.like.Exception.LikeAlreadyExistsException;
 import com.hipmap.domain.like.Exception.LikeDuplicateProcessingException;
 import com.hipmap.domain.like.Exception.LikeNotFoundException;
 import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
+import com.hipmap.domain.notification.NotificationService;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
 import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.ShortsRepository;
@@ -12,6 +13,7 @@ import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,9 @@ public class LikeServiceImpl implements LikeService {
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final ShortsRepository shortsRepository;
+
+    @Autowired
+    NotificationService notificationService;
 
     @Transactional
     @Override
@@ -40,6 +45,9 @@ public class LikeServiceImpl implements LikeService {
                     .vote(vote)
                     .build();
             likeRepository.save(createLike);
+            if(vote){ // 좋아요가 처음 생성될 때만 알림
+                notificationService.send(shortsEntity.getUser(),userEntity.getNickname()+"님이 좋아요를 눌렀습니다","/short주소추가예정");
+            }
         } else {
             throw new LikeAlreadyExistsException();
         }

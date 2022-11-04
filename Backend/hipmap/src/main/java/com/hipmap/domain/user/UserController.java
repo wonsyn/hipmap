@@ -1,6 +1,5 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Exception.EmailAuthNotFoundException;
 import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
@@ -21,8 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,18 +51,7 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public UserLoginResponse login(@RequestBody UserLoginRequest user) {
-        Map<String, String> map = new HashMap<>();
-        final JwtUserInfo userInfo = userService.login(user.getUsername(), user.getPassword());
-        final String token = jwtUtil.generateToken(userInfo.toEntity());
-        final String refreshJwt = jwtUtil.generateRefreshToken(userInfo.toEntity());
-        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-        map.put(JwtUtil.ACCESS_TOKEN_NAME, token);
-        map.put(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-
-        return UserLoginResponse.builder()
-                .tokens(map)
-                .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
-                .build();
+        return userService.login(user.getUsername(), user.getPassword());
     }
 
     @GetMapping("/{username}/exists")
