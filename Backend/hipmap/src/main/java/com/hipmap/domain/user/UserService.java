@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +38,7 @@ public class UserService implements UserDetailsService {
     private final AuthEmailService authEmailService;
     private final S3Util s3util;
     private final RedisUtil redisUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,7 +48,11 @@ public class UserService implements UserDetailsService {
     }
 
     public UserLoginResponse login(String username, String password) {
-        UserEntity user = userRepository.findByUsernameAndPassword(username, password).orElseThrow(LoginFailException::new);
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(LoginFailException::new);
+
+        if(!passwordEncoder.matches(password, user.getPassword())) {
+            throw new LoginFailException();
+        }
 
         JwtUserInfo userInfo = JwtUserInfo.builder()
                 .id(user.getUserId())
@@ -75,11 +81,13 @@ public class UserService implements UserDetailsService {
         Optional<UserEntity> optionalUser = userRepository.findByEmail(userInfo.getEmail());
         if(optionalUser.isPresent()) throw new EmailDuplicatedException();
 
+        String password = passwordEncoder.encode(userInfo.getPassword());
+
         userRepository.save(UserEntity.builder()
                 .email(userInfo.getEmail())
                 .nickname(userInfo.getNickname())
                 .role(Admin.ROLE_USER)// 최초 가입시 USER 로 설정
-                .password(userInfo.getPassword())
+                .password(password)
                 .username(userInfo.getUsername())
                 .proImgSrc(null)
                 .labelCharSrc(null)
