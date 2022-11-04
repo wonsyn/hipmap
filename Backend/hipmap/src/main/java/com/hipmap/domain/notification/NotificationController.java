@@ -1,35 +1,37 @@
 package com.hipmap.domain.notification;
 
+import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+
 @Api(value = "알림 API", tags = {"Notification"})
 @RestController
+@RequiredArgsConstructor
 public class NotificationController {
-    private final NotificationService notificationService;
+    @Autowired
+    NotificationService notificationService;
+    private final JwtUtil jwtUtil;
 
-
-    public NotificationController(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
 
 
     @ApiOperation(value = "알림 구독", notes = "로그인 한 유저를 sse 연결해 알림을 구독한다")
-    @GetMapping(value = "/subscribe/{id}", produces = "text/event-stream")
+    @GetMapping(value = "/subscribe", produces = "text/event-stream")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public SseEmitter subscribe(@PathVariable Long id,
-                                @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
-
-        return notificationService.subscribe(id, lastEventId);
+    public SseEmitter subscribe(@RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId, HttpServletRequest httpRequest) {
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
+        return notificationService.subscribe(userId, lastEventId);
     }
 
 
@@ -38,7 +40,8 @@ public class NotificationController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<NotificationsResponse> notifications(@RequestParam Long userId) {
+    public ResponseEntity<NotificationsResponse> notifications(HttpServletRequest httpRequest) {
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
         return ResponseEntity.ok().body(notificationService.findAllById(userId));
     }
 
