@@ -13,7 +13,7 @@
 # CMD ["nginx", "-g","daemon off;"]
 
 FROM node:16.15.0 as build-stage
-WORKDIR /var/jenkins_home/workspace/hipmapdpl/Frontend/hipmap
+WORKDIR /var/jenkins_home/workspace/hipmapdpl/frontend
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./
