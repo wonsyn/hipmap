@@ -28,7 +28,7 @@ public interface ShortsService {
     Long uploadFile(MultipartFile file, CreateShortsRequest request, Long user) throws Exception;
 
 
-    void updateMappedStates();
+//    void updateMappedStates();
 
     String getThumbnail(ShortsIdAndLikeCntProjectionInterface m);
 

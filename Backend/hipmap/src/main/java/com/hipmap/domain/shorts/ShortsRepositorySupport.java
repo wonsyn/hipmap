@@ -3,6 +3,7 @@ package com.hipmap.domain.shorts;
 import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.QLikeEntity;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -87,12 +88,25 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
 
 //    public Page<ShortsEntity> getShortsRandomPage(Pageable pageable){
 //        jpaQueryFactory.selectFrom(qShortsEntity)
-//                .where()
+//                .where(JPAExpressions
+//                        .select(qShortsEntity.shortsId)
+//                        .from(qShortsEntity)
+//                                .where()
+//
+//                        )
 //                .offset(pageable.getOffset()).limit(10)
-//                .fetchResults();
+//                .fetch();
 //
 //
 //    }
+
+    public List<Tuple> getShortsToUpdate(){
+        return jpaQueryFactory.select(qShortsEntity,qLike)
+                .from(qShortsEntity)
+                .leftJoin(qLike).on(qShortsEntity.shortsId.eq(qLike.shorts.shortsId))
+                .fetch();
+
+    }
 
 
 }

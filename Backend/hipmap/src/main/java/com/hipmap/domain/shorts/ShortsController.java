@@ -1,11 +1,13 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeService;
 import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
 import com.hipmap.domain.shorts.request.CreateShortsRequest;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
 import com.hipmap.global.util.JwtUtil;
+import com.querydsl.core.Tuple;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -36,12 +38,23 @@ public class ShortsController {
     @Autowired
     ShortsService shortsService;
 
+    @Autowired
+    ShortsRepositorySupport shortsRepositorySupport;
     @GetMapping()
     @ApiOperation(value = "쇼츠 조회 - 위 아래로 넘기기", notes = "pagenation으로 10개씩 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<?> getShorts(@PageableDefault(size = 10)Pageable pageable) {
+        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
+        return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
+    }
+    @GetMapping("/v2")
+    @ApiOperation(value = "쇼츠 조회 version2", notes = "pagenation으로 10개씩 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<?> getShortsRandom(@PageableDefault(size = 10)Pageable pageable) {
         Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
         return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
     }
@@ -131,9 +144,11 @@ public class ShortsController {
         return ResponseEntity.status(HttpStatus.OK).body(new ShortsListResponse(collect));
     }
 
-    @PutMapping("/updateMapped") // 삭제예정
-    public ResponseEntity<?> updateIsMapped() throws Exception {
-        shortsService.updateMappedStates();
-        return ResponseEntity.status(HttpStatus.OK).body("성공");
+    @GetMapping("/updateMapped") // 삭제예정
+    public void updateIsMapped() throws Exception {
+//        shortsService.updateMappedStates();
+//        shortsRepositorySupport.getShortsToUpdate();
+//        shortsService.updateMappedStates();
+//        return ResponseEntity.status(HttpStatus.OK).body("성공");
     }
 }

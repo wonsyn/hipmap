@@ -13,6 +13,7 @@ import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import com.hipmap.global.util.S3Util;
+import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -153,7 +154,7 @@ public class ShortsServiceImpl implements ShortsService {
             }else{
                 dirname = "voices";
             }
-            String storedFileSrc = s3Uploader.upload(file, dirname);
+            String storedFileSrc = s3Uploader.upload(file, dirname, userId);
             UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException ::new);
             ShortsEntity shorts = ShortsEntity.builder()
                     .fileSrc(storedFileSrc)
@@ -176,22 +177,32 @@ public class ShortsServiceImpl implements ShortsService {
 
     }
 
-    @Override
-//    @Scheduled(cron = "0 0/2 * * * ?") // 스케쥴링 예정 - 잘됨
-    @Transactional
-    public void updateMappedStates() {
-
-        List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
-        for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
-            ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
-            if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
-                shorts.setIsMapped(true);
-            }else{
-                shorts.setIsMapped(false);
-            }
-        }
-
-    }
+//    @Override
+////    @Scheduled(cron = "0 0 0 * * ?") // 스케쥴링 예정 - 잘됨
+//    @Transactional
+//    public void updateMappedStates() {
+//        List<ShortsEntity> shortsEntities = shortsRepository.findAll();
+////        List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
+//        List<Tuple> shortsTuples = shortsRepositorySupport.getShortsToUpdate();
+//
+//        for(Tuple t : shortsTuples){
+//            for(ShortsEntity s : shortsEntities){
+//                if(t.get(s.getShortsId())){
+//
+//                }
+//            }
+//
+//        }
+//        for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
+//            ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
+//            if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
+//                shorts.setIsMapped(true);
+//            }else{
+//                shorts.setIsMapped(false);
+//            }
+//        }
+//
+//    }
 
 
 
