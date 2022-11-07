@@ -1,5 +1,6 @@
 package com.hipmap.domain.user;
 
+import com.hipmap.domain.follow.FollowService;
 import com.hipmap.domain.user.Exception.EmailAuthNotFoundException;
 import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
@@ -20,6 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +32,7 @@ import java.net.URISyntaxException;
 @Api(tags = {"회원"})
 public class UserController {
     private final UserService userService;
+    private final FollowService followService;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
     private final AuthEmailService authEmailService;
@@ -47,7 +53,7 @@ public class UserController {
     @ApiOperation(value = "로그인", notes = "입력받은 회원정보를 이용해 로그인 진행")
     @ApiResponses({
             @ApiResponse(code = 200, message = "요청 성공"),
-            @ApiResponse(code = 204, message = "로그인 정보 없음"),
+            @ApiResponse(code = 404, message = "로그인 정보 없음"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public UserLoginResponse login(@RequestBody UserLoginRequest user) {
@@ -85,8 +91,17 @@ public class UserController {
             @ApiResponse(code = 401, message = "유저 정보 없음 (access token)"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public UserReadResponse readInfo(@PathVariable Long userId) {
-        return userService.readInfo(userId);
+    public ResponseEntity<Map> readInfo(@PathVariable Long userId, HttpServletRequest request) {
+        Long loginUserId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+        Boolean isFollow = followService.followConfirm(loginUserId, userId);
+        UserReadResponse userReadResponse = userService.readInfo(userId);
+
+        Map result = new HashMap();
+        result.put("isFollow", isFollow);
+        result.put("userInfo", userReadResponse);
+
+
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/auth/{key}")

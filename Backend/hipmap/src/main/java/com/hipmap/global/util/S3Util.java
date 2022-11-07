@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
@@ -29,14 +30,18 @@ public class S3Util {
     private String bucket;
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    public String upload(MultipartFile multipartFile, String dirName, Long userId) throws IOException {
+
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        return upload(uploadFile, dirName);
+        return upload(uploadFile, dirName, userId);
     }
 
-    private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+    private String upload(File uploadFile, String dirName, Long userId) {
+        String origName = uploadFile.getName();
+        String ext = origName.substring(origName.lastIndexOf('.'));
+        String saveFileName = userId+ "-" +getUuid() + ext;
+        String fileName = dirName + "/" + saveFileName;
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
@@ -83,5 +88,8 @@ public class S3Util {
 
     private void deleteS3(String source) {
         amazonS3Client.deleteObject(bucket, source);
+    }
+    private static String getUuid() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

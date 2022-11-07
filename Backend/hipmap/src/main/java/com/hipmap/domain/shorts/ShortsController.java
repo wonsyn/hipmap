@@ -1,10 +1,13 @@
 package com.hipmap.domain.shorts;
 
+import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeService;
 import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
+import com.hipmap.domain.shorts.request.CreateShortsRequest;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
 import com.hipmap.global.util.JwtUtil;
+import com.querydsl.core.Tuple;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -35,12 +38,23 @@ public class ShortsController {
     @Autowired
     ShortsService shortsService;
 
+    @Autowired
+    ShortsRepositorySupport shortsRepositorySupport;
     @GetMapping()
     @ApiOperation(value = "쇼츠 조회 - 위 아래로 넘기기", notes = "pagenation으로 10개씩 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<?> getShorts(@PageableDefault(size = 10)Pageable pageable) {
+        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
+        return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
+    }
+    @GetMapping("/v2")
+    @ApiOperation(value = "쇼츠 조회 version2", notes = "pagenation으로 10개씩 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<?> getShortsRandom(@PageableDefault(size = 10)Pageable pageable) {
         Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
         return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
     }
@@ -77,7 +91,7 @@ public class ShortsController {
         return new ResponseEntity<>(shortsService.getShortsCountByUsername(username), HttpStatus.OK);
     }
 
-    @GetMapping("/maplist")
+    @PostMapping("/maplist")
     @ApiOperation(value = "지도 내 게시물 조회", notes = "같은 레이블과 설정된 지역으로 필터링된 지도 상에 띄울 게시물 조회 ")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -111,8 +125,12 @@ public class ShortsController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Long> uploadFile(MultipartFile file, ShortsEntity shorts) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(shortsService.uploadFile(file, shorts));
+    public ResponseEntity<Long> uploadFile(
+            @RequestPart(value = "file") MultipartFile file,
+            @RequestPart(value = "CreateShortsRequest") CreateShortsRequest request,
+            HttpServletRequest httpRequest) throws Exception {
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
+        return ResponseEntity.status(HttpStatus.OK).body(shortsService.uploadFile(file, request,userId));
     }
 
     @GetMapping("/mainBest")
@@ -126,9 +144,9 @@ public class ShortsController {
         return ResponseEntity.status(HttpStatus.OK).body(new ShortsListResponse(collect));
     }
 
-    @PutMapping("/updateMapped") // 삭제예정
-    public ResponseEntity<?> updateIsMapped() throws Exception {
-        shortsService.updateMappedStates();
-        return ResponseEntity.status(HttpStatus.OK).body("성공");
-    }
+//    @PutMapping("/updateMapped") // 삭제예정
+//    public ResponseEntity<?> updateIsMapped() throws Exception {
+//        shortsService.updateMappedStates();
+//        return ResponseEntity.status(HttpStatus.OK).body("성공");
+//    }
 }
