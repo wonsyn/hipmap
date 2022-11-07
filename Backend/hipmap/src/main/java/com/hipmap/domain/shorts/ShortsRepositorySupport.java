@@ -1,15 +1,11 @@
 package com.hipmap.domain.shorts;
 
-import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.QLikeEntity;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
