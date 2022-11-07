@@ -30,7 +30,7 @@ public class FollowServiceImpl implements FollowService {
         UserEntity loginUser = userRepository.findById(loginUserId).orElseThrow(UserNotFoundException::new);
         UserEntity opponentUser = userRepository.findById(opponentUserId).orElseThrow(UserNotFoundException::new);
 
-        if(followRepository.countByFollowingUserAndUser(loginUser, opponentUser) >0){
+        if(followRepository.countByUserAndFollowingUser(loginUser, opponentUser) >0){
             return true;
         }
 
