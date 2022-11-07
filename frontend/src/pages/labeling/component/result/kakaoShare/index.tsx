@@ -1,4 +1,4 @@
-import { KakaoShareDiv, KakaoShareButton } from "../../../styles/result";
+import { KakaoShareDiv, KakaoShareImg } from "../../../styles/result";
 import kakao_share from "../../../../../assets/labeling/result/kakao_share.png"
 
 
@@ -14,12 +14,7 @@ function KakaoShare(){
         <KakaoShareDiv>
             이 테스트를 공유하고 싶다면?
             <br /><br />
-            <KakaoShareButton onClick={shareKakao}>
-        <img
-          src={kakao_share}
-          alt="카카오링크 보내기 버튼"
-        />
-      </KakaoShareButton>
+            <KakaoShareImg onClick={shareKakao} src={kakao_share} alt="카카오링크 보내기 버튼"/>
         </KakaoShareDiv>
     )
 }

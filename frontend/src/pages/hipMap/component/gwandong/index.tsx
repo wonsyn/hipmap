@@ -1,7 +1,12 @@
-import { FullMapWrappingDiv, GwandongMapDiv, GridDivRegional, NotDotSpanRegional } from "../../styles/fullmap";
+import { FullMapWrappingDiv, GwandongMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { GwandongSpanRegional } from "../../styles/fullmap";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import { saveClick, saveGwandong, saveGwandongAnime, saveGwandongMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { useNavigate } from "react-router-dom";
 function Gwandong(){
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -26,8 +31,28 @@ function Gwandong(){
         [-1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
        ]
+
+    function GwandongSelect(){
+      dispatch(saveClick())
+      dispatch(saveGwandong())
+      dispatch(saveGwandongAnime())
+      dispatch(saveGwandongMobile({
+        isGwandongMobile: false
+      }))
+      dispatch(saveName(
+        {
+          name: ""
+        }))
+
+      }
+    function GwandongClick(){
+      navigate('/hipmap/result')
+    }
         return (
           <FullMapWrappingDiv>
+            <ArrowDiv onClick={() => GwandongSelect()} >
+              <ArrowBackIcon fontSize="large"/>
+            </ArrowDiv>
             <GwandongMapDiv>
               {mapDot.map((dots, i) => (
               <GridDivRegional>
@@ -36,7 +61,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 8){
                               return(
-                                <GwandongSpanRegional>
+                                <GwandongSpanRegional onClick={() => GwandongClick()}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -59,7 +84,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 6 || j === 7 || j === 8){
                               return(
-                                <GwandongSpanRegional>
+                                <GwandongSpanRegional onClick={() => GwandongClick()}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -82,7 +107,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 6 || j === 7 || j === 8 || j === 9){
                               return(
-                                <GwandongSpanRegional>
+                                <GwandongSpanRegional onClick={() => GwandongClick()}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -105,7 +130,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10){
                               return(
-                                <GwandongSpanRegional>
+                                <GwandongSpanRegional onClick={() => GwandongClick()}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -128,7 +153,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10){
                               return(
-                                <GwandongSpanRegional>
+                                <GwandongSpanRegional onClick={() => GwandongClick()}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -151,7 +176,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 9 || j === 10 || j === 11){
                               return(
-                                <GwandongSpanRegional>
+                                <GwandongSpanRegional onClick={() => GwandongClick()}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )

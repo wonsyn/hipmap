@@ -24,15 +24,74 @@ function Header() {
     navigator(`/login`);
   };
   return (
-    <HeaderContainer>
+  <>
+  {((window.location.pathname === "/labeling/welcome") || (window.location.pathname === "/labeling/processing") || (window.location.pathname === "/labeling/result"))? 
+  (<></>): 
+  (<HeaderContainer>
+    <div
+      css={css`
+        width: 100%;
+        height: 100%;
+        display: flex;
+        max-width: 1024px;
+        /* justify-content: center; */
+        align-items: center;
+      `}
+    >
+      <Title />
+      {!isMobile ? (
+        <HeaderContentsWrapperDiv>
+          <HeaderShortsButtons
+            onClick={() => {
+              navigator("/shorts");
+            }}
+          >
+            <FooterShortsImg
+              src="/img/Shorts.png"
+              width="auto"
+              height="100%"
+              alt="shorts 버튼"
+            />
+          </HeaderShortsButtons>
+          <HeaderShortsButtons>
+            <FooterShortsImg
+              src="/img/randomHip.png"
+              width="auto"
+              height="100%"
+              alt="대동힙지도 버튼"
+            />
+          </HeaderShortsButtons>
+          {auth && (
+            <HeaderContentWriteButton>
+              <FooterShortsImg
+                src="/img/largeScreenWriteButton.png"
+                alt="대동힙지도 버튼"
+              />
+            </HeaderContentWriteButton>
+          )}
+        </HeaderContentsWrapperDiv>
+      ) : null}
+
       <div
         css={css`
-          width: 100%;
+          margin-left: auto;
+          width: 60%;
           height: 100%;
           display: flex;
-          max-width: 1024px;
-          /* justify-content: center; */
           align-items: center;
+          justify-content: end;
+          margin-right: 5%;
+          @media (min-width: 700px) {
+            font-size: 0.8rem;
+            width: 35%;
+            margin-right: 2%;
+          }
+          @media (min-width: 1024px) {
+            font-size: 1.1rem;
+            width: 30%;
+            margin-right: 2%;
+          }
+          font-size: 0.6rem;
         `}
       >
         <Title />
@@ -113,7 +172,11 @@ function Header() {
           )}
         </div>
       </div>
-    </HeaderContainer>
+    </div>
+  </HeaderContainer>)}
+  
+  </>
+   
   );
 }
 
