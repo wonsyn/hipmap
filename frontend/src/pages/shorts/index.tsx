@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FullPage, Slide } from "react-full-page";
 import CommentsWrapper from "../../components/comments";
 import ShortsVideoWrapper from "./component/ShortsVideoWrapper";
@@ -11,6 +11,7 @@ import {
   ShortsVideoModalWrapper,
   ShortsWrapperDiv,
 } from "./styles/shortsStyle";
+import { useMediaQuery } from "@material-ui/core";
 
 interface shortsInterface {
   shorts_id: number;
@@ -176,6 +177,7 @@ const Shorts = () => {
   const [shortsId, setShortsId] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [prevScroll, setPrevScroll] = useState<number>(0);
+  const isMobile = useMediaQuery("(max-width:699px)");
 
   const getCurrentIndex = () => {
     console.log(prevScroll, window.scrollY);
@@ -224,7 +226,7 @@ const Shorts = () => {
         ) : (
           <Modal
             modalHandler={modalClose}
-            width="90%"
+            width={isMobile ? "90%" : "700px"}
             height="85%"
             backgroundcolor="#222222"
             color="white"

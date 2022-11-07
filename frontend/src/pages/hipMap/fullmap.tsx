@@ -101,4 +101,4 @@ function FullMapPage(){
     )
 }
 
-export default FullMapPage
+export default FullMapPage;

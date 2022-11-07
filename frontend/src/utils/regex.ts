@@ -1,6 +1,8 @@
 // 한국어+글자수(3글자 이상,10글자 이하)
 const nickname = /^[a-z0-9|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,10}$/;
 
+const userId = /^[a-z]+[a-z0-9]{4,19}$/g;
+
 // email형식
 // eslint-disable-next-line
 const email = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; // eslint-disable-next-line
@@ -13,6 +15,6 @@ const phone = /^[0-9\b -]{0,13}$/;
 
 const name = /^[가-힣]{2,10}$/;
 
-const regex = { nickname, email, password, phone, name };
+const regex = { nickname, email, password, phone, name, userId };
 
 export default regex;
