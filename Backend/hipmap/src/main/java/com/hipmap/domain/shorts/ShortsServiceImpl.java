@@ -94,14 +94,16 @@ public class ShortsServiceImpl implements ShortsService {
     }
 
     @Override
-    public List<GetShortsByLabelResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request) {
+    public List<GetShortsByLabelAndLocResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request) {
         Optional<UserEntity> user = userRepository.findById(userId);
         if (user.isPresent()) {
             String lableName = user.get().getLabelName();
             List<ShortsEntity> shortsEntities = shortsRepositorySupport.getShortsEntityByLabelAndLocation(lableName, request);
-            List<GetShortsByLabelResponse> boardDtoList = shortsEntities.stream().map(m -> GetShortsByLabelResponse.builder()
+            List<GetShortsByLabelAndLocResponse> boardDtoList = shortsEntities.stream().map(m -> GetShortsByLabelAndLocResponse.builder()
                     .shortsId(m.getShortsId())
                     .thumbnailSrc(m.getThumbnailSrc())
+                    .longitude(m.getLongitude())
+                    .latitude(m.getLatitude())
                     .build()).collect(Collectors.toList());
             return boardDtoList;
         } else throw new RuntimeException("존재하지 않는 유저입니다");
