@@ -8,11 +8,15 @@ interface LabelingDetailProps{
 function LabelingDetail({list}: LabelingDetailProps){
     return(
         <LabelingDetailDiv>
-            {list.map(list => (
-                <MappingDiv>
-                    {list}
-                </MappingDiv>
-            ))}
+            <ul>
+                {list.map(list => (
+                    <MappingDiv>
+                        <li>
+                            {list}
+                        </li>
+                    </MappingDiv>
+                ))}
+            </ul>
         </LabelingDetailDiv>
     )
 }

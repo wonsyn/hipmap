@@ -5,6 +5,7 @@ import WelcomePage from "./pages/labeling/welcome";
 import ProcessingPage from "./pages/labeling/processting";
 import ResultPage from "./pages/labeling/result";
 import FullMapPage from "./pages/hipMap/fullmap";
+import HipMapResultPage from "./pages/hipMap/result";
 import LoginWrapper from "./pages/login";
 import { useEffect } from "react";
 import SignUpWrapper from "./pages/signUp";
@@ -37,11 +38,11 @@ function App() {
             ></Route>
             <Route path="/labeling/result" element={<ResultPage />}></Route>
             <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
+            <Route path="/hipmap/result" element={<HipMapResultPage/>}></Route>
             <Route path="/login" element={<LoginWrapper />} />
             <Route path="/signup" element={<SignUpWrapper />} />
             <Route path="/myPage">
               <Route path=":username" element={<MyPage />} />
-
               <Route path="followlist/:userid" element={<MyFollowList />} />
             </Route>
             <Route path="/myProfile/:username" element={<MyPage />} />
