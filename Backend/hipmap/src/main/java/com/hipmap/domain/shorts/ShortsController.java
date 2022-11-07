@@ -91,7 +91,7 @@ public class ShortsController {
         return new ResponseEntity<>(shortsService.getShortsCountByUsername(username), HttpStatus.OK);
     }
 
-    @GetMapping("/maplist")
+    @PostMapping("/maplist")
     @ApiOperation(value = "지도 내 게시물 조회", notes = "같은 레이블과 설정된 지역으로 필터링된 지도 상에 띄울 게시물 조회 ")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
