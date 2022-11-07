@@ -1,0 +1,37 @@
+diff --git a/node_modules/react-full-page/lib/index.d.ts b/node_modules/react-full-page/lib/index.d.ts
+new file mode 100644
+index 0000000..3dd63c8
+--- /dev/null
++++ b/node_modules/react-full-page/lib/index.d.ts
+@@ -0,0 +1,30 @@
++declare module "react-full-page" {
++  type ControlComponentsProps = {
++    getCurrentSlideIndex: () => number;
++    onNext: () => void;
++    onPrev: () => void;
++    scrollToSlide: (n: number) => void;
++    slidesCount: number;
++    children: React.ReactNode;
++  };
++
++  type FullPageProps = {
++    initialSlide?: number;
++    duration?: number;
++    controls?: boolean | React.FC<ControlComponentsProps>;
++    controlProps?: any;
++    beforeChange?: () => void;
++    afterChange?: () => void;
++    scrollMode?: "full-page" | "normal";
++    children: React.ReactNode;
++  };
++
++  type SlideProps = {
++    children: React.ReactNode;
++    style?: { maxHeight: string };
++  };
++
++  export const FullPage: React.FC<FullPageProps>;
++
++  export const Slide: React.FC<SlideProps>;
++}
+\ No newline at end of file

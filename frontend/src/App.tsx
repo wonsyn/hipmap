@@ -12,42 +12,48 @@ import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
-import CommentsWrapper from "./components/comments";
-import { commentsDummy } from "./components/comments/commentsDummy";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import Write from "./pages/write";
+import KakaoRedirect from "./pages/login/component/KakaoRedirect";
+import MyProfileModify from "./pages/myPage/component/MyProfileModify";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 function App() {
-
-  const queryClient = new QueryClient()
-  useEffect(()=>{
-      if(!window.Kakao.isInitialized()){
-        window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);  
-      }
-  },[])
-
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
+    }
+  }, []);
+  const client = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Layout>
+    <BrowserRouter>
+      <Layout>
+        <QueryClientProvider client={client}>
           <Routes>
             <Route path="/main" element={<Main />} />
             <Route path="/" element={<Navigate replace to="/main" />} />
-            <Route path="/labeling/welcome" element={<WelcomePage/>}></Route>
-            <Route path="/labeling/processing" element={<ProcessingPage/>}></Route>
-            <Route path="/labeling/result" element={<ResultPage/>}></Route>
-            <Route path="/hipmap/fullmap" element={<FullMapPage/>}></Route>
+            <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
+            <Route
+              path="/labeling/processing"
+              element={<ProcessingPage />}
+            ></Route>
+            <Route path="/labeling/result" element={<ResultPage />}></Route>
+            <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
             <Route path="/hipmap/result" element={<HipMapResultPage/>}></Route>
             <Route path="/login" element={<LoginWrapper />} />
             <Route path="/signup" element={<SignUpWrapper />} />
             <Route path="/myPage">
               <Route path=":username" element={<MyPage />} />
-              <Route path="myProfile" element={<MyPage />} />
-              <Route path="followlist" element={<MyFollowList />} />
+              <Route path="followlist/:userid" element={<MyFollowList />} />
             </Route>
+            <Route path="/myProfile/:username" element={<MyPage />} />
             <Route path="/shorts" element={<Shorts />} />
+            <Route path="/write" element={<Write />} />
+            <Route path="/oauth/kakao" element={<KakaoRedirect />} />
+            <Route path="/profileModify" element={<MyProfileModify />} />
           </Routes>
-        </Layout>
-      </BrowserRouter>
-    </QueryClientProvider>
+        </QueryClientProvider>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
