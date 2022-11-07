@@ -3,12 +3,16 @@ import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 import KakaoMap from "./KakaoMap";
 
-export interface positionInfo {
+interface positionInfo {
   lat: number;
   lng: number;
 }
 
-const KakaoMapWrapper = () => {
+const KakaoMapWrapper = ({
+  setPosition,
+}: {
+  setPosition: (e: any) => void;
+}) => {
   const [userPosition, setUserPosition] = useState<positionInfo>();
   useEffect(() => {
     if (navigator.geolocation) {
@@ -41,7 +45,11 @@ const KakaoMapWrapper = () => {
       `}
     >
       {userPosition && (
-        <KakaoMap lat={userPosition.lat} lng={userPosition.lng} />
+        <KakaoMap
+          lat={userPosition.lat}
+          lng={userPosition.lng}
+          setPosition={setPosition}
+        />
       )}
     </div>
   );

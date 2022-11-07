@@ -1,8 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useEffect, useState } from "react";
 import theme from "../../../styles/theme";
 
-const MovieUpload = () => {
+const MovieUpload = ({
+  setUploadInfo,
+}: {
+  setUploadInfo: (e: any) => void;
+}) => {
+  const [file, setFile] = useState<any>();
+
+  const videoUpload = (e: any) => {
+    setFile(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    if (file) {
+      setUploadInfo(file);
+    } else {
+      setUploadInfo(null);
+    }
+  }, [file, setUploadInfo]);
+
   return (
     <div
       css={css`
@@ -32,16 +51,28 @@ const MovieUpload = () => {
           justify-content: center;
         `}
       >
-        <video
-          src="/movie/login2.mp4"
-          muted
-          poster="/img/11.jpg"
-          controls
-          css={css`
-            width: 100%;
-            height: 100%;
-          `}
-        ></video>
+        {file ? (
+          <div>
+            <video
+              src={URL.createObjectURL(file)}
+              muted
+              controls
+              css={css`
+                width: 100%;
+                height: 100%;
+              `}
+            ></video>
+            <button
+              onClick={() => {
+                setFile(null);
+              }}
+            >
+              삭제하기
+            </button>
+          </div>
+        ) : (
+          <input type="file" onChange={videoUpload} />
+        )}
       </div>
     </div>
   );

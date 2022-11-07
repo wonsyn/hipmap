@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { css } from "@emotion/react";
-import { positionInfo } from "./KakaoMapWrapper";
 import { useMediaQuery } from "@material-ui/core";
 
 interface addressType {
@@ -11,14 +10,33 @@ interface addressType {
   gun: string | null;
 }
 
-const KakaoMap = ({ lat, lng }: positionInfo) => {
+interface positionInfo {
+  lat: number;
+  lng: number;
+  setPosition: (e: any) => void;
+}
+
+const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
   const isMobile = useMediaQuery("(min-width:700px)");
-  const [position, setPosition] = useState<any>({
+  const [position, setPositionProps] = useState<any>({
     lat: lat,
     lng: lng,
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [address, setAddress] = useState<addressType>();
+
+  useEffect(() => {
+    if (address) {
+      setPosition({
+        lat: lat,
+        lng: lng,
+        si: address.si,
+        gu: address.gu,
+        gun: address.gun,
+      });
+    }
+  }, [position, address, setPosition, lat, lng]);
+
   return (
     <div
       css={css`
@@ -70,7 +88,7 @@ const KakaoMap = ({ lat, lng }: positionInfo) => {
         }}
         level={3} // 지도의 확대 레벨
         onClick={(_t, mouseEvent) => {
-          setPosition({
+          setPositionProps({
             lat: mouseEvent.latLng.getLat(),
             lng: mouseEvent.latLng.getLng(),
           });
@@ -96,9 +114,13 @@ const KakaoMap = ({ lat, lng }: positionInfo) => {
         {position && <MapMarker position={position} />}
       </Map>
       {position && (
-        <p>
-          클릭한 곳의 위도는 {position.lat} 경도는 {position.lng} 주소는
-          {address?.si} {address?.gu} {address?.gun}
+        <p
+          css={css`
+            margin-top: 2vh;
+            font-size: 1.2rem;
+          `}
+        >
+          현재 좌표는 {address?.si} {address?.gu} {address?.gun} 입니다!
         </p>
       )}
     </div>

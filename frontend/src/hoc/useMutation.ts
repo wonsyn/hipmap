@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import http from "../utils/http-commons";
+import axios from "axios";
+import { useAppSelector } from "./useStoreHooks";
 
 //유저 정보 수정하기
 export const useUserInfoModify = () => {
@@ -63,6 +65,67 @@ export const useFollowDelete = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(["following"]);
         queryClient.invalidateQueries(["follower"]);
+      },
+    }
+  );
+};
+
+export const useUploadShorts = () => {
+  const queryClient = useQueryClient();
+  const access_token = useAppSelector((store) => store.userReducer.token);
+  return useMutation(
+    async ({
+      shorts,
+      file_type,
+    }: {
+      shorts: {
+        file: File;
+        si: string;
+        gu: string | null;
+        gun: string | null;
+        lat: number;
+        lng: number;
+      };
+      file_type: string;
+    }) => {
+      let temp = new FormData();
+      temp.append("file", shorts.file);
+      temp.append(
+        "CreateShortsRequest",
+        new Blob(
+          [
+            JSON.stringify({
+              locationSi: shorts.si,
+              locationGu: shorts.gu,
+              locationDong: shorts.gun,
+              latitude: shorts.lat,
+              longitude: shorts.lng,
+              file_type,
+            }),
+          ],
+          { type: "application/json" }
+        )
+      );
+      console.log(shorts, file_type);
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/shorts/upload`,
+        temp,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            accessToken: `${access_token.access_token}`,
+          },
+        }
+      );
+
+      console.log(response);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries();
       },
     }
   );

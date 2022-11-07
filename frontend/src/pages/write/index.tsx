@@ -1,12 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useState } from "react";
+import { useUploadShorts } from "../../hoc/useMutation";
 import KakaoMapWrapper from "./component/KakaoMapWrapper";
 import MovieUpload from "./component/MovieUpload";
 
 const Write = () => {
   //업로드 할 동영상/ 사진 정보 가져오기
   const [uploadInfo, setUploadInfo] = useState<any>();
+  // console.log(uploadInfo);
+
+  const [position, setPosition] = useState<{
+    lat: number;
+    lng: number;
+    si: string;
+    gu: string | null;
+    gun: string | null;
+  }>();
+  // console.log(position);
+
+  const { mutate, isLoading } = useUploadShorts();
+
   return (
     <div
       css={css`
@@ -47,8 +61,29 @@ const Write = () => {
           }
         `}
       >
-        <MovieUpload />
-        <KakaoMapWrapper />
+        <MovieUpload setUploadInfo={setUploadInfo} />
+        <KakaoMapWrapper setPosition={setPosition} />
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            if (position) {
+              mutate({
+                shorts: {
+                  file: uploadInfo,
+                  si: position.si,
+                  gu: position.gu ? position.gu : null,
+                  gun: position.gun ? position.gun : null,
+                  lat: position.lat,
+                  lng: position.lng,
+                },
+                file_type: "video",
+              });
+            }
+          }}
+        >
+          글 업로드
+        </button>
       </div>
     </div>
   );

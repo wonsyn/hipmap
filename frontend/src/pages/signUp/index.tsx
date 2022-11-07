@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hoc/useStoreHooks";
 import { fetchSignUpThunk, signUpType } from "../../store/login/loginStore";
 import http from "../../utils/http-commons";
