@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
+    Long countByFollowingUserAndUser(UserEntity userEntity, UserEntity followEntity);
+
     List<FollowEntity> findAllByUser(UserEntity user);
 
     List<FollowEntity> findAllByFollowingUser(UserEntity followingUser);
@@ -20,7 +22,6 @@ public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
 
     // follower count
     Long countByFollowingUser(UserEntity followingUser);
-
 
     @Query("SELECT f.followingUser.username FROM FollowEntity f WHERE f.followingUser.username LIKE %:keyword% AND f.user.userId = :userId")
     List<String> findAllSearch(@Param("keyword") String keyword, @Param("userId") Long userId);
