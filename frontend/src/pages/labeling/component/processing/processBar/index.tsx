@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { ProcessBarDiv } from '../../../styles/processing';
+import { ProcessBarDiv, EmphasizingImg } from '../../../styles/processing';
 import { palette } from '../../../../../assets/Palette';
-
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-
+import emphasizingImg from "../../../../../assets/labeling/processing/emphasizingImage.png"
 interface LinearWithValueLabelProps{
   number: number;
 }
@@ -52,6 +49,7 @@ export default function LinearWithValueLabel({number}: LinearWithValueLabelProps
 
   return (
     <ProcessBarDiv>
+      <EmphasizingImg src={emphasizingImg} number={progress}/>
       <LinearProgressWithLabel value={progress} />
     </ProcessBarDiv>
   );

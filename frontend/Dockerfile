@@ -19,6 +19,7 @@ RUN yarn
 COPY . ./
 RUN yarn install
 
+COPY .env .
 COPY  ./module/index.d.ts ./node_modules/react-full-page/lib/
 
 RUN yarn build
