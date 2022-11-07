@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
-    Long countByFollowingUserAndUser(UserEntity userEntity, UserEntity followEntity);
+    Long countByUserAndFollowingUser(UserEntity userEntity, UserEntity followEntity);
 
     List<FollowEntity> findAllByUser(UserEntity user);
 
