@@ -22,4 +22,6 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     @Query(value = "SELECT shorts_id as shortsId, count(vote) AS totalCnt,sum(vote) AS likeCnt FROM shorts_like GROUP BY shorts_id", nativeQuery = true)
     List<ShortsIdAndTotalCntProjectionInterface> getShortsTotalLikeAndSumLike();
 
+    Boolean existsByShorts_ShortsId(Long shortsId);
+
 }

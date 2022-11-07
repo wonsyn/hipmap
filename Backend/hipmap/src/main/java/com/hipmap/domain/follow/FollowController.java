@@ -1,5 +1,6 @@
 package com.hipmap.domain.follow;
 
+import com.hipmap.domain.follow.Exception.FollowSameUserException;
 import com.hipmap.domain.follow.dto.FollowListResponseDto;
 import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;
@@ -24,6 +25,9 @@ public class FollowController {
     @ApiOperation(value = "팔로우 추가", notes = "팔로우를 추가합니다.")
     public ResponseEntity<String> create(@PathVariable(name = "opponentUserId") Long opponentUserId, HttpServletRequest request) {
         Long loginUserId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+        if(loginUserId == opponentUserId){
+            throw new FollowSameUserException();
+        }
         followService.createFollow(loginUserId, opponentUserId);
         return ResponseEntity.ok().body("성공");
     }
