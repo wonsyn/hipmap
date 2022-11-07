@@ -4,10 +4,22 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
 import { saveClick, saveSudogwan, saveSudogwanMobile, saveName, saveSudogwanAnime } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
-
+import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 function Sudogwan(){
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {data} = useDotMapData(
+      {
+        queryKey: "dotMapData",
+        uri: "/shorts/maplist",
+        startLat: 2,
+        endLat: 2,
+        startLng: 2,
+        endLng: 2 
+      }
+    )
+    console.log("넌 뭐니? ", data)
+    // console.log(isloading)
     const mapDot = [
         [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
         [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
