@@ -8,6 +8,7 @@ import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
 import com.hipmap.global.util.JwtUtil;
 import com.querydsl.core.Tuple;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -27,6 +28,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(value = "쇼츠 API", tags = {"Shorts"})
 @RestController
 @RequestMapping("/shorts")
 @RequiredArgsConstructor
