@@ -6,11 +6,14 @@ import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/login/loginStore";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hoc/useStoreHooks";
 
 const ProfileImgWrapper = () => {
   const userNickName = useSelector(
     (store: RootState) => store.userReducer.user.nickname
   );
+  const userId = useAppSelector((store) => store.userReducer.user.user_id);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = () => {
@@ -18,7 +21,7 @@ const ProfileImgWrapper = () => {
   };
 
   const myPageHandler = () => {
-    navigate("/myPage/myProfile");
+    navigate("/myProfile/" + userId);
   };
 
   return (

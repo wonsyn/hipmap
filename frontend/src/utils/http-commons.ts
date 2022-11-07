@@ -3,17 +3,19 @@ import axios from "axios";
 const http = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
   headers: {
-    "content-type": "application/json; charset=UTF-8",
+    "Content-type": "application/json; charset=UTF-8",
   },
 });
 
 http.interceptors.request.use(
   (config) => {
-    const loginToken = "";
-
-    if (loginToken) {
+    let loginToken: string | null = null;
+    if (localStorage.getItem("token")) {
+      loginToken = localStorage.getItem("token");
+    }
+    if (loginToken != null) {
       config.headers = {
-        Authoriztion: `Bearer ${loginToken}`,
+        accessToken: `${JSON.parse(loginToken).accessToken}`,
       };
     }
     return config;

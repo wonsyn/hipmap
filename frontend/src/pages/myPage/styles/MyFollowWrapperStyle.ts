@@ -105,6 +105,9 @@ export const MyFollowAddButton = styled.button`
   color: white;
   font-size: 1rem;
   font-weight: bold;
+  :disabled {
+    color: black;
+  }
 `;
 
 export const MyFollowIdWrapper = styled.div`

@@ -4,51 +4,61 @@ import {
   MyInfoDiv,
   MyInfoWrapperDiv,
 } from "../styles/MyInfoWrapperStyle";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MyFollowWrapper from "./MyFollowWrapper";
-import { useMatch } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-interface userType {
-  userId: number;
-  username: string;
-  usernickname: string;
-  labeling: string;
-  profileImg: string;
-}
+import { useFetchUserInfo } from "../../../hoc/useFetch";
+import { useAppSelector } from "../../../hoc/useStoreHooks";
 
 const MyInfoWrapper = () => {
   const [isMyPage, setIsMyPage] = useState<boolean>(false);
-  const [user, setUser] = useState<userType>();
-  const userInfo = useSelector((store: RootState) => store.userReducer.user);
-  const urlMatch = useMatch("/myPage/myProfile");
+  const userIn = useAppSelector((store) => store.userReducer.user.user_id);
+  const params = useParams();
+  const navigate = useNavigate();
+  const { data, isLoading } = useFetchUserInfo(parseInt(params.username!));
   useEffect(() => {
-    if (urlMatch !== null) {
+    if (params.username && userIn === parseInt(params.username)) {
       setIsMyPage(true);
     }
-  }, [urlMatch]);
+  }, [params.username, userIn]);
   useEffect(() => {
     if (!isMyPage) {
     }
   }, [isMyPage]);
-
-  return (
-    <MyInfoWrapperDiv>
-      <MyInfoDiv>
-        <div>
-          <AccountCircleIcon fontSize="large" />
-        </div>
-        <div>{userInfo.nickname}</div>
-        <div>{userInfo.labeling}</div>
-      </MyInfoDiv>
-      <MyInfoButtonWrapperDiv>
-        <MyFollowWrapper />
-        <MyButton>팔로우</MyButton>
-      </MyInfoButtonWrapperDiv>
-    </MyInfoWrapperDiv>
-  );
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  } else if (!isLoading && data) {
+    return (
+      <MyInfoWrapperDiv>
+        <MyInfoDiv>
+          <div>
+            <AccountCircleIcon fontSize="large" />
+          </div>
+          <div>{data.nickname}</div>
+          <div>{data.labelName}</div>
+        </MyInfoDiv>
+        <MyInfoButtonWrapperDiv>
+          <MyFollowWrapper
+            userId={data.userId}
+            followerCount={data.followerCount}
+            followingCount={data.followingCount}
+          />
+          <MyButton
+            onClick={() => {
+              if (isMyPage) {
+                navigate("/profileModify");
+              }
+            }}
+          >
+            {isMyPage ? `프로필수정` : `팔로우`}
+          </MyButton>
+        </MyInfoButtonWrapperDiv>
+      </MyInfoWrapperDiv>
+    );
+  } else {
+    return <div>에러가 났습니다...</div>;
+  }
 };
 
 export default MyInfoWrapper;
