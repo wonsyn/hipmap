@@ -26,7 +26,7 @@ const MyFollowWrapper = ({
         <MyFollowCountElement
           onClick={() => {
             navigate("/myPage/followlist/" + userId, {
-              state: { click: "follow" },
+              state: { click: "following" },
             });
           }}
         >
@@ -44,7 +44,7 @@ const MyFollowWrapper = ({
       </MyFollowElementWrapperDiv>
       <MyFollowElementWrapperDiv>
         <MyFollowCountElement>게시물</MyFollowCountElement>
-        <MyFollowCountElement>팔로우</MyFollowCountElement>
+        <MyFollowCountElement>팔로잉</MyFollowCountElement>
         <MyFollowCountElement>팔로워</MyFollowCountElement>
       </MyFollowElementWrapperDiv>
     </MyFollowWrapperDiv>

@@ -41,9 +41,10 @@ function App() {
             <Route path="/signup" element={<SignUpWrapper />} />
             <Route path="/myPage">
               <Route path=":username" element={<MyPage />} />
-              <Route path="myProfile" element={<MyPage />} />
+
               <Route path="followlist/:userid" element={<MyFollowList />} />
             </Route>
+            <Route path="/myProfile/:username" element={<MyPage />} />
             <Route path="/shorts" element={<Shorts />} />
             <Route path="/write" element={<Write />} />
             <Route path="/oauth/kakao" element={<KakaoRedirect />} />

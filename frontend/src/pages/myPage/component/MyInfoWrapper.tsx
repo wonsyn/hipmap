@@ -11,20 +11,6 @@ import { useEffect, useState } from "react";
 import { useFetchUserInfo } from "../../../hoc/useFetch";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 
-interface userType {
-  email: string;
-  followPrivate: boolean;
-  followerCount: number;
-  followingCount: number;
-  labelName: string;
-  nickname: string;
-  proImgSrc: string;
-  role: string;
-  shortsCount: number;
-  userId: number;
-  username: string;
-}
-
 const MyInfoWrapper = () => {
   const [isMyPage, setIsMyPage] = useState<boolean>(false);
   const userIn = useAppSelector((store) => store.userReducer.user.user_id);

@@ -38,21 +38,21 @@ export const useFetchUserFollow = ({
     message: string;
     username: string;
     follow: {
-      user_id: number;
+      userId: number;
       followUserName: string;
-      profile_img: string;
+      proImgSrc: string;
     }[];
   }>(
     [fetchType],
     async () => {
       console.log(id, fetchType);
       if (fetchType === "follower") {
-        const response = await http.get(`/follow/followerList`);
+        const response = await http.get(`/follow/followerList?userId=` + id);
 
         console.log(response.data);
         return response.data;
       } else {
-        const response = await http.get(`/follow/followingList`);
+        const response = await http.get(`/follow/followingList?userId=` + id);
         return response.data;
       }
     },

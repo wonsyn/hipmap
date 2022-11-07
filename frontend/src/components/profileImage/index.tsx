@@ -21,7 +21,7 @@ const ProfileImgWrapper = () => {
   };
 
   const myPageHandler = () => {
-    navigate("/myPage/" + userId);
+    navigate("/myProfile/" + userId);
   };
 
   return (

@@ -32,3 +32,38 @@ export const useUserInfoModify = () => {
     }
   );
 };
+
+export const useFollowAdd = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (id: number) => {
+      const response = await http.post(`/follow/` + id);
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["following"]);
+        queryClient.invalidateQueries(["follower"]);
+      },
+    }
+  );
+};
+
+export const useFollowDelete = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (id: number) => {
+      const response = await http.delete(`/follow/` + id);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["following"]);
+        queryClient.invalidateQueries(["follower"]);
+      },
+    }
+  );
+};
