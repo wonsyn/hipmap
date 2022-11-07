@@ -1,7 +1,6 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.comment.CommentReposiotrySupport;
-import com.hipmap.domain.comment.CommentRepository;
 import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeRepository;
 import com.hipmap.domain.like.LikeRepositorySupport;
@@ -17,7 +16,6 @@ import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -177,32 +175,30 @@ public class ShortsServiceImpl implements ShortsService {
 
     }
 
-//    @Override
-////    @Scheduled(cron = "0 0 0 * * ?") // 스케쥴링 예정 - 잘됨
-//    @Transactional
-//    public void updateMappedStates() {
-//        List<ShortsEntity> shortsEntities = shortsRepository.findAll();
-////        List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
+    @Override
+//    @Scheduled(cron = "0 0 0 * * ?") // 스케쥴링 예정 - 잘됨
+    @Transactional
+    public void updateMappedStates() {
+        List<ShortsEntity> shortsEntities = shortsRepository.findAll();
+        List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
 //        List<Tuple> shortsTuples = shortsRepositorySupport.getShortsToUpdate();
-//
-//        for(Tuple t : shortsTuples){
-//            for(ShortsEntity s : shortsEntities){
-//                if(t.get(s.getShortsId())){
-//
-//                }
-//            }
-//
-//        }
-//        for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
-//            ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
-//            if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
-//                shorts.setIsMapped(true);
-//            }else{
-//                shorts.setIsMapped(false);
-//            }
-//        }
-//
-//    }
+
+        for (ShortsEntity s : shortsEntities){
+            if(!likeRepository.existsByShorts_ShortsId(s.getShortsId())){
+                s.setIsMapped(false);
+            }else{
+                for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
+                    ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
+                    if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
+                        shorts.setIsMapped(true);
+                    }else{
+                        shorts.setIsMapped(false);
+                    }
+                }
+            }
+        }
+
+    }
 
 
 
