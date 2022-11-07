@@ -2,17 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import http from "../utils/http-commons";
 
 interface userinformationProps {
-  email: string;
-  followPrivate: boolean;
-  followerCount: number;
-  followingCount: number;
-  labelName: string;
-  nickname: string;
-  proImgSrc: string;
-  role: string;
-  shortsCount: number;
-  userId: number;
-  username: string;
+  isFollow: boolean;
+  userInfo: {
+    email: string;
+    followPrivate: boolean;
+    followerCount: number;
+    followingCount: number;
+    labelName: string;
+    nickname: string;
+    proImgSrc: string | null;
+    role: string;
+    shortsCount: number;
+    userId: number;
+    username: string;
+  };
 }
 
 // 유저 정보 가져오기
@@ -58,4 +61,12 @@ export const useFetchUserFollow = ({
     },
     { refetchOnWindowFocus: false }
   );
+};
+
+export const useFetchFollowSearch = (word: string) => {
+  return useQuery<{ follow: string[] }>(["followSearch"], async () => {
+    const response = await http.get(`/follow?keyword=` + word);
+    console.log(response.data);
+    return response.data;
+  });
 };
