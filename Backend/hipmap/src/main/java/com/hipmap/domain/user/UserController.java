@@ -53,7 +53,7 @@ public class UserController {
     @ApiOperation(value = "로그인", notes = "입력받은 회원정보를 이용해 로그인 진행")
     @ApiResponses({
             @ApiResponse(code = 200, message = "요청 성공"),
-            @ApiResponse(code = 204, message = "로그인 정보 없음"),
+            @ApiResponse(code = 404, message = "로그인 정보 없음"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public UserLoginResponse login(@RequestBody UserLoginRequest user) {
