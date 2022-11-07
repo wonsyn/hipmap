@@ -5,6 +5,7 @@ import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.ExpiredEmailAuthException;
 import com.hipmap.domain.user.Exception.LoginFailException;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class UserControllerAdvice {
     @ExceptionHandler(LoginFailException.class)
-    public ResponseEntity<?> handleLoginFailException() {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> handleLoginFailException(LoginFailException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)

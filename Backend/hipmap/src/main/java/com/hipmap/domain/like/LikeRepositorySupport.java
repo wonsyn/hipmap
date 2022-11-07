@@ -23,4 +23,5 @@ public class LikeRepositorySupport extends QuerydslRepositorySupport {
     public Long countHateByShortsId(Long shortsId){
         return jpaQueryFactory.select(qLike.vote.count()).from(qLike).where(qLike.shorts.shortsId.eq(shortsId).and((qLike.vote).isFalse())).fetchOne();
     }
+
 }

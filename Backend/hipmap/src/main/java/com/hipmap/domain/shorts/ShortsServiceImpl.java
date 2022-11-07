@@ -1,25 +1,26 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.comment.CommentReposiotrySupport;
-import com.hipmap.domain.comment.CommentRepository;
 import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeRepository;
 import com.hipmap.domain.like.LikeRepositorySupport;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
+import com.hipmap.domain.shorts.request.CreateShortsRequest;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import com.hipmap.global.util.S3Util;
+import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -141,29 +142,62 @@ public class ShortsServiceImpl implements ShortsService {
 
     @Override
     @Transactional
-    public Long uploadFile(MultipartFile file, ShortsEntity shortsEntity) throws Exception {
+    public Long uploadFile(MultipartFile file, CreateShortsRequest request , Long userId) throws Exception {
         if (!file.isEmpty()) {
-            String storedFileName = s3Uploader.upload(file, "images");
-            shortsEntity.setFileSrc(storedFileName);
-        }
-        ShortsEntity shortsEntityForSave = shortsRepository.save(shortsEntity);
-        return shortsEntityForSave.getShortsId();
+                String dirname;
+            if(request.getFileType()==FileType.video){
+                dirname = "videos";
+            }else if(request.getFileType()==FileType.image){
+                dirname = "images";
+            }else{
+                dirname = "voices";
+            }
+            String storedFileSrc = s3Uploader.upload(file, dirname, userId);
+            UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException ::new);
+            ShortsEntity shorts = ShortsEntity.builder()
+                    .fileSrc(storedFileSrc)
+                    .thumbnailSrc("썸네일주소") // 차후 추가 예정
+                    .locationSi(request.getLocationSi())
+                    .locationGu(request.getLocationGu())
+                    .locationDong(request.getLocationDong())
+                    .isMapped(false)
+                    .labelName(user.getLabelName())
+                    .latitude(request.getLatitude())
+                    .longitude(request.getLongitude())
+                    .createTime(LocalDateTime.now())
+                    .user(user)
+                    .fileType(request.getFileType())
+                    .build();
+            shortsRepository.save(shorts);
+            return shorts.getShortsId();
+        }else throw new RuntimeException();
+
+
     }
 
     @Override
-//    @Scheduled(cron = "0 0 0 1/1 * ? *") // 스케쥴링 예정
+//    @Scheduled(cron = "0 0 0 * * ?") // 스케쥴링 예정 - 잘됨
     @Transactional
     public void updateMappedStates() {
-
+        List<ShortsEntity> shortsEntities = shortsRepository.findAll();
         List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
-        for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
-            ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
-            if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
-                shorts.setIsMapped(true);
+
+
+        for (ShortsEntity s : shortsEntities){
+            if(!likeRepository.existsByShorts_ShortsId(s.getShortsId())){
+                s.setIsMapped(false);
             }else{
-                shorts.setIsMapped(false);
+                for (ShortsIdAndTotalCntProjectionInterface i : shortsLikes){
+                    ShortsEntity shorts = shortsRepository.findById(i.getShortsId()).orElseThrow(ShortsNotFoundException::new);
+                    if(i.getTotalCnt()>=10 && (float)i.getLikeCnt()/i.getTotalCnt()>=0.7 ){
+                        shorts.setIsMapped(true);
+                    }else{
+                        shorts.setIsMapped(false);
+                    }
+                }
             }
         }
+
 
     }
 

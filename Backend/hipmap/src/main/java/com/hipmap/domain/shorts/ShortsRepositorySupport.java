@@ -1,8 +1,8 @@
 package com.hipmap.domain.shorts;
 
-import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.QLikeEntity;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +20,7 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
     QShortsEntity qShortsEntity = QShortsEntity.shortsEntity;
 
     QLikeEntity qLike =QLikeEntity.likeEntity;
+
     public ShortsRepositorySupport(JPAQueryFactory jpaQueryFactory) {
         super(ShortsEntity.class);
         this.jpaQueryFactory = jpaQueryFactory;
@@ -78,7 +79,29 @@ public class ShortsRepositorySupport extends QuerydslRepositorySupport {
 
 
     public Long getShortsCountByUsername(String username){
-        return  jpaQueryFactory.selectFrom(qShortsEntity).where(qShortsEntity.user.username.eq(username)).stream().count();
+        return jpaQueryFactory.selectFrom(qShortsEntity).where(qShortsEntity.user.username.eq(username)).stream().count();
+    }
+
+//    public Page<ShortsEntity> getShortsRandomPage(Pageable pageable){
+//        jpaQueryFactory.selectFrom(qShortsEntity)
+//                .where(JPAExpressions
+//                        .select(qShortsEntity.shortsId)
+//                        .from(qShortsEntity)
+//                                .where()
+//
+//                        )
+//                .offset(pageable.getOffset()).limit(10)
+//                .fetch();
+//
+//
+//    }
+
+    public List<Tuple> getShortsToUpdate(){
+        return jpaQueryFactory.select(qShortsEntity,qLike)
+                .from(qShortsEntity)
+                .leftJoin(qLike).on(qShortsEntity.shortsId.eq(qLike.shorts.shortsId))
+                .fetch();
+
     }
 
 
