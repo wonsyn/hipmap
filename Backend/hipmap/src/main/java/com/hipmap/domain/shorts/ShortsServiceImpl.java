@@ -181,7 +181,6 @@ public class ShortsServiceImpl implements ShortsService {
     public void updateMappedStates() {
         List<ShortsEntity> shortsEntities = shortsRepository.findAll();
         List<ShortsIdAndTotalCntProjectionInterface> shortsLikes = likeRepository.getShortsTotalLikeAndSumLike();
-//        List<Tuple> shortsTuples = shortsRepositorySupport.getShortsToUpdate();
 
         for (ShortsEntity s : shortsEntities){
             if(!likeRepository.existsByShorts_ShortsId(s.getShortsId())){
@@ -199,8 +198,7 @@ public class ShortsServiceImpl implements ShortsService {
         }
 
     }
-
-
+    
 
     @Transactional(readOnly = true)
     public String getThumbnail(ShortsIdAndLikeCntProjectionInterface m) {
