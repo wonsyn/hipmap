@@ -1,6 +1,7 @@
 package com.hipmap.domain.follow;
 
 import com.hipmap.domain.follow.Exception.FollowDuplicateException;
+import com.hipmap.domain.follow.dto.FollowConfirmResponseDto;
 import com.hipmap.domain.follow.dto.FollowUserInfoResponseDto;
 import com.hipmap.domain.follow.dto.FollowSaveRequestDto;
 import com.hipmap.domain.notification.NotificationService;
@@ -22,6 +23,19 @@ public class FollowServiceImpl implements FollowService {
     private final UserRepository userRepository;
 
     private final NotificationService notificationService;
+
+    @Transactional(readOnly = true)
+    @Override
+    public Boolean followConfirm(Long loginUserId, Long opponentUserId){
+        UserEntity loginUser = userRepository.findById(loginUserId).orElseThrow(UserNotFoundException::new);
+        UserEntity opponentUser = userRepository.findById(opponentUserId).orElseThrow(UserNotFoundException::new);
+
+        if(followRepository.countByFollowingUserAndUser(loginUser, opponentUser) >0){
+            return true;
+        }
+
+        return false;
+    }
 
     @Transactional
     @Override
