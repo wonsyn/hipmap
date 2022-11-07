@@ -2,12 +2,24 @@ import styled from "@emotion/styled";
 import { palette } from "../../../assets/Palette";
 import { keyframes } from "@emotion/react";
 
+interface LabelingNameProps{
+    number: number
+}
+
+
 const infiniteRotate = keyframes`
     100%{
         transform: rotate(360deg);
     }
 ` 
-
+const threeDimensionsCircle = keyframes`
+     0% {
+    transform: rotateX(-100deg) rotate(0);
+    }
+    100% {
+    transform: rotateX(-100deg) rotate(-360deg);
+    }
+`
 export const WrappingDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -82,9 +94,26 @@ export const  LabelingNameDiv = styled.div`
     //
     font-size: 2rem;
     font-weight: bold;
-    animation: ${infiniteRotate} 6s linear infinite;
+    margin: 6%;
+    /* overflow: hidden;
+    z-index: 100; */
+`
+export const LabelingNameUl = styled.ul`
+    margin: 0;
+    list-style: none;
+    font-size: 2vw;
+    transform-style: preserve-3d;
+    animation: ${threeDimensionsCircle} 10s linear infinite;
+   
 `
 
+export const LabelingNameLi = styled.li<LabelingNameProps>`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-20%, -20%) rotate(calc(${(props) => props.number} * 30deg - 60deg)) translateY(-260px) rotateX(90deg);
+    z-index: 100;
+`   
 export const WithButton = styled.button`
     width: 80%;
     height: 7vh;
