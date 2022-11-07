@@ -144,11 +144,9 @@ public class ShortsController {
         return ResponseEntity.status(HttpStatus.OK).body(new ShortsListResponse(collect));
     }
 
-    @GetMapping("/updateMapped") // 삭제예정
-    public void updateIsMapped() throws Exception {
-//        shortsService.updateMappedStates();
-//        shortsRepositorySupport.getShortsToUpdate();
+//    @PutMapping("/updateMapped") // 삭제예정
+//    public ResponseEntity<?> updateIsMapped() throws Exception {
 //        shortsService.updateMappedStates();
 //        return ResponseEntity.status(HttpStatus.OK).body("성공");
-    }
+//    }
 }
