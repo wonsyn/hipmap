@@ -4,12 +4,13 @@ import { keyframes } from "@emotion/react";
 
 interface AnimationProps{
     change?: boolean
+    number?: any
 }
 
 const slideInRight = keyframes`
     0% {
-        -webkit-transform: translateX(1000px);
-                transform: translateX(1000px);
+        -webkit-transform: translateX(500px);
+                transform: translateX(500px);
         opacity: 0;
   }
     100% {
@@ -17,8 +18,18 @@ const slideInRight = keyframes`
                 transform: translateX(0);
         opacity: 1;
   }
-
 `;
+const emphasizingSlide = keyframes`
+    0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    }
+    100% {
+    -webkit-transform: translateX(73%);
+            transform: translateX(73%);
+    }
+
+`
 export const TieStyle = styled.div`
     background: ${palette.subColorGradient2};
     height: 4%;
@@ -52,6 +63,16 @@ export const ProcessBarDiv = styled.div`
     width: 90%;
     
 `
+export const EmphasizingImg = styled.img<AnimationProps>`
+    width: 33px;
+    height: 40px;
+    position: relative;
+    z-index: 10000;
+    top: 50%;
+    left: calc(${(props) => props.number}% - 11%);
+    animation: ${emphasizingSlide} 0.5s ease-out both;
+    animation-fill-mode: forwards;
+`
 export const QuestionDiv = styled.div`
     width: 80%;
     height: 40%;
@@ -59,7 +80,9 @@ export const QuestionDiv = styled.div`
     color: white;
     border-radius: 8px;
     padding: 5%;
-    animation: ${slideInRight} 0.6s ease-out both;
+    font-size: 1.3rem;
+    text-shadow: 2px 2px 4px black;
+    animation: ${slideInRight} 0.5s ease-out both;
 `
 
 export const SelectButton = styled.button`
@@ -71,7 +94,7 @@ export const SelectButton = styled.button`
     border-radius: 8px ;
     text-shadow: 2px 2px 4px black;
     padding: 2%;
-    animation: ${slideInRight} 0.6s ease-out both;
+    animation: ${slideInRight} 0.5s ease-out both;
     :hover{
         cursor: pointer;
     }
