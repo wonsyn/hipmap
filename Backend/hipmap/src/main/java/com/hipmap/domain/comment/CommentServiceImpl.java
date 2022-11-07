@@ -54,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
                         .createTime(LocalDateTime.now())
                         .build();
                 UserEntity receiver = userRepository.findById(shortsOp.get().getUser().getUserId()).orElseThrow(UserNotFoundException::new);
-                notificationService.send(receiver,"댓글이 작성되었습니다","/shorts/상세주소"); // 차후 url 변경 예정
+                notificationService.send(receiver,"쇼츠에 댓글이 달렸습니다!","/shorts/상세주소"); // 차후 url 변경 예정
                 return commentRepository.save(newComment);
             } else throw new IllegalArgumentException("존재하지 않는 쇼츠입니다.");
         } else throw new IllegalArgumentException("존재하지 않는 유저입니다.");

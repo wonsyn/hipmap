@@ -137,7 +137,7 @@ public class UserService implements UserDetailsService {
 
         if(!file.isEmpty()) {
             try {
-                storedFileName = s3util.upload(file, "profile");
+                storedFileName = s3util.upload(file, "profile", userId);
             } catch (IOException e) {
                 throw new FailedUploadProfileException();
             }
