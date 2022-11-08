@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @Api(tags = {"회원"})
 public class UserController {
     private final UserService userService;
