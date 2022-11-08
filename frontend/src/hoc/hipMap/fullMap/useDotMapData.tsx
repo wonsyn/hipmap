@@ -8,18 +8,26 @@ interface useDotMapDataProps{
     endLat: number
     startLng: number
     endLng: number
+    isFilterChecked: boolean
+    locationSi: any
+    locationGu: any
+    locationDong: any
 }
 
-export function useDotMapData({queryKey, uri, startLat, endLat, startLng, endLng}: useDotMapDataProps){
+export function useDotMapData({queryKey, uri, startLat, endLat, startLng, endLng, isFilterChecked, locationSi, locationGu, locationDong}: useDotMapDataProps){
     return useQuery([queryKey, startLat, endLat, startLng, endLng ],
         async () => {
-            const response = await http.get(uri,{
-                params: {
+            const response = await http.post(uri,{
+
                     startLat: startLat,
                     endLat: endLat,
                     startLng: startLng,
-                    endLng: endLng
-                }
+                    endLng: endLng,
+                    isFilterChecked: isFilterChecked,
+                    locationSi: locationSi,
+                    locationGu: locationGu,
+                    locationDong: locationDong
+                
             })
             console.log(response)
             return response.data
