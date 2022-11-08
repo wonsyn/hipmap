@@ -45,6 +45,10 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource());
         http.httpBasic().disable()
                 .formLogin().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
                 .addFilterBefore(new JwtRequestFilter(userDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/swagger-resources/**").permitAll() // swagger
