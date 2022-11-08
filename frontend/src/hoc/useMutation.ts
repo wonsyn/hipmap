@@ -204,6 +204,20 @@ export const useCommentWrite = () => {
       content: string;
       group: number;
       sequence: number;
-    }) => {}
+    }) => {
+      const response = await http.post(`/hip/comment/${id}/write`, {
+        content,
+        group,
+        sequence,
+      });
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["shortsComments"]);
+        queryClient.invalidateQueries(["shortsInfinite"]);
+      },
+    }
   );
 };

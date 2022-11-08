@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useCommentSort } from "../../hoc/useCommetSort";
 import { useFetchShortsComments } from "../../hoc/useFetch";
+import { useCommentWrite } from "../../hoc/useMutation";
+import { CommentListWrapperDiv } from "../../pages/shorts/styles/shortsStyle";
 import { commentsDummy } from "./commentsDummy";
 import { CommentWrapperDiv } from "./commentStyle";
 import CommentWrapper from "./component/CommentWrapper";
@@ -31,29 +33,66 @@ export interface commentsProps {
 
 const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
   const { data: sortedComments } = useFetchShortsComments(shortsId);
+  const [trigger, setTrigger] = useState<boolean>(false);
+  console.log(sortedComments);
   const [selectComments, setSelectComment] = useState<
     selectComment | undefined
   >();
-
+  const { mutate } = useCommentWrite();
   const getComment = (e: selectComment) => {
+    console.log(e);
     setSelectComment(e);
   };
   const cleanSelectComment = () => {
     setSelectComment(undefined);
   };
   const getCommentInput = (e: string) => {
-    if (selectComments) {
+    if (selectComments && sortedComments) {
+      const result = sortedComments.filter((e) => {
+        return e.group === selectComments.group;
+      });
+      mutate(
+        {
+          id: shortsId,
+          group: selectComments.group,
+          sequence: result.length + 1,
+          content: e,
+        },
+        {
+          onSuccess: () => {
+            cleanSelectComment();
+            setTrigger(true);
+          },
+        }
+      );
+    } else if (sortedComments) {
+      const lastIndex =
+        sortedComments.length > 0
+          ? sortedComments[sortedComments.length - 1].group
+          : 0;
+      mutate(
+        {
+          id: shortsId,
+          group: lastIndex + 1,
+          sequence: 1,
+          content: e,
+        },
+        {
+          onSuccess: () => {
+            cleanSelectComment();
+            setTrigger(true);
+          },
+        }
+      );
     }
     console.log(e);
   };
 
   return (
     <CommentWrapperDiv>
-      {sortedComments &&
-      sortedComments.comments &&
-      sortedComments.comments.length > 0 ? (
-        <>
-          {sortedComments.comments.map((e, i) => (
+      {sortedComments && sortedComments.length > 0 ? (
+        <CommentListWrapperDiv>
+          {sortedComments.map((e, i) => (
             <CommentWrapper
               key={i}
               getComment={getComment}
@@ -66,7 +105,7 @@ const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
               sequence={e.sequence}
             />
           ))}
-        </>
+        </CommentListWrapperDiv>
       ) : (
         <div>댓글이 없습니다....</div>
       )}
@@ -78,6 +117,8 @@ const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
           }
           getCommentInput={getCommentInput}
           cleanSelectComment={cleanSelectComment}
+          trigger={trigger}
+          setTrigger={setTrigger}
         />
       </div>
     </CommentWrapperDiv>

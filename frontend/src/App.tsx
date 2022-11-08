@@ -16,6 +16,7 @@ import Write from "./pages/write";
 import KakaoRedirect from "./pages/login/component/KakaoRedirect";
 import MyProfileModify from "./pages/myPage/component/MyProfileModify";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SingleShorts from "./pages/singleShorts";
 
 function App() {
   useEffect(() => {
@@ -38,7 +39,7 @@ function App() {
             ></Route>
             <Route path="/labeling/result" element={<ResultPage />}></Route>
             <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
-            <Route path="/hipmap/result" element={<HipMapResultPage/>}></Route>
+            <Route path="/hipmap/result" element={<HipMapResultPage />}></Route>
             <Route path="/login" element={<LoginWrapper />} />
             <Route path="/signup" element={<SignUpWrapper />} />
             <Route path="/myPage">
@@ -47,6 +48,7 @@ function App() {
             </Route>
             <Route path="/myProfile/:username" element={<MyPage />} />
             <Route path="/shorts" element={<Shorts />} />
+            <Route path="/singleshorts/:id" element={<SingleShorts />} />
             <Route path="/write" element={<Write />} />
             <Route path="/oauth/kakao" element={<KakaoRedirect />} />
             <Route path="/profileModify" element={<MyProfileModify />} />

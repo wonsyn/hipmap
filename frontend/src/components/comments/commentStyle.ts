@@ -6,11 +6,8 @@ interface rootProps {
 
 export const CommentWrapperDiv = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
   height: 100%;
-  margin-bottom: 10vh;
-  align-items: center;
+  display: flex;
   position: relative;
 `;
 
@@ -26,13 +23,19 @@ export const CommentButton = styled.button<rootProps>`
   /* margin-left: auto; */
 `;
 
+export const CommentCardWrapperDiv = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 export const CommentNickname = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: bolder;
   padding: 3%;
+  width: 95%;
 `;
 
 export const CommentContent = styled.div`
-  padding-left: 5%;
   width: 100%;
 `;
 

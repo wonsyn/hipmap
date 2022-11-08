@@ -127,16 +127,16 @@ interface comment {
 }
 
 export const useFetchShortsComments = (id: number) => {
-  return useQuery<{
-    comments: {
+  return useQuery<
+    {
       userNickname: string;
       commentId: string;
       content: string;
       group: number;
       sequence: number;
       createTime: string;
-    }[];
-  }>(
+    }[]
+  >(
     ["shortsComments"],
     async () => {
       const response = await http.get(`/hip/comment/` + id);
@@ -167,5 +167,29 @@ export const useFetchShortsComments = (id: number) => {
       refetchOnWindowFocus: false,
       refetchOnMount: true,
     }
+  );
+};
+
+export const useFetchSingleShorts = (id: number) => {
+  return useQuery<{
+    commentsCount: number;
+    createTime: string;
+    fileSrc: string;
+    fileType: string;
+    hateCount: number;
+    isLike: string;
+    likeCount: number;
+    locationDong: string | null;
+    locationGu: string | null;
+    locationSi: string | null;
+    shortsId: number;
+    thumbnailSrc: String | null;
+  }>(
+    ["singleShorts"],
+    async () => {
+      const response = await http.get(`/shorts/` + id);
+      return response.data;
+    },
+    { refetchOnWindowFocus: false }
   );
 };

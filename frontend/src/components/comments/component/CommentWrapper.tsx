@@ -3,6 +3,7 @@ import { selectComment } from "..";
 import Card from "../../card/Card";
 import {
   CommentButton,
+  CommentCardWrapperDiv,
   CommentContent,
   CommentDateDiv,
   CommentNickname,
@@ -49,11 +50,11 @@ const CommentWrapper = ({
         margin_left="auto"
         background="linear-gradient(92.79deg,#EA047E,#FFC23C)"
       >
-        <div>
+        <CommentCardWrapperDiv>
           <CommentNickname>{userNickname}</CommentNickname>
           <CommentContent>{content}</CommentContent>
           <CommentDateDiv>{createTime}</CommentDateDiv>
-        </div>
+        </CommentCardWrapperDiv>
       </Card>
     </CommentButton>
   );
