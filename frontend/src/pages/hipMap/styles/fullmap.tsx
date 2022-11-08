@@ -36,7 +36,7 @@ export const FullMapDiv = styled.div`
     align-items: center;
     width: 100vw;
     max-width: 600px;
-    height: 70vh;
+    height: 69vh;
     margin: 30px 0 0 0;
     @media screen and (max-width: 700px){
         display: flex;
@@ -195,9 +195,11 @@ export const GridDiv = styled.div`
     /* margin: 6px; */
     /* padding: 5px; */
     /* margin-left: 10px; */
-    width: 80%;
+    width: 70%;
+    margin: 10px 0 0 0;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
    
 `
 export const GridDivRegional = styled.div`
@@ -209,9 +211,15 @@ export const GridDivRegional = styled.div`
 `
 
 export const NotDotSpan = styled.span`
-    width: 5px;
-    height: 5px;
+    width: 15px;
+    height: 15px;
     visibility: hidden;
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+
+     }
+
 `
 export const NotDotSpanRegional = styled.span`
     width: 3vh;
@@ -221,10 +229,11 @@ export const NotDotSpanRegional = styled.span`
 `
 
 export const SudogwanSpan = styled.span<SelectProps>`
-    width: 5px;
-    height: 5px;
-    border: 1px solid ${palette.subColorCyan};
-    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    
+    /* border: 2px solid ${palette.subColorCyan}; */
+    border-radius: 20%;
     background-color: ${(props)=>props.select? `red` : `white`};
     transform: ${(props) => props.animation? `scale(4) translate(2vw, 7vh)`: ``};
     transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
@@ -232,12 +241,18 @@ export const SudogwanSpan = styled.span<SelectProps>`
     :hover{
         cursor: pointer;
     }
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+        border: 1px solid ${palette.subColorCyan};
+        border-radius: 20%;
+    }
 `
 export const SudogwanSpanRegional = styled.span`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
-    border-radius: 30%;
+    border-radius: 20%;
     background-color: white;
     font-size: 0;
     :hover{
@@ -246,10 +261,10 @@ export const SudogwanSpanRegional = styled.span`
 `
 
 export const GwandongSpan = styled.span<SelectProps>`
-    width: 5px;
-    height: 5px;
-    border: 1px solid ${palette.subColorCyan};
-    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    /* border: 2px solid ${palette.subColorCyan}; */
+    border-radius: 20%;
     background-color: ${(props)=>props.select? `green` : `white`};
     transform: ${(props) => props.animation? `scale(4) translate(-2vw, 7vh)`: ``};
     transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
@@ -257,12 +272,18 @@ export const GwandongSpan = styled.span<SelectProps>`
     :hover{
         cursor: pointer;
     }
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+        border: 1px solid ${palette.subColorCyan};
+        border-radius: 20%;
+    }
 `
 export const GwandongSpanRegional = styled.span`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
-    border-radius: 30%;
+    border-radius: 20%;
     background-color: white;
     font-size: 0;
     :hover{
@@ -270,10 +291,10 @@ export const GwandongSpanRegional = styled.span`
     }
 `
 export const HoseoSpan = styled.span<SelectProps>`
-    width: 5px;
-    height: 5px;
-    border: 1px solid ${palette.subColorCyan};
-    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    /* border: 2px solid ${palette.subColorCyan}; */
+    border-radius: 20%;
     background-color: ${(props)=>props.select? `blue` : `white`};
     transform: ${(props) => props.animation? `scale(4) translate(1vw, 4vh)`: ``};
     transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
@@ -281,12 +302,18 @@ export const HoseoSpan = styled.span<SelectProps>`
     :hover{
         cursor: pointer;
     }
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+        border: 1px solid ${palette.subColorCyan};
+        border-radius: 20%;
+    }
 `
 export const HoseoSpanRegional = styled.span`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
-    border-radius: 30%;
+    border-radius: 20%;
     background-color: white;
     font-size: 0;
     :hover{
@@ -294,10 +321,10 @@ export const HoseoSpanRegional = styled.span`
     }
 `
 export const HonamSpan = styled.span<SelectProps>`
-    width: 5px;
-    height: 5px;
-    border: 1px solid ${palette.subColorCyan};
-    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    /* border: 2px solid ${palette.subColorCyan}; */
+    border-radius: 20%;
     background-color: ${(props)=>props.select? `brown` : `white`};
     transform: ${(props) => props.animation? `scale(4) translate(3vw, -5vh)`: ``};
     transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
@@ -305,12 +332,18 @@ export const HonamSpan = styled.span<SelectProps>`
     :hover{
         cursor: pointer;
     }
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+        border: 1px solid ${palette.subColorCyan};
+        border-radius: 20%;
+    }
 `
 export const HonamSpanRegional = styled.span`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
-    border-radius: 30%;
+    border-radius: 20%;
     background-color: white;
     font-size: 0;
     :hover{
@@ -318,10 +351,10 @@ export const HonamSpanRegional = styled.span`
     }
 `
 export const YungnamSpan = styled.span<SelectProps>`
-    width: 5px;
-    height: 5px;
-    border: 1px solid ${palette.subColorCyan};
-    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    /* border: 2px solid ${palette.subColorCyan}; */
+    border-radius: 20%;
     background-color: ${(props)=>props.select? `purple` : `white`};
     transform: ${(props) => props.animation? `scale(4) translate(-2vw, -3vh)`: ``};
     /* padding: ${(props) => props.animation? `5px `: `0`};
@@ -331,13 +364,19 @@ export const YungnamSpan = styled.span<SelectProps>`
     :hover{
         cursor: pointer;
     }
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+        border: 1px solid ${palette.subColorCyan};
+        border-radius: 20%;
+    }
 `
 export const YungnamSpanRegional = styled.span`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     background-color: white;
-    border-radius: 30%;
+    border-radius: 20%;
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -345,10 +384,10 @@ export const YungnamSpanRegional = styled.span`
 `
 
 export const JejuSpan = styled.span<SelectProps>`
-    width: 5px;
-    height: 5px;
-    border: 1px solid ${palette.subColorCyan};
-    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    /* border: 2px solid ${palette.subColorCyan}; */
+    border-radius: 20%;
     background-color: ${(props)=>props.select? `pink` : `white`};
     transform: ${(props) => props.animation? `scale(4) translate(3vw, -9vh)`: ``};
     transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
@@ -356,13 +395,19 @@ export const JejuSpan = styled.span<SelectProps>`
     :hover{
         cursor: pointer;
     }
+    @media screen and (max-width: 700px){
+        width: 5px;
+        height: 5px;
+        border: 1px solid ${palette.subColorCyan};
+        border-radius: 20%;
+    }
 `
 export const JejuSpanRegional = styled.span`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     background-color: white;
-    border-radius: 30%;
+    border-radius: 20%;
     font-size: 0;
     :hover{
         cursor: pointer;

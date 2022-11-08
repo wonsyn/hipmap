@@ -53,7 +53,10 @@ function Header() {
               alt="shorts 버튼"
             />
           </HeaderShortsButtons>
-          <HeaderShortsButtons>
+          <HeaderShortsButtons
+          onClick={() => {
+            navigator("/hipmap/fullmap");
+          }}>
             <FooterShortsImg
               src="/img/randomHip.png"
               width="auto"
@@ -94,70 +97,6 @@ function Header() {
           font-size: 0.6rem;
         `}
       >
-        <Title />
-        {!isMobile ? (
-          <HeaderContentsWrapperDiv>
-            <HeaderShortsButtons
-              onClick={() => {
-                navigator("/shorts");
-              }}
-            >
-              <FooterShortsImg
-                src="/img/Shorts.png"
-                width="auto"
-                height="100%"
-                alt="shorts 버튼"
-              />
-            </HeaderShortsButtons>
-            <HeaderShortsButtons>
-              <FooterShortsImg
-                src="/img/randomHip.png"
-                width="auto"
-                height="100%"
-                alt="대동힙지도 버튼"
-              />
-            </HeaderShortsButtons>
-            {auth && (
-              <HeaderContentWriteButton
-                onClick={() => {
-                  navigator("/write");
-                }}
-              >
-                <img
-                  css={css`
-                    height: 5vh;
-                    max-height: 40px;
-                  `}
-                  src="/img/largeScreenWriteButton.png"
-                  alt="대동힙지도 버튼"
-                />
-              </HeaderContentWriteButton>
-            )}
-          </HeaderContentsWrapperDiv>
-        ) : null}
-
-        <div
-          css={css`
-            margin-left: auto;
-            width: 60%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: end;
-            margin-right: 5%;
-            @media (min-width: 700px) {
-              font-size: 0.8rem;
-              width: 35%;
-              margin-right: 2%;
-            }
-            @media (min-width: 1024px) {
-              font-size: 1.1rem;
-              width: 30%;
-              margin-right: 2%;
-            }
-            font-size: 0.6rem;
-          `}
-        >
           {auth ? (
             <ProfileImgWrapper />
           ) : (
@@ -172,7 +111,6 @@ function Header() {
           )}
         </div>
       </div>
-    </div>
   </HeaderContainer>)}
   
   </>

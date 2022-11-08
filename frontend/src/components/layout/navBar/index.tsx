@@ -39,7 +39,10 @@ const Footer = () => {
             alt="글작성 버튼"
           />
         </FooterWriteButton>
-        <FooterShortsButtons>
+        <FooterShortsButtons
+        onClick={() => {
+          navigate("/hipmap/fullmap");
+        }}>
           <FooterShortsImg
             src="/img/randomHip.png"
             width="auto"
