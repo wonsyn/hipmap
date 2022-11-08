@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class UserControllerAdvice {
     @ExceptionHandler(LoginFailException.class)
     public ResponseEntity<String> handleLoginFailException(LoginFailException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
