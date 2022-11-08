@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
