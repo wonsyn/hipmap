@@ -5,6 +5,7 @@ import com.hipmap.domain.user.Exception.EmailAuthNotFoundException;
 import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
+import com.hipmap.domain.user.dto.response.ReadUserInfoResponse;
 import com.hipmap.domain.user.dto.response.UserIdDupCheckResponse;
 import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
@@ -21,10 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -91,17 +88,15 @@ public class UserController {
             @ApiResponse(code = 401, message = "유저 정보 없음 (access token)"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<Map> readInfo(@PathVariable Long userId, HttpServletRequest request) {
+    public ReadUserInfoResponse readInfo(@PathVariable Long userId, HttpServletRequest request) {
         Long loginUserId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
         Boolean isFollow = followService.followConfirm(loginUserId, userId);
         UserReadResponse userReadResponse = userService.readInfo(userId);
 
-        Map result = new HashMap();
-        result.put("isFollow", isFollow);
-        result.put("userInfo", userReadResponse);
-
-
-        return ResponseEntity.ok().body(result);
+        return ReadUserInfoResponse.builder()
+                .isFollow(isFollow)
+                .userInfo(userReadResponse)
+                .build();
     }
 
     @GetMapping("/auth/{key}")
