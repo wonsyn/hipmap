@@ -36,7 +36,7 @@ public class AuthEmailService {
 
     @Async
     public void sendAuthMail(String email) throws NotFoundException {
-        String AUTH_LINK = "http://k7b108.p.i.ssafy.io:8080/api/user/auth/";
+        String AUTH_LINK = "http://k7b108.p.ssafy.io:8080/api/user/auth/";
         if(email == null) throw new EmailAuthNotFoundException("멤버가 조회되지 않음");
         UUID uuid = UUID.randomUUID();
         redisUtil.setDataExpire(uuid.toString(), email, 60 * 30L);
