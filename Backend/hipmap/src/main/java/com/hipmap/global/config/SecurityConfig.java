@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                     .antMatchers("/swagger-resources/**").permitAll() // swagger
                     .antMatchers("/user/regist", "/user/login").permitAll()
-                    .antMatchers("/**").authenticated()
+                    .antMatchers("/**").hasAnyRole("USER", "ADMIN")
                     .anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
