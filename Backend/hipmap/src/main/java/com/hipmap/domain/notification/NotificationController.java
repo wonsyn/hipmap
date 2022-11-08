@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Api(value = "알림 API", tags = {"Notification"})
 @RestController
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 public class NotificationController {
     @Autowired

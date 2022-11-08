@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/oauth")
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @Api(tags = { "OAuth 관련 소셜로그인" })
 public class OAuth2Controller {

@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Api(value = "쇼츠 API", tags = {"Shorts"})
 @RestController
 @RequestMapping("/shorts")
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 public class ShortsController {
 
