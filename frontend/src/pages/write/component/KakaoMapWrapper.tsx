@@ -14,19 +14,32 @@ const KakaoMapWrapper = ({
   setPosition: (e: any) => void;
 }) => {
   const [userPosition, setUserPosition] = useState<positionInfo>();
+  console.log(userPosition);
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        const latitude = pos.coords.latitude;
-        const longtitude = pos.coords.longitude;
+      console.log("aaaaaa");
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const latitude = pos.coords.latitude;
+          const longtitude = pos.coords.longitude;
 
-        setUserPosition((prev) => {
-          return {
-            lat: latitude,
-            lng: longtitude,
-          };
-        });
-      });
+          console.log("geolocation", pos.coords);
+          setUserPosition((prev) => {
+            return {
+              lat: latitude,
+              lng: longtitude,
+            };
+          });
+        },
+        () => {
+          setUserPosition((prev) => {
+            return {
+              lat: 33.450701,
+              lng: 126.570667,
+            };
+          });
+        }
+      );
     } else {
       alert("현재 위치를 찾을 수 없습니다.");
       setUserPosition((prev) => {

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import http from "../utils/http-commons";
 
 interface userinformationProps {
@@ -16,6 +16,24 @@ interface userinformationProps {
     userId: number;
     username: string;
   };
+}
+
+interface shortsList {
+  shortsList: {
+    commentsCount: number;
+    createTime: string;
+    fileSrc: string;
+    fileType: string;
+    hateCount: number;
+    isLike: string;
+    likeCount: number;
+    locationDong: string | null;
+    locationGu: string | null;
+    locationSi: string | null;
+    shortsId: number;
+    thumbnailSrc: String | null;
+  }[];
+  totalPage: number;
 }
 
 // 유저 정보 가져오기
@@ -69,4 +87,31 @@ export const useFetchFollowSearch = (word: string) => {
     console.log(response.data);
     return response.data;
   });
+};
+
+export const useFetchShortsInfinite = () => {
+  return useInfiniteQuery<{
+    result: shortsList;
+    nextPage: number;
+    isLast: boolean;
+  }>(
+    ["shortsInfinite"],
+    async ({ pageParam = 0 }) => {
+      const response = await http.get(`/shorts/v2?page=` + pageParam);
+      const result = response.data;
+      return {
+        result: result,
+        nextPage: pageParam + 1,
+        isLast: pageParam + 1 >= result.totalPage ? true : false,
+      };
+    },
+    {
+      getNextPageParam: (LastPage, pages) => {
+        if (!LastPage.isLast) return LastPage.nextPage;
+        return undefined;
+      },
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+    }
+  );
 };

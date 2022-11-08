@@ -19,12 +19,12 @@ interface positionInfo {
 const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
   const isMobile = useMediaQuery("(min-width:700px)");
   const [position, setPositionProps] = useState<any>({
-    lat: lat,
-    lng: lng,
+    lat: lat ? lat : 33.450701,
+    lng: lng ? lng : 126.570667,
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [address, setAddress] = useState<addressType>();
-
+  console.log(lat, lng);
   useEffect(() => {
     if (address) {
       setPosition({

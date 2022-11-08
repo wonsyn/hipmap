@@ -50,4 +50,8 @@ export const MyButton = styled.button`
   margin-top: 15%;
   border: none;
   background: ${(props) => props.theme.colors.subColorGradient2};
+  :disabled {
+    background: gray;
+    color: black;
+  }
 `;

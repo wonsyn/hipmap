@@ -47,6 +47,7 @@ export const useFollowAdd = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(["following"]);
         queryClient.invalidateQueries(["follower"]);
+        queryClient.invalidateQueries(["userInfomation"]);
       },
     }
   );
@@ -65,6 +66,7 @@ export const useFollowDelete = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(["following"]);
         queryClient.invalidateQueries(["follower"]);
+        queryClient.invalidateQueries(["userInfomation"]);
       },
     }
   );
@@ -100,13 +102,13 @@ export const useUploadShorts = () => {
               locationDong: shorts.gun,
               latitude: shorts.lat,
               longitude: shorts.lng,
-              file_type,
+              fileType: file_type,
             }),
           ],
           { type: "application/json" }
         )
       );
-      console.log(shorts, file_type);
+      console.log(temp);
 
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/shorts/upload`,

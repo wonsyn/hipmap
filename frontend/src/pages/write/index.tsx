@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { useUploadShorts } from "../../hoc/useMutation";
+import theme from "../../styles/theme";
 import KakaoMapWrapper from "./component/KakaoMapWrapper";
 import MovieUpload from "./component/MovieUpload";
 
@@ -50,7 +51,7 @@ const Write = () => {
         css={css`
           width: 100%;
           height: 100%;
-          border: 2px white solid;
+          /* border: 2px white solid; */
           border-radius: 8px;
           padding-top: 3%;
           padding-bottom: 3%;
@@ -66,6 +67,17 @@ const Write = () => {
       </div>
       <div>
         <button
+          css={css`
+            width: 50vw;
+            max-width: 200px;
+            height: 50vh;
+            max-height: 60px;
+            border: none;
+            background: ${theme.colors.subColorGradient2};
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bolder;
+          `}
           onClick={() => {
             if (position) {
               mutate({
