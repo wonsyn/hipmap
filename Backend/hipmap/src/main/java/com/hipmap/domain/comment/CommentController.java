@@ -22,6 +22,7 @@ import javax.validation.Valid;
 @Api(value = "댓글 API", tags = {"Comment"})
 @RestController
 @RequestMapping("/hip/comment")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 public class CommentController {
 

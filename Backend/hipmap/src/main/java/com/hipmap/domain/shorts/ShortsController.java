@@ -1,13 +1,11 @@
 package com.hipmap.domain.shorts;
 
-import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeService;
 import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
 import com.hipmap.domain.shorts.request.CreateShortsRequest;
 import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
 import com.hipmap.domain.shorts.response.*;
 import com.hipmap.global.util.JwtUtil;
-import com.querydsl.core.Tuple;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,6 +29,7 @@ import java.util.stream.Collectors;
 @Api(value = "쇼츠 API", tags = {"Shorts"})
 @RestController
 @RequestMapping("/shorts")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 public class ShortsController {
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/follow")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @Api(tags = {"팔로우"})
 public class FollowController {

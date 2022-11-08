@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(value = "북마크 API", tags = {"Bookmark"})
 @RestController
 @RequestMapping("/hip/bookmark")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 public class BookmarkController {
 
