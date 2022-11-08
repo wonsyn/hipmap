@@ -41,8 +41,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().oauth2Login()
-//                .and()
-//                .cors().configurationSource(corsConfigurationSource())
+                .and()
+                .cors().configurationSource(corsConfigurationSource())
         ;
         http.httpBasic().disable()
                 .formLogin().disable()
@@ -66,7 +66,6 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedOrigin("*");
 //        configuration.addAllowedOriginPattern("http://localhost:3000");
 //        configuration.addAllowedOrigin("http://k7b108.p.ssafy.io");
 //        configuration.addAllowedOrigin("https://k7b108.p.ssafy.io");
@@ -78,6 +77,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
