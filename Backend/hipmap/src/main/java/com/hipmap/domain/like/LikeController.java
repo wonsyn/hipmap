@@ -16,7 +16,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("like")
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @Api(tags = {"좋아요 API"})
 public class LikeController {
