@@ -18,7 +18,7 @@ public interface ShortsService {
 
     List<GetShortsByLabelResponse> getShortsByLabel(String labeling);
 
-    List<GetShortsByLabelResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request);
+    List<GetShortsByLabelAndLocResponse> getShortsByLabelAndLocation(Long userId, GetMapListFilterRequest request);
 
     Long getShortsCountByUsername(String username);
 
