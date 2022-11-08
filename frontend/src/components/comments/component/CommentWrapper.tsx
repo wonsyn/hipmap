@@ -9,30 +9,30 @@ import {
 } from "../commentStyle";
 
 export interface comment {
-  nickname: string;
-  comment_id: string;
+  userNickname: string;
+  commentId: string;
   content: string;
   group: number;
   sequence: number;
-  create_time: string;
+  createTime: string;
   index: number;
   getComment: (e: selectComment) => void;
 }
 
 const CommentWrapper = ({
-  nickname,
-  comment_id,
+  userNickname,
+  commentId,
   content,
   group,
   sequence,
-  create_time,
+  createTime,
   index,
   getComment,
 }: comment) => {
   const getCommentId = () => {
     const e = {
-      nickname,
-      comment_id,
+      userNickname,
+      commentId,
       group,
       sequence,
       index,
@@ -50,9 +50,9 @@ const CommentWrapper = ({
         background="linear-gradient(92.79deg,#EA047E,#FFC23C)"
       >
         <div>
-          <CommentNickname>{nickname}</CommentNickname>
+          <CommentNickname>{userNickname}</CommentNickname>
           <CommentContent>{content}</CommentContent>
-          <CommentDateDiv>{create_time}</CommentDateDiv>
+          <CommentDateDiv>{createTime}</CommentDateDiv>
         </div>
       </Card>
     </CommentButton>

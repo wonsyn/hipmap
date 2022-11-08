@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import http from "../utils/http-commons";
+import { useCommentSort } from "./useCommetSort";
 
 interface userinformationProps {
   isFollow: boolean;
@@ -110,6 +111,59 @@ export const useFetchShortsInfinite = () => {
         if (!LastPage.isLast) return LastPage.nextPage;
         return undefined;
       },
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+    }
+  );
+};
+
+interface comment {
+  userNickname: string;
+  commentId: string;
+  content: string;
+  group: number;
+  sequence: number;
+  createTime: string;
+}
+
+export const useFetchShortsComments = (id: number) => {
+  return useQuery<{
+    comments: {
+      userNickname: string;
+      commentId: string;
+      content: string;
+      group: number;
+      sequence: number;
+      createTime: string;
+    }[];
+  }>(
+    ["shortsComments"],
+    async () => {
+      const response = await http.get(`/hip/comment/` + id);
+      console.log(response.data);
+      const result = response.data.comments.sort(function (
+        a: comment,
+        b: comment
+      ) {
+        if (a.group > b.group) {
+          return 1;
+        }
+        if (a.group === b.group) {
+          if (a.sequence > b.sequence) {
+            return 1;
+          }
+          if (a.sequence < b.sequence) {
+            return -1;
+          }
+        }
+        if (a.group < b.group) {
+          return -1;
+        }
+        return 0;
+      });
+      return result;
+    },
+    {
       refetchOnWindowFocus: false,
       refetchOnMount: true,
     }

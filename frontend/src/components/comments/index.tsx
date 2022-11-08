@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { useCommentSort } from "../../hoc/useCommetSort";
+import { useFetchShortsComments } from "../../hoc/useFetch";
 import { commentsDummy } from "./commentsDummy";
 import { CommentWrapperDiv } from "./commentStyle";
 import CommentWrapper from "./component/CommentWrapper";
 import WriteComment from "./component/writeComment";
 
 export interface comment {
-  nickname: string;
-  comment_id: string;
+  userNickname: string;
+  commentId: string;
   content: string;
   group: number;
   sequence: number;
-  create_time: string;
+  createTime: string;
 }
 
 export interface selectComment {
-  nickname: string;
-  index: number;
-  comment_id: string;
+  userNickname: string;
+  commentId: string;
   group: number;
   sequence: number;
 }
@@ -30,7 +30,7 @@ export interface commentsProps {
 }
 
 const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
-  const sortedComments = useCommentSort(commentsDummy);
+  const { data: sortedComments } = useFetchShortsComments(shortsId);
   const [selectComments, setSelectComment] = useState<
     selectComment | undefined
   >();
@@ -49,23 +49,32 @@ const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
 
   return (
     <CommentWrapperDiv>
-      {sortedComments?.map((e, i) => (
-        <CommentWrapper
-          key={i}
-          getComment={getComment}
-          comment_id={e.comment_id}
-          content={e.content}
-          create_time={e.create_time}
-          group={e.group}
-          index={i}
-          nickname={e.nickname}
-          sequence={e.sequence}
-        />
-      ))}
+      {sortedComments &&
+      sortedComments.comments &&
+      sortedComments.comments.length > 0 ? (
+        <>
+          {sortedComments.comments.map((e, i) => (
+            <CommentWrapper
+              key={i}
+              getComment={getComment}
+              commentId={e.commentId}
+              content={e.content}
+              createTime={e.createTime}
+              group={e.group}
+              index={i}
+              userNickname={e.userNickname}
+              sequence={e.sequence}
+            />
+          ))}
+        </>
+      ) : (
+        <div>댓글이 없습니다....</div>
+      )}
+
       <div>
         <WriteComment
           nickname={
-            selectComments !== undefined ? selectComments.nickname : null
+            selectComments !== undefined ? selectComments.userNickname : null
           }
           getCommentInput={getCommentInput}
           cleanSelectComment={cleanSelectComment}

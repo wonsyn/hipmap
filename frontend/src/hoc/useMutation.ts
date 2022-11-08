@@ -132,3 +132,78 @@ export const useUploadShorts = () => {
     }
   );
 };
+
+export const useFirstLikeVote = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ id, vote }: { id: number; vote: boolean }) => {
+      const response = await http.post(`/like/isLike`, {
+        shortsId: id,
+        vote,
+      });
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["shortsInfinite"]);
+      },
+    }
+  );
+};
+
+export const useLikeVote = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ id, vote }: { id: number; vote: boolean }) => {
+      const response = await http.put(`/like/isLike`, {
+        shortsId: id,
+        vote,
+      });
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["shortsInfinite"]);
+      },
+    }
+  );
+};
+
+export const useLikeDelete = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ id }: { id: number }) => {
+      const response = await http.delete(`/like?shortsId=` + id);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["shortsInfinite"]);
+      },
+    }
+  );
+};
+
+export const useCommentWrite = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({
+      content,
+      group,
+      sequence,
+      id,
+    }: {
+      id: number;
+      content: string;
+      group: number;
+      sequence: number;
+    }) => {}
+  );
+};

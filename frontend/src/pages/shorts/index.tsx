@@ -101,6 +101,7 @@ const Shorts = () => {
                   ))}
                 <Slide>
                   <ShortsVideoElementWrapperDiv>
+                    <h1>대기열이 끝났습니다.</h1>
                     <MyButton
                       disabled={!hasNextPage}
                       onClick={() => {
