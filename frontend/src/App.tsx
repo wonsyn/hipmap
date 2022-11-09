@@ -4,7 +4,7 @@ import Main from "./pages/main/Main";
 import WelcomePage from "./pages/labeling/welcome";
 import ProcessingPage from "./pages/labeling/processting";
 import ResultPage from "./pages/labeling/result";
-import FullMapPage from "./pages/hipMap/fullMap";
+import FullMapPage from "./pages/hipMap/fullmap";
 import HipMapResultPage from "./pages/hipMap/result";
 import LoginWrapper from "./pages/login";
 import { useEffect } from "react";
@@ -16,6 +16,7 @@ import Write from "./pages/write";
 import KakaoRedirect from "./pages/login/component/KakaoRedirect";
 import MyProfileModify from "./pages/myPage/component/MyProfileModify";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import BookMark from "./pages/bookmark";
 
 function App() {
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/myPage">
               <Route path=":username" element={<MyPage />} />
               <Route path="followlist/:userid" element={<MyFollowList />} />
+              <Route path="bookmark" element={<BookMark />} />
             </Route>
             <Route path="/myProfile/:username" element={<MyPage />} />
             <Route path="/shorts" element={<Shorts />} />

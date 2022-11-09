@@ -235,3 +235,16 @@ export const useFetchPostCount = ({ username }: { username: string }) => {
     { refetchOnWindowFocus: false }
   );
 };
+
+export const useFetchBookMark = () => {
+  return useQuery<{
+    bookmarkList: {
+      shortsId: number;
+      thumbnailSrc: string;
+      nickname: string;
+    }[];
+  }>(["bookmarkList"], async () => {
+    const response = await http.get(`/hip/bookmark`);
+    return response.data;
+  });
+};

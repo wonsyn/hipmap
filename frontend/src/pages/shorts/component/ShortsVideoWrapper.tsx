@@ -12,11 +12,15 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import CommentIcon from "@mui/icons-material/Comment";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import {
+  useBookMarkAdd,
   useFirstLikeVote,
   useLikeDelete,
   useLikeVote,
 } from "../../../hoc/useMutation";
+import ColorAlerts from "./colorAlerts";
+
 interface shortsInterface {
   shorts: {
     commentsCount: number;
@@ -39,10 +43,19 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
   const [location, setLocation] = useState<string>();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [disLike, setDisLike] = useState<boolean>(false);
+  //북마크 저장 성공 알림 띄우기용
+  const [open, setOpen] = useState<boolean>(false);
 
   const { mutate: firstVote } = useFirstLikeVote();
   const { mutate: likeVote } = useLikeVote();
   const { mutate: deleteVote } = useLikeDelete();
+  const { mutate: bookMark } = useBookMarkAdd();
+
+  const openHandler = () => {
+    setOpen((prev) => {
+      return !prev;
+    });
+  };
 
   useEffect(() => {
     if (shorts.isLike === "love") {
@@ -50,7 +63,7 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
       setDisLike(false);
     } else if (shorts.isLike === "hate") {
       setIsLike(false);
-      setDisLike(false);
+      setDisLike(true);
     } else {
       setIsLike(false);
       setDisLike(false);
@@ -70,10 +83,26 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
 
   return (
     <ShortsVideoElementDiv>
+      {open && <ColorAlerts open={open} openHandler={openHandler} />}
       <ShortsVideoDiv>
         <ShortsVideoPlayer file_src={shorts.fileSrc} />
         <LocationDiv>{location}</LocationDiv>
         <ShortsVoteCommentWrapperDiv>
+          <div>
+            <BookmarkAddIcon
+              sx={{ fontSize: 25 }}
+              onClick={() => {
+                bookMark(
+                  { shortsId: shorts.shortsId },
+                  {
+                    onSuccess: () => {
+                      setOpen(true);
+                    },
+                  }
+                );
+              }}
+            />
+          </div>
           <ShortVoteDiv
             onClick={() => {
               if (shorts.isLike === "none") {
@@ -86,9 +115,9 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
             }}
           >
             {isLike ? (
-              <ThumbUpAltIcon sx={{ fontSize: 40 }} />
+              <ThumbUpAltIcon sx={{ fontSize: 25 }} />
             ) : (
-              <ThumbUpOffAltIcon sx={{ fontSize: 40 }}></ThumbUpOffAltIcon>
+              <ThumbUpOffAltIcon sx={{ fontSize: 25 }}></ThumbUpOffAltIcon>
             )}
             {shorts.likeCount}
           </ShortVoteDiv>
@@ -104,15 +133,15 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
             }}
           >
             {disLike ? (
-              <ThumbDownAltIcon sx={{ fontSize: 40 }} />
+              <ThumbDownAltIcon sx={{ fontSize: 25 }} />
             ) : (
-              <ThumbDownOffAltIcon sx={{ fontSize: 40 }}></ThumbDownOffAltIcon>
+              <ThumbDownOffAltIcon sx={{ fontSize: 25 }}></ThumbDownOffAltIcon>
             )}
 
             {shorts.hateCount}
           </ShortVoteDiv>
           <ShortVoteDiv onClick={commentHander}>
-            <CommentIcon fontSize="medium"></CommentIcon>
+            <CommentIcon sx={{ fontSize: 25 }}></CommentIcon>
             {shorts.commentsCount}
           </ShortVoteDiv>
         </ShortsVoteCommentWrapperDiv>

@@ -15,13 +15,13 @@ interface shorts {
   shortsId: number;
 }
 
-const MyPagePostWrapper = () => {
+const MyPagePostWrapper = ({ username }: { username: string }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectId, setSelectId] = useState<number>();
   const isMobile = useMediaQuery("(max-width:1023px)");
   console.log(isMobile);
-  const myInfo = useAppSelector((store) => store.userReducer.user.username);
-  const { data: MyPagePost, isLoading } = useFetchMyShorts(myInfo);
+  console.log(username);
+  const { data: MyPagePost, isLoading } = useFetchMyShorts(username);
   console.log(MyPagePost);
   if (isLoading) {
     return <div>로딩중...</div>;

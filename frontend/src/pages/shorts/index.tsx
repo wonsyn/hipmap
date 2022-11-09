@@ -16,7 +16,7 @@ import { useFetchShortsInfinite } from "../../hoc/useFetch";
 import { MyButton } from "../myPage/styles/MyInfoWrapperStyle";
 
 const Shorts = () => {
-  // const [shortsData, setShortsData] = useState<shortsInterface[]>(dummyData);
+
   const [nextPage, setNextPage] = useState<number>(-1);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [shortsId, setShortsId] = useState<number>(0);
@@ -24,6 +24,8 @@ const Shorts = () => {
   const [prevScroll, setPrevScroll] = useState<number>(0);
   const [isNext, setIsNext] = useState<boolean>(false);
   const isMobile = useMediaQuery("(max-width:699px)");
+
+
   const {
     data: shortsData,
     fetchNextPage,

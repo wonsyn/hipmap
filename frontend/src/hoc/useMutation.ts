@@ -241,3 +241,20 @@ export const useCommentDelete = () => {
     }
   );
 };
+
+export const useBookMarkAdd = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ shortsId }: { shortsId: number }) => {
+      const response = await http.post(`/hip/bookmark?shortsId=` + shortsId);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["bookmarkList"]);
+      },
+    }
+  );
+};
