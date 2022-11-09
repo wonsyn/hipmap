@@ -30,7 +30,8 @@ interface userInfo {
 }
 
 const SignUpWrapper = () => {
-  const labelingName = useLocation().state.labelingName;
+  console.log(useLocation())
+  const labelingName = useLocation()?.state.labelingName ?? "아직 정해지지 않음"
   const [selectEmail, setSelectEmail] = useState("self");
   const [emailState, setEmailState] = useState("");
   const [emailFrontState, setEmailFrontState] = useState("");
@@ -147,7 +148,7 @@ const SignUpWrapper = () => {
     });
     const test = new RegExp(regex.userId);
     if (test.test(id)) {
-      http.get(`/user/test1234/exists`).then((response) => {
+      http.get(`/user/${id}/exists`).then((response) => {
         if (response.status === 200 && response.data.result) setAcceptId(true);
       });
     } else {
