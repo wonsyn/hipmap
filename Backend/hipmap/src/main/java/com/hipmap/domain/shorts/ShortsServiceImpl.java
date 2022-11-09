@@ -51,7 +51,7 @@ public class ShortsServiceImpl implements ShortsService {
     private S3Util s3Uploader;
 
     @Override
-    public Page<ShortsResponse> getShorts(Pageable pageable) {
+    public Page<ShortsResponse> getShorts(Pageable pageable, Long userId) {
         Page<ShortsEntity> shortsEntities = shortsRepository.findAll(pageable);
         Page<ShortsResponse> boardDtoList = shortsEntities.map(m -> ShortsResponse.builder()
                 .shortsId(m.getShortsId())
@@ -64,7 +64,7 @@ public class ShortsServiceImpl implements ShortsService {
                 .likeCount(likeRepositorySupport.countLikeByShortsId(m.getShortsId()))
                 .hateCount(likeRepositorySupport.countHateByShortsId(m.getShortsId()))
                 .commentsCount(commentReposiotrySupport.countCommentsByShortsId(m.getShortsId()))
-                .isLike(setLikeType(m.getUser(),shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new)))
+                .isLike(setLikeType(userRepository.findById(userId).orElseThrow(UserNotFoundException :: new),shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new)))
                 .fileType(m.getFileType())
                 .build());
         return boardDtoList;
