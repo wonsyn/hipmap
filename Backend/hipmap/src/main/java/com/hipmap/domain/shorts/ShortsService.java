@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ShortsService {
 
-    Page<ShortsResponse> getShorts(Pageable pageable);
+    Page<ShortsResponse> getShorts(Pageable pageable, Long userId);
 
     List<GetShortsByLabelResponse> getShortsByLabel(String labeling);
 
