@@ -98,7 +98,12 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteUser(HttpServletRequest request) {
+    @ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴를 진행하는 요청")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<String> deleteUser(HttpServletRequest request) {
         Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
 
         userService.deleteUser(userId);
