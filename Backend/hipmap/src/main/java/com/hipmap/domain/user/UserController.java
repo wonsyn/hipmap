@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -102,6 +100,14 @@ public class UserController {
 
 
         return ResponseEntity.ok().body(result);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(HttpServletRequest request) {
+        Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+
+        userService.deleteUser(userId);
+        return ResponseEntity.ok().body("회원 탈퇴 완료");
     }
 
     @GetMapping("/auth/{key}")

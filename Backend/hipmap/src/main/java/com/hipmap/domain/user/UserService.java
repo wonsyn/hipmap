@@ -159,4 +159,9 @@ public class UserService implements UserDetailsService {
         }
         user.updateProfileImg(null);
     }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }
