@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { useCommentSort } from "../../hoc/useCommetSort";
-import { commentsDummy } from "./commentsDummy";
+import { useFetchShortsComments } from "../../hoc/useFetch";
+import { useCommentWrite } from "../../hoc/useMutation";
+import { CommentListWrapperDiv } from "../../pages/shorts/styles/shortsStyle";
 import { CommentWrapperDiv } from "./commentStyle";
 import CommentWrapper from "./component/CommentWrapper";
 import WriteComment from "./component/writeComment";
 
 export interface comment {
-  nickname: string;
-  comment_id: string;
+  userNickname: string;
+  commentId: string;
   content: string;
   group: number;
   sequence: number;
-  create_time: string;
+  createTime: string;
 }
 
 export interface selectComment {
-  nickname: string;
-  index: number;
-  comment_id: string;
+  userNickname: string;
+  commentId: string;
   group: number;
   sequence: number;
 }
@@ -30,45 +30,94 @@ export interface commentsProps {
 }
 
 const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
-  const sortedComments = useCommentSort(commentsDummy);
+  const { data: sortedComments } = useFetchShortsComments(shortsId);
+  const [trigger, setTrigger] = useState<boolean>(false);
+  console.log(sortedComments);
   const [selectComments, setSelectComment] = useState<
     selectComment | undefined
   >();
-
+  const { mutate } = useCommentWrite();
   const getComment = (e: selectComment) => {
+    console.log(e);
     setSelectComment(e);
   };
   const cleanSelectComment = () => {
     setSelectComment(undefined);
   };
   const getCommentInput = (e: string) => {
-    if (selectComments) {
+    if (selectComments && sortedComments) {
+      const result = sortedComments.filter((e) => {
+        return e.group === selectComments.group;
+      });
+      mutate(
+        {
+          id: shortsId,
+          group: selectComments.group,
+          sequence: result.length + 1,
+          content: e,
+        },
+        {
+          onSuccess: () => {
+            cleanSelectComment();
+            setTrigger(true);
+          },
+        }
+      );
+    } else if (sortedComments) {
+      const lastIndex =
+        sortedComments.length > 0
+          ? sortedComments[sortedComments.length - 1].group
+          : 0;
+      mutate(
+        {
+          id: shortsId,
+          group: lastIndex + 1,
+          sequence: 1,
+          content: e,
+        },
+        {
+          onSuccess: () => {
+            cleanSelectComment();
+            setTrigger(true);
+          },
+        }
+      );
     }
     console.log(e);
   };
 
   return (
     <CommentWrapperDiv>
-      {sortedComments?.map((e, i) => (
-        <CommentWrapper
-          key={i}
-          getComment={getComment}
-          comment_id={e.comment_id}
-          content={e.content}
-          create_time={e.create_time}
-          group={e.group}
-          index={i}
-          nickname={e.nickname}
-          sequence={e.sequence}
-        />
-      ))}
+      {sortedComments && sortedComments.length > 0 ? (
+        <CommentListWrapperDiv>
+          {sortedComments.map((e, i) => (
+            <CommentWrapper
+              key={i}
+              getComment={getComment}
+              commentId={e.commentId}
+              content={e.content}
+              createTime={e.createTime}
+              group={e.group}
+              index={i}
+              userNickname={e.userNickname}
+              sequence={e.sequence}
+              userId={e.userId}
+            />
+          ))}
+        </CommentListWrapperDiv>
+      ) : (
+        <div>댓글이 없습니다....</div>
+      )}
+
       <div>
         <WriteComment
           nickname={
-            selectComments !== undefined ? selectComments.nickname : null
+            selectComments !== undefined ? selectComments.userNickname : null
           }
           getCommentInput={getCommentInput}
           cleanSelectComment={cleanSelectComment}
+          trigger={trigger}
+          setTrigger={setTrigger}
         />
       </div>
     </CommentWrapperDiv>

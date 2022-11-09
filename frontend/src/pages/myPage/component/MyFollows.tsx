@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactEventHandler, useEffect, useRef, useState } from "react";
 import { useFetchUserFollow } from "../../../hoc/useFetch";
 import {
   FollowListWrapperDiv,
@@ -7,6 +7,8 @@ import {
   MyFollowIdWrapper,
   MyFollowListArea,
   MyFollowListDiv,
+  MyFollowProfileImg,
+  MyFollowProfileWrapper,
   MyFollowSearchAreaDiv,
   MyFollowSearchBarInput,
   MyFollowSearchBarWrapper,
@@ -16,8 +18,26 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFollowAdd, useFollowDelete } from "../../../hoc/useMutation";
 import { useNavigate } from "react-router-dom";
 import { myFindFollows } from "./myFindFollow";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
+  const [followingSearchWord, setFollowingSearchWord] = useState<string>();
+  const [followerSearchWord, setFollowerSearchWord] = useState<string>();
+  const [followingList, setFollowingList] = useState<
+    {
+      userId: number;
+      followUserName: string;
+      proImgSrc: string;
+    }[]
+  >();
+  const [followerList, setFollowerList] = useState<
+    {
+      userId: number;
+      followUserName: string;
+      proImgSrc: string;
+    }[]
+  >();
+
   const {
     data: followingData,
     isLoading: followingIsLoading,
@@ -35,6 +55,49 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
     id: id,
     fetchType: "follower",
   });
+
+  useEffect(() => {
+    if (!followingIsLoading && followingData) {
+      setFollowingList(followingData.follow);
+    }
+  }, [followingIsLoading, followingData]);
+
+  useEffect(() => {
+    if (followingSearchWord !== undefined && followingSearchWord.length > 0) {
+      const result = followingData?.follow.filter((e) => {
+        return e.followUserName.includes(followingSearchWord);
+      });
+      setFollowingList(result);
+    } else if (followingData) {
+      setFollowingList(followingData.follow);
+    }
+  }, [followingSearchWord, followingData]);
+
+  useEffect(() => {
+    if (!followerIsLoading && followerData) {
+      setFollowerList(followerData.follow);
+    }
+  }, [followerIsLoading, followerData]);
+
+  useEffect(() => {
+    if (followerSearchWord !== undefined && followerSearchWord.length) {
+      const result = followerData?.follow.filter((e) => {
+        return e.followUserName.includes(followerSearchWord);
+      });
+      setFollowerList(result);
+      console.log(result);
+    } else if (followerData) {
+      setFollowerList(followerData.follow);
+    }
+  }, [followerData, followerSearchWord]);
+
+  const searchFollowingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFollowingSearchWord(e.currentTarget.value);
+  };
+
+  const searchFollowerHander = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFollowerSearchWord(e.currentTarget.value);
+  };
 
   // 현재 팔로잉과 팔로워가 겹치는지 여부 판단.
   const [followingCrossFollower, setFollowoingCrossFollower] =
@@ -54,8 +117,9 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
       );
     }
   }, [followingIsLoading, followerIsLoading, followingData, followerData]);
-
-  console.log(followingCrossFollower);
+  if (followingList) {
+    console.log(followingList);
+  }
 
   return (
     <MyFollowListArea select={select}>
@@ -64,20 +128,24 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
         <MyFollowSearchBarWrapper>
           <MyFollowSearchAreaDiv>
             <MyFollowSearchTitleDiv>팔로잉</MyFollowSearchTitleDiv>
-            <MyFollowSearchBarInput></MyFollowSearchBarInput>
+            <MyFollowSearchBarInput
+              onChange={searchFollowingHandler}
+            ></MyFollowSearchBarInput>
           </MyFollowSearchAreaDiv>
         </MyFollowSearchBarWrapper>
         {/* 리스트 */}
         <FollowListWrapperDiv>
           {!followingIsLoading &&
-            followingData &&
-            followingData.follow.map((e, i) => (
+            followingList &&
+            followingList.map((e, i) => (
               <MyFollowListDiv key={i}>
-                {/* <MyFollowProfileImg
-                        src={e.profile_img}
-                        alt="프로필 이미지"
-                      /> */}
-                <ArrowBackIcon />
+                {e.proImgSrc === null ? (
+                  <MyFollowProfileWrapper>
+                    <AccountCircleIcon sx={{ fontSize: 60 }} />
+                  </MyFollowProfileWrapper>
+                ) : (
+                  <MyFollowProfileImg src={e.proImgSrc} alt="프로필 이미지" />
+                )}
                 <MyFollowIdWrapper
                   onClick={() => {
                     navigator("/myPage/" + e.userId);
@@ -101,22 +169,26 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
         <MyFollowSearchBarWrapper>
           <MyFollowSearchAreaDiv>
             <MyFollowSearchTitleDiv>팔로워</MyFollowSearchTitleDiv>
-            <MyFollowSearchBarInput></MyFollowSearchBarInput>
+            <MyFollowSearchBarInput
+              onChange={searchFollowerHander}
+            ></MyFollowSearchBarInput>
           </MyFollowSearchAreaDiv>
         </MyFollowSearchBarWrapper>
         {/* 리스트 */}
         <FollowListWrapperDiv>
           {!followerIsLoading &&
-            followerData &&
+            followerList &&
             followingData &&
             followingCrossFollower &&
-            followerData.follow.map((e, i) => (
+            followerList.map((e, i) => (
               <MyFollowListDiv key={i}>
-                {/* <MyFollowProfileImg
-                        src={e.profile_img}
-                        alt="프로필 이미지"
-                      /> */}
-                <ArrowBackIcon />
+                {e.proImgSrc === null ? (
+                  <MyFollowProfileWrapper>
+                    <AccountCircleIcon sx={{ fontSize: 60 }} />
+                  </MyFollowProfileWrapper>
+                ) : (
+                  <MyFollowProfileImg src={e.proImgSrc} alt="프로필 이미지" />
+                )}
                 <MyFollowIdWrapper
                   onClick={() => {
                     navigator("/myPage/" + e.userId);

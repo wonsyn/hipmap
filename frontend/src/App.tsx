@@ -38,7 +38,7 @@ function App() {
             ></Route>
             <Route path="/labeling/result" element={<ResultPage />}></Route>
             <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
-            <Route path="/hipmap/result" element={<HipMapResultPage/>}></Route>
+            <Route path="/hipmap/result" element={<HipMapResultPage />}></Route>
             <Route path="/login" element={<LoginWrapper />} />
             <Route path="/signup" element={<SignUpWrapper />} />
             <Route path="/myPage">
