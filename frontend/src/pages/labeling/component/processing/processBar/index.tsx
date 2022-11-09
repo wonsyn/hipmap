@@ -5,6 +5,7 @@ import { ProcessBarDiv, EmphasizingImg } from '../../../styles/processing';
 import { palette } from '../../../../../assets/Palette';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import emphasizingImg from "../../../../../assets/labeling/processing/emphasizingImage.png"
+
 interface LinearWithValueLabelProps{
   number: number;
 }
