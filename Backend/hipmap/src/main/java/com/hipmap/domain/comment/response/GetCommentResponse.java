@@ -15,5 +15,6 @@ public class GetCommentResponse {
     private Long sequence;
     private LocalDateTime createTime;
     private String userNickname;
+    private Long userId;
 
 }
