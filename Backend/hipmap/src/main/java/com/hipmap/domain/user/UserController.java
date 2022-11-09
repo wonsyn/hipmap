@@ -10,7 +10,6 @@ import com.hipmap.domain.user.dto.response.UserIdDupCheckResponse;
 import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
 import com.hipmap.global.util.JwtUtil;
-import com.hipmap.global.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +30,6 @@ public class UserController {
     private final UserService userService;
     private final FollowService followService;
     private final JwtUtil jwtUtil;
-    private final RedisUtil redisUtil;
     private final AuthEmailService authEmailService;
 
     @PostMapping("/regist")
