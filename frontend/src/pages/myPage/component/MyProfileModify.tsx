@@ -31,11 +31,11 @@ const MyProfileModify = () => {
     if (
       !isLoading &&
       data &&
-      data.followPrivate !== undefined &&
-      data.nickname
+      data.userInfo.followPrivate !== undefined &&
+      data.userInfo.nickname
     ) {
-      setFollowOpen(data.followPrivate);
-      setNickname(data.nickname);
+      setFollowOpen(data.userInfo.followPrivate);
+      setNickname(data.userInfo.nickname);
     }
   }, [isLoading, data]);
   if (isLoading) {
@@ -52,13 +52,16 @@ const MyProfileModify = () => {
               재검사 하러가기
             </MyProfileModifyLabelingButton>
             <MyProfileModifyLabelingNameDiv>
-              {data.labelName}
+              {data.userInfo.labelName}
             </MyProfileModifyLabelingNameDiv>
           </MyProfileModifyLabelingDiv>
         </MyProfileModifyLabelingWrapper>
         {/* 정보 바꾸기 */}
         <MyProfileModifyLabelingInputWrapper>
-          <MyProfileModifyLabelingInput value={data.username} disabled />
+          <MyProfileModifyLabelingInput
+            value={data.userInfo.username}
+            disabled
+          />
           <MyProfileModifyLabelingInput
             value={nickname}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +70,7 @@ const MyProfileModify = () => {
               });
             }}
           />
-          <MyProfileModifyLabelingInput value={data.email} disabled />
+          <MyProfileModifyLabelingInput value={data.userInfo.email} disabled />
         </MyProfileModifyLabelingInputWrapper>
         {/* 팔로워 팔로잉 공개 여부 */}
         <MyProfileModifyLabelingFollowOpenWrapper>

@@ -84,11 +84,21 @@ export const MyFollowListDiv = styled.div`
   height: 5vh;
   align-items: center;
 `;
+
+export const MyFollowProfileWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 2%;
+`;
+
 export const MyFollowProfileImg = styled.img`
-  width: 10vw;
+  width: auto;
   max-width: 60px;
-  height: 10vw;
-  max-height: 60px;
+  height: auto;
   border-radius: 50%;
   margin-right: 2%;
 `;
@@ -120,6 +130,7 @@ export const MyFollowSearchBarInput = styled.input`
   border-radius: 8px;
   background-color: #d9d9d9;
   height: 3vh;
+  border: none;
   max-height: 30px;
 `;
 

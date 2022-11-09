@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import http from "../../utils/http-commons";
 import BestHipPlace from "./component/bestHipPlace";
 import HipVote from "./component/hipVote";
@@ -12,6 +14,11 @@ const Main = () => {
       console.log(res);
     });
   };
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries(["shortsInfinite"]);
+  }, []);
   return (
     <div>
       <BestHipPlace />
