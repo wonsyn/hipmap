@@ -61,12 +61,12 @@ public class CommentController {
         return new ResponseEntity<>(new CommentListResponse(commentService.findCommentsByShortsId(shortsId)), HttpStatus.OK);
     }
 
-    @PutMapping("/{shortsId}/{commentId}")
+    @PutMapping("/{commentId}")
     @ApiOperation(value = "댓글 수정", notes = "댓글 내용 수정")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<?> updateComment(@PathVariable Long shortsId, @PathVariable Long commentId, @RequestBody @Valid UpdateCommentRequest request,HttpServletRequest httpRequest ){
+    public ResponseEntity<?> updateComment(@PathVariable Long commentId, @RequestBody @Valid UpdateCommentRequest request,HttpServletRequest httpRequest ){
         Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
 
         CommentEntity comment = commentService.updateComment(userId,commentId,request);
@@ -82,7 +82,7 @@ public class CommentController {
                         comment.getCreateTime()), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{shortsId}/{commentId}")
+    @DeleteMapping()
     @ApiOperation(value = "댓글 삭제", notes = "댓글 삭제")
 
     public BaseResponseBody deleteComment(@RequestParam Long commentId ,HttpServletRequest httpRequest){
