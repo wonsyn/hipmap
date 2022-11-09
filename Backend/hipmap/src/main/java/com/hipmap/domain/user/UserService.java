@@ -1,8 +1,6 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.follow.FollowRepository;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
-import com.hipmap.domain.shorts.ShortsRepository;
 import com.hipmap.domain.user.Exception.EmailDuplicatedException;
 import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.LoginFailException;
@@ -34,8 +32,6 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    private final ShortsRepository shortsRepository;
-    private final FollowRepository followRepository;
     private final AuthEmailService authEmailService;
     private final S3Util s3util;
     private final RedisUtil redisUtil;
@@ -113,9 +109,6 @@ public class UserService implements UserDetailsService {
 
     public UserReadResponse readInfo(Long userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        Long shortsCount = shortsRepository.countByUser(user);
-        Long followerCount = followRepository.countByFollowingUser(user);
-        Long followingCount = followRepository.countByUser(user);
 
         return UserReadResponse.builder()
                 .userId(user.getUserId())
@@ -125,9 +118,9 @@ public class UserService implements UserDetailsService {
                 .proImgSrc(user.getProImgSrc())
                 .labelName(user.getLabelName())
                 .nickname(user.getNickname())
-                .shortsCount(shortsCount)
-                .followerCount(followerCount)
-                .followingCount(followingCount)
+                .shortsCount((long) user.getShorts().size())
+                .followerCount((long) user.getFollowers().size())
+                .followingCount((long) user.getFollowings().size())
                 .followPrivate(user.getFollowPrivate())
                 .build();
     }
