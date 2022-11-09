@@ -45,19 +45,20 @@ public class ShortsController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<?> getShorts(@PageableDefault(size = 10)Pageable pageable) {
-        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
+    public ResponseEntity<?> getShorts(@PageableDefault(size = 10)Pageable pageable, HttpServletRequest httpRequest) {
+        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
+        Page<ShortsResponse> shorts = shortsService.getShorts(pageable, userId);
         return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
     }
-    @GetMapping("/v2")
-    @ApiOperation(value = "쇼츠 조회 version2", notes = "pagenation으로 10개씩 조회")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity<?> getShortsRandom(@PageableDefault(size = 10)Pageable pageable) {
-        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
-        return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
-    }
+//    @GetMapping("/v2")
+//    @ApiOperation(value = "쇼츠 조회 version2", notes = "pagenation으로 10개씩 조회")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity<?> getShortsRandom(@PageableDefault(size = 10)Pageable pageable) {
+//        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
+//        return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
+//    }
 
     @GetMapping("{shortsId}")
     @ApiOperation(value = "쇼츠 상세 조회", notes = "shortId를 이용해 쇼츠 정보 상세 조회")
