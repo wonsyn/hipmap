@@ -26,7 +26,7 @@ const labelingChar9 = result_sample1
 const labelingChar10 = result_sample1
 
 
-const labelingDetail1 = ["내햫사고 (ISTP, INTP)",
+const labelingDetail1 = [
 "칸트", 
 "최대한 객관성을 유지하려고 노력",
 "감정에 흔들리지 않는 관찰자로서 사람과 일에 접근", 
@@ -35,7 +35,7 @@ const labelingDetail1 = ["내햫사고 (ISTP, INTP)",
 "외계인의 존재를 믿음", 
 "항상 새로운 지식을 받아들이려 하고 이름 바탕으로 논리적으로 설명하며 비판적 시각을 가짐",
 "타인의 잘못된 논리를 짚어내며 비판적이고 공격적으로 논리를 개진해 타인을 상처입히기도 함"]
-const labelingDetail2 = ["외향직관 (ENTP,ENFP)",
+const labelingDetail2 = [
 "한가지 주제에서 생각을 직관적으로 연결지어 확장", 
 "누구보다 빠르게, 남들과는 다르게 사람들을 이끄는 브레이크가 고장난 에잇톤트럭형 힙스터", 
 "전혀 생뚱맞은 주제를 연상해내는 듯 보이지만 알고 보면 그 주제들은 같은 본질을 가지고 있으며 이를 직관적으로 인식", 
@@ -46,14 +46,14 @@ const labelingDetail2 = ["외향직관 (ENTP,ENFP)",
 "새로운 사람, 새로운 사건, 새로운 주제에 높은 관심", 
 "일을 벌려놓고 흥미가 옮겨가서 끝맺음이 약하거나 반복적인 환경에 거부감", 
 "지나친 몽상가적인 경향을 띄며 현실감각을 잃기도 함"]
-const labelingDetail3 = ["내향감각 (ISTJ, ISFJ)",
+const labelingDetail3 = [
 "힙스터의 소금", 
 "내부에 쌓여있는 감각을 바탕으로 판단", 
 "안정적으로 일하고 과거의 데이터들의 경향성을 찾고 프로세스를 체계적으로 정립하는 것을 선호", 
 "경험에 없는일에 취약해지기 쉬움", 
 "데이터베이스를 바탕으로 판단하고 행동", 
 "세상의 소금"]
-const labelingDetail4 = ["내향직관 (INTJ, INFJ)",
+const labelingDetail4 = [
 "가성비 효율", 
 "본질을 꿰뚫어보는 호크아이", 
 "주어진 주제에 어떤 숨겨진 의미와 미래 가치가 있는지를 직관적으로 판단하는 성향", 
@@ -67,7 +67,7 @@ const labelingDetail4 = ["내향직관 (INTJ, INFJ)",
 "efficient", 
 "구체적인 현실에서의 가능성보다 정신세계에서의 가능성을 촉지하는 것이 그의 주 기능의 특징",
 "이면에 감춰진 논리요소, 합리적 인과관계, 구조적 성질 파악"]
-const labelingDetail5 = ["외향감각 (ESTP, ESFP)",
+const labelingDetail5 = [
 "식스센스 힙스터", 
 "외부에 존재하는 감각을 인식하며 새로운 것을 보고, 듣고, 체험하고, 먹어보며 경험과 데이터를 얻어가는 성향", 
 "새로운 자극과 경험을 추구하는 성향", 
@@ -79,7 +79,7 @@ const labelingDetail5 = ["외향감각 (ESTP, ESFP)",
 "첫 데이트에 스냅백을 쓰고 나오는 타입", 
 "밝고 자유로운 영혼", 
 "센스도 좋아서 사람들에게 인기가 많음"]
-const labelingDetail6 = ["외향감정 (ESFJ, ENFJ)",
+const labelingDetail6 = [
 "인류애로 무장한 프로공감러", 
 "사이비 교주처럼 인기가 많은", 
 "주변 사람들의 감정을 편안하고 행복하게 해주기 위해 내 주변 환경과 조건들을 통제", 
@@ -89,7 +89,7 @@ const labelingDetail6 = ["외향감정 (ESFJ, ENFJ)",
 "모두의 행복과 평안을 위해서라면 개인의 개성을 통제하려 들기도함", 
 "주변 사람들의 감정에 민감하게 관심을 갖는 편", 
 "모두의 화합과 평화를 개인적 가치보다 우선시하기도 한다"]
-const labelingDetail7 = ["내향감정 (ISFP, INFP)",
+const labelingDetail7 = [
 "내 감정에 솔직한 사람", 
 "주변인들에게 힙스터라는 소리를 자주 듣지 않나요?", 
 "내가 인식하는 현재의 감정을 중요하게 생각함", 
@@ -98,7 +98,7 @@ const labelingDetail7 = ["내향감정 (ISFP, INFP)",
 "나만의 아이덴티티, 취향 개성에 대한 가치관이 확고해지는 편이다", 
 "자신의 감정에 지나치게 매몰되어 주체하지 못할 때가 있음", 
 "나의 감정과 신념이 중요하듯 타인의 내면에 내재되어 있는 개성을 인정하기 때문에 타인을 이해하고 수용하는데 있어 개방적임"]
-const labelingDetail8 = ["외향사고 (ESTJ, ENTJ)",
+const labelingDetail8 = [
 "다윈", 
 "행동대장", 
 "고집이 매우 셈", 
