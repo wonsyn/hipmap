@@ -36,6 +36,7 @@ public class UserController {
     @ApiOperation(value = "회원가입", notes = "입력받은 회원정보를 이용해 가입 진행")
     @ApiResponses({
             @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 400, message = "이메일 중복"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
     public ResponseEntity<Void> regist(@RequestBody UserRegistRequest userInfo){
