@@ -9,6 +9,7 @@ export const CommentWrapperDiv = styled.div`
   height: 100%;
   display: flex;
   position: relative;
+  
 `;
 
 export const CommentButton = styled.button<rootProps>`

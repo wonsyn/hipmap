@@ -1,5 +1,7 @@
 import React from "react";
 import { selectComment } from "..";
+import { useCommentDelete } from "../../../hoc/useMutation";
+import { useAppSelector } from "../../../hoc/useStoreHooks";
 import Card from "../../card/Card";
 import {
   CommentButton,
@@ -17,6 +19,7 @@ export interface comment {
   sequence: number;
   createTime: string;
   index: number;
+  userId: number;
   getComment: (e: selectComment) => void;
 }
 
@@ -28,8 +31,10 @@ const CommentWrapper = ({
   sequence,
   createTime,
   index,
+  userId,
   getComment,
 }: comment) => {
+  const myUserId = useAppSelector((store) => store.userReducer.user.user_id);
   const getCommentId = () => {
     const e = {
       userNickname,
@@ -40,6 +45,7 @@ const CommentWrapper = ({
     };
     getComment(e);
   };
+  const { mutate: deleteComment } = useCommentDelete();
   return (
     <CommentButton root={sequence > 1 ? false : true} onClick={getCommentId}>
       <Card
@@ -54,6 +60,15 @@ const CommentWrapper = ({
           <CommentNickname>{userNickname}</CommentNickname>
           <CommentContent>{content}</CommentContent>
           <CommentDateDiv>{createTime}</CommentDateDiv>
+          {userId === myUserId && (
+            <button
+              onClick={() => {
+                deleteComment({ commentId: parseInt(commentId) });
+              }}
+            >
+              삭제
+            </button>
+          )}
         </CommentCardWrapperDiv>
       </Card>
     </CommentButton>

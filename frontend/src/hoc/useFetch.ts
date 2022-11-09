@@ -98,7 +98,7 @@ export const useFetchShortsInfinite = () => {
   }>(
     ["shortsInfinite"],
     async ({ pageParam = 0 }) => {
-      const response = await http.get(`/shorts/v2?page=` + pageParam);
+      const response = await http.get(`/shorts?page=` + pageParam);
       const result = response.data;
       return {
         result: result,
@@ -135,6 +135,7 @@ export const useFetchShortsComments = (id: number) => {
       group: number;
       sequence: number;
       createTime: string;
+      userId: number;
     }[]
   >(
     ["shortsComments"],
@@ -188,6 +189,47 @@ export const useFetchSingleShorts = (id: number) => {
     ["singleShorts"],
     async () => {
       const response = await http.get(`/shorts/` + id);
+      return response.data;
+    },
+    { refetchOnWindowFocus: false }
+  );
+};
+
+export const useFetchMyShorts = (username: string) => {
+  return useQuery<{ thumbnailSrc: string; shortsId: number }[]>(
+    ["myPageShorts"],
+    async () => {
+      const response = await http.get(`/shorts/getusershorts/` + username);
+      return response.data;
+    },
+    { refetchOnWindowFocus: false }
+  );
+};
+
+export const useFetchMainBest = () => {
+  return useQuery<{
+    shortsList: {
+      shortsId: number;
+      likeCnt: number;
+      thumbnailSrc: string;
+    }[];
+  }>(
+    ["mainBest"],
+    async () => {
+      const response = await http.get(`/shorts/mainBest`);
+      return response.data;
+    },
+    { refetchOnWindowFocus: false }
+  );
+};
+
+export const useFetchPostCount = ({ username }: { username: string }) => {
+  return useQuery<{ count: number }>(
+    ["userPostCount"],
+    async () => {
+      const response = await http.get(
+        "/shorts/user/count?username=" + username
+      );
       return response.data;
     },
     { refetchOnWindowFocus: false }

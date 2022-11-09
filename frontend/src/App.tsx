@@ -16,7 +16,6 @@ import Write from "./pages/write";
 import KakaoRedirect from "./pages/login/component/KakaoRedirect";
 import MyProfileModify from "./pages/myPage/component/MyProfileModify";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SingleShorts from "./pages/singleShorts";
 
 function App() {
   useEffect(() => {
@@ -48,7 +47,6 @@ function App() {
             </Route>
             <Route path="/myProfile/:username" element={<MyPage />} />
             <Route path="/shorts" element={<Shorts />} />
-            <Route path="/singleshorts/:id" element={<SingleShorts />} />
             <Route path="/write" element={<Write />} />
             <Route path="/oauth/kakao" element={<KakaoRedirect />} />
             <Route path="/profileModify" element={<MyProfileModify />} />

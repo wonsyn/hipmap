@@ -14,6 +14,7 @@ const Main = () => {
       console.log(res);
     });
   };
+
   const queryClient = useQueryClient();
   useEffect(() => {
     queryClient.invalidateQueries(["shortsInfinite"]);

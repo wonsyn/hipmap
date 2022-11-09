@@ -1,13 +1,28 @@
+/** @jsxImportSource @emotion/react */
 import { useParams } from "react-router-dom";
 import Shorts from "./component/Shorts";
+import { css } from "@emotion/react";
 
-const SingleShorts = () => {
-  const param = useParams();
-  console.log(param);
-
+const SingleShorts = ({ shortsId }: { shortsId: number }) => {
+  console.log(shortsId);
   return (
-    <div>
-      <div>{param.id && <Shorts id={parseInt(param.id)} />}</div>
+    <div
+      css={css`
+        width: 100%;
+        height: 100%;
+      `}
+    >
+      <div
+        css={css`
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <Shorts id={shortsId} />
+      </div>
     </div>
   );
 };

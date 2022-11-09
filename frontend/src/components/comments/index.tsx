@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useCommentSort } from "../../hoc/useCommetSort";
 import { useFetchShortsComments } from "../../hoc/useFetch";
 import { useCommentWrite } from "../../hoc/useMutation";
 import { CommentListWrapperDiv } from "../../pages/shorts/styles/shortsStyle";
-import { commentsDummy } from "./commentsDummy";
 import { CommentWrapperDiv } from "./commentStyle";
 import CommentWrapper from "./component/CommentWrapper";
 import WriteComment from "./component/writeComment";
@@ -103,6 +101,7 @@ const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
               index={i}
               userNickname={e.userNickname}
               sequence={e.sequence}
+              userId={e.userId}
             />
           ))}
         </CommentListWrapperDiv>

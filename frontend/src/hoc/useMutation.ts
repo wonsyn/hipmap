@@ -221,3 +221,23 @@ export const useCommentWrite = () => {
     }
   );
 };
+
+export const useCommentDelete = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ commentId }: { commentId: number }) => {
+      const response = await http.delete(
+        `/hip/comment/{shortsId}/{commentId}?commentId=` + commentId
+      );
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["shortsComments"]);
+        queryClient.invalidateQueries(["shortsInfinite"]);
+      },
+    }
+  );
+};

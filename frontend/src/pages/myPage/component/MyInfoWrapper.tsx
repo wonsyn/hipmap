@@ -8,7 +8,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MyFollowWrapper from "./MyFollowWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFetchUserInfo } from "../../../hoc/useFetch";
+import { useFetchPostCount, useFetchUserInfo } from "../../../hoc/useFetch";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 import {
   MyFollowProfileImg,
@@ -25,6 +25,7 @@ const MyInfoWrapper = () => {
   const { data, isLoading } = useFetchUserInfo(parseInt(params.username!));
   const { mutate: followAdd } = useFollowAdd();
   const { mutate: followDelete } = useFollowDelete();
+  // const { mutate: postCount } = useFetchPostCount();
   const queryClient = useQueryClient();
   useEffect(() => {
     if (params.username && userIn === parseInt(params.username)) {
@@ -59,6 +60,7 @@ const MyInfoWrapper = () => {
         </MyInfoDiv>
         <MyInfoButtonWrapperDiv>
           <MyFollowWrapper
+            shortsCount={data.userInfo.shortsCount}
             userId={data.userInfo.userId}
             followerCount={data.userInfo.followerCount}
             followingCount={data.userInfo.followingCount}

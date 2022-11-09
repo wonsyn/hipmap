@@ -26,7 +26,8 @@ function Header() {
   if (
     window.location.pathname === "/labeling/welcome" ||
     window.location.pathname === "/labeling/processing" ||
-    window.location.pathname === "/labeling/result"
+    window.location.pathname === "/labeling/result" ||
+    window.location.pathname === "/login"
   ) {
     return <></>;
   } else {

@@ -127,4 +127,5 @@ export const CommentListWrapperDiv = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 10vh;
+  
 `;
