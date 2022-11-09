@@ -26,10 +26,10 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-                .antMatchers("/", "/user/login", "/user/regist")
-                .antMatchers("/jwt/re-issue")
-                .antMatchers("/user/**/exists", "/user/auth/**")
-                .antMatchers("/oauth/**")
+//                .antMatchers("/", "/user/login", "/user/regist")
+//                .antMatchers("/jwt/re-issue")
+//                .antMatchers("/user/**/exists", "/user/auth/**")
+//                .antMatchers("/oauth/**")
                 .antMatchers("/csrf/**")
                 .antMatchers("/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html/**",
                         "/webjars/**","/swagger/**", "/v2/api-docs/**",  "/configuration/ui/**")
@@ -42,7 +42,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().oauth2Login()
                 .and()
-                .cors().configurationSource(corsConfigurationSource());
+                .cors().configurationSource(corsConfigurationSource())
+        ;
         http.httpBasic().disable()
                 .formLogin().disable()
                 .exceptionHandling()
@@ -52,7 +53,10 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtRequestFilter(userDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/swagger-resources/**").permitAll() // swagger
-                    .antMatchers("/user/regist", "/user/login").permitAll()
+                    .antMatchers("/", "/user/login", "/user/regist").permitAll()
+                    .antMatchers("/jwt/re-issue").permitAll()
+                    .antMatchers("/user/**/exists", "/user/auth/**").permitAll()
+                    .antMatchers("/oauth/**").permitAll()
                     .antMatchers("/**").hasAnyRole("USER", "ADMIN")
                     .anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -64,8 +68,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-//        configuration.addAllowedOrigin("*");
-        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedOriginPattern("*");
+//        configuration.addAllowedOriginPattern("http://localhost:3000");
 //        configuration.addAllowedOrigin("http://k7b108.p.ssafy.io");
 //        configuration.addAllowedOrigin("https://k7b108.p.ssafy.io");
         configuration.addAllowedHeader("*");
@@ -76,6 +80,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
