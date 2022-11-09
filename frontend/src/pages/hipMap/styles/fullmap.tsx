@@ -425,7 +425,7 @@ export const ArrowDiv = styled.div`
 `
 
 export const RegionNameDiv = styled.div`
-    margin: 8vh 0 0 0;
+    margin: -5vh 0 0 20vh;
     font-size: 1.5rem;
     font-weight: bold;
 `
@@ -446,6 +446,36 @@ export const RegionNameButton = styled.button<ButtonProps>`
     :hover{
         cursor: pointer;
     }
+`
+export const FilterWrappingDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 2%;
+`
+
+export const FilterInput = styled.input`
+    width: 30vw;
+    height: 4vh;
+    outline: none;
+`
+
+export const FilterCheckBox = styled.input`
+    width: 4vh;
+    height: 4vh;
+`
+
+export const CheckBoxDiv = styled.div`
+    
+`
+
+export const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
+    background-color: white;
+
 `
 // export const SudogwanImg = styled.img`
 //     /* width: 185px;
