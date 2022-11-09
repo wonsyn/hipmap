@@ -10,7 +10,6 @@ import com.hipmap.domain.user.dto.response.UserIdDupCheckResponse;
 import com.hipmap.domain.user.dto.response.UserLoginResponse;
 import com.hipmap.domain.user.dto.response.UserReadResponse;
 import com.hipmap.global.util.JwtUtil;
-import com.hipmap.global.util.RedisUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +30,6 @@ public class UserController {
     private final UserService userService;
     private final FollowService followService;
     private final JwtUtil jwtUtil;
-    private final RedisUtil redisUtil;
     private final AuthEmailService authEmailService;
 
     @PostMapping("/regist")
@@ -40,7 +38,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "요청 성공"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<?> regist(@RequestBody UserRegistRequest userInfo){
+    public ResponseEntity<Void> regist(@RequestBody UserRegistRequest userInfo){
         userService.regist(userInfo);
 
         return ResponseEntity.ok().build();
@@ -74,7 +72,7 @@ public class UserController {
             @ApiResponse(code = 401, message = "유저 정보 없음 (access token)"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<?> update(@RequestBody UserEditRequest userInfo, HttpServletRequest request) {
+    public ResponseEntity<Void> update(@RequestBody UserEditRequest userInfo, HttpServletRequest request) {
         userService.update(jwtUtil.getUserInfo(request.getHeader("accessToken")).getId(),
                 userInfo.getNickname(), userInfo.getLabel(), userInfo.isFollowPrivate());
         return ResponseEntity.ok().build();
@@ -100,7 +98,12 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteUser(HttpServletRequest request) {
+    @ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴를 진행하는 요청")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "요청 성공"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    public ResponseEntity<String> deleteUser(HttpServletRequest request) {
         Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
 
         userService.deleteUser(userId);
@@ -113,7 +116,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "요청 성공"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<?> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
+    public ResponseEntity<Void> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
         authEmailService.authEmail(key);
         URI redirectUri = new URI("https://www.naver.com/");
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -128,7 +131,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "해당하는 유저가 없음. 또는 업로드 실패"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<?> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) {
+    public ResponseEntity<String> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) {
         Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
         userService.uploadProfile(file, userId);
         return ResponseEntity.ok().body("업로드 성공");
@@ -141,7 +144,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "해당하는 유저가 없음"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<?> deleteProfileImg(HttpServletRequest request) {
+    public ResponseEntity<String> deleteProfileImg(HttpServletRequest request) {
         Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
         userService.deleteProfile(userId);
         return ResponseEntity.ok().body("삭제 성공");
