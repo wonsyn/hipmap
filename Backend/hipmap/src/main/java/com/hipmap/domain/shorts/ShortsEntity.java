@@ -1,6 +1,8 @@
 package com.hipmap.domain.shorts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hipmap.domain.bookmark.BookmarkEntity;
+import com.hipmap.domain.comment.CommentEntity;
+import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.user.UserEntity;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -63,6 +67,15 @@ public class ShortsEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private UserEntity user;
+
+    @OneToMany(mappedBy = "shorts", cascade = CascadeType.ALL)
+    private List<CommentEntity> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "shorts", cascade = CascadeType.ALL)
+    private List<LikeEntity> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "shorts", cascade = CascadeType.ALL)
+    private List<BookmarkEntity> bookmarks = new ArrayList<>();
 
     public ShortsEntity() {
 
