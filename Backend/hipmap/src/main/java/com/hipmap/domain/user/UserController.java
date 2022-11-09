@@ -99,6 +99,14 @@ public class UserController {
                 .build();
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(HttpServletRequest request) {
+        Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
+
+        userService.deleteUser(userId);
+        return ResponseEntity.ok().body("회원 탈퇴 완료");
+    }
+
     @GetMapping("/auth/{key}")
     @ApiOperation(value = "유저 이메일 인증", notes = "이메일 인증 링크를 클릭 시 도달하는 API")
     @ApiResponses({
