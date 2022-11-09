@@ -12,7 +12,6 @@ import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import com.hipmap.global.util.S3Util;
-import com.querydsl.core.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,8 +62,8 @@ public class ShortsServiceImpl implements ShortsService {
                 .createTime(m.getCreateTime())
                 .likeCount(likeRepositorySupport.countLikeByShortsId(m.getShortsId()))
                 .hateCount(likeRepositorySupport.countHateByShortsId(m.getShortsId()))
-                .commentsCount(commentReposiotrySupport.countCommentsByShortsId(m.getShortsId()))
-                .isLike(setLikeType(userRepository.findById(userId).orElseThrow(UserNotFoundException :: new),shortsRepository.findById(m.getShortsId()).orElseThrow(ShortsNotFoundException::new)))
+                .commentsCount((long) m.getComments().size())
+                .isLike(setLikeType(userRepository.findById(userId).orElseThrow(UserNotFoundException :: new), m))
                 .fileType(m.getFileType())
                 .build());
         return boardDtoList;
