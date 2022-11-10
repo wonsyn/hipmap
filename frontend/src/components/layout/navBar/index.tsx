@@ -27,7 +27,11 @@ const Footer = () => {
             alt="shorts 버튼"
           />
         </FooterShortsButtons>
-        <FooterWriteButton>
+        <FooterWriteButton
+          onClick={() => {
+            navigate("/write");
+          }}
+        >
           <FooterWriteImg
             src="/img/writeButton.png"
             width="auto"
@@ -35,7 +39,10 @@ const Footer = () => {
             alt="글작성 버튼"
           />
         </FooterWriteButton>
-        <FooterShortsButtons>
+        <FooterShortsButtons
+        onClick={() => {
+          navigate("/hipmap/fullmap");
+        }}>
           <FooterShortsImg
             src="/img/randomHip.png"
             width="auto"

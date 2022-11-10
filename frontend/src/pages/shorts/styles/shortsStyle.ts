@@ -120,3 +120,12 @@ export const CommentModalInfoWrapperDiv = styled.div`
 export const CommentModalCloseHandlerDiv = styled.div`
   font-size: 1rem;
 `;
+
+export const CommentListWrapperDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10vh;
+  
+`;

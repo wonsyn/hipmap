@@ -8,6 +8,8 @@ import GlobalStyle from "./styles/global";
 import theme from "./styles/theme";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+serviceWorkerRegistration.register();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
