@@ -86,6 +86,9 @@ dependencies {
 
     // json
     implementation 'org.json:json:20220924'
+
+    // h2
+    implementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
