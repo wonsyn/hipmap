@@ -28,8 +28,8 @@ RUN yarn build
 FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /var/jenkins_home/workspace/hipmapdpl/frontend/build /usr/share/nginx/html
 COPY --from=build-stage /var/jenkins_home/workspace/hipmapdpl/frontend/deploy_conf/nginx.conf /etc/nginx/conf.d/default.conf
-RUN mkdir /var/www
-COPY --from=build-stage /var/jenkins_home/ws2/certificate.crt /var/www
-COPY --from=build-stage /var/jenkins_home/ws2/private.key /var/www
+RUN mkdir /var/wwww
+COPY --from=build-stage /var/jenkins_home/ws2 /var/www
+# COPY --from=build-stage /var/jenkins_home/ws2/private.key /var/www
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
