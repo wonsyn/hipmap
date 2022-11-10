@@ -1,6 +1,5 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Exception.EmailDuplicatedException;
 import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.LoginFailException;
@@ -51,18 +50,9 @@ public class UserService implements UserDetailsService {
             throw new LoginFailException();
         }
 
-        JwtUserInfo userInfo = JwtUserInfo.builder()
-                .id(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .label_name(user.getLabelName())
-                .role(user.getRole())
-                .build();
-
-        final String token = jwtUtil.generateToken(userInfo.toEntity());
-        final String refreshJwt = jwtUtil.generateRefreshToken(userInfo.toEntity());
-        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND / 1000);
+        final String token = jwtUtil.generateToken(user.getUserId(), user.getUsername());
+        final String refreshJwt = jwtUtil.generateRefreshToken(user.getUserId(), user.getUsername());
+        redisUtil.setDataExpire(refreshJwt, user.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND / 1000);
 
         return UserLoginResponse.builder()
                 .tokens(Tokens.builder()

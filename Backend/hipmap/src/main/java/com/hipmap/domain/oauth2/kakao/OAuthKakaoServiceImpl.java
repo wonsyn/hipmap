@@ -67,8 +67,9 @@ public class OAuthKakaoServiceImpl implements OAuthKakaoService{
         Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
         KakaoAuthResponse authResponse;
         if(optionalUser.isPresent()) {
-            String accessToken = jwtUtil.generateToken(optionalUser.get());
-            String refreshToken = jwtUtil.generateRefreshToken(optionalUser.get());
+            UserEntity user = optionalUser.get();
+            String accessToken = jwtUtil.generateToken(user.getUserId(), user.getUsername());
+            String refreshToken = jwtUtil.generateRefreshToken(user.getUserId(), user.getUsername());
             KakaoUserInfo userInfo = KakaoUserInfo.makeInfo(optionalUser.get());
             Tokens tokens = Tokens.builder()
                     .accessToken(accessToken)
