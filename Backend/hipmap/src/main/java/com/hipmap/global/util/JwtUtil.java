@@ -2,8 +2,6 @@ package com.hipmap.global.util;
 
 import com.hipmap.domain.jwt.Exception.IllegalTokenException;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
-import com.hipmap.domain.user.Admin;
-import com.hipmap.domain.user.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -51,23 +49,19 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserEntity user) {
-        return doGenerateToken(user, TOKEN_VALIDATION_SECOND);
+    public String generateToken(Long id, String username) {
+        return doGenerateToken(id, username, TOKEN_VALIDATION_SECOND);
     }
 
-    public String generateRefreshToken(UserEntity user) {
-        return doGenerateToken(user, REFRESH_TOKEN_VALIDATION_SECOND);
+    public String generateRefreshToken(Long id, String username) {
+        return doGenerateToken(id, username, REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
-    public String doGenerateToken(UserEntity user, long expireTime) {
+    public String doGenerateToken(Long id, String username, long expireTime) {
 
         Claims claims = Jwts.claims();
-        claims.put("id", user.getUserId());
-        claims.put("username", user.getUsername());
-        claims.put("email", user.getEmail());
-        claims.put("nickname", user.getUsername());
-        claims.put("label_name", user.getUsername());
-        claims.put("role", user.getRole());
+        claims.put("id", id);
+        claims.put("username", username);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -92,10 +86,6 @@ public class JwtUtil {
         return JwtUserInfo.builder()
                 .id(Long.parseLong(Integer.toString((int)body.get("id"))))
                 .username((String)body.get("username"))
-                .email((String)body.get("email"))
-                .nickname((String)body.get("nickname"))
-                .label_name((String)body.get("label_name"))
-                .role(Admin.valueOf((String)body.get("role")))
                 .build();
     }
 }
