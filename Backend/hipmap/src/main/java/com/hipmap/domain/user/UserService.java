@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
 
         final String token = jwtUtil.generateToken(userInfo.toEntity());
         final String refreshJwt = jwtUtil.generateRefreshToken(userInfo.toEntity());
-        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND / 1000);
 
         return UserLoginResponse.builder()
                 .tokens(Tokens.builder()
