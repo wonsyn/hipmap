@@ -1,8 +1,5 @@
 package com.hipmap.domain.user;
 
-import com.hipmap.domain.follow.FollowRepository;
-import com.hipmap.domain.jwt.dto.JwtUserInfo;
-import com.hipmap.domain.shorts.ShortsRepository;
 import com.hipmap.domain.user.Exception.EmailDuplicatedException;
 import com.hipmap.domain.user.Exception.FailedUploadProfileException;
 import com.hipmap.domain.user.Exception.LoginFailException;
@@ -34,8 +31,6 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    private final ShortsRepository shortsRepository;
-    private final FollowRepository followRepository;
     private final AuthEmailService authEmailService;
     private final S3Util s3util;
     private final RedisUtil redisUtil;
@@ -55,18 +50,9 @@ public class UserService implements UserDetailsService {
             throw new LoginFailException();
         }
 
-        JwtUserInfo userInfo = JwtUserInfo.builder()
-                .id(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .label_name(user.getLabelName())
-                .role(user.getRole())
-                .build();
-
-        final String token = jwtUtil.generateToken(userInfo.toEntity());
-        final String refreshJwt = jwtUtil.generateRefreshToken(userInfo.toEntity());
-        redisUtil.setDataExpire(refreshJwt, userInfo.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+        final String token = jwtUtil.generateToken(user.getUserId(), user.getUsername());
+        final String refreshJwt = jwtUtil.generateRefreshToken(user.getUserId(), user.getUsername());
+        redisUtil.setDataExpire(refreshJwt, user.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND / 1000);
 
         return UserLoginResponse.builder()
                 .tokens(Tokens.builder()
@@ -113,9 +99,6 @@ public class UserService implements UserDetailsService {
 
     public UserReadResponse readInfo(Long userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        Long shortsCount = shortsRepository.countByUser(user);
-        Long followerCount = followRepository.countByFollowingUser(user);
-        Long followingCount = followRepository.countByUser(user);
 
         return UserReadResponse.builder()
                 .userId(user.getUserId())
@@ -125,9 +108,9 @@ public class UserService implements UserDetailsService {
                 .proImgSrc(user.getProImgSrc())
                 .labelName(user.getLabelName())
                 .nickname(user.getNickname())
-                .shortsCount(shortsCount)
-                .followerCount(followerCount)
-                .followingCount(followingCount)
+                .shortsCount((long) user.getShorts().size())
+                .followerCount((long) user.getFollowers().size())
+                .followingCount((long) user.getFollowings().size())
                 .followPrivate(user.getFollowPrivate())
                 .build();
     }
@@ -158,5 +141,10 @@ public class UserService implements UserDetailsService {
             s3util.delete(user.getProImgSrc());
         }
         user.updateProfileImg(null);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 }
