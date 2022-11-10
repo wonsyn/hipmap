@@ -6,32 +6,38 @@ import {
   MyFollowWrapperDiv,
 } from "../styles/MyFollowWrapperStyle";
 
-const MyFollowWrapper = () => {
+const MyFollowWrapper = ({
+  followerCount,
+  followingCount,
+  userId,
+  shortsCount,
+}: {
+  shortsCount: number;
+  userId: number;
+  followerCount: number;
+  followingCount: number;
+}) => {
   // 유저 아이디 얻어와서 팔로우 리스트에 같이 넣어주기
-  const [myPost, setMyPost] = useState<number>(0);
-  const [followCount, setFollowCount] = useState<number>(0);
-  const [followerCount, setFollowerCount] = useState<number>(0);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setMyPost(5);
-    setFollowCount(10);
-    setFollowerCount(20);
-  }, []);
+  console.log(shortsCount);
   return (
     <MyFollowWrapperDiv>
       <MyFollowElementWrapperDiv>
-        <MyFollowCountElement>{myPost}</MyFollowCountElement>
+        <MyFollowCountElement>{shortsCount}</MyFollowCountElement>
         <MyFollowCountElement
           onClick={() => {
-            navigate("/myPage/followlist", { state: { click: "follow" } });
+            navigate("/myPage/followlist/" + userId, {
+              state: { click: "following" },
+            });
           }}
         >
-          {followCount}
+          {followingCount}
         </MyFollowCountElement>
         <MyFollowCountElement
           onClick={() => {
-            navigate("/myPage/followlist", { state: { click: "follower" } });
+            navigate("/myPage/followlist/" + userId, {
+              state: { click: "follower" },
+            });
           }}
         >
           {followerCount}
@@ -39,7 +45,7 @@ const MyFollowWrapper = () => {
       </MyFollowElementWrapperDiv>
       <MyFollowElementWrapperDiv>
         <MyFollowCountElement>게시물</MyFollowCountElement>
-        <MyFollowCountElement>팔로우</MyFollowCountElement>
+        <MyFollowCountElement>팔로잉</MyFollowCountElement>
         <MyFollowCountElement>팔로워</MyFollowCountElement>
       </MyFollowElementWrapperDiv>
     </MyFollowWrapperDiv>

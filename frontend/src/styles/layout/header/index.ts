@@ -45,7 +45,7 @@ export const LogoImg = styled.img`
 export const HeaderTitleTextWrapper = styled.div`
   margin-left: 2%;
   margin-right: 2%;
-  height: 80%;
+  height: 60%;
   display: flex;
   align-items: center;
 `;
@@ -54,7 +54,7 @@ export const HeaderContentsWrapperDiv = styled.div`
   display: flex;
   flex: 1;
   height: 100%;
-  /* margin-right: auto; */
+  margin-left: 3%;
   align-items: center;
   justify-content: space-around;
 `;

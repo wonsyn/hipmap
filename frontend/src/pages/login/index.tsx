@@ -1,7 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useDispatch } from "react-redux";
-import { login } from "../../store/login/loginStore";
 import {
   LoginFormBackgroundVideo,
   LoginFormLoginButton,
@@ -11,15 +9,36 @@ import {
   LogoWrapper,
 } from "./styles/loginForm";
 import { useNavigate } from "react-router-dom";
+import KakaoLogin from "./component/kakaoLogin";
+import { useAppDispatch, useAppSelector } from "../../hoc/useStoreHooks";
+import { fetchLoginThunk } from "../../store/login/loginStore";
+import { useEffect, useState } from "react";
 
 const LoginWrapper = () => {
-  const dispatch = useDispatch();
+  const [username, setUsername] = useState<string>();
+  const [password, setPassword] = useState<string>();
+
+  const auth = useAppSelector((store) => store.userReducer.auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const loginHandler = () => {
-    dispatch(login());
-    navigate("/");
+    if (username && password) {
+      dispatch(fetchLoginThunk({ id: username, password: password })).unwrap();
+    }
   };
 
+  useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
+  }, [auth, navigate]);
+  const onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.currentTarget.value);
+  };
+
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value);
+  };
   return (
     <LoginFormLoginWrapper>
       <LoginFormBackgroundVideo muted loop autoPlay>
@@ -27,11 +46,16 @@ const LoginWrapper = () => {
       </LoginFormBackgroundVideo>
       <LogoWrapper src="/img/logo.png"></LogoWrapper>
       <LoginFormLoginDiv>
-        <LoginFormLoginInput id="username" placeholder="ID" />
+        <LoginFormLoginInput
+          id="username"
+          placeholder="ID"
+          onChange={onChangeId}
+        />
         <LoginFormLoginInput
           id="password"
           placeholder="PASSWORD"
           type="password"
+          onChange={onChangePassword}
         />
         <LoginFormLoginButton onClick={loginHandler}>
           로그인
@@ -49,7 +73,7 @@ const LoginWrapper = () => {
         >
           회원가입
         </div>
-        <img src="/img/kakao_login_wide.png" alt="카카오 로그인 버튼" />
+        <KakaoLogin />
       </LoginFormLoginDiv>
     </LoginFormLoginWrapper>
   );

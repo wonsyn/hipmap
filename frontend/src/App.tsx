@@ -12,37 +12,72 @@ import SignUpWrapper from "./pages/signUp";
 import MyPage from "./pages/myPage";
 import MyFollowList from "./pages/myPage/component/MyFollowList";
 import Shorts from "./pages/shorts";
-import CommentsWrapper from "./components/comments";
-import { commentsDummy } from "./components/comments/commentsDummy";
+import Write from "./pages/write";
+import KakaoRedirect from "./pages/login/component/KakaoRedirect";
+import MyProfileModify from "./pages/myPage/component/MyProfileModify";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import BookMark from "./pages/bookmark";
+import { useAppDispatch, useAppSelector } from "./hoc/useStoreHooks";
+import { fetchLoginRefreshThunk } from "./store/login/loginStore";
+import PrivateRoute from "./components/PrivateRouter";
+import NotFound from "./pages/NotFound";
 
 function App() {
+  const isAuth = useAppSelector((store) => store.userReducer.auth);
+  const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-      if(!window.Kakao.isInitialized()){
-        window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_JAVASCRIPT_KEY);
+    }
+    if (!isAuth) {
+      const tokens = localStorage.getItem("token");
+      if (tokens) {
+        dispatch(fetchLoginRefreshThunk());
       }
-  },[])
+    }
+  }, []);
 
+  const client = new QueryClient();
   return (
     <BrowserRouter>
       <Layout>
-        <Routes>
-          <Route path="/main" element={<Main />} />
-          <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/labeling/welcome" element={<WelcomePage/>}></Route>
-          <Route path="/labeling/processing" element={<ProcessingPage/>}></Route>
-          <Route path="/labeling/result" element={<ResultPage/>}></Route>
-          <Route path="/hipmap/fullmap" element={<FullMapPage/>}></Route>
-          <Route path="/hipmap/result" element={<HipMapResultPage/>}></Route>
-          <Route path="/login" element={<LoginWrapper />} />
-          <Route path="/signup" element={<SignUpWrapper />} />
-          <Route path="/myPage">
-            <Route path=":username" element={<MyPage />} />
-            <Route path="myProfile" element={<MyPage />} />
-            <Route path="followlist" element={<MyFollowList />} />
-          </Route>
-          <Route path="/shorts" element={<Shorts />} />
-        </Routes>
+        <QueryClientProvider client={client}>
+          <Routes>
+            <Route element={<PrivateRoute authentication={true} />}>
+              <Route path="/main" element={<Main />} />
+              <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
+              <Route
+                path="/hipmap/result"
+                element={<HipMapResultPage />}
+              ></Route>
+              <Route path="/myPage">
+                <Route path=":username" element={<MyPage />} />
+                <Route path="followlist/:userid" element={<MyFollowList />} />
+              </Route>
+              <Route path="/myPage/bookmark" element={<BookMark />} />
+              <Route path="/myProfile/:username" element={<MyPage />} />
+              <Route path="/shorts" element={<Shorts />} />
+              <Route path="/write" element={<Write />} />
+              <Route path="/profileModify" element={<MyProfileModify />} />
+              <Route path="/" element={<Navigate replace to="/main" />} />
+            </Route>
+            <Route element={<PrivateRoute authentication={false} />}>
+              <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
+              <Route
+                path="/labeling/processing"
+                element={<ProcessingPage />}
+              ></Route>
+              <Route path="/labeling/result" element={<ResultPage />}></Route>
+
+              <Route path="/login" element={<LoginWrapper />} />
+              <Route path="/signup" element={<SignUpWrapper />} />
+
+              <Route path="/oauth/kakao" element={<KakaoRedirect />} />
+            </Route>
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </QueryClientProvider>
       </Layout>
     </BrowserRouter>
   );

@@ -1,44 +1,51 @@
 import React from "react";
 import { selectComment } from "..";
+import { useCommentDelete } from "../../../hoc/useMutation";
+import { useAppSelector } from "../../../hoc/useStoreHooks";
 import Card from "../../card/Card";
 import {
   CommentButton,
+  CommentCardWrapperDiv,
   CommentContent,
   CommentDateDiv,
   CommentNickname,
 } from "../commentStyle";
 
 export interface comment {
-  nickname: string;
-  comment_id: string;
+  userNickname: string;
+  commentId: string;
   content: string;
   group: number;
   sequence: number;
-  create_time: string;
+  createTime: string;
   index: number;
+  userId: number;
   getComment: (e: selectComment) => void;
 }
 
 const CommentWrapper = ({
-  nickname,
-  comment_id,
+  userNickname,
+  commentId,
   content,
   group,
   sequence,
-  create_time,
+  createTime,
   index,
+  userId,
   getComment,
 }: comment) => {
+  const myUserId = useAppSelector((store) => store.userReducer.user.user_id);
   const getCommentId = () => {
     const e = {
-      nickname,
-      comment_id,
+      userNickname,
+      commentId,
       group,
       sequence,
       index,
     };
     getComment(e);
   };
+  const { mutate: deleteComment } = useCommentDelete();
   return (
     <CommentButton root={sequence > 1 ? false : true} onClick={getCommentId}>
       <Card
@@ -49,11 +56,20 @@ const CommentWrapper = ({
         margin_left="auto"
         background="linear-gradient(92.79deg,#EA047E,#FFC23C)"
       >
-        <div>
-          <CommentNickname>{nickname}</CommentNickname>
+        <CommentCardWrapperDiv>
+          <CommentNickname>{userNickname}</CommentNickname>
           <CommentContent>{content}</CommentContent>
-          <CommentDateDiv>{create_time}</CommentDateDiv>
-        </div>
+          <CommentDateDiv>{createTime}</CommentDateDiv>
+          {userId === myUserId && (
+            <button
+              onClick={() => {
+                deleteComment({ commentId: parseInt(commentId) });
+              }}
+            >
+              삭제
+            </button>
+          )}
+        </CommentCardWrapperDiv>
       </Card>
     </CommentButton>
   );
