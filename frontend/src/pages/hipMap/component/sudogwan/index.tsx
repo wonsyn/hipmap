@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, SudogwanMapDiv, GridDivRegional, NotDotSpanRegional
 import { SudogwanSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveSudogwan, saveSudogwanMobile, saveName, saveSudogwanAnime } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveSudogwan, saveSudogwanMobile, saveName, saveSudogwanAnime, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 import { useEffect, useState } from "react";
@@ -133,6 +133,11 @@ function Sudogwan(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+       ))
     }
     function SudogwanClick(i: number, j: number){
       const shortsList: any = []
