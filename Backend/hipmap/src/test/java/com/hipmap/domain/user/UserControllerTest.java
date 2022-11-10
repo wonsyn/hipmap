@@ -2,8 +2,12 @@ package com.hipmap.domain.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hipmap.TestDatasourceConfig;
+import com.hipmap.domain.jwt.dto.JwtUserInfo;
+import com.hipmap.domain.user.Exception.UserNotFoundException;
+import com.hipmap.domain.user.dto.request.UserEditRequest;
 import com.hipmap.domain.user.dto.request.UserLoginRequest;
 import com.hipmap.domain.user.dto.request.UserRegistRequest;
+import com.hipmap.global.util.JwtUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,6 +54,8 @@ public class UserControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    JwtUtil jwtUtil;
 
     @Before
     public void setUp() {
@@ -75,6 +82,19 @@ public class UserControllerTest {
                 .username("wondoll")
                 .password("password")
                 .build());
+
+        UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
+
+        JwtUserInfo userInfo = JwtUserInfo.builder()
+                .id(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .label_name(user.getLabelName())
+                .role(user.getRole())
+                .build();
+        String token = jwtUtil.generateToken(userInfo.toEntity());
+
         // when
         // perform(): MockMvc가 수행할 행동을 정의해준다.
         ResultActions actions = mockMvc.perform(post("/user/login") // URL을 받아서 http method를 수행한다.
@@ -86,11 +106,8 @@ public class UserControllerTest {
         // 일어난 결과에 대해 검증한다.
         actions.andDo(print()) // andDo: perform요청을 처리한다.
                 // andExpect(): 검증내용을 체크한다.
-                .andExpect( status().isOk());// HTTP response Code 200 인지 확인
-// jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
-//                .andExpect(jsonPath("$.success").value(true)); // json 내 키값을 기준으로 비교, success가 true인지
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.msg").exists());
+                .andExpect( status().isOk())// jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
+                .andExpect(jsonPath("$.tokens.accessToken").value(token));// HTTP response Code 200 인지 확인
         // andReturn(): MvcResult 객체로 반환시켜준다.
     }
 
@@ -112,7 +129,6 @@ public class UserControllerTest {
                         .content(object)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-//                        .with(csrf()) // spring security를 사용했기 때문에 csrf 요청
         );
         // then
         actions.andDo(print())
@@ -156,5 +172,27 @@ public class UserControllerTest {
         // then
         actions.andDo(print())
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void 유저_정보_수정_성공() throws Exception {
+        // given
+        String object = objectMapper.writeValueAsString(
+                UserEditRequest.builder()
+                        .nickname("test")
+                        .followPrivate(true)
+                        .label("테스터")
+                        .build());
+        // when
+        ResultActions actions = mockMvc.perform(
+                put("/user/edit")
+                        .content(object)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+        // then
+        actions.andDo(print())
+                .andExpect(status().isOk());
+
     }
 }
