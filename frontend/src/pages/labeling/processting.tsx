@@ -310,7 +310,7 @@ function ProcessingPage(){
                 <ContainerDiv>
                     {/* <Tie/> */}
                     <LinearWithValueLabel number={animationNumber}/>
-                    <Question text={question[processNumber]} number={processNumber}/>
+                    <Question text={question[processNumber]} number={animationNumber}/>
                     <Select clickEvent={clickEvent1} text={button1[processNumber]} number={animationNumber}/>
                     <Select clickEvent={clickEvent2} text={button2[processNumber]} number={animationNumber}/>
                 </ContainerDiv>
