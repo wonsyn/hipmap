@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional,
 import { YungnamSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveYungnam, saveYungnamMobile, saveName, saveYungnamAnime } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveYungnam, saveYungnamMobile, saveName, saveYungnamAnime, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -226,6 +226,11 @@ function Yungnam(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
       }
     function YungnamClick(i: number, j: number){
       const shortsList: any = []

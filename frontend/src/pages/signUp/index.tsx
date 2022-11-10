@@ -31,7 +31,7 @@ interface userInfo {
 
 const SignUpWrapper = () => {
   console.log(useLocation())
-  const labelingName = useLocation()?.state.labelingName ?? "아직 정해지지 않음"
+  const labelingName = useLocation()?.state?.labelingName ?? "아직 정해지지 않음"
   const [selectEmail, setSelectEmail] = useState("self");
   const [emailState, setEmailState] = useState("");
   const [emailFrontState, setEmailFrontState] = useState("");

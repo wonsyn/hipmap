@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, JejuMapDiv, GridDivRegional, NotDotSpanRegional, Ar
 import { JejuSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveJeju, saveJejuAnime, saveJejuMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveJeju, saveJejuAnime, saveJejuMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 function Jeju(){
@@ -98,6 +98,11 @@ function Jeju(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
     }
     function JejuClick(i: number, j: number){
       const shortsList: any = []

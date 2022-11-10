@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, HoseoMapDiv, GridDivRegional, NotDotSpanRegional, A
 import { HoseoSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveHoseo, saveHoseoAnime, saveHoseoMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveHoseo, saveHoseoAnime, saveHoseoMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -164,6 +164,11 @@ function Hoseo(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
       }
     function HoseoClick(i: number, j: number){
       const shortsList: any = []
