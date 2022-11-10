@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   MyFollowBackButton,
@@ -13,6 +13,7 @@ import MyFollows from "./MyFollows";
 const MyFollowList = () => {
   // 유저 아이디 넣기
   const location = useLocation();
+  const navigator = useNavigate();
 
   const [follow, setFollow] = useState<boolean | undefined>(undefined);
 
@@ -41,7 +42,11 @@ const MyFollowList = () => {
   return (
     <div>
       <div>
-        <MyFollowBackButton>
+        <MyFollowBackButton
+          onClick={() => {
+            navigator(-1);
+          }}
+        >
           <ArrowBackIcon fontSize="medium" />
         </MyFollowBackButton>
       </div>

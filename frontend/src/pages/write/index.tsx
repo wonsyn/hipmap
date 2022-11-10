@@ -18,7 +18,7 @@ const Write = () => {
     gu: string | null;
     gun: string | null;
   }>();
-  // console.log(position);
+  console.log("position", position);
 
   const { mutate, isLoading } = useUploadShorts();
 

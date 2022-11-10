@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-// import { login } from "../../store/login/loginStore";
 import {
   LoginFormBackgroundVideo,
   LoginFormLoginButton,
@@ -13,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import KakaoLogin from "./component/kakaoLogin";
 import { useAppDispatch, useAppSelector } from "../../hoc/useStoreHooks";
 import { fetchLoginThunk } from "../../store/login/loginStore";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const LoginWrapper = () => {
   const [username, setUsername] = useState<string>();

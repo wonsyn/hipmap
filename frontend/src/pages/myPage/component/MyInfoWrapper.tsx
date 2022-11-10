@@ -20,14 +20,21 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const MyInfoWrapper = ({
   setUsername,
+  username,
 }: {
   setUsername: (e: string) => void;
+  username: string;
 }) => {
   const [isMyPage, setIsMyPage] = useState<boolean>(false);
   const userIn = useAppSelector((store) => store.userReducer.user.user_id);
+  console.log(userIn);
   const params = useParams();
+  const flag = window.location.pathname.includes("/myProfile");
+  console.log("플래그", flag);
   const navigate = useNavigate();
-  const { data, isLoading } = useFetchUserInfo(parseInt(params.username!));
+  const { data, isLoading } = useFetchUserInfo(
+    flag ? userIn : parseInt(username!)
+  );
   const { mutate: followAdd } = useFollowAdd();
   const { mutate: followDelete } = useFollowDelete();
 
@@ -42,7 +49,7 @@ const MyInfoWrapper = ({
     if (data && data.userInfo && data.userInfo.username) {
       setUsername(data.userInfo.username);
     }
-  }, [data]);
+  }, [data, data?.userInfo.username, setUsername, username, isMyPage]);
   if (isLoading) {
     return <div>로딩중...</div>;
   } else if (!isLoading && data) {
