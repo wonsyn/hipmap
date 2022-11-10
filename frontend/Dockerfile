@@ -32,7 +32,7 @@ COPY --from=build-stage /var/jenkins_home/workspace/hipmapdpl/frontend/build /us
 COPY --from=build-stage /var/jenkins_home/workspace/hipmapdpl/frontend/deploy_conf/nginx.conf /etc/nginx/conf.d/default.conf
 # RUN mkdir /var/wwww
 RUN pwd
-COPY --from=build-stage /var/jenkins_home/ws2/certificate.crt /var
-COPY --from=build-stage /var/jenkins_home/ws2/private.key /var
+COPY --from=build-stage /var/jenkins_home/ws2 /var
+# COPY --from=build-stage /var/jenkins_home/ws2/private.key /var
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
