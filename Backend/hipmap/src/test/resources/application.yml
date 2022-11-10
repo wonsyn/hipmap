@@ -1,0 +1,40 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database: h2
+    generate-ddl: off
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/testdb;MODE=MySQL;NON_KEYWORDS=USER
+    username: SA
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+---
+spring:
+  config:
+    activate:
+      on-profile: EmailAuth
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: wonsyn3715@gmail.com
+    password: lpsvktxscepxxbnk
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
