@@ -23,6 +23,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
   const [followingSearchWord, setFollowingSearchWord] = useState<string>();
   const [followerSearchWord, setFollowerSearchWord] = useState<string>();
+
   const [followingList, setFollowingList] = useState<
     {
       userId: number;
