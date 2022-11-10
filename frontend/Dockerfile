@@ -21,9 +21,9 @@ RUN yarn install
 
 COPY .env .
 RUN pwd
-COPY ./home/ubuntu/cert/certificate.crt /var/www/
-COPY ./home/ubuntu/cert/private.key /var/www/
-COPY  ./module/index.d.ts ./node_modules/react-full-page/lib/
+COPY ../home/ubuntu/cert/certificate.crt /var/www/
+COPY ../home/ubuntu/cert/private.key /var/www/
+COPY ./module/index.d.ts ./node_modules/react-full-page/lib/
 
 RUN yarn build
 #
