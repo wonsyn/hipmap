@@ -59,10 +59,14 @@ public class UserControllerTest {
 
     @Before
     public void setUp() {
+        createUser("wondoll", "password", "email@email.com");
+    }
+
+    private void createUser(String username, String password, String email) {
         userRepository.save(UserEntity.builder()
-                .username("wondoll")
-                .password(passwordEncoder.encode("password") )
-                .email("email@email.com")
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .email(email)
                 .nickname("test")
                 .role(Admin.ROLE_USER)// 최초 가입시 USER 로 설정
                 .proImgSrc(null)
