@@ -39,7 +39,7 @@ public class OAuthKakaoServiceImpl implements OAuthKakaoService{
 
 
     @Override
-    public KakaoAuthResponse auth(String code) {
+    public KakaoAuthResponse auth(String code, String redirectUri) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers  = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -47,7 +47,7 @@ public class OAuthKakaoServiceImpl implements OAuthKakaoService{
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", clientId);
-        params.add("redirect_uri", "http://localhost:8080/api/oauth/kakao/result");
+        params.add("redirect_uri", redirectUri);
         params.add("code", code);
         params.add("client_secret", clientSecret);
 
