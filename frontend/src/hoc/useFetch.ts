@@ -18,7 +18,7 @@ interface userinformationProps {
   };
 }
 
-interface shortsList {
+export interface shortsList {
   shortsList: {
     commentsCount: number;
     createTime: string;
@@ -31,7 +31,7 @@ interface shortsList {
     locationGu: string | null;
     locationSi: string | null;
     shortsId: number;
-    thumbnailSrc: String | null;
+    thumbnailSrc: string;
   }[];
   totalPage: number;
 }
@@ -245,6 +245,18 @@ export const useFetchBookMark = () => {
     }[]
   >(["bookmarkList"], async () => {
     const response = await http.get(`/hip/bookmark`);
+    return response.data;
+  });
+};
+
+export const useFetchShortsSameLabel = (label: string) => {
+  return useQuery<{
+    shortsList: {
+      thumbnailSrc: string;
+      shortsId: number;
+    }[];
+  }>(["sameLabel"], async () => {
+    const response = await http.get(`/shorts/samelabel?labeling=` + label);
     return response.data;
   });
 };

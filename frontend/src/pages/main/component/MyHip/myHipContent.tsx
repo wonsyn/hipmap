@@ -7,15 +7,11 @@ import {
   MyHipContentWrapperDiv,
 } from "../../styles/MyHip";
 
-interface shorts {
-  thumbnail_src: string;
-  shortsId: number;
-}
-
 interface MyHipContainerProps {
   content: {
-    shortsList: shorts[];
-  };
+    shortsId: number;
+    thumbnailSrc: string;
+  }[];
   text: string;
 }
 
@@ -28,7 +24,7 @@ const MyHipContent = ({ content, text }: MyHipContainerProps) => {
           <MyHipContentTextDiv>{text}</MyHipContentTextDiv>
           <MyHipContentImg
             rightPercent={0}
-            src={content.shortsList[0].thumbnail_src}
+            src={content[0].thumbnailSrc}
             alt="사진"
           />
         </MyHipContentWrapperDiv>
