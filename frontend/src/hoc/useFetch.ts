@@ -1,6 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import http from "../utils/http-commons";
-import { useCommentSort } from "./useCommetSort";
 
 interface userinformationProps {
   isFollow: boolean;
@@ -200,9 +199,10 @@ export const useFetchMyShorts = (username: string) => {
     ["myPageShorts"],
     async () => {
       const response = await http.get(`/shorts/getusershorts/` + username);
+      console.log("내 게시글", response.data);
       return response.data;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: true, refetchOnMount: true }
   );
 };
 
@@ -234,4 +234,17 @@ export const useFetchPostCount = ({ username }: { username: string }) => {
     },
     { refetchOnWindowFocus: false }
   );
+};
+
+export const useFetchBookMark = () => {
+  return useQuery<
+    {
+      shortsId: number;
+      thumbnailSrc: string;
+      nickname: string;
+    }[]
+  >(["bookmarkList"], async () => {
+    const response = await http.get(`/hip/bookmark`);
+    return response.data;
+  });
 };
