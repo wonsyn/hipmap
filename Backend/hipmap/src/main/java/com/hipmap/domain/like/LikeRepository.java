@@ -1,8 +1,8 @@
 package com.hipmap.domain.like;
 
 import com.hipmap.domain.shorts.ShortsEntity;
-import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
-import com.hipmap.domain.shorts.response.ShortsIdAndTotalCntProjectionInterface;
+import com.hipmap.domain.shorts.dto.response.ShortsIdAndLikeCntProjectionInterface;
+import com.hipmap.domain.shorts.dto.response.ShortsIdAndTotalCntProjectionInterface;
 import com.hipmap.domain.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
