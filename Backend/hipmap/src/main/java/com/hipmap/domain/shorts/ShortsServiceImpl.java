@@ -5,14 +5,14 @@ import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeRepository;
 import com.hipmap.domain.like.LikeRepositorySupport;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
-import com.hipmap.domain.shorts.request.CreateShortsRequest;
-import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.*;
+import com.hipmap.domain.shorts.dto.request.CreateShortsRequest;
+import com.hipmap.domain.shorts.dto.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.dto.response.*;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import com.hipmap.global.util.S3Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,28 +26,22 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class ShortsServiceImpl implements ShortsService {
 
-    @Autowired
-    ShortsRepository shortsRepository;
+    private final ShortsRepository shortsRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    LikeRepository likeRepository;
+    private final LikeRepository likeRepository;
 
-    @Autowired
-    ShortsRepositorySupport shortsRepositorySupport;
+    private final ShortsRepositorySupport shortsRepositorySupport;
 
-    @Autowired
-    LikeRepositorySupport likeRepositorySupport;
+    private final LikeRepositorySupport likeRepositorySupport;
 
-    @Autowired
-    CommentReposiotrySupport commentReposiotrySupport;
+    private final CommentReposiotrySupport commentReposiotrySupport;
 
-    @Autowired
-    private S3Util s3Uploader;
+    private final S3Util s3Uploader;
 
     @Override
     public Page<ShortsResponse> getShorts(Pageable pageable, Long userId) {
