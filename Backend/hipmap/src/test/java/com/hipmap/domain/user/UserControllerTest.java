@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -183,7 +184,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void 유저_정보_수정_성공() throws Exception {
+    public void 유저정보_수정_성공() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
                 UserEditRequest.builder()
@@ -191,10 +192,19 @@ public class UserControllerTest {
                         .followPrivate(true)
                         .label("테스터")
                         .build());
+
+        UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
+
+        JwtUserInfo userInfo = getJwtUserInfo(user);
+
+        String accessToken = jwtUtil.generateToken(userInfo.toEntity());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("accessToken", accessToken);
         // when
         ResultActions actions = mockMvc.perform(
                 put("/user/edit")
                         .content(object)
+                        .headers(headers)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
