@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "./hoc/useStoreHooks";
 import { fetchLoginRefreshThunk } from "./store/login/loginStore";
 import PrivateRoute from "./components/PrivateRouter";
 import NotFound from "./pages/NotFound";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   const isAuth = useAppSelector((store) => store.userReducer.auth);
@@ -77,6 +78,7 @@ function App() {
             </Route>
             <Route path="/*" element={<NotFound />} />
           </Routes>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Layout>
     </BrowserRouter>

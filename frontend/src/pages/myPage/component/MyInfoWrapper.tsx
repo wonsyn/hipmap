@@ -9,11 +9,11 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MyFollowWrapper from "./MyFollowWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFetchPostCount, useFetchUserInfo } from "../../../hoc/useFetch";
+import {useFetchUserInfo } from "../../../hoc/useFetch";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 import {
-  MyFollowProfileImg,
   MyFollowProfileWrapper,
+  MyFollowProfileWrapperDiv,
 } from "../styles/MyFollowWrapperStyle";
 import { useFollowAdd, useFollowDelete } from "../../../hoc/useMutation";
 import { useQueryClient } from "@tanstack/react-query";
@@ -63,10 +63,7 @@ const MyInfoWrapper = ({
                 <AccountCircleIcon sx={{ fontSize: 60 }} />
               </MyFollowProfileWrapper>
             ) : (
-              <MyFollowProfileImg
-                src={data.userInfo.proImgSrc}
-                alt="프로필 이미지"
-              />
+              <MyFollowProfileWrapperDiv url={data.userInfo.proImgSrc} />
             )}
           </div>
           <div>{data.userInfo.nickname}</div>

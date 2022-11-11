@@ -43,7 +43,7 @@ const ProfileImgWrapper = () => {
         `}
         onClick={myPageHandler}
       >
-        <AccountCircleIcon /> {userNickName}님
+        {userNickName}님
       </div>
       <img
         css={css`

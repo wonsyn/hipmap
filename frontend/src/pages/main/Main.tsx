@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useEffect } from "react";
 import { useFetchShortsInfinite } from "../../hoc/useFetch";
 import { useAppSelector } from "../../hoc/useStoreHooks";
@@ -17,10 +18,29 @@ const Main = () => {
   useEffect(() => {
     queryClient.invalidateQueries(["shortsInfinite"]);
   }, []);
+
+  const test = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const tokenObj = JSON.parse(token);
+      const refreshToken = tokenObj.refreshToken;
+      const response = await axios.get(
+        process.env.REACT_APP_BACKEND_URL + `/jwt/re-issue`,
+        {
+          headers: {
+            refreshToken: refreshToken,
+          },
+        }
+      );
+      console.log(response.data);
+    }
+  };
+
   if (userLabel) {
     return (
       <div>
         <BestHipPlace />
+        <button onClick={test}>재발급 테스트</button>
         <MyHipContainer username={username} />
         <div
           css={css`

@@ -110,7 +110,7 @@ export const useFetchShortsInfinite = () => {
         if (!LastPage.isLast) return LastPage.nextPage;
         return undefined;
       },
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       refetchOnMount: true,
     }
   );

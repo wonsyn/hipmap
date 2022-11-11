@@ -38,7 +38,7 @@ http.interceptors.response.use(
     } = error;
     const originalRequest = config;
 
-    if (status === 403 || 401) {
+    if (status === 403 || status === 401) {
       try {
         const token = localStorage.getItem("token");
         if (token) {
@@ -51,11 +51,16 @@ http.interceptors.response.use(
               refreshToken: refreshToken,
             },
           });
+
+          const issuedTImeString = `&{new Date().getTime()}`;
+          const issuedTime = parseInt(issuedTImeString);
+
           const newAccessToken = res.data.tokens.accessToken;
           const newRefreshToken = res.data.tokens.refreshToken;
           const saveToken = JSON.stringify({
-            accessToken: res.data.tokens.accessToken,
-            refreshToken: res.data.tokens.refreshToken,
+            accessToken: newAccessToken,
+            expireTime: issuedTime + res.data.tokens.expireMilliSec,
+            refreshToken: newRefreshToken,
           });
           localStorage.setItem("token", saveToken);
 
@@ -63,8 +68,8 @@ http.interceptors.response.use(
         }
       } catch (e: any) {
         console.log(e);
-        // localStorage.removeItem("token");
-        // window.location.href = "/";
+        localStorage.removeItem("token");
+        // window.location.href = "/login";
         new Error(e);
       }
     }

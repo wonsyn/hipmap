@@ -36,13 +36,15 @@ const MyHipContainer = ({ username }: { username: string }) => {
         <div>
           <MyHipCardFont>My HIP</MyHipCardFont>
           <div>
-            {myHipData !== undefined && (
+            {myHipData !== undefined ? (
               <MyHipContentDiv>
                 <MyHipContent content={myHipData} text="북마크" />
                 {myShorts && (
                   <MyHipContent content={myShorts} text="최근 등록한 장소" />
                 )}
               </MyHipContentDiv>
+            ) : (
+              <h3>아직 아무것도 없어요!</h3>
             )}
           </div>
         </div>
