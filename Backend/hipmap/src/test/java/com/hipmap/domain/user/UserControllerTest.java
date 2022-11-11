@@ -28,8 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,10 +87,7 @@ public class UserControllerTest {
                 .password("password")
                 .build());
 
-        UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
-
-        JwtUserInfo userInfo = getJwtUserInfo(user);
-        String token = jwtUtil.generateToken(userInfo.toEntity());
+        String token = getAccessToken("wondoll");
 
         // when
         // perform(): MockMvc가 수행할 행동을 정의해준다.
@@ -104,7 +100,7 @@ public class UserControllerTest {
         // 일어난 결과에 대해 검증한다.
         actions.andDo(print()) // andDo: perform요청을 처리한다.
                 // andExpect(): 검증내용을 체크한다.
-                .andExpect( status().isOk())// jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
+                .andExpect(status().isOk())// jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
                 .andExpect(jsonPath("$.tokens.accessToken").value(token));// HTTP response Code 200 인지 확인
         // andReturn(): MvcResult 객체로 반환시켜준다.
     }
