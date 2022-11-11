@@ -1,5 +1,7 @@
 package com.hipmap.domain.notification;
 
+import com.hipmap.domain.notification.dto.response.NotificationResponse;
+import com.hipmap.domain.notification.dto.response.NotificationsResponse;
 import com.hipmap.domain.notification.emitter.EmitterRepository;
 
 import com.hipmap.domain.user.UserEntity;

@@ -1,12 +1,10 @@
 package com.hipmap.domain.shorts;
 
-import com.hipmap.domain.shorts.request.CreateShortsRequest;
-import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.*;
-import com.hipmap.domain.user.UserEntity;
+import com.hipmap.domain.shorts.dto.request.CreateShortsRequest;
+import com.hipmap.domain.shorts.dto.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.dto.response.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
