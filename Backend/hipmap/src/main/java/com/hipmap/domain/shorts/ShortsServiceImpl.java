@@ -157,7 +157,7 @@ public class ShortsServiceImpl implements ShortsService {
             UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException ::new);
             ShortsEntity shorts = ShortsEntity.builder()
                     .fileSrc(storedFileSrc)
-                    .thumbnailSrc("썸네일주소") // 차후 추가 예정
+                    .thumbnailSrc("https://hipmap.s3.ap-northeast-2.amazonaws.com/images/%EC%A0%9C%EB%AA%A9%EC%9D%84+%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94_-005+(1).png") // 차후 올바른 썸네일 주소 입력 예정
                     .locationSi(request.getLocationSi())
                     .locationGu(request.getLocationGu())
                     .locationDong(request.getLocationDong())
