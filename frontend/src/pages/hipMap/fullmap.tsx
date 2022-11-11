@@ -10,7 +10,7 @@ import { WrappingDiv } from "./styles/fullmap"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { RegionNameDiv, RegionNameButton } from "./styles/fullmap"
-import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime } from "../../store/hipMap/hipMapStore"
+import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime, saveRegion } from "../../store/hipMap/hipMapStore"
 import { useDotMapData } from "../../hoc/hipMap/fullMap/useDotMapData"
 function FullMapPage(){
     const dispatch = useDispatch()
@@ -47,8 +47,6 @@ function FullMapPage(){
         }
       )
       console.log("제주", checkIsland)
-      
-    const [region, setRegion] = useState<string>("")
     function MobileRegionalMap(){
         if(hipmapSelector.isSudogwanMobile){
             setTimeout(() => {

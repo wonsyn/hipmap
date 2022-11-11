@@ -51,7 +51,7 @@ const initialState: hipMapState = {
    honamAnime: false,
    yungnamAnime: false,
    jejuAnime: false,
-   sameLabelingCheck: false
+   sameLabelingCheck: false,
    region: ""
 }
 
@@ -124,6 +124,7 @@ export const HipMapSlice = createSlice({
       },
       saveSameLabelingCheck(state){
         state.sameLabelingCheck = !state.sameLabelingCheck
+      },
       saveRegion(state, action){
         state.region = action.payload.region
       }
