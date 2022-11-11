@@ -12,10 +12,10 @@ function Jeju(){
       {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
-        startLat: 34.2656,
-        endLat: 35.968,
-        startLng: 125.0667,
-        endLng: 127.1514,
+        startLat: 33.10,
+        endLat: 33.5626,
+        startLng: 126.1660,
+        endLng: 126.9723,
         isFilterChecked: false,
         locationSi: null,
         locationGu: null,
@@ -54,8 +54,8 @@ function Jeju(){
                   if(dot !==-1){
                       if(j === 1 || j === 2 || j === 3){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-                           && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+                          if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
+                           && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
@@ -70,8 +70,8 @@ function Jeju(){
                   if(dot !== -1){
                       if(j === 1 || j === 2){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-                           && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+                          if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
+                           && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
@@ -102,8 +102,8 @@ function Jeju(){
     function JejuClick(i: number, j: number){
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
-        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-         && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+        if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
+        && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
          {
           shortsList.push(shorts)
         }
