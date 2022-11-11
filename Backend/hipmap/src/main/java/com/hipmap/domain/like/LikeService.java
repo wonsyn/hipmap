@@ -1,7 +1,7 @@
 package com.hipmap.domain.like;
 
-import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
-import com.hipmap.domain.shorts.response.ShortsIdAndLikeCntProjectionInterface;
+import com.hipmap.domain.like.dto.response.LikeUpdateResponseDto;
+import com.hipmap.domain.shorts.dto.response.ShortsIdAndLikeCntProjectionInterface;
 
 import java.util.List;
 
