@@ -89,14 +89,7 @@ public class UserControllerTest {
 
         UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
 
-        JwtUserInfo userInfo = JwtUserInfo.builder()
-                .id(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .label_name(user.getLabelName())
-                .role(user.getRole())
-                .build();
+        JwtUserInfo userInfo = getJwtUserInfo(user);
         String token = jwtUtil.generateToken(userInfo.toEntity());
 
         // when
@@ -113,6 +106,17 @@ public class UserControllerTest {
                 .andExpect( status().isOk())// jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
                 .andExpect(jsonPath("$.tokens.accessToken").value(token));// HTTP response Code 200 인지 확인
         // andReturn(): MvcResult 객체로 반환시켜준다.
+    }
+
+    private JwtUserInfo getJwtUserInfo(UserEntity user) {
+        return JwtUserInfo.builder()
+                .id(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .label_name(user.getLabelName())
+                .role(user.getRole())
+                .build();
     }
 
     @Test
