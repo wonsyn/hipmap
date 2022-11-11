@@ -211,6 +211,7 @@ public class UserControllerTest {
         // then
         actions.andDo(print())
                 .andExpect(status().isOk());
+    }
 
     }
 }
