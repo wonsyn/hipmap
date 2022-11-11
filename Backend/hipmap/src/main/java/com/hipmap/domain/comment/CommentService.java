@@ -1,8 +1,8 @@
 package com.hipmap.domain.comment;
 
-import com.hipmap.domain.comment.request.CreateCommentRequest;
-import com.hipmap.domain.comment.request.UpdateCommentRequest;
-import com.hipmap.domain.comment.response.GetCommentResponse;
+import com.hipmap.domain.comment.dto.request.CreateCommentRequest;
+import com.hipmap.domain.comment.dto.request.UpdateCommentRequest;
+import com.hipmap.domain.comment.dto.response.GetCommentResponse;
 
 import java.util.List;
 

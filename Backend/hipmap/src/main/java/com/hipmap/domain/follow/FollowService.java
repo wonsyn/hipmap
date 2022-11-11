@@ -1,7 +1,6 @@
 package com.hipmap.domain.follow;
 
-import com.hipmap.domain.follow.dto.FollowConfirmResponseDto;
-import com.hipmap.domain.follow.dto.FollowUserInfoResponseDto;
+import com.hipmap.domain.follow.dto.response.FollowUserInfoResponseDto;
 
 import java.util.List;
 

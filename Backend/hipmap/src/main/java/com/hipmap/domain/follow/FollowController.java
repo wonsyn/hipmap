@@ -1,7 +1,7 @@
 package com.hipmap.domain.follow;
 
 import com.hipmap.domain.follow.Exception.FollowSameUserException;
-import com.hipmap.domain.follow.dto.FollowListResponseDto;
+import com.hipmap.domain.follow.dto.response.FollowListResponseDto;
 import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

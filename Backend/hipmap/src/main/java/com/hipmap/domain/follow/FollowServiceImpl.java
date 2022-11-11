@@ -1,9 +1,8 @@
 package com.hipmap.domain.follow;
 
 import com.hipmap.domain.follow.Exception.FollowDuplicateException;
-import com.hipmap.domain.follow.dto.FollowConfirmResponseDto;
-import com.hipmap.domain.follow.dto.FollowUserInfoResponseDto;
-import com.hipmap.domain.follow.dto.FollowSaveRequestDto;
+import com.hipmap.domain.follow.dto.response.FollowUserInfoResponseDto;
+import com.hipmap.domain.follow.dto.request.FollowSaveRequestDto;
 import com.hipmap.domain.notification.NotificationService;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;

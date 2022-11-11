@@ -1,6 +1,8 @@
 package com.hipmap.domain.bookmark;
 
 
+import com.hipmap.domain.bookmark.dto.response.GetBookmarkResponse;
+
 import java.util.List;
 
 public interface BookmarkService {

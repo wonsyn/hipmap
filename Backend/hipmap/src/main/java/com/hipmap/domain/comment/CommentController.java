@@ -1,9 +1,9 @@
 package com.hipmap.domain.comment;
 
-import com.hipmap.domain.comment.request.CreateCommentRequest;
-import com.hipmap.domain.comment.request.UpdateCommentRequest;
-import com.hipmap.domain.comment.response.CommentListResponse;
-import com.hipmap.domain.comment.response.CreateCommentResponse;
+import com.hipmap.domain.comment.dto.request.CreateCommentRequest;
+import com.hipmap.domain.comment.dto.request.UpdateCommentRequest;
+import com.hipmap.domain.comment.dto.response.CommentListResponse;
+import com.hipmap.domain.comment.dto.response.CreateCommentResponse;
 import com.hipmap.domain.common.response.BaseResponseBody;
 import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;

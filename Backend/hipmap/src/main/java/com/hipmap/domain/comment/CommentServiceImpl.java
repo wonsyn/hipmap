@@ -1,15 +1,15 @@
 package com.hipmap.domain.comment;
 
-import com.hipmap.domain.comment.request.CreateCommentRequest;
-import com.hipmap.domain.comment.request.UpdateCommentRequest;
-import com.hipmap.domain.comment.response.GetCommentResponse;
+import com.hipmap.domain.comment.dto.request.CreateCommentRequest;
+import com.hipmap.domain.comment.dto.request.UpdateCommentRequest;
+import com.hipmap.domain.comment.dto.response.GetCommentResponse;
 import com.hipmap.domain.notification.NotificationService;
 import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.ShortsRepository;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,22 +19,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
-    @Autowired
-    CommentReposiotrySupport commentReposiotrySupport;
+    private final CommentReposiotrySupport commentReposiotrySupport;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    ShortsRepository shortsRepository;
+    private final ShortsRepository shortsRepository;
 
-    @Autowired
-    NotificationService notificationService;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
