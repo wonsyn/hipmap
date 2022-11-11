@@ -35,6 +35,8 @@ public class JwtService {
                 JwtUserInfo info = jwtUtil.getUserInfo(refreshToken);
                 String access = jwtUtil.generateToken(info.getId(), info.getUsername());
                 String refresh = jwtUtil.generateRefreshToken(info.getId(), info.getUsername());
+                redisUtil.deleteData(refreshToken);
+                redisUtil.setDataExpire(refresh, info.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND / 1000);
                 Tokens tokens = Tokens.builder()
                         .accessToken(access)
                         .refreshToken(refresh)
