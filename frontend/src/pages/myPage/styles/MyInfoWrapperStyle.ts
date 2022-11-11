@@ -33,7 +33,7 @@ export const MyInfoDiv = styled.div`
 export const MyInfoNicknameDiv = styled.div``;
 
 export const MyInfoButtonWrapperDiv = styled.div`
-  width: 60%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -50,4 +50,18 @@ export const MyButton = styled.button`
   margin-top: 15%;
   border: none;
   background: ${(props) => props.theme.colors.subColorGradient2};
+  :disabled {
+    background: gray;
+    color: black;
+  }
+`;
+
+export const MyButtonWrapperDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  @media (min-width: 700px) {
+    width: 60%;
+  }
 `;

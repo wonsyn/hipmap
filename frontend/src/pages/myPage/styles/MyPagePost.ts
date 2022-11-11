@@ -16,7 +16,7 @@ export const MyPagePostDiv = styled.li`
 `;
 export const MyPagePostImg = styled.img`
   width: 100%;
-  padding: 0.5vw;
+  padding: 2px;
   max-height: 100%;
   object-fit: cover;
   vertical-align: bottom;

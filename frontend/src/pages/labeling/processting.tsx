@@ -11,7 +11,8 @@ import { saveCountE, saveCountI, saveCountN, saveCountS, saveCountT, saveCountF,
 import type { RootState } from "../../store/store"
 
 function ProcessingPage(){
-    const [processNumber, setProcessNumber] = useState(0)
+    const [processNumber, setProcessNumber] = useState<number>(0)
+    const [animationNumber, setAnimationNumber] = useState<number>(0)
     const [E, setE] = useState(0)
     const [I, setI] = useState(0)
     const [N, setN] = useState(0)
@@ -96,7 +97,10 @@ function ProcessingPage(){
                 return prev + 2
             })
         }
-        setProcessNumber(processNumber+1)
+        setAnimationNumber(animationNumber+1)
+        setTimeout(() => {
+            setProcessNumber(processNumber+1)
+        }, 300);
         if (processNumber > 9){
             dispatch(saveCountE({
                 E : E
@@ -135,7 +139,8 @@ function ProcessingPage(){
                 Zzin: Zzin
             }))
             console.log(E, I, N, S, T, P, J, Chill, Zzin, Fashion)
-            // 결과 페이지로 navigate
+        
+            //결과 페이지로 navigate
             navigate(`/labeling/result`)
         }
     }
@@ -213,7 +218,10 @@ function ProcessingPage(){
                 return prev + 2
             })
         }
-        setProcessNumber(processNumber+1)
+        setTimeout(() => {
+            setProcessNumber(processNumber+1)
+        }, 300);
+        setAnimationNumber(animationNumber+1)
         if (processNumber > 9){
             dispatch(saveCountE({
                 E : E
@@ -252,6 +260,7 @@ function ProcessingPage(){
                 Zzin: Zzin
             }))
             console.log(E, I, N, S, T, P, J, Chill, Zzin, Fashion)
+
             //결과 페이지로 navigate
             navigate(`/labeling/result`)
         }
@@ -297,13 +306,13 @@ function ProcessingPage(){
         "사랑하는 사람과 함께하는 꿈"
     ]
     return(
-            <WrapperDiv key={processNumber}>
+            <WrapperDiv key={animationNumber}>
                 <ContainerDiv>
-                    <Tie/>
-                    <LinearWithValueLabel number={processNumber}/>
-                    <Question text={question[processNumber]}/>
-                    <Select clickEvent={clickEvent1} text={button1[processNumber]}/>
-                    <Select clickEvent={clickEvent2} text={button2[processNumber]}/>
+                    {/* <Tie/> */}
+                    <LinearWithValueLabel number={animationNumber}/>
+                    <Question text={question[processNumber]} number={animationNumber}/>
+                    <Select clickEvent={clickEvent1} text={button1[processNumber]} number={animationNumber}/>
+                    <Select clickEvent={clickEvent2} text={button2[processNumber]} number={animationNumber}/>
                 </ContainerDiv>
             </WrapperDiv>
     )

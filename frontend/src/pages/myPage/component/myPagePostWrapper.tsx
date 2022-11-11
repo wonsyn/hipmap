@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+import { useMediaQuery } from "@material-ui/core";
+import { useState } from "react";
+import Modal from "../../../components/modal/Modal";
+import { useFetchMyShorts } from "../../../hoc/useFetch";
+import { useAppSelector } from "../../../hoc/useStoreHooks";
+import SingleShorts from "../../singleShorts";
 import {
   MyPagePostDiv,
   MyPagePostImg,
@@ -6,75 +11,61 @@ import {
 } from "../styles/MyPagePost";
 
 interface shorts {
-  thumbnail_src: string;
-  postId: number;
+  thumbnailSrc: string;
+  shortsId: number;
 }
 
-interface short {
-  shorts: shorts;
-  index: number;
-}
-
-const dummyDate = [
-  {
-    thumbnail_src: "/img/1.jpg",
-    postId: 1,
-  },
-  {
-    thumbnail_src: "/img/2.png",
-    postId: 2,
-  },
-  {
-    thumbnail_src: "/img/3.png",
-    postId: 3,
-  },
-  {
-    thumbnail_src: "/img/4.png",
-    postId: 4,
-  },
-  {
-    thumbnail_src: "/img/5.jpg",
-    postId: 5,
-  },
-  {
-    thumbnail_src: "/img/6.jpg",
-    postId: 6,
-  },
-  {
-    thumbnail_src: "/img/7.jpg",
-    postId: 7,
-  },
-  {
-    thumbnail_src: "/img/8.jpg",
-    postId: 8,
-  },
-  {
-    thumbnail_src: "/img/9.jpg",
-    postId: 9,
-  },
-
-  {
-    thumbnail_src: "/img/10.jpg",
-    postId: 10,
-  },
-];
-
-const MyPagePostWrapper = () => {
-  const [MyPagePost, setMyPagePost] = useState<shorts[]>();
-
-  // react-query로 변환할 예정
-  useEffect(() => {
-    setMyPagePost(dummyDate);
-  }, []);
-  return (
-    <MyPagePostWrapperUl>
-      {MyPagePost?.map((e: shorts, i: number) => (
-        <MyPagePostDiv key={i}>
-          <MyPagePostImg src={e.thumbnail_src} alt="썸네일" />
-        </MyPagePostDiv>
-      ))}
-    </MyPagePostWrapperUl>
+const MyPagePostWrapper = ({ username }: { username: string }) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectId, setSelectId] = useState<number>();
+  const isMobile = useMediaQuery("(max-width:1023px)");
+  const flag = window.location.pathname.includes("/myProfile");
+  const userIn = useAppSelector((store) => store.userReducer.user.username);
+  console.log("rorkxms", userIn, username);
+  console.log(isMobile);
+  console.log(username);
+  const { data: MyPagePost, isLoading } = useFetchMyShorts(
+    flag ? userIn : username
   );
+  console.log(MyPagePost);
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  } else if (userIn && !isLoading && MyPagePost && MyPagePost.length > 0) {
+    return (
+      <MyPagePostWrapperUl>
+        {isModalOpen && selectId !== undefined && (
+          <Modal
+            width={isMobile ? "80%" : "1024px"}
+            height="80%"
+            modalHandler={() => {
+              setIsModalOpen((prev) => {
+                return !prev;
+              });
+            }}
+          >
+            <SingleShorts shortsId={selectId} />
+          </Modal>
+        )}
+        {MyPagePost?.map((e: shorts, i: number) => (
+          <MyPagePostDiv
+            key={i}
+            onClick={() => {
+              setIsModalOpen((prev) => {
+                return !prev;
+              });
+              setSelectId(e.shortsId);
+            }}
+          >
+            <MyPagePostImg src={e.thumbnailSrc} alt="썸네일" />
+          </MyPagePostDiv>
+        ))}
+      </MyPagePostWrapperUl>
+    );
+  } else if (!isLoading && MyPagePost && MyPagePost.length === 0) {
+    return <h2>작성한 게시물이 없습니다...</h2>;
+  } else {
+    return <div>데이터를 가져오는데 문제가 발생했습니다.</div>;
+  }
 };
 
 export default MyPagePostWrapper;

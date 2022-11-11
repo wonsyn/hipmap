@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional,
 import { YungnamSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveYungnam, saveYungnamMobile, saveName, saveYungnamAnime } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveYungnam, saveYungnamMobile, saveName, saveYungnamAnime, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -13,10 +13,10 @@ function Yungnam(){
       {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
-        startLat: 34.2656,
-        endLat: 35.968,
-        startLng: 125.0667,
-        endLng: 127.1514,
+        startLat: 34.5088,
+        endLat: 36.9408,
+        startLng: 126.80395,
+        endLng: 129.58835,
         isFilterChecked: false,
         locationSi: null,
         locationGu: null,
@@ -55,7 +55,7 @@ function Yungnam(){
               if(dot !== -1){
                   if(j === 10 || j === 11){
                     data.shortsList.map((shorts: any) => {
-                      if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                      if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
@@ -70,7 +70,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 8 || j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -86,7 +86,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -102,7 +102,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -118,7 +118,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11 || j === 12){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -134,7 +134,7 @@ function Yungnam(){
                   if(dot !==-1){
                       if(j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -150,7 +150,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -166,7 +166,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -182,7 +182,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -198,7 +198,7 @@ function Yungnam(){
                   if(dot !== -1){
                       if(j === 6 || j === 8 || j === 9){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -226,11 +226,16 @@ function Yungnam(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
       }
     function YungnamClick(i: number, j: number){
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
-        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+        if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
          && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
          {
           shortsList.push(shorts)
@@ -254,7 +259,7 @@ function Yungnam(){
                     if(dot !== -1){
                         if(j === 10 || j === 11){
                           return(
-                            <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                            <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                               {dot}
                             </YungnamSpanRegional>
                           )
@@ -277,7 +282,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -300,7 +305,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -323,7 +328,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -346,7 +351,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10 || j === 11 || j === 12){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -369,7 +374,7 @@ function Yungnam(){
                         if(dot !==-1){
                             if(j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -392,7 +397,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -415,7 +420,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9 || j === 10 || j === 11){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -438,7 +443,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 5 || j === 6 || j === 7 || j === 8 || j === 9){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )
@@ -461,7 +466,7 @@ function Yungnam(){
                         if(dot !== -1){
                             if(j === 6 || j === 8 || j === 9){
                               return(
-                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)}>
+                                <YungnamSpanRegional onClick={() => YungnamClick(i, j)} number={dot}>
                                   {dot}
                                 </YungnamSpanRegional>
                               )

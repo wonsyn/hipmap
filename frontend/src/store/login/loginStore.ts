@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import http from "../../utils/http-commons";
 import type { RootState } from "../store";
 
 interface userLoginState {
@@ -48,6 +49,18 @@ export const fetchSignUpThunk = createAsyncThunk(
   }
 );
 
+export const fetchLoginRefreshThunk = createAsyncThunk(
+  "user/refreshLogin",
+  async () => {
+    try {
+      const response = await http.get(`/jwt/refresh`);
+      return response.data;
+    } catch (e: any) {
+      console.log(e);
+    }
+  }
+);
+
 export const fetchLoginThunk = createAsyncThunk(
   "user/fetchLogin",
   async (
@@ -65,9 +78,12 @@ export const fetchLoginThunk = createAsyncThunk(
       );
 
       console.log(response);
+      const issuedTImeString = `&{new Date().getTime()}`;
+      const issuedTime = parseInt(issuedTImeString);
+      // expireTime: issuedTime + response.data.tokens.expireMilliSec,
+
       const token = JSON.stringify({
         accessToken: response.data.tokens.accessToken,
-
         refreshToken: response.data.tokens.refreshToken,
       });
       localStorage.setItem("token", token);
@@ -120,6 +136,28 @@ export const LoginSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchLoginRefreshThunk.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchLoginRefreshThunk.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.auth = true;
+      state.token = {
+        access_token: action.payload.tokens.accessToken,
+        refresh_token: action.payload.tokens.refreshToken,
+      };
+      state.user = {
+        user_id: action.payload.userInfo.userId,
+        email: action.payload.userInfo.email,
+        labeling: action.payload.userInfo.labeling,
+        nickname: action.payload.userInfo.nickname,
+        isAdmin: action.payload.userInfo.isAdmin,
+        username: action.payload.userInfo.username,
+      };
+    });
+    builder.addCase(fetchLoginRefreshThunk.rejected, (state) => {
+      state.isLoading = false;
+    });
     builder.addCase(fetchSignUpThunk.pending, (state) => {
       state.isLoading = true;
     });
@@ -155,7 +193,7 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const { logout,userModify } = LoginSlice.actions;
+export const { logout, userModify } = LoginSlice.actions;
 
 export const loginState = (state: RootState) => state.userReducer;
 
