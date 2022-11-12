@@ -50,11 +50,13 @@ public class S3Util {
 //        String saveFileName = userId+ "-" +getUuid() + ext; // 파일 저장 이름
         String saveFileNameExceptExt = userId+ "-" +getUuid(); // 파일 저장 이름
         String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
+        boolean isMp4 = false;
         if(!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".mp4")) {
+            uploadFile.createNewFile(); // 파일 생성
             FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg"); // ffmpge 리눅스 경로
             FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe"); // ffprobe 리눅스 경로
 
-            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + saveFileName) //파일경로
+            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //파일경로
                     .overrideOutputFiles(true)
                     .addOutput("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
                     .setFilename("mp4")
@@ -63,9 +65,16 @@ public class S3Util {
                     .done();
             FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
             executor.createJob(builder).run();
+            isMp4 = true;
+        }
+        File encodingUploadFile;
+        if(isMp4){
+            encodingUploadFile = new File("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4");
+        }else {
+            encodingUploadFile = uploadFile;
         }
         // uploadFile = 저장된 파일로 재지정
-        File encodingUploadFile = new File("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4");
+
 
         String fileName = dirName + "/" + saveFileName;
 //        String uploadImageUrl = putS3(uploadFile, fileName);
