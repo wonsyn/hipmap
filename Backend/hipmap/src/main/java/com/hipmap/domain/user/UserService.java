@@ -116,7 +116,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void uploadProfile(MultipartFile file, Long userId) {
+    public void uploadProfile(MultipartFile file, Long userId) throws Exception {
         String storedFileName;
 
         if(!file.isEmpty()) {
