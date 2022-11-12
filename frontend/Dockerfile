@@ -23,6 +23,8 @@ WORKDIR /var/jenkins_home/envfile
 RUN pwd
 COPY .env .
 
+WORKDIR /var/jenkins_home/workspace/hipmapDeploy/frontend
+RUN pwd
 COPY ./module/index.d.ts ./node_modules/react-full-page/lib/
 
 RUN yarn build
