@@ -19,7 +19,7 @@ RUN yarn
 COPY . ./
 RUN yarn install
 
-COPY .env .
+# COPY .env .
 RUN pwd
 COPY ./module/index.d.ts ./node_modules/react-full-page/lib/
 
