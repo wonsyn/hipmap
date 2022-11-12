@@ -59,24 +59,31 @@ public class UserEntity {
     private Admin role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<FollowEntity> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "followingUser", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<FollowEntity> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<BookmarkEntity> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<CommentEntity> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<LikeEntity> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<NotificationEntity> notifications = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<ShortsEntity> shorts = new ArrayList<>();
 
     public UserEntity(String nickname, String userEmail, String proImgSrc) {
