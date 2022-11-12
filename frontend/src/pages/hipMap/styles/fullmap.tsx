@@ -2,22 +2,7 @@ import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled"
 import { palette } from "../../../assets/Palette"
 
-// const bounceOutDown = keyframes`
-//         20% {
-//             transform: translate3d(0, 10px, 0) scaleY(0.985);
-//         }
 
-//         40%,
-//         45% {
-//             opacity: 1;
-//             transform: translate3d(0, -20px, 0) scaleY(0.9);
-//         }
-
-//         to {
-//             opacity: 0;
-//             transform: translate3d(0, 2000px, 0) scaleY(3);
-//         }
-// `
 const fadeOutLeft = keyframes`
     from {opacity: 1;}
     to { opacity: 0; transform: translate3d(-100%, 0, 0);}
@@ -89,6 +74,10 @@ interface SelectProps{
 interface ButtonProps{
     name: string;
 
+}
+
+interface NumberProps{
+    number: number;
 }
 
 export const WrappingDiv = styled.div`
@@ -340,13 +329,17 @@ export const SudogwanSpan = styled.span<SelectProps>`
         
     }
 `
-export const SudogwanSpanRegional = styled.span`
+export const SudogwanSpanRegional = styled.span<NumberProps>`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    background-color: white;
-    font-size: 0;
+    color: red;
+    background-color: ${(props) => props.number === 0  && `white`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+    background-color: ${(props) => props.number > 10   && `red`};
     :hover{
         cursor: pointer;
     }
@@ -387,13 +380,17 @@ export const GwandongSpan = styled.span<SelectProps>`
         animation-name: ${(props) => props.region === "Gwandong" && css`${gwandongMobileAnime}`};
     }
 `
-export const GwandongSpanRegional = styled.span`
+export const GwandongSpanRegional = styled.span<NumberProps>`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    background-color: white;
-    font-size: 0;
+    color: red;
+    background-color: ${(props) => props.number === 0  && `white`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+    background-color: ${(props) => props.number > 10   && `red`};
     :hover{
         cursor: pointer;
     }
@@ -433,13 +430,18 @@ export const HoseoSpan = styled.span<SelectProps>`
         animation-name: ${(props) => props.region === "Hoseo" && css`${hoseoMobileAnime}`};
     }
 `
-export const HoseoSpanRegional = styled.span`
+export const HoseoSpanRegional = styled.span<NumberProps>`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    background-color: white;
-    font-size: 0;
+    background-color: ${(props) => props.number === 0  && `white`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+    background-color: ${(props) => props.number > 10   && `red`};
+    /* font-size: 0; */
+    color: red;
     :hover{
         cursor: pointer;
     }
@@ -479,13 +481,17 @@ export const HonamSpan = styled.span<SelectProps>`
         animation-name: ${(props) => props.region === "Honam" && css`${honamMobileAnime}`};
     }
 `
-export const HonamSpanRegional = styled.span`
+export const HonamSpanRegional = styled.span<NumberProps>`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    background-color: white;
-    font-size: 0;
+    color: red;
+    background-color: ${(props) => props.number === 0  && `white`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+    background-color: ${(props) => props.number > 10   && `red`};
     :hover{
         cursor: pointer;
     }
@@ -526,13 +532,17 @@ export const YungnamSpan = styled.span<SelectProps>`
 
     }
 `
-export const YungnamSpanRegional = styled.span`
+export const YungnamSpanRegional = styled.span<NumberProps>`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
     background-color: white;
-    border-radius: 20%;
-    font-size: 0;
+    color: red;
+    background-color: ${(props) => props.number === 0  && `white`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+    background-color: ${(props) => props.number > 10   && `red`};
     :hover{
         cursor: pointer;
     }
@@ -573,13 +583,17 @@ export const JejuSpan = styled.span<SelectProps>`
         animation-name: ${(props) => props.region === "Jeju" && css`${jejuMobileAnime}`};
     }
 `
-export const JejuSpanRegional = styled.span`
+export const JejuSpanRegional = styled.span<NumberProps>`
     width: 3vh;
     height: 3vh;
     margin: 0 10px 0 0;
-    background-color: white;
     border-radius: 20%;
-    font-size: 0;
+    color: red;
+    background-color: ${(props) => props.number === 0  && `white`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+    background-color: ${(props) => props.number > 10   && `red`};
     :hover{
         cursor: pointer;
     }
@@ -596,7 +610,7 @@ export const ArrowDiv = styled.div`
 `
 
 export const RegionNameDiv = styled.div`
-    margin: 8vh 0 0 0;
+    margin: -5vh 0 0 20vh;
     font-size: 1.5rem;
     font-weight: bold;
 `
@@ -618,4 +632,67 @@ export const RegionNameButton = styled.button<ButtonProps>`
         cursor: pointer;
     }
 `
+export const FilterWrappingDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 2%;
+`
+
+export const FilterInput = styled.input`
+    width: 30vw;
+    height: 4vh;
+    outline: none;
+`
+
+export const FilterCheckBox = styled.input`
+    width: 4vh;
+    height: 4vh;
+`
+
+export const CheckBoxDiv = styled.div`
+    
+`
+
+export const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
+    background-color: white;
+
+`
+// export const SudogwanImg = styled.img`
+//     /* width: 185px;
+//     height: 145px; */
+//     width: 38vw;
+//     height: 17vh;
+//     position: absolute;
+//     top: 14.5%;
+//     left: 13.5%;
+// `
+
+// export const GwandongImg = styled.img`
+//     width: 50%;
+//     height: 50%;
+//     position: absolute;
+// `
+
+// export const HoseoImg = styled.img`
+//     width: 50%;
+//     height: 50%; 
+//     position: absolute; 
+// `
+
+// export const HonamImg = styled.img`
+//     width: 50%;
+//     height: 50%; 
+//     position: absolute;
+// `
+
+// export const YungnamImg = styled.img`
+//     width: 50%;
+//     height: 50%; 
+//     position: absolute;
+// `
 
