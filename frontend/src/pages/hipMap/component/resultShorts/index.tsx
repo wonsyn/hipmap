@@ -1,31 +1,107 @@
 import { ShortsWrappingDiv, ShortsDiv, ShortsImage1, ShortsImage2, ShortsImage3, ShortsImage4, ShortsImage5, ShortsImage6 } from "../../styles/result"
-import bg1 from "../../../../assets/hipMap/bg1.jpg"
-import bg2 from "../../../../assets/hipMap/bg2.png"
-import bg3 from "../../../../assets/hipMap/bg3.jpg"
-import bg4 from "../../../../assets/hipMap/bg4.jpg"
-import bg5 from "../../../../assets/hipMap/bg5.jpg"
-import bg6 from "../../../../assets/hipMap/bg6.jpg"
-function ResultShorts(){
+import { useState } from "react";
+import { useEffect } from "react";
+import { useMediaQuery } from "@material-ui/core";
+import Modal from "../../../../components/modal/Modal";
+import SingleShorts from "../../../singleShorts";
+
+
+function ResultShorts(shorts: any){
+    console.log("너희는 누구냐?", shorts.shorts)
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [selectId, setSelectId] = useState<number | undefined>();
+    const isMobile = useMediaQuery("(max-width:1023px)");
+    useEffect(() => {
+        if (!isModalOpen) {
+          setSelectId(undefined);
+        }
+      }, [isModalOpen, selectId]);
     return(
         <ShortsWrappingDiv>
-            <ShortsDiv>
-                <ShortsImage1 src={bg1} alt="123" />
-            </ShortsDiv>
-            <ShortsDiv>
-                <ShortsImage2 src={bg2} alt="234" />
-            </ShortsDiv>
-            <ShortsDiv>
-                <ShortsImage3 src={bg3} alt="345" />
-            </ShortsDiv>
-            <ShortsDiv>
-                <ShortsImage4 src={bg4} alt="456" />
-            </ShortsDiv>
-            <ShortsDiv>
-                <ShortsImage5 src={bg5} alt="765" />
-            </ShortsDiv>
-            <ShortsDiv>
-                <ShortsImage6 src={bg6} alt="168" />
-            </ShortsDiv>
+            {isModalOpen && selectId !== undefined && (
+            <Modal
+            width={isMobile ? "80%" : "1024px"}
+            height="80%"
+            modalHandler={() => {
+                setIsModalOpen((prev) => {
+                return !prev;
+                });
+                setSelectId(undefined);
+            }}
+            >
+            <SingleShorts shortsId={selectId} />
+            </Modal>
+        )}
+            {shorts.shorts.map((short: any, i: number) => {
+                console.log(i)
+                if(i % 6 === 0){
+                    return(
+                        <ShortsDiv>
+                            <ShortsImage1 src={short.thumbnailSrc} alt="썸네일1" onClick={() => {
+                                setIsModalOpen((prev) => {
+                                    return !prev;
+                                  });
+                                setSelectId(short.shortsId)}}/>
+                        </ShortsDiv>
+                    )
+                }
+                else if(i % 6 === 1){
+                    return(
+                        <ShortsDiv>
+                            <ShortsImage2 src={short.thumbnailSrc} alt="썸네일2" onClick={() => {
+                                setIsModalOpen((prev) => {
+                                    return !prev;
+                                  });
+                                setSelectId(short.shortsId)}}/>
+                        </ShortsDiv>
+                    )
+                }
+                else if(i % 6 === 2){
+                    return(
+                        <ShortsDiv>
+                            <ShortsImage3 src={short.thumbnailSrc} alt="썸네일3" onClick={() => {
+                                setIsModalOpen((prev) => {
+                                    return !prev;
+                                  });
+                                setSelectId(short.shortsId)}}/>
+                        </ShortsDiv>
+                    )
+                }
+                else if(i % 6 === 3){
+                    return(
+                        <ShortsDiv>
+                            <ShortsImage4 src={short.thumbnailSrc} alt="썸네일4" onClick={() => {
+                                setIsModalOpen((prev) => {
+                                    return !prev;
+                                  });
+                                setSelectId(short.shortsId)}} />
+                        </ShortsDiv>
+                    )
+                }
+                else if(i % 6 === 4){
+                    return(
+                        <ShortsDiv>
+                            <ShortsImage5 src={short.thumbnailSrc} alt="썸네일5" onClick={() => {
+                                setIsModalOpen((prev) => {
+                                    return !prev;
+                                  });
+                                setSelectId(short.shortsId)}} />
+                        </ShortsDiv>
+                    )
+                }
+                else if(i % 6 === 5){
+                    return(
+                        <ShortsDiv>
+                            <ShortsImage6 src={short.thumbnailSrc} alt="썸네일6" onClick={() => {
+                                setIsModalOpen((prev) => {
+                                    return !prev;
+                                  });
+                                setSelectId(short.shortsId)}} />
+                        </ShortsDiv>
+
+                    )
+                }
+            })}
         </ShortsWrappingDiv>
     )
 }

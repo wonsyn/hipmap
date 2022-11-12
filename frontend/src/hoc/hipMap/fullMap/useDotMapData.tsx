@@ -9,9 +9,9 @@ interface useDotMapDataProps{
     startLng: number
     endLng: number
     isFilterChecked: boolean
-    locationSi: any
-    locationGu: any
-    locationDong: any
+    locationSi: string | null
+    locationGu: string | null
+    locationDong: string | null
 }
 
 export function useDotMapData({queryKey, uri, startLat, endLat, startLng, endLng, isFilterChecked, locationSi, locationGu, locationDong}: useDotMapDataProps){
