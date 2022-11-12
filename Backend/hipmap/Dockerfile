@@ -1,5 +1,5 @@
 FROM openjdk:11
-WORKDIR /var/jenkins_home/workspace/hipmapdpl/Backend/hipmap
+WORKDIR /var/jenkins_home/workspace/hipmapDeploy/Backend/hipmap
 #VOLUME /tmp
 #ARG JAR_FILE=build/libs/*.jar
 #COPY {JAR_FILE} app.jar
