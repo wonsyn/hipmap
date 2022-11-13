@@ -9,43 +9,60 @@ export const CommentWrapperDiv = styled.div`
   height: 100%;
   display: flex;
   position: relative;
-  
+  flex-direction: column;
+  align-items: center;
 `;
 
-export const CommentButton = styled.button<rootProps>`
+export const CommentButton = styled.div<rootProps>`
   background: none;
   border: none;
   width: 95%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  margin-bottom: 1%;
-  /* margin-left: ${(props) => (props.root ? "1%" : "auto")};*/
-  /* margin-left: auto; */
+  color: black;
 `;
 
 export const CommentCardWrapperDiv = styled.div`
   width: 100%;
   height: 100%;
+
+  display: flex;
+  align-items: center;
+  position: relative;
 `;
 
 export const CommentNickname = styled.div`
-  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
   font-weight: bolder;
-  padding: 3%;
-  width: 95%;
+  min-width: 100px;
+  max-width: 150px;
+  height: 100%;
+  @media (max-width: 699px) {
+    font-size: 0.5rem;
+    min-width: 50px;
+    max-width: 60px;
+  }
 `;
 
 export const CommentContent = styled.div`
-  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: start;
+  font-weight: bold;
+  font-size: 0.8rem;
+  @media (max-width: 699px) {
+    font-size: 0.6rem;
+  }
 `;
 
 export const CommentDateDiv = styled.div`
-  position: absolute;
-  right: 3%;
-  top: 3%;
-  width: 20%;
-  font-size: 0.7rem;
+  margin-right: auto;
+  width: 15%;
+  max-width: 50px;
+  font-size: 0.3rem;
 `;
 
 export const CommentWriteWrapperDiv = styled.div`
@@ -55,33 +72,43 @@ export const CommentWriteWrapperDiv = styled.div`
 `;
 
 export const CommentInputWrapperDiv = styled.div`
-  background-color: #222222;
-  border-radius: 8px;
-  padding: 5px;
-  position: fixed;
-  left: 0%;
-  width: 98%;
-  height: 4vh;
+  margin-top: auto;
+  border-radius: 4px;
+  width: 95%;
+  background: black;
+  height: 70px;
   display: flex;
-  bottom: 0px;
   align-items: center;
-  font-size: 1rem;
 `;
 
 export const CommentWriteInput = styled.input`
-  width: 60%;
-  height: 2vh;
-  margin-left: auto;
-  margin-right: 3%;
+  margin-left: 2%;
+  flex: 1;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  margin-right: 2%;
+  @media (max-width: 699px) {
+    max-width: 170px;
+  }
 `;
 
+export const CommentNicknameWrapperDiv = styled.div`
+  font-size: 0.7rem;
+  width: 130px;
+  @media (max-width: 699px) {
+    font-size: 0.4rem;
+    width: 60px;
+  }
+`;
+
+export const CommentNameNoneSelectDiv = styled.div`
+  min-width: 50px;
+  max-width: 70px;
+`;
 export const CommentInfoDiv = styled.div`
-  width: 37%;
-  margin-left: 3%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
+  margin-left: 1%;
 `;
 
 export const CommentRecommentCancelButton = styled.button`
@@ -91,8 +118,6 @@ export const CommentRecommentCancelButton = styled.button`
 `;
 
 export const CommentRecommentWrapperDiv = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
 `;
@@ -103,5 +128,27 @@ export const CommentSendButton = styled.button`
 `;
 
 export const CommentSendWrapperDiv = styled.div`
-  margin-right: 3%;
+  margin-right: 2%;
+`;
+
+export const CommentNoneDiv = styled.div`
+  margin-left: 3%;
+  margin-top: 3%;
+`;
+
+export const CommentCardDiv = styled.div<{ seq: boolean }>`
+  width: ${(props) => (props.seq ? "95%" : "100%")};
+  height: 50px;
+  display: flex;
+  font-size: 0.7rem;
+  margin-left: auto;
+  background: ${(props) => props.theme.colors.subColorGradient2};
+  border-radius: 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+`;
+
+export const CommentDeleteButton = styled.button`
+  background: none;
+  border: none;
 `;

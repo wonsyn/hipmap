@@ -172,6 +172,8 @@ export const useFetchShortsComments = (id: number) => {
 
 export const useFetchSingleShorts = (id: number) => {
   return useQuery<{
+    userId: number;
+    nickname: string;
     commentsCount: number;
     createTime: string;
     fileSrc: string;
@@ -190,7 +192,7 @@ export const useFetchSingleShorts = (id: number) => {
       const response = await http.get(`/shorts/` + id);
       return response.data;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, cacheTime: 0 }
   );
 };
 

@@ -108,6 +108,8 @@ export const ShortsVideoModalWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CommentModalInfoWrapperDiv = styled.div`
@@ -127,5 +129,4 @@ export const CommentListWrapperDiv = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 10vh;
-  
 `;

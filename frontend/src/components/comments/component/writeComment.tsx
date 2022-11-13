@@ -6,10 +6,13 @@ import {
   CommentSendButton,
   CommentSendWrapperDiv,
   CommentWriteInput,
+  CommentNameNoneSelectDiv,
+  CommentNicknameWrapperDiv,
 } from "../commentStyle";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useEffect, useRef } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+
 interface selectCommentProps {
   nickname: string | null;
   trigger: boolean;
@@ -45,13 +48,15 @@ const WriteComment = ({
       <CommentInfoDiv>
         {nickname !== null ? (
           <CommentRecommentWrapperDiv>
-            {nickname}
+            <CommentNicknameWrapperDiv>{nickname}</CommentNicknameWrapperDiv>
             <CommentRecommentCancelButton onClick={cleanSelectComment}>
               <CloseIcon sx={{ color: "#FFFFFF" }} />
             </CommentRecommentCancelButton>
           </CommentRecommentWrapperDiv>
         ) : (
-          <div>댓글</div>
+          <CommentNameNoneSelectDiv>
+            <h3>댓글</h3>
+          </CommentNameNoneSelectDiv>
         )}
       </CommentInfoDiv>
       <CommentWriteInput ref={inputRef} />

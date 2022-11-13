@@ -36,7 +36,7 @@ const MyHipContainer = ({ username }: { username: string }) => {
         <div>
           <MyHipCardFont>My HIP</MyHipCardFont>
           <div>
-            {myHipData !== undefined ? (
+            {myHipData !== undefined && myHipData.length > 0 ? (
               <MyHipContentDiv>
                 <MyHipContent content={myHipData} text="북마크" />
                 {myShorts && (

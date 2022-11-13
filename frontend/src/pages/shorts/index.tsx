@@ -127,7 +127,7 @@ const Shorts = () => {
               <Modal
                 modalHandler={modalClose}
                 width={isMobile ? "90%" : "700px"}
-                height="85%"
+                height="90%"
                 backgroundcolor="#222222"
                 color="white"
               >
