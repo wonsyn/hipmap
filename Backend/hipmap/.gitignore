@@ -36,3 +36,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### application-**.properties ###
+application-EmailAuth.properties
+application-oauth.properties
+application-ssl.properties
