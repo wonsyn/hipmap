@@ -45,8 +45,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc // Mock 테스트시 필요한 의존성을 제공해준다.
 @Transactional
 public class UserControllerTest {
-
-
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     private MockMvc mockMvc;
@@ -62,30 +60,11 @@ public class UserControllerTest {
         createUser("wondoll", "password", "email@email.com");
     }
 
-    private void createUser(String username, String password, String email) {
-        userRepository.save(UserEntity.builder()
-                .username(username)
-                .password(passwordEncoder.encode(password))
-                .email(email)
-                .nickname("test")
-                .role(Admin.ROLE_USER)// 최초 가입시 USER 로 설정
-                .proImgSrc(null)
-                .labelCharSrc(null)
-                .labelName("테스터")
-                .followPrivate(false)
-                .regDateTime(LocalDateTime.now())
-                .isCerted(false)
-                .build());
-    }
-
     @Test
     public void 로그인_성공() throws Exception {
         // given
         // objectMapper를 이용해서 요청을 보낼 객체를 생성해준다.
-        String object = objectMapper.writeValueAsString(UserLoginRequest.builder()
-                .username("wondoll")
-                .password("password")
-                .build());
+        String object = objectMapper.writeValueAsString(getUserLoginRequest("wondoll", "password"));
 
         String token = getAccessToken("wondoll");
 
@@ -105,26 +84,13 @@ public class UserControllerTest {
         // andReturn(): MvcResult 객체로 반환시켜준다.
     }
 
-    private JwtUserInfo getJwtUserInfo(UserEntity user) {
-        return JwtUserInfo.builder()
-                .id(user.getUserId())
-                .username(user.getUsername())
-                .build();
-    }
-
     @Test
     public void 회원가입_성공() throws Exception {
         // given
         long time = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
 
         // when
-        String object = objectMapper.writeValueAsString(UserRegistRequest.builder()
-                .username("wondoll1")
-                .password("password")
-                .labeling("테스트 힙스터")
-                .nickname("test")
-                .email("email@email.com" + time)
-                .build());
+        String object = objectMapper.writeValueAsString(getUserRegistRequest("wondoll1", "password", "테스트 힙스터", "test", "email@email.com" + time));
         ResultActions actions = mockMvc.perform(
                 post("/user/regist")
                         .content(object)
@@ -136,16 +102,13 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+
     @Test
     public void 회원가입_실패_이메일중복() throws Exception {
         // given
-        String object = objectMapper.writeValueAsString(UserRegistRequest.builder()
-                .username("wondoll")
-                .email("email@email.com")
-                .password("password")
-                .labeling("테스트 힙스터")
-                .nickname("test")
-                .build());
+        String object = objectMapper.writeValueAsString(
+                getUserRegistRequest("wondoll", "password", "test labling", "nickname", "email@email.com")
+        );
         // when
         ResultActions actions = mockMvc.perform(
                 post("/user/regist")
@@ -161,10 +124,7 @@ public class UserControllerTest {
     @Test
     public void 로그인_실패_잘못된정보() throws Exception {
         // given
-        String object = objectMapper.writeValueAsString(UserLoginRequest.builder()
-                .username("wondoll")
-                .password("wrongPassword")
-                .build());
+        String object = objectMapper.writeValueAsString(getUserLoginRequest("wondoll", "wrongPassword"));
         // when
         ResultActions actions = mockMvc.perform(post("/api/user/login")
                 .content(object)
@@ -179,11 +139,7 @@ public class UserControllerTest {
     public void 유저정보_수정_성공() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
-                UserEditRequest.builder()
-                        .nickname("test")
-                        .followPrivate(true)
-                        .label("테스터")
-                        .build());
+                getEditRequest("test", true, "테스터"));
 
         String accessToken = getAccessToken("wondoll");
 
@@ -202,15 +158,6 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private String getAccessToken(String username) {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-
-        JwtUserInfo userInfo = getJwtUserInfo(user);
-
-        String accessToken = jwtUtil.generateToken(userInfo.getId(), userInfo.getUsername());
-        return accessToken;
-    }
-
     @Test
     public void 아이디_중복_확인() throws Exception {
         // when
@@ -226,16 +173,11 @@ public class UserControllerTest {
 
     }
 
-
     @Test
     public void 유효하지않은_토큰() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
-                UserEditRequest.builder()
-                        .nickname("test")
-                        .followPrivate(true)
-                        .label("테스터")
-                        .build());
+                getUserEditRequest());
 
         UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
 
@@ -254,22 +196,36 @@ public class UserControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         );
 
-
         // then
         actions.andDo(print())
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message").value("Invalid"));
     }
 
+    private UserLoginRequest getUserLoginRequest(String username, String password) {
+        return UserLoginRequest.builder()
+                .username(username)
+                .password(password)
+                .build();
+    }
+
+    private UserEditRequest getEditRequest(String nickname, boolean followPrivate, String label) {
+        return UserEditRequest.builder()
+                .nickname(nickname)
+                .followPrivate(followPrivate)
+                .label(label)
+                .build();
+    }
+
+    private UserEditRequest getUserEditRequest() {
+        return getEditRequest("test", true, "테스터");
+    }
+
     @Test
     public void 토큰없음() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
-                UserEditRequest.builder()
-                        .nickname("test")
-                        .followPrivate(true)
-                        .label("테스터")
-                        .build());
+                getEditRequest("test", true, "테스터"));
 
         UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
 
@@ -289,4 +245,45 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.message").value("Unauthorized"));
     }
 
+    private void createUser(String username, String password, String email) {
+        userRepository.save(UserEntity.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .email(email)
+                .nickname("test")
+                .role(Admin.ROLE_USER)// 최초 가입시 USER 로 설정
+                .proImgSrc(null)
+                .labelCharSrc(null)
+                .labelName("테스터")
+                .followPrivate(false)
+                .regDateTime(LocalDateTime.now())
+                .isCerted(false)
+                .build());
+    }
+
+    private String getAccessToken(String username) {
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+
+        JwtUserInfo userInfo = getJwtUserInfo(user);
+
+        String accessToken = jwtUtil.generateToken(userInfo.getId(), userInfo.getUsername());
+        return accessToken;
+    }
+
+    private JwtUserInfo getJwtUserInfo(UserEntity user) {
+        return JwtUserInfo.builder()
+                .id(user.getUserId())
+                .username(user.getUsername())
+                .build();
+    }
+
+    private UserRegistRequest getUserRegistRequest(String username, String password, String labeling, String nickname, String email) {
+        return UserRegistRequest.builder()
+                .username(username)
+                .password(password)
+                .labeling(labeling)
+                .nickname(nickname)
+                .email(email)
+                .build();
+    }
 }
