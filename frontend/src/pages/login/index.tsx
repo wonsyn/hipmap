@@ -17,13 +17,22 @@ import { useEffect, useState } from "react";
 const LoginWrapper = () => {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [correctLogin, setCorrectLogin] = useState<boolean>(false);
 
   const auth = useAppSelector((store) => store.userReducer.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const loginHandler = () => {
     if (username && password) {
-      dispatch(fetchLoginThunk({ id: username, password: password })).unwrap();
+      dispatch(fetchLoginThunk({ id: username, password: password }))
+        .unwrap()
+        .then((res) => {
+          console.log("rest", res);
+        })
+        .catch((e) => {
+          console.log("rest", e);
+          setCorrectLogin(true);
+        });
     }
   };
 
@@ -57,6 +66,7 @@ const LoginWrapper = () => {
           type="password"
           onChange={onChangePassword}
         />
+        {correctLogin && <div>아이디 혹은 비밀번호가 틀렸습니다.</div>}
         <LoginFormLoginButton onClick={loginHandler}>
           로그인
         </LoginFormLoginButton>

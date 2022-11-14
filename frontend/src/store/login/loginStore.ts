@@ -80,10 +80,10 @@ export const fetchLoginThunk = createAsyncThunk(
       console.log(response);
       const issuedTImeString = `&{new Date().getTime()}`;
       const issuedTime = parseInt(issuedTImeString);
-      // expireTime: issuedTime + response.data.tokens.expireMilliSec,
 
       const token = JSON.stringify({
         accessToken: response.data.tokens.accessToken,
+        expireTime: issuedTime + response.data.tokens.expireMilliSec,
         refreshToken: response.data.tokens.refreshToken,
       });
       localStorage.setItem("token", token);

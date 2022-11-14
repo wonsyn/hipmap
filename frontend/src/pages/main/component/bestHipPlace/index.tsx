@@ -13,7 +13,11 @@ const BestHipPlace = () => {
       <BestHipPlaceWrapper>
         <BestHipPlaceTitleDiv>베스트 힙 플레이스</BestHipPlaceTitleDiv>
         <div>
-          <Slide data={data} />
+          {data && data.shortsList.length > 0 ? (
+            <Slide data={data} />
+          ) : (
+            <h2>아직 아무것도 없습니다!</h2>
+          )}
         </div>
       </BestHipPlaceWrapper>
     );

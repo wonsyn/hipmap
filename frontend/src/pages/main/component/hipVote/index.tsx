@@ -3,9 +3,10 @@ import { css } from "@emotion/react";
 import { HipVoteWrapperDiv } from "../../styles/hipVote";
 import { useState, useEffect } from "react";
 import HipVoteCard from "./HIpVoteCard";
+import { shortsList } from "../../../../hoc/useFetch";
 
 interface shorts {
-  thumbnail_src: string;
+  thumbnailSrc: string;
   postId: number;
 }
 
@@ -14,59 +15,30 @@ interface short {
   index: number;
 }
 
-const dummyDate = [
-  {
-    thumbnail_src: "/img/1.jpg",
-    postId: 1,
-  },
-  {
-    thumbnail_src: "/img/2.png",
-    postId: 2,
-  },
-  {
-    thumbnail_src: "/img/3.png",
-    postId: 3,
-  },
-  {
-    thumbnail_src: "/img/4.png",
-    postId: 4,
-  },
-  {
-    thumbnail_src: "/img/5.jpg",
-    postId: 5,
-  },
-  {
-    thumbnail_src: "/img/6.jpg",
-    postId: 6,
-  },
-  {
-    thumbnail_src: "/img/7.jpg",
-    postId: 7,
-  },
-  {
-    thumbnail_src: "/img/8.jpg",
-    postId: 8,
-  },
-  {
-    thumbnail_src: "/img/9.jpg",
-    postId: 9,
-  },
-
-  {
-    thumbnail_src: "/img/10.jpg",
-    postId: 10,
-  },
-];
-
-const HipVote = () => {
-  const [voteState, setVoteState] = useState<shorts[]>();
+const HipVote = ({
+  shortsData,
+}: {
+  shortsData: {
+    result: shortsList;
+    nextPage: number;
+    isLast: boolean;
+  }[];
+}) => {
+  console.log(shortsData);
+  const [voteState, setVoteState] = useState<shortsList>();
   const [thumbnailState, setTumbnailState] = useState<short>();
   useEffect(() => {
-    setVoteState(dummyDate);
+    if (shortsData.length > 0) {
+      setVoteState(shortsData[0].result);
+    }
   }, []);
   useEffect(() => {
     if (!thumbnailState && voteState) {
-      setTumbnailState({ shorts: voteState[0], index: 0 });
+      const shorts = {
+        thumbnailSrc: voteState.shortsList[0].thumbnailSrc,
+        postId: voteState.shortsList[0].shortsId,
+      };
+      setTumbnailState({ shorts, index: 0 });
     }
   }, [thumbnailState, voteState]);
   const text = () => {
@@ -74,11 +46,22 @@ const HipVote = () => {
     if (
       voteState &&
       thumbnailState &&
-      thumbnailState.index + 1 < voteState.length
+      thumbnailState.index + 1 < voteState.shortsList.length
     ) {
-      setTumbnailState({ shorts: voteState[index + 1], index: index + 1 });
-    } else if (voteState && index && index + 1 >= voteState.length) {
-      setTumbnailState({ shorts: voteState[0], index: 0 });
+      const shorts = {
+        thumbnailSrc: voteState.shortsList[index + 1].thumbnailSrc,
+        postId: voteState.shortsList[index + 1].shortsId,
+      };
+      setTumbnailState({
+        shorts,
+        index: index + 1,
+      });
+    } else if (voteState && index && index + 1 >= voteState.shortsList.length) {
+      const shorts = {
+        thumbnailSrc: voteState.shortsList[0].thumbnailSrc,
+        postId: voteState.shortsList[0].shortsId,
+      };
+      setTumbnailState({ shorts, index: 0 });
     }
   };
   return (
