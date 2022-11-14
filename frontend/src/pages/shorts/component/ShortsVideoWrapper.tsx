@@ -12,11 +12,16 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import CommentIcon from "@mui/icons-material/Comment";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import {
+  useBookMarkAdd,
   useFirstLikeVote,
   useLikeDelete,
   useLikeVote,
 } from "../../../hoc/useMutation";
+import ColorAlerts from "./colorAlerts";
+import { useQueryClient } from "@tanstack/react-query";
+
 interface shortsInterface {
   shorts: {
     commentsCount: number;
@@ -33,16 +38,30 @@ interface shortsInterface {
     thumbnailSrc: String | null;
   };
   modalOpen: (e: number) => void;
+  refetch: () => void;
 }
 
-const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
+const ShortsVideoWrapper = ({
+  shorts,
+  modalOpen,
+  refetch,
+}: shortsInterface) => {
   const [location, setLocation] = useState<string>();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [disLike, setDisLike] = useState<boolean>(false);
+  //북마크 저장 성공 알림 띄우기용
+  const [open, setOpen] = useState<boolean>(false);
 
   const { mutate: firstVote } = useFirstLikeVote();
   const { mutate: likeVote } = useLikeVote();
   const { mutate: deleteVote } = useLikeDelete();
+  const { mutate: bookMark } = useBookMarkAdd();
+  const queryClient = useQueryClient();
+  const openHandler = () => {
+    setOpen((prev) => {
+      return !prev;
+    });
+  };
 
   useEffect(() => {
     if (shorts.isLike === "love") {
@@ -50,7 +69,7 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
       setDisLike(false);
     } else if (shorts.isLike === "hate") {
       setIsLike(false);
-      setDisLike(false);
+      setDisLike(true);
     } else {
       setIsLike(false);
       setDisLike(false);
@@ -70,49 +89,107 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
 
   return (
     <ShortsVideoElementDiv>
+      {open && <ColorAlerts open={open} openHandler={openHandler} />}
       <ShortsVideoDiv>
         <ShortsVideoPlayer file_src={shorts.fileSrc} />
         <LocationDiv>{location}</LocationDiv>
         <ShortsVoteCommentWrapperDiv>
+          <div>
+            <BookmarkAddIcon
+              sx={{ fontSize: 25 }}
+              onClick={() => {
+                bookMark(
+                  { shortsId: shorts.shortsId },
+                  {
+                    onSuccess: () => {
+                      setOpen(true);
+                    },
+                  }
+                );
+              }}
+            />
+          </div>
           <ShortVoteDiv
             onClick={() => {
               if (shorts.isLike === "none") {
-                firstVote({ id: shorts.shortsId, vote: true });
+                firstVote(
+                  { id: shorts.shortsId, vote: true },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else if (shorts.isLike === "love") {
-                deleteVote({ id: shorts.shortsId });
+                deleteVote(
+                  { id: shorts.shortsId },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else {
-                likeVote({ id: shorts.shortsId, vote: true });
+                likeVote(
+                  { id: shorts.shortsId, vote: true },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               }
             }}
           >
             {isLike ? (
-              <ThumbUpAltIcon sx={{ fontSize: 40 }} />
+              <ThumbUpAltIcon sx={{ fontSize: 25 }} />
             ) : (
-              <ThumbUpOffAltIcon sx={{ fontSize: 40 }}></ThumbUpOffAltIcon>
+              <ThumbUpOffAltIcon sx={{ fontSize: 25 }}></ThumbUpOffAltIcon>
             )}
             {shorts.likeCount}
           </ShortVoteDiv>
           <ShortVoteDiv
             onClick={() => {
               if (shorts.isLike === "none") {
-                firstVote({ id: shorts.shortsId, vote: false });
+                firstVote(
+                  { id: shorts.shortsId, vote: false },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else if (shorts.isLike === "hate") {
-                deleteVote({ id: shorts.shortsId });
+                deleteVote(
+                  { id: shorts.shortsId },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else {
-                likeVote({ id: shorts.shortsId, vote: false });
+                likeVote(
+                  { id: shorts.shortsId, vote: false },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               }
             }}
           >
             {disLike ? (
-              <ThumbDownAltIcon sx={{ fontSize: 40 }} />
+              <ThumbDownAltIcon sx={{ fontSize: 25 }} />
             ) : (
-              <ThumbDownOffAltIcon sx={{ fontSize: 40 }}></ThumbDownOffAltIcon>
+              <ThumbDownOffAltIcon sx={{ fontSize: 25 }}></ThumbDownOffAltIcon>
             )}
 
             {shorts.hateCount}
           </ShortVoteDiv>
           <ShortVoteDiv onClick={commentHander}>
-            <CommentIcon fontSize="medium"></CommentIcon>
+            <CommentIcon sx={{ fontSize: 25 }}></CommentIcon>
             {shorts.commentsCount}
           </ShortVoteDiv>
         </ShortsVoteCommentWrapperDiv>

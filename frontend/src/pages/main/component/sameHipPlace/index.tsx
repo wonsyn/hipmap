@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useFetchShortsSameLabel } from "../../../../hoc/useFetch";
 import { SameHipPlaceWrapperDiv } from "../../styles/sameHipPlace";
 import SameHipPlaceCardWrapper from "./CardWrapper";
 
-const SameHipPlace = () => {
+const SameHipPlace = ({ label }: { label: string }) => {
+  const { data: sameLabel, isLoading: sameLabelLoading } =
+    useFetchShortsSameLabel(label);
   return (
     <SameHipPlaceWrapperDiv>
       <div
@@ -12,9 +15,11 @@ const SameHipPlace = () => {
           font-weight: bolder;
         `}
       >
-        조선 힙스터들이 선택한 힙한 장소 둘러보기
+        {label}들이 선택한 힙한 장소 둘러보기
       </div>
-      <SameHipPlaceCardWrapper />
+      {sameLabel && !sameLabelLoading && sameLabel.shortsList && (
+        <SameHipPlaceCardWrapper data={sameLabel} />
+      )}
     </SameHipPlaceWrapperDiv>
   );
 };

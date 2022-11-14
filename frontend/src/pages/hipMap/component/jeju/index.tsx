@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, JejuMapDiv, GridDivRegional, NotDotSpanRegional, Ar
 import { JejuSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveJeju, saveJejuAnime, saveJejuMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveJeju, saveJejuAnime, saveJejuMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 function Jeju(){
@@ -12,10 +12,10 @@ function Jeju(){
       {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
-        startLat: 34.2656,
-        endLat: 35.968,
-        startLng: 125.0667,
-        endLng: 127.1514,
+        startLat: 33.10,
+        endLat: 33.5626,
+        startLng: 126.1660,
+        endLng: 126.9723,
         isFilterChecked: false,
         locationSi: null,
         locationGu: null,
@@ -54,8 +54,8 @@ function Jeju(){
                   if(dot !==-1){
                       if(j === 1 || j === 2 || j === 3){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-                           && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+                          if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
+                           && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
@@ -70,11 +70,12 @@ function Jeju(){
                   if(dot !== -1){
                       if(j === 1 || j === 2){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-                           && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+                          if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
+                           && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
+                            console.log(mapDot)
                           }
                         })
                       }
@@ -98,16 +99,22 @@ function Jeju(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
     }
     function JejuClick(i: number, j: number){
+      console.log(i,j)
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
-        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-         && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+        if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
+         && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
          {
           shortsList.push(shorts)
         }
-        console.log("진행 완료")
+        console.log(i, j, shortsList)
       })
      
       navigate('/hipmap/result',
@@ -125,8 +132,9 @@ function Jeju(){
                     if(i === 20){
                         if(dot !==-1){
                             if(j === 1 || j === 2 || j === 3){
+                              
                               return(
-                                <JejuSpanRegional onClick={() => JejuClick(i, j)}>
+                                <JejuSpanRegional onClick={() =>{ console.log(i, j); JejuClick(i, j)}} number={dot}>
                                   {dot}
                                 </JejuSpanRegional>
                               )
@@ -149,7 +157,7 @@ function Jeju(){
                         if(dot !== -1){
                             if(j === 1 || j === 2){
                               return(
-                                <JejuSpanRegional onClick={() => JejuClick(i, j)}>
+                                <JejuSpanRegional onClick={() => JejuClick(i, j)} number={dot}>
                                   {dot}
                                 </JejuSpanRegional>
                               )

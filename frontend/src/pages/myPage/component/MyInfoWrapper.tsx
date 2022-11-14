@@ -1,5 +1,6 @@
 import {
   MyButton,
+  MyButtonWrapperDiv,
   MyInfoButtonWrapperDiv,
   MyInfoDiv,
   MyInfoWrapperDiv,
@@ -8,34 +9,47 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MyFollowWrapper from "./MyFollowWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFetchPostCount, useFetchUserInfo } from "../../../hoc/useFetch";
+import {useFetchUserInfo } from "../../../hoc/useFetch";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 import {
-  MyFollowProfileImg,
   MyFollowProfileWrapper,
+  MyFollowProfileWrapperDiv,
 } from "../styles/MyFollowWrapperStyle";
 import { useFollowAdd, useFollowDelete } from "../../../hoc/useMutation";
 import { useQueryClient } from "@tanstack/react-query";
 
-const MyInfoWrapper = () => {
+const MyInfoWrapper = ({
+  setUsername,
+  username,
+}: {
+  setUsername: (e: string) => void;
+  username: string;
+}) => {
   const [isMyPage, setIsMyPage] = useState<boolean>(false);
   const userIn = useAppSelector((store) => store.userReducer.user.user_id);
+  console.log(userIn);
   const params = useParams();
+  const flag = window.location.pathname.includes("/myProfile");
+  console.log("플래그", flag);
   const navigate = useNavigate();
-  const { data, isLoading } = useFetchUserInfo(parseInt(params.username!));
+  const { data, isLoading } = useFetchUserInfo(
+    flag ? userIn : parseInt(username!)
+  );
   const { mutate: followAdd } = useFollowAdd();
   const { mutate: followDelete } = useFollowDelete();
-  // const { mutate: postCount } = useFetchPostCount();
+
   const queryClient = useQueryClient();
+
   useEffect(() => {
     if (params.username && userIn === parseInt(params.username)) {
       setIsMyPage(true);
     }
   }, [params.username, userIn]);
   useEffect(() => {
-    if (!isMyPage) {
+    if (data && data.userInfo && data.userInfo.username) {
+      setUsername(data.userInfo.username);
     }
-  }, [isMyPage]);
+  }, [data, data?.userInfo.username, setUsername, username, isMyPage]);
   if (isLoading) {
     return <div>로딩중...</div>;
   } else if (!isLoading && data) {
@@ -49,10 +63,7 @@ const MyInfoWrapper = () => {
                 <AccountCircleIcon sx={{ fontSize: 60 }} />
               </MyFollowProfileWrapper>
             ) : (
-              <MyFollowProfileImg
-                src={data.userInfo.proImgSrc}
-                alt="프로필 이미지"
-              />
+              <MyFollowProfileWrapperDiv url={data.userInfo.proImgSrc} />
             )}
           </div>
           <div>{data.userInfo.nickname}</div>
@@ -65,33 +76,70 @@ const MyInfoWrapper = () => {
             followerCount={data.userInfo.followerCount}
             followingCount={data.userInfo.followingCount}
           />
-          <MyButton
-            onClick={() => {
-              if (isMyPage) {
-                navigate("/profileModify");
-              } else {
-                if (data.isFollow) {
-                  followDelete(data.userInfo.userId, {
-                    onSuccess: () => {
-                      queryClient.invalidateQueries(["userInformation"]);
-                    },
-                  });
-                } else if (!data.isFollow) {
-                  followAdd(data.userInfo.userId, {
-                    onSuccess: () => {
-                      queryClient.invalidateQueries(["userInformation"]);
-                    },
-                  });
+          {isMyPage ? (
+            <MyButtonWrapperDiv>
+              <MyButton
+                onClick={() => {
+                  if (isMyPage) {
+                    navigate("/profileModify");
+                  } else {
+                    if (data.isFollow) {
+                      followDelete(data.userInfo.userId, {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries(["userInformation"]);
+                        },
+                      });
+                    } else if (!data.isFollow) {
+                      followAdd(data.userInfo.userId, {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries(["userInformation"]);
+                        },
+                      });
+                    }
+                  }
+                }}
+              >
+                프로필수정
+              </MyButton>
+              {isMyPage && (
+                <MyButton
+                  onClick={() => {
+                    navigate("/myPage/bookmark");
+                  }}
+                >
+                  북마크
+                </MyButton>
+              )}
+            </MyButtonWrapperDiv>
+          ) : (
+            <MyButton
+              onClick={() => {
+                if (isMyPage) {
+                  navigate("/profileModify");
+                } else {
+                  if (data.isFollow) {
+                    followDelete(data.userInfo.userId, {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries(["userInformation"]);
+                      },
+                    });
+                  } else if (!data.isFollow) {
+                    followAdd(data.userInfo.userId, {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries(["userInformation"]);
+                      },
+                    });
+                  }
                 }
-              }
-            }}
-          >
-            {isMyPage ? (
-              `프로필수정`
-            ) : (
-              <> {data.isFollow ? `팔로우 해제` : `팔로우`}</>
-            )}
-          </MyButton>
+              }}
+            >
+              {isMyPage ? (
+                `프로필수정`
+              ) : (
+                <> {data.isFollow ? `팔로우 해제` : `팔로우`}</>
+              )}
+            </MyButton>
+          )}
         </MyInfoButtonWrapperDiv>
       </MyInfoWrapperDiv>
     );

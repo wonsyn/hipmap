@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, GwandongMapDiv, GridDivRegional, NotDotSpanRegional
 import { GwandongSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveGwandong, saveGwandongAnime, saveGwandongMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveGwandong, saveGwandongAnime, saveGwandongMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -55,7 +55,7 @@ function Gwandong(){
                   if(dot !== -1){
                       if(j === 8){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -69,7 +69,7 @@ function Gwandong(){
                   if(dot !== -1){
                       if(j === 6 || j === 7 || j === 8){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -85,7 +85,7 @@ function Gwandong(){
                   if(dot !== -1){
                       if(j === 6 || j === 7 || j === 8 || j === 9){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -101,7 +101,7 @@ function Gwandong(){
                   if(dot !== -1){
                       if(j === 7 || j === 8 || j === 9 || j === 10){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -117,7 +117,7 @@ function Gwandong(){
                   if(dot !== -1){
                       if(j === 7 || j === 8 || j === 9 || j === 10){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -132,7 +132,7 @@ function Gwandong(){
                   if(dot !== -1){
                       if(j === 9 || j === 10 || j === 11){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -156,12 +156,17 @@ function Gwandong(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
 
       }
     function GwandongClick(i: number, j: number){
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
-        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+        if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
          && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
          {
           shortsList.push(shorts)
@@ -185,7 +190,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 8){
                               return(
-                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)}>
+                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)} number={dot}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -208,7 +213,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 6 || j === 7 || j === 8){
                               return(
-                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)}>
+                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)} number={dot}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -231,7 +236,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 6 || j === 7 || j === 8 || j === 9){
                               return(
-                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)}>
+                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)} number={dot}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -254,7 +259,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10){
                               return(
-                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)}>
+                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)} number={dot}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -277,7 +282,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 7 || j === 8 || j === 9 || j === 10){
                               return(
-                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)}>
+                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)} number={dot}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )
@@ -300,7 +305,7 @@ function Gwandong(){
                         if(dot !== -1){
                             if(j === 9 || j === 10 || j === 11){
                               return(
-                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)}>
+                                <GwandongSpanRegional onClick={() => GwandongClick(i, j)} number={dot}>
                                   {dot}
                                 </GwandongSpanRegional>
                               )

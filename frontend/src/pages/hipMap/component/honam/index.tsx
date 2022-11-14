@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, HonamMapDiv, GridDivRegional, NotDotSpanRegional, A
 import { HonamSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveHonam, saveHonamAnime, saveHonamMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveHonam, saveHonamAnime, saveHonamMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -55,7 +55,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 2 || j === 3 || j === 4){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -71,7 +71,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 2 || j === 3 || j === 4 || j === 5){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -87,7 +87,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 2 || j === 3 || j === 4){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -103,7 +103,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 1 || j === 2 || j === 3 || j === 4){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -119,7 +119,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -135,7 +135,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -151,7 +151,7 @@ function Honam(){
                   if(dot !== -1){
                       if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
@@ -178,11 +178,16 @@ function Honam(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
       }
       function HonamClick(i: number, j: number){
         const shortsList: any = []
           data.shortsList.map((shorts: any) => {
-          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
           && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
           {
             shortsList.push(shorts)
@@ -205,7 +210,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -229,7 +234,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -252,7 +257,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -275,7 +280,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 1 || j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -298,7 +303,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -321,7 +326,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )
@@ -344,7 +349,7 @@ function Honam(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5){
                               return(
-                                <HonamSpanRegional onClick={() => HonamClick(i, j)}>
+                                <HonamSpanRegional onClick={() => HonamClick(i, j)} number={dot}>
                                   {dot}
                                 </HonamSpanRegional>
                               )

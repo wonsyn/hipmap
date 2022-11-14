@@ -25,9 +25,10 @@ function ResultPage(){
         setLabelingDetail(labelDetail);
     },[])
     const clickEvent = () => {
-       // 회원가입 페이지로 연결
-       navigate(`/signup`,
-       {state: {labelingName: labelingResult}})
+       // 메인 페이지로 연결
+       navigate(`/signup`, {state : {
+        labelingName: labelingResult
+       }})
     }
 
     return(

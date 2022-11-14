@@ -6,6 +6,7 @@ import {
   HeaderContentWriteButton,
   HeaderShortsButtons,
 } from "../../../styles/layout/header";
+
 import Title from "./Title";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -16,6 +17,7 @@ import CommonButton from "../../button/CommonButton";
 import { useMediaQuery } from "@material-ui/core";
 import { FooterShortsImg } from "../../../styles/layout/footer";
 
+
 function Header() {
   const auth = useSelector((store: RootState) => store.userReducer.auth);
   const navigator = useNavigate();
@@ -23,6 +25,7 @@ function Header() {
   const onClick = () => {
     navigator(`/login`);
   };
+
   if (
     window.location.pathname === "/labeling/welcome" ||
     window.location.pathname === "/labeling/processing" ||

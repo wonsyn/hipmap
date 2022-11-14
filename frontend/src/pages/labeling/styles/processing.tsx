@@ -28,45 +28,6 @@ const fadeInRight = keyframes`
     }
 
 `
-const fadeOutLeftInRight = keyframes`
-    0%{
-        opacity: 1;
-    }
-    50%{
-        opacity: 0;
-        transform: translate3d(-100%, 0, 0), translate3d(100%, 0, 0);
-    }
-    100%{
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-`
-
-const slideInRight = keyframes`
-    0% {
-        -webkit-transform: translateX(500px);
-                transform: translateX(500px);
-        opacity: 0;
-  }
-    100% {
-        -webkit-transform: translateX(0);
-                transform: translateX(0);
-        opacity: 1;
-  }
-`;
-
-const slideInLeft = keyframes`
-     0% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    opacity: 1;
-    }
-    100% {
-        -webkit-transform: translateX(-1000px);
-                transform: translateX(-1000px);
-        opacity: 0;
-    }
-`
 
 const emphasizingSlide = keyframes`
     0% {
@@ -151,7 +112,7 @@ export const SelectButton = styled.button<AnimationProps>`
     animation-fill-mode: ${(props) => props.number? `forwards`: ``};
     animation-name: ${(props) => props.number? css`${fadeOutLeft}, ${fadeInRight}`: ``};
     animation-delay: ${(props) => props.number? `0.05s, 0.35s`: ``};
-    animation-duration: ${(props) => props.number? `0.35s, 0.65s`: ``};
+    animation-duration: ${(props) => props.number? `0.35s, 0.55s`: ``};
     animation-timing-function: ${(props) => props.number? `ease-in, ease-in-out`: ``};
     :hover{
         cursor: pointer;
