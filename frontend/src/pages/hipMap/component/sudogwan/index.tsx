@@ -59,7 +59,7 @@ function Sudogwan(){
               if(dot !== -1){
                   if(j === 4 || j === 5){
                     data.shortsList.map((shorts: any) => {
-                      if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                      if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
@@ -74,7 +74,7 @@ function Sudogwan(){
               if(dot !== -1){
                   if(j === 3 || j === 4 || j === 5){
                     data.shortsList.map((shorts: any) => {
-                      if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                      if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
@@ -90,7 +90,7 @@ function Sudogwan(){
               if(dot !== -1){
                   if(j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                     data.shortsList.map((shorts: any) => {
-                      if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                      if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
@@ -106,7 +106,7 @@ function Sudogwan(){
               if(dot !== -1){
                   if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                     data.shortsList.map((shorts: any) => {
-                      if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+                      if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
@@ -142,7 +142,7 @@ function Sudogwan(){
     function SudogwanClick(i: number, j: number){
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
-        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+        if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
          && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
          {
           shortsList.push(shorts)
@@ -166,7 +166,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 4 || j === 5){
                               return(
-                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)}>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)} number={dot}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -189,7 +189,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 3 || j === 4 || j === 5){
                               return(
-                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)}>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)} number={dot}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -212,7 +212,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)}>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)} number={dot}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -235,7 +235,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)}>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)} number={dot}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
@@ -258,7 +258,7 @@ function Sudogwan(){
                         if(dot !== -1){
                             if(j === 3 || j === 4 || j === 5){
                               return(
-                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)}>
+                                <SudogwanSpanRegional onClick={() => SudogwanClick(i, j)} number={dot}>
                                   {dot}
                                 </SudogwanSpanRegional>
                               )
