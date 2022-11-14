@@ -20,7 +20,7 @@ function CameraPage(){
       <div>로딩중...</div>
     )
   }
-  const gltfModel = "/img/fullcharacter.glb";
+  const gltfModel = "/img/fullcharacter.glb"; // 사용자 label에 따라서 주소 변환 
 
   return(
       <>
@@ -32,15 +32,6 @@ function CameraPage(){
         <a-asset-item id="glb" src="/img/fullcharacter.glb" ></a-asset-item>
       </a-assets>
       <a-entity id ="glgl" animation-mixer="clip:Idle01;" gltf-model={gltfModel} position="0 1 -2" scale="0.5 0.5 0.5"  ></a-entity>
- 
- 
-      {/* <a-gltf-model
-        src="#glb"
-        position="0 1 -2"
-        rotation="0 0 0"
-        scale="0.5 0.5 0.5"
-        animation-mixer = "true"
-      ></a-gltf-model> */}
 
       <a-camera
         position="0 1 2"

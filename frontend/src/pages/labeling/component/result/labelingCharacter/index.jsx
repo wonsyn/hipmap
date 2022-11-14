@@ -13,6 +13,7 @@ import SixthSense from "./characters/sixthSense";
 import WarmAndroid from "./characters/warmAndroid";
 
 function Model(labelName) {
+  console.log(labelName.labelName.name)
   if(labelName.labelName.name == "Warm Android"){
     return <WarmAndroid/>
   }else if(labelName.labelName.name == "Party Animal"){
