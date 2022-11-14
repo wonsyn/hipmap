@@ -66,7 +66,7 @@ export const LabelingCharacterDiv = styled.div`
     flex-direction: column;
     width: 100wv;
     max-width: 300px;
-    height: 50vh;
+    height: 40vh;
 `
 
 export const LabelingDetailDiv = styled.div`
