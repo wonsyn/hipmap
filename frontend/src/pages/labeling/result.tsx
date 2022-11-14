@@ -26,7 +26,9 @@ function ResultPage(){
     },[])
     const clickEvent = () => {
        // 메인 페이지로 연결
-       navigate(`/main`)
+       navigate(`/signup`, {state : {
+        labelingName: labelingResult
+       }})
     }
 
     return(
