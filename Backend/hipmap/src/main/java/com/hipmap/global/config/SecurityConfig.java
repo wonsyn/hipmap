@@ -53,6 +53,7 @@ public class SecurityConfig {
                     .antMatchers("/jwt/re-issue").permitAll()
                     .antMatchers("/user/**/exists", "/user/auth/**").permitAll()
                     .antMatchers("/oauth/**").permitAll()
+                    .antMatchers("/subscribe").permitAll()
                     .antMatchers("/**").hasAnyRole("USER", "ADMIN")
                     .anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
