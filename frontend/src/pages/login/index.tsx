@@ -78,12 +78,12 @@ const LoginWrapper = () => {
             color: cyan;
           `}
           onClick={() => {
-            navigate("/signup");
+            navigate("/labeling/welcome");
           }}
         >
           회원가입
         </div>
-        <KakaoLogin />
+        {/* <KakaoLogin /> */}
       </LoginFormLoginDiv>
     </LoginFormLoginWrapper>
   );
