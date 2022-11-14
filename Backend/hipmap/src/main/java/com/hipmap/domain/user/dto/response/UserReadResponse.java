@@ -1,6 +1,7 @@
 package com.hipmap.domain.user.dto.response;
 
 import com.hipmap.domain.user.Admin;
+import com.hipmap.domain.user.UserEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -32,4 +33,20 @@ public class UserReadResponse {
     Long followerCount;
     @ApiModelProperty(value = "팔로우 공개 여부(비공개 : true, 공개: false)")
     boolean followPrivate;
+
+    public static UserReadResponse of(UserEntity user) {
+        return UserReadResponse.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .proImgSrc(user.getProImgSrc())
+                .labelName(user.getLabelName())
+                .nickname(user.getNickname())
+                .shortsCount((long) user.getShorts().size())
+                .followerCount((long) user.getFollowers().size())
+                .followingCount((long) user.getFollowings().size())
+                .followPrivate(user.getFollowPrivate())
+                .build();
+    }
 }

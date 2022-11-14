@@ -100,19 +100,7 @@ public class UserService implements UserDetailsService {
     public UserReadResponse readInfo(Long userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
-        return UserReadResponse.builder()
-                .userId(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .proImgSrc(user.getProImgSrc())
-                .labelName(user.getLabelName())
-                .nickname(user.getNickname())
-                .shortsCount((long) user.getShorts().size())
-                .followerCount((long) user.getFollowers().size())
-                .followingCount((long) user.getFollowings().size())
-                .followPrivate(user.getFollowPrivate())
-                .build();
+        return UserReadResponse.of(user);
     }
 
     @Transactional
