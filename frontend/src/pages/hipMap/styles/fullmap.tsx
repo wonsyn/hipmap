@@ -1,9 +1,83 @@
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled"
 import { palette } from "../../../assets/Palette"
 
+// const bounceOutDown = keyframes`
+//         20% {
+//             transform: translate3d(0, 10px, 0) scaleY(0.985);
+//         }
+
+//         40%,
+//         45% {
+//             opacity: 1;
+//             transform: translate3d(0, -20px, 0) scaleY(0.9);
+//         }
+
+//         to {
+//             opacity: 0;
+//             transform: translate3d(0, 2000px, 0) scaleY(3);
+//         }
+// `
+const fadeOutLeft = keyframes`
+    from {opacity: 1;}
+    to { opacity: 0; transform: translate3d(-100%, 0, 0);}
+`
+const fadeOutRight = keyframes`
+    from {opacity: 1;}
+    to {opacity: 0; transform: translate3d(100%, 0, 0);}
+`
+const sudogwanAnime = keyframes`
+    from {color: red;}
+    to {transform: scale(1.5) translate(3vw, 15vh); color: red;}
+`
+const sudogwanMobileAnime = keyframes`
+    from {color: red;}
+    to {transform: scale(1.5) translate(8vw, 15vh); color: red;}
+`
+const gwandongAnime = keyframes`
+    from {color: green;}
+    to {transform: scale(1.5) translate(-4vw, 18vh); color: green;}
+`
+const gwandongMobileAnime = keyframes`
+    from {color: green;}
+    to {transform: scale(1.5) translate(-5vw, 15vh); color: green;}
+`
+const hoseoAnime = keyframes`
+    from {color: blue;}
+    to {transform: scale(1.5) translate(3vw, 6vh); color: blue;}
+`
+const hoseoMobileAnime = keyframes`
+    from {color: blue;}
+    to {transform: scale(1.5) translate(6vw, 8vh); color: blue;}
+`
+const honamAnime = keyframes`
+    from {color: brown;}
+    to {transform: scale(1.5) translate(4vw, -6vh); color: brown;}
+`
+const honamMobileAnime = keyframes`
+    from {color: brown;}
+    to {transform: scale(1.5) translate(14vw, -7vh); color: brown;}
+`
+const yungnamAnime = keyframes`
+    from {color: purple;}
+    to {transform: scale(1.5) translate(-3vw, -1vh); color: purple;}
+`
+const yungnamMobileAnime = keyframes`
+    from {color: purple;}
+    to {transform: scale(1.5) translate(-7vw, -1vh); color: purple;}
+`
+const jejuAnime = keyframes`
+    from {color: pink;}
+    to {transform: scale(1.5) translate(6vw, -21vh); color: pink;}
+`
+const jejuMobileAnime = keyframes`
+    from {color: pink;}
+    to {transform: scale(1.5) translate(14vw, -18vh); color: pink;}
+`
 
 interface SelectProps{
     select: boolean;
+    region: string;
     animation?: boolean;
     onMouseOver?: () => void;
     onMouseOut?: () => void;
@@ -14,6 +88,7 @@ interface SelectProps{
 
 interface ButtonProps{
     name: string;
+
 }
 
 export const WrappingDiv = styled.div`
@@ -235,8 +310,23 @@ export const SudogwanSpan = styled.span<SelectProps>`
     /* border: 2px solid ${palette.subColorCyan}; */
     border-radius: 20%;
     background-color: ${(props)=>props.select? `red` : `white`};
-    transform: ${(props) => props.animation? `scale(4) translate(2vw, 7vh)`: ``};
-    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
+    animation-fill-mode: ${(props) => props.region === "Sudogwan" && `forwards`};
+    animation-fill-mode: ${(props) => ((props.region === "Gwandong") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `forwards`};
+    animation-name: ${(props) => props.region === "Sudogwan" && css`${sudogwanAnime}`};
+    animation-name: ${(props) => ((props.region === "Gwandong") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && css`${fadeOutLeft}`};
+    animation-delay: ${(props) => props.region === "Sudogwan" && `0.4s`};
+    animation-delay: ${(props) => ((props.region === "Gwandong") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.05s`};
+    animation-duration: ${(props) => props.region === "Sudogwan" && `0.4s`};
+    animation-duration: ${(props) => ((props.region === "Gwandong") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.35s`};
+    animation-timing-function: ${(props) => props.region === "Sudogwan" && `ease-in-out`};
+    animation-timing-function: ${(props) => ((props.region === "Gwandong") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `ease-in`};
+    /* transform: ${(props) => props.animation? `scale(4) translate(2vw, 7vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0.35s;`: ``}; */
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -246,6 +336,8 @@ export const SudogwanSpan = styled.span<SelectProps>`
         height: 5px;
         border: 1px solid ${palette.subColorCyan};
         border-radius: 20%;
+        animation-name: ${(props) => props.region === "Sudogwan" && css`${sudogwanMobileAnime}`};
+        
     }
 `
 export const SudogwanSpanRegional = styled.span`
@@ -266,8 +358,23 @@ export const GwandongSpan = styled.span<SelectProps>`
     /* border: 2px solid ${palette.subColorCyan}; */
     border-radius: 20%;
     background-color: ${(props)=>props.select? `green` : `white`};
-    transform: ${(props) => props.animation? `scale(4) translate(-2vw, 7vh)`: ``};
-    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
+    animation-fill-mode: ${(props) => props.region === "Gwandong" && `forwards`};
+    animation-fill-mode: ${(props) => ((props.region === "Sudogwan") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `forwards`};
+    animation-name: ${(props) => props.region === "Gwandong" && css`${gwandongAnime}`};
+    animation-name: ${(props) => ((props.region === "Sudogwan") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && css`${fadeOutRight}`};
+    animation-delay: ${(props) => props.region === "Gwandong" && `0.4s`};
+    animation-delay: ${(props) => ((props.region === "Sudogwan") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.05s`};
+    animation-duration: ${(props) => props.region === "Gwandong" && `0.4s`};
+    animation-duration: ${(props) => ((props.region === "Sudogwan") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.35s`};
+    animation-timing-function: ${(props) => props.region === "Gwandong" && `ease-in-out`};
+    animation-timing-function: ${(props) => ((props.region === "Sudogwan") || (props.region === "Hoseo")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `ease-in`};
+    /* transform: ${(props) => props.animation? `scale(4) translate(-2vw, 7vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``}; */
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -277,6 +384,7 @@ export const GwandongSpan = styled.span<SelectProps>`
         height: 5px;
         border: 1px solid ${palette.subColorCyan};
         border-radius: 20%;
+        animation-name: ${(props) => props.region === "Gwandong" && css`${gwandongMobileAnime}`};
     }
 `
 export const GwandongSpanRegional = styled.span`
@@ -296,8 +404,23 @@ export const HoseoSpan = styled.span<SelectProps>`
     /* border: 2px solid ${palette.subColorCyan}; */
     border-radius: 20%;
     background-color: ${(props)=>props.select? `blue` : `white`};
-    transform: ${(props) => props.animation? `scale(4) translate(1vw, 4vh)`: ``};
-    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
+    animation-fill-mode: ${(props) => props.region === "Hoseo" && `forwards`};
+    animation-fill-mode: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `forwards`};
+    animation-name: ${(props) => props.region === "Hoseo" && css`${hoseoAnime}`};
+    animation-name: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && css`${fadeOutLeft}`};
+    animation-delay: ${(props) => props.region === "Hoseo" && `0.4s`};
+    animation-delay: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.05s`};
+    animation-duration: ${(props) => props.region === "Hoseo" && `0.4s`};
+    animation-duration: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.35s`};
+    animation-timing-function: ${(props) => props.region === "Hoseo" && `ease-in-out`};
+    animation-timing-function: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Honam") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `ease-in`};
+    /* transform: ${(props) => props.animation? `scale(4) translate(1vw, 4vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``}; */
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -307,6 +430,7 @@ export const HoseoSpan = styled.span<SelectProps>`
         height: 5px;
         border: 1px solid ${palette.subColorCyan};
         border-radius: 20%;
+        animation-name: ${(props) => props.region === "Hoseo" && css`${hoseoMobileAnime}`};
     }
 `
 export const HoseoSpanRegional = styled.span`
@@ -326,8 +450,23 @@ export const HonamSpan = styled.span<SelectProps>`
     /* border: 2px solid ${palette.subColorCyan}; */
     border-radius: 20%;
     background-color: ${(props)=>props.select? `brown` : `white`};
-    transform: ${(props) => props.animation? `scale(4) translate(3vw, -5vh)`: ``};
-    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
+    animation-fill-mode: ${(props) => props.region === "Honam" && `forwards`};
+    animation-fill-mode: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `forwards`};
+    animation-name: ${(props) => props.region === "Honam" && css`${honamAnime}`};
+    animation-name: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && css`${fadeOutLeft}`};
+    animation-delay: ${(props) => props.region === "Honam" && `0.4s`};
+    animation-delay: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.05s`};
+    animation-duration: ${(props) => props.region === "Honam" && `0.4s`};
+    animation-duration: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `0.35s`};
+    animation-timing-function: ${(props) => props.region === "Honam" && `ease-in-out`};
+    animation-timing-function: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Yungnam")  || (props.region === "Jeju")) && `ease-in`};
+    /* transform: ${(props) => props.animation? `scale(4) translate(3vw, -5vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``}; */
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -337,6 +476,7 @@ export const HonamSpan = styled.span<SelectProps>`
         height: 5px;
         border: 1px solid ${palette.subColorCyan};
         border-radius: 20%;
+        animation-name: ${(props) => props.region === "Honam" && css`${honamMobileAnime}`};
     }
 `
 export const HonamSpanRegional = styled.span`
@@ -356,10 +496,23 @@ export const YungnamSpan = styled.span<SelectProps>`
     /* border: 2px solid ${palette.subColorCyan}; */
     border-radius: 20%;
     background-color: ${(props)=>props.select? `purple` : `white`};
-    transform: ${(props) => props.animation? `scale(4) translate(-2vw, -3vh)`: ``};
-    /* padding: ${(props) => props.animation? `5px `: `0`};
-    margin: ${(props) => props.animation? `20px `: `0`}; */
-    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
+    animation-fill-mode: ${(props) => props.region === "Yungnam" && `forwards`};
+    animation-fill-mode: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Jeju")) && `forwards`};
+    animation-name: ${(props) => props.region === "Yungnam" && css`${yungnamAnime}`};
+    animation-name: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Jeju")) && css`${fadeOutRight}`};
+    animation-delay: ${(props) => props.region === "Yungnam" && `0.4s`};
+    animation-delay: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Jeju")) && `0.05s`};
+    animation-duration: ${(props) => props.region === "Yungnam" && `0.4s`};
+    animation-duration: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Jeju")) && `0.35s`};
+    animation-timing-function: ${(props) => props.region === "Yungnam" && `ease-in-out`};
+    animation-timing-function: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Jeju")) && `ease-in`};
+    /* transform: ${(props) => props.animation? `scale(4) translate(-2vw, -3vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``}; */
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -369,6 +522,8 @@ export const YungnamSpan = styled.span<SelectProps>`
         height: 5px;
         border: 1px solid ${palette.subColorCyan};
         border-radius: 20%;
+        animation-name: ${(props) => props.region === "Yungnam" && css`${yungnamMobileAnime}`};
+
     }
 `
 export const YungnamSpanRegional = styled.span`
@@ -389,8 +544,23 @@ export const JejuSpan = styled.span<SelectProps>`
     /* border: 2px solid ${palette.subColorCyan}; */
     border-radius: 20%;
     background-color: ${(props)=>props.select? `pink` : `white`};
-    transform: ${(props) => props.animation? `scale(4) translate(3vw, -9vh)`: ``};
-    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``};
+    animation-fill-mode: ${(props) => props.region === "Jeju" && `forwards`};
+    animation-fill-mode: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Yungnam")) && `forwards`};
+    animation-name: ${(props) => props.region === "Jeju" && css`${jejuAnime}`};
+    animation-name: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Yungnam")) && css`${fadeOutLeft}`};
+    animation-delay: ${(props) => props.region === "Jeju" && `0.4s`};
+    animation-delay: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Yungnam")) && `0.05s`};
+    animation-duration: ${(props) => props.region === "Jeju" && `0.4s`};
+    animation-duration: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Yungnam")) && `0.35s`};
+    animation-timing-function: ${(props) => props.region === "Jeju" && `ease-in-out`};
+    animation-timing-function: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Hoseo") 
+     || (props.region === "Honam")  || (props.region === "Yungnam")) && `ease-in`};
+    /* transform: ${(props) => props.animation? `scale(4) translate(3vw, -9vh)`: ``};
+    transition:${(props) => props.animation? `all ease 1.5s 0s;`: ``}; */
     font-size: 0;
     :hover{
         cursor: pointer;
@@ -400,6 +570,7 @@ export const JejuSpan = styled.span<SelectProps>`
         height: 5px;
         border: 1px solid ${palette.subColorCyan};
         border-radius: 20%;
+        animation-name: ${(props) => props.region === "Jeju" && css`${jejuMobileAnime}`};
     }
 `
 export const JejuSpanRegional = styled.span`
@@ -447,42 +618,4 @@ export const RegionNameButton = styled.button<ButtonProps>`
         cursor: pointer;
     }
 `
-// export const SudogwanImg = styled.img`
-//     /* width: 185px;
-//     height: 145px; */
-//     width: 38vw;
-//     height: 17vh;
-//     position: absolute;
-//     top: 14.5%;
-//     left: 13.5%;
-// `
 
-// export const GwandongImg = styled.img`
-//     width: 50%;
-//     height: 50%;
-//     position: absolute;
-// `
-
-// export const HoseoImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute; 
-// `
-
-// export const HonamImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `
-
-// export const YungnamImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `
-
-// export const JejuImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `

@@ -1,5 +1,7 @@
 import { useMediaQuery } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../../components/card/Card";
+import { useAppSelector } from "../../../../hoc/useStoreHooks";
 import {
   MyHipContentCardWrapperDiv,
   MyHipContentImg,
@@ -7,28 +9,30 @@ import {
   MyHipContentWrapperDiv,
 } from "../../styles/MyHip";
 
-interface shorts {
-  thumbnail_src: string;
-  shortsId: number;
-}
-
 interface MyHipContainerProps {
   content: {
-    shortsList: shorts[];
-  };
+    shortsId: number;
+    thumbnailSrc: string;
+  }[];
   text: string;
 }
 
 const MyHipContent = ({ content, text }: MyHipContainerProps) => {
+  const navigator = useNavigate();
+  const userId = useAppSelector((store) => store.userReducer.user.user_id);
   const isMobile = useMediaQuery("(max-width:1024px)");
   return (
     <MyHipContentCardWrapperDiv>
       <Card width="90%" height={isMobile ? "8vh" : "35vh"}>
-        <MyHipContentWrapperDiv>
+        <MyHipContentWrapperDiv
+          onClick={() => {
+            navigator("/myProfile/" + userId);
+          }}
+        >
           <MyHipContentTextDiv>{text}</MyHipContentTextDiv>
           <MyHipContentImg
             rightPercent={0}
-            src={content.shortsList[0].thumbnail_src}
+            src={content[0].thumbnailSrc}
             alt="사진"
           />
         </MyHipContentWrapperDiv>

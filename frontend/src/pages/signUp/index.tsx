@@ -31,7 +31,7 @@ interface userInfo {
 
 const SignUpWrapper = () => {
   console.log(useLocation())
-  const labelingName = useLocation()?.state.labelingName ?? "아직 정해지지 않음"
+  const labelingName = useLocation()?.state?.labelingName ?? "아직 정해지지 않음"
   const [selectEmail, setSelectEmail] = useState("self");
   const [emailState, setEmailState] = useState("");
   const [emailFrontState, setEmailFrontState] = useState("");
@@ -196,7 +196,7 @@ const SignUpWrapper = () => {
     <SignUpWrapperDiv>
       <SignUpLabelingWrapperDiv>
         <SignUpLabelingDiv>당신의 유형은</SignUpLabelingDiv>
-        <SignUpYourLabelingDiv>{labelingName}</SignUpYourLabelingDiv>
+        <SignUpYourLabelingDiv>조선 힙스터</SignUpYourLabelingDiv>
       </SignUpLabelingWrapperDiv>
       <SignUpInputWrapper>
         <SignUpInput placeholder="ID" onChange={IDCheck} />

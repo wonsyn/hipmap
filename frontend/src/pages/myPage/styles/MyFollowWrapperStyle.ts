@@ -94,10 +94,20 @@ export const MyFollowProfileWrapper = styled.div`
   border-radius: 50%;
   margin-right: 2%;
 `;
-
+export const MyFollowProfileWrapperDiv = styled.div<{ url: string }>`
+  width: 10vh;
+  max-width: 50px;
+  max-height: 50px;
+  height: 10vh;
+  border-radius: 50%;
+  margin-right: 2%;
+  background-image: url(${(props) => props.url});
+  background-size: contain;
+`;
 export const MyFollowProfileImg = styled.img`
   width: auto;
-  max-width: 60px;
+  max-width: 50px;
+  /* max-height: 60px; */
   height: auto;
   border-radius: 50%;
   margin-right: 2%;

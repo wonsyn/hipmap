@@ -19,17 +19,19 @@ interface positionInfo {
 const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
   const isMobile = useMediaQuery("(min-width:700px)");
   const [position, setPositionProps] = useState<any>({
-    lat: lat ? lat : 33.450701,
-    lng: lng ? lng : 126.570667,
+    lat: lat,
+    lng: lng,
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [address, setAddress] = useState<addressType>();
+  // const mapRef = useRef<any>();
+
   console.log(lat, lng);
   useEffect(() => {
     if (address) {
       setPosition({
-        lat: lat,
-        lng: lng,
+        lat: position.lat,
+        lng: position.lng,
         si: address.si,
         gu: address.gu,
         gun: address.gun,
@@ -120,7 +122,8 @@ const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
             font-size: 1.2rem;
           `}
         >
-          현재 좌표는 {address?.si} {address?.gu} {address?.gun} 입니다!
+          현재 좌표는 {position.lat} {position.lng} {address?.si} {address?.gu}{" "}
+          {address?.gun} 입니다!
         </p>
       )}
     </div>

@@ -42,8 +42,11 @@ const Slide = ({
   };
 
   useEffect(() => {
-    if (!isModalOpen) {
-      setSelectId(undefined);
+    if (selectId !== undefined && !isModalOpen) {
+      console.log("지금 선택된?", selectId);
+      setIsModalOpen((prev) => {
+        return !prev;
+      });
     }
   }, [isModalOpen, selectId]);
 
@@ -85,9 +88,6 @@ const Slide = ({
             >
               <ImgContainer
                 onClick={() => {
-                  setIsModalOpen((prev) => {
-                    return !prev;
-                  });
                   setSelectId(e.shortsId);
                   console.log(e.shortsId);
                 }}
