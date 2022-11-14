@@ -33,8 +33,10 @@ public class JwtService {
             UserDetails userDetails = userService.loadUserByUsername(username);
             if(jwtUtil.validateToken(refreshToken, userDetails)) {
                 JwtUserInfo info = jwtUtil.getUserInfo(refreshToken);
-                String access = jwtUtil.generateToken(info.toEntity());
-                String refresh = jwtUtil.generateRefreshToken(info.toEntity());
+                String access = jwtUtil.generateToken(info.getId(), info.getUsername());
+                String refresh = jwtUtil.generateRefreshToken(info.getId(), info.getUsername());
+                redisUtil.deleteData(refreshToken);
+                redisUtil.setDataExpire(refresh, info.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND / 1000);
                 Tokens tokens = Tokens.builder()
                         .accessToken(access)
                         .refreshToken(refresh)
@@ -58,8 +60,8 @@ public class JwtService {
         return RefreshResponse.builder()
                 .userInfo(LoginUserInfo.makeInfo(user))
                 .tokens(Tokens.builder()
-                        .accessToken(jwtUtil.generateToken(user))
-                        .refreshToken(jwtUtil.generateRefreshToken(user))
+                        .accessToken(jwtUtil.generateToken(user.getUserId(), user.getUsername()))
+                        .refreshToken(jwtUtil.generateRefreshToken(user.getUserId(), user.getUsername()))
                         .expireMilliSec(JwtUtil.TOKEN_VALIDATION_SECOND)
                         .build())
                 .build();

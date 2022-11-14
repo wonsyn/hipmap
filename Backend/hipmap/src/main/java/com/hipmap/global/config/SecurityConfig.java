@@ -26,10 +26,6 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-//                .antMatchers("/", "/user/login", "/user/regist")
-//                .antMatchers("/jwt/re-issue")
-//                .antMatchers("/user/**/exists", "/user/auth/**")
-//                .antMatchers("/oauth/**")
                 .antMatchers("/csrf/**")
                 .antMatchers("/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html/**",
                         "/webjars/**","/swagger/**", "/v2/api-docs/**",  "/configuration/ui/**")
