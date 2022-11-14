@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,11 +49,16 @@ public class S3Util {
         String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
         boolean isMp4 = false;
         if(!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".mp4")) {
-            uploadFile.createNewFile(); // 파일 생성
+            // 파일 생성
+            FileOutputStream fileStream = new FileOutputStream("/var/jenkins_home/encoding/origin/" + origName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileStream);
+            objectOutputStream.writeObject(uploadFile);
+//            objectOutputStream.close();
+
             FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg"); // ffmpge 리눅스 경로
             FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe"); // ffprobe 리눅스 경로
 
-            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //파일경로
+            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //원본파일경로
                     .overrideOutputFiles(true)
                     .addOutput("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
                     .setFilename("mp4")
