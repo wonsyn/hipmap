@@ -10,12 +10,11 @@ import { WrappingDiv } from "./styles/fullmap"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { RegionNameDiv, RegionNameButton } from "./styles/fullmap"
-import { useState } from "react"
-import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamMobile, saveYungnamAnime, saveJejuAnime, saveRegion } from "../../store/hipMap/hipMapStore"
+import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime, saveRegion } from "../../store/hipMap/hipMapStore"
+
 function FullMapPage(){
     const dispatch = useDispatch()
     const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
-    const [region, setRegion] = useState<string>("")
     function MobileRegionalMap(){
         if(hipmapSelector.isSudogwanMobile){
             setTimeout(() => {
