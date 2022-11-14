@@ -108,6 +108,8 @@ public class S3Util {
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
+            }catch (Exception e) {
+                e.printStackTrace();
             }
             return Optional.of(convertFile);
         }
