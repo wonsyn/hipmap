@@ -16,7 +16,7 @@ import Write from "./pages/write";
 import KakaoRedirect from "./pages/login/component/KakaoRedirect";
 import MyProfileModify from "./pages/myPage/component/MyProfileModify";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import CameraPage from "./pages/labeling/camera";
 function App() {
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
@@ -37,6 +37,7 @@ function App() {
               element={<ProcessingPage />}
             ></Route>
             <Route path="/labeling/result" element={<ResultPage />}></Route>
+            <Route path="/camera" element={<CameraPage/>}/>
             <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
             <Route path="/hipmap/result" element={<HipMapResultPage />}></Route>
             <Route path="/login" element={<LoginWrapper />} />
