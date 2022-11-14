@@ -39,8 +39,7 @@ public class AuthEmailService {
         String AUTH_LINK = "http://k7b108.p.ssafy.io:8080/api/user/auth/";
         if(email == null) throw new EmailAuthNotFoundException("멤버가 조회되지 않음");
         UUID uuid = UUID.randomUUID();
-//        redisUtil.setDataExpire(uuid.toString(), email, 24 * 60 * 60L);
-        redisUtil.setDataExpire(uuid.toString(), email, 2 * 60L);
+        redisUtil.setDataExpire(uuid.toString(), email, 24 * 60 * 60L);
         sendMail(email, "회원가입 인증 메일입니다.", AUTH_LINK + uuid.toString());
     }
 
@@ -62,7 +61,7 @@ public class AuthEmailService {
 
     @Scheduled(cron = "0 0 * * * ?")
     public void removeAuth() {
-        List<UserEntity> userList = userRepository.findByIsCertedFalseAndRegDateTimeLessThanEqual(LocalDateTime.now().minusMinutes(2));
+        List<UserEntity> userList = userRepository.findByIsCertedFalseAndRegDateTimeLessThanEqual(LocalDateTime.now().minusDays(1));
         userRepository.deleteAll(userList);
     }
 }
