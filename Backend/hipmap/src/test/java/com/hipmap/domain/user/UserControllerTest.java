@@ -109,10 +109,6 @@ public class UserControllerTest {
         return JwtUserInfo.builder()
                 .id(user.getUserId())
                 .username(user.getUsername())
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .label_name(user.getLabelName())
-                .role(user.getRole())
                 .build();
     }
 
