@@ -2,6 +2,7 @@ package com.hipmap.domain.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hipmap.TestDatasourceConfig;
+import com.hipmap.domain.follow.FollowRepository;
 import com.hipmap.domain.jwt.dto.JwtUserInfo;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.dto.request.UserEditRequest;
@@ -53,6 +54,8 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    AuthEmailService authEmailService;
+    @Autowired
     JwtUtil jwtUtil;
 
     @Before
@@ -65,9 +68,7 @@ public class UserControllerTest {
         // given
         // objectMapper를 이용해서 요청을 보낼 객체를 생성해준다.
         String object = objectMapper.writeValueAsString(getUserLoginRequest("wondoll", "password"));
-
         String token = getAccessToken("wondoll");
-
         // when
         // perform(): MockMvc가 수행할 행동을 정의해준다.
         ResultActions actions = mockMvc.perform(post("/user/login") // URL을 받아서 http method를 수행한다.
@@ -79,8 +80,8 @@ public class UserControllerTest {
         // 일어난 결과에 대해 검증한다.
         actions.andDo(print()) // andDo: perform요청을 처리한다.
                 // andExpect(): 검증내용을 체크한다.
-                .andExpect(status().isOk())// jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
-                .andExpect(jsonPath("$.tokens.accessToken").value(token));// HTTP response Code 200 인지 확인
+                .andExpect(status().isOk()) // HTTP response Code 200 인지 확인
+                .andExpect(jsonPath("$.tokens.accessToken").value(token)); // jsonPath(): 반환된 json 객체에 대해서도 체크 가능하다.
         // andReturn(): MvcResult 객체로 반환시켜준다.
     }
 
@@ -88,20 +89,23 @@ public class UserControllerTest {
     public void 회원가입_성공() throws Exception {
         // given
         long time = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+        UserRegistRequest userInfo = getUserRegistRequest("wondoll1", "password", "테스트 힙스터", "test", "email@email.com" + time);
 
         // when
-        String object = objectMapper.writeValueAsString(getUserRegistRequest("wondoll1", "password", "테스트 힙스터", "test", "email@email.com" + time));
+        String object = objectMapper.writeValueAsString(userInfo);
         ResultActions actions = mockMvc.perform(
                 post("/user/regist")
                         .content(object)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
+
+        authEmailService.sendAuthMail(userInfo.getEmail());
+
         // then
         actions.andDo(print())
                 .andExpect(status().isOk());
     }
-
 
     @Test
     public void 회원가입_실패_이메일중복() throws Exception {
@@ -114,7 +118,8 @@ public class UserControllerTest {
                 post("/user/regist")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(object));
+                        .content(object)
+        );
         // then
         actions.andDo(print())
                 .andExpect(status().isBadRequest())
@@ -139,10 +144,8 @@ public class UserControllerTest {
     public void 유저정보_수정_성공() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
-                getEditRequest("test", true, "테스터"));
-
+                getUserEditRequest("test", true, "테스터"));
         String accessToken = getAccessToken("wondoll");
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("accessToken", accessToken);
         // when
@@ -162,7 +165,6 @@ public class UserControllerTest {
     public void 아이디_중복_확인() throws Exception {
         // when
         ResultActions actions = mockMvc.perform(get("/user/wondoll/exists")
-
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -170,14 +172,13 @@ public class UserControllerTest {
         actions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").isBoolean());
-
     }
 
     @Test
     public void 유효하지않은_토큰() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
-                getUserEditRequest());
+                getUserEditRequest("test", true, "테스터"));
 
         UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
 
@@ -202,6 +203,65 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.message").value("Invalid"));
     }
 
+    @Test
+    public void 유저_정보_조회() throws Exception {
+        // given
+        UserEntity opponentUser = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
+
+        String accessToken = getAccessToken("wondoll");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("accessToken", accessToken);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get("/user/" + opponentUser.getUserId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .headers(headers)
+        );
+        // then
+        actions.andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void 회원탈퇴() throws Exception{
+        // given
+        String accessToken = getAccessToken("wondoll");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("accessToken", accessToken);
+        // when
+        ResultActions actions = mockMvc.perform(
+                delete("/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(headers)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+        // then
+        actions.andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    /**
+     *     @GetMapping("/auth/{key}")
+     *     public ResponseEntity<Void> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
+     *         authEmailService.authEmail(key);
+     *         URI redirectUri = new URI("https://www.naver.com/");
+     *         HttpHeaders httpHeaders = new HttpHeaders();
+     *         httpHeaders.setLocation(redirectUri);
+     *         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+     *     }
+     */
+    @Test
+    public void 유저_이메일_인증() throws Exception{
+        // given
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get("/user/auth/"+));
+        // then
+    }
+
     private UserLoginRequest getUserLoginRequest(String username, String password) {
         return UserLoginRequest.builder()
                 .username(username)
@@ -209,7 +269,7 @@ public class UserControllerTest {
                 .build();
     }
 
-    private UserEditRequest getEditRequest(String nickname, boolean followPrivate, String label) {
+    private UserEditRequest getUserEditRequest(String nickname, boolean followPrivate, String label) {
         return UserEditRequest.builder()
                 .nickname(nickname)
                 .followPrivate(followPrivate)
@@ -217,15 +277,11 @@ public class UserControllerTest {
                 .build();
     }
 
-    private UserEditRequest getUserEditRequest() {
-        return getEditRequest("test", true, "테스터");
-    }
-
     @Test
     public void 토큰없음() throws Exception {
         // given
         String object = objectMapper.writeValueAsString(
-                getEditRequest("test", true, "테스터"));
+                getUserEditRequest("test", true, "테스터"));
 
         UserEntity user = userRepository.findByUsername("wondoll").orElseThrow(UserNotFoundException::new);
 
