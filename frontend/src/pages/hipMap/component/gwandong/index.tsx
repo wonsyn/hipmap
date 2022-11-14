@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, GwandongMapDiv, GridDivRegional, NotDotSpanRegional
 import { GwandongSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveGwandong, saveGwandongAnime, saveGwandongMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveGwandong, saveGwandongAnime, saveGwandongMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -156,6 +156,11 @@ function Gwandong(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
 
       }
     function GwandongClick(i: number, j: number){

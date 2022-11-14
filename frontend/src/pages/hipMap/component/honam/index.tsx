@@ -2,7 +2,7 @@ import { FullMapWrappingDiv, HonamMapDiv, GridDivRegional, NotDotSpanRegional, A
 import { HonamSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
-import { saveClick, saveHonam, saveHonamAnime, saveHonamMobile, saveName } from "../../../../store/hipMap/hipMapStore";
+import { saveClick, saveHonam, saveHonamAnime, saveHonamMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
 
@@ -178,6 +178,11 @@ function Honam(){
         {
           name: ""
         }))
+      dispatch(saveRegion(
+        {
+          region: ""
+        }
+      ))
       }
       function HonamClick(i: number, j: number){
         const shortsList: any = []

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Card from "../../../../components/card/Card";
 import { css, keyframes } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 const zoomIn = keyframes`
     0%{
@@ -13,7 +14,7 @@ const zoomIn = keyframes`
 `;
 
 interface shorts {
-  thumbnail_src: string;
+  thumbnailSrc: string;
   postId: number;
 }
 
@@ -24,6 +25,7 @@ interface shortProps {
 }
 
 const HipVoteCard = ({ shorts, index, trigger }: shortProps) => {
+  const navigator = useNavigate();
   return (
     <Card
       width="93%"
@@ -38,9 +40,12 @@ const HipVoteCard = ({ shorts, index, trigger }: shortProps) => {
         css={css`
           animation: ${zoomIn} 10s infinite;
         `}
-        src={shorts.thumbnail_src}
+        src={shorts.thumbnailSrc}
         alt="썸네일"
         onAnimationIteration={trigger}
+        onClick={() => {
+          navigator("/shorts");
+        }}
       />
     </Card>
   );

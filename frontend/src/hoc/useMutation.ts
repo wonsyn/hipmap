@@ -74,7 +74,13 @@ export const useFollowDelete = () => {
 
 export const useUploadShorts = () => {
   const queryClient = useQueryClient();
-  const access_token = useAppSelector((store) => store.userReducer.token);
+  const token = localStorage.getItem("token");
+  let access_token: string = "";
+  if (token) {
+    const tokenObj = JSON.parse(token);
+    access_token = tokenObj.accessToken;
+    const refreshToken = tokenObj.refreshToken;
+  }
   return useMutation(
     async ({
       shorts,
@@ -116,7 +122,7 @@ export const useUploadShorts = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            accessToken: `${access_token.access_token}`,
+            accessToken: `${access_token}`,
           },
         }
       );
@@ -142,12 +148,12 @@ export const useFirstLikeVote = () => {
         shortsId: id,
         vote,
       });
-
+      console.log("투표를 이미 했다.", response.data);
       return response.data;
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["shortsInfinite"]);
+        queryClient.invalidateQueries();
       },
     }
   );
@@ -162,12 +168,48 @@ export const useLikeVote = () => {
         shortsId: id,
         vote,
       });
-
+      console.log("투표를 이미 했다.", response.data);
       return response.data;
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["shortsInfinite"]);
+        console.log("aaaa");
+        queryClient.invalidateQueries();
+      },
+    }
+  );
+};
+
+export const useUploadProfileImg = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ file }: { file: File }) => {
+      const token = localStorage.getItem("token");
+      let access_token: string = "";
+      if (token) {
+        const tokenObj = JSON.parse(token);
+        access_token = tokenObj.accessToken;
+        const refreshToken = tokenObj.refreshToken;
+      }
+      console.log(access_token);
+      let temp = new FormData();
+      temp.append("file", file);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/user/profile/img`,
+        temp,
+        {
+          headers: {
+            "Content-Type": "multupart/form-data",
+            accessToken: `${access_token}`,
+          },
+        }
+      );
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["userInfomation"]);
       },
     }
   );
@@ -179,12 +221,12 @@ export const useLikeDelete = () => {
   return useMutation(
     async ({ id }: { id: number }) => {
       const response = await http.delete(`/like?shortsId=` + id);
-
+      console.log("투표를 이미 했다.", response.data);
       return response.data;
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["shortsInfinite"]);
+        queryClient.invalidateQueries();
       },
     }
   );
@@ -237,6 +279,23 @@ export const useCommentDelete = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(["shortsComments"]);
         queryClient.invalidateQueries(["shortsInfinite"]);
+      },
+    }
+  );
+};
+
+export const useBookMarkAdd = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ shortsId }: { shortsId: number }) => {
+      const response = await http.post(`/hip/bookmark?shortsId=` + shortsId);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["bookmarkList"]);
       },
     }
   );

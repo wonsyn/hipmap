@@ -2,14 +2,17 @@ import React from "react";
 import { selectComment } from "..";
 import { useCommentDelete } from "../../../hoc/useMutation";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
-import Card from "../../card/Card";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   CommentButton,
+  CommentCardDiv,
   CommentCardWrapperDiv,
   CommentContent,
   CommentDateDiv,
+  CommentDeleteButton,
   CommentNickname,
 } from "../commentStyle";
+import { useNavigate } from "react-router-dom";
 
 export interface comment {
   userNickname: string;
@@ -45,32 +48,37 @@ const CommentWrapper = ({
     };
     getComment(e);
   };
+  const navigate = useNavigate();
   const { mutate: deleteComment } = useCommentDelete();
+  const time = createTime.slice(5, 16);
   return (
-    <CommentButton root={sequence > 1 ? false : true} onClick={getCommentId}>
-      <Card
-        width={sequence > 1 ? "90%" : "100%"}
-        height="10vh"
-        display="flex"
-        font_size="1rem"
-        margin_left="auto"
-        background="linear-gradient(92.79deg,#EA047E,#FFC23C)"
-      >
+    <CommentButton root={sequence > 1 ? false : true}>
+      <CommentCardDiv seq={sequence > 1 ? true : false}>
         <CommentCardWrapperDiv>
-          <CommentNickname>{userNickname}</CommentNickname>
-          <CommentContent>{content}</CommentContent>
-          <CommentDateDiv>{createTime}</CommentDateDiv>
+          <CommentNickname
+            onClick={() => {
+              if (myUserId === userId) {
+                navigate("/myProfile/" + myUserId);
+              } else {
+                navigate("/myPage/" + userId);
+              }
+            }}
+          >
+            {userNickname} :{" "}
+          </CommentNickname>
+          <CommentContent onClick={getCommentId}>{content}</CommentContent>
           {userId === myUserId && (
-            <button
+            <CommentDeleteButton
               onClick={() => {
                 deleteComment({ commentId: parseInt(commentId) });
               }}
             >
-              삭제
-            </button>
+              <DeleteIcon />
+            </CommentDeleteButton>
           )}
+          <CommentDateDiv>{time}</CommentDateDiv>
         </CommentCardWrapperDiv>
-      </Card>
+      </CommentCardDiv>
     </CommentButton>
   );
 };

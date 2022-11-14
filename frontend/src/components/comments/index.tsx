@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFetchShortsComments } from "../../hoc/useFetch";
 import { useCommentWrite } from "../../hoc/useMutation";
 import { CommentListWrapperDiv } from "../../pages/shorts/styles/shortsStyle";
-import { CommentWrapperDiv } from "./commentStyle";
+import { CommentNoneDiv, CommentWrapperDiv } from "./commentStyle";
 import CommentWrapper from "./component/CommentWrapper";
 import WriteComment from "./component/writeComment";
 
@@ -106,20 +106,18 @@ const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
           ))}
         </CommentListWrapperDiv>
       ) : (
-        <div>댓글이 없습니다....</div>
+        <CommentNoneDiv>댓글이 없습니다....</CommentNoneDiv>
       )}
 
-      <div>
-        <WriteComment
-          nickname={
-            selectComments !== undefined ? selectComments.userNickname : null
-          }
-          getCommentInput={getCommentInput}
-          cleanSelectComment={cleanSelectComment}
-          trigger={trigger}
-          setTrigger={setTrigger}
-        />
-      </div>
+      <WriteComment
+        nickname={
+          selectComments !== undefined ? selectComments.userNickname : null
+        }
+        getCommentInput={getCommentInput}
+        cleanSelectComment={cleanSelectComment}
+        trigger={trigger}
+        setTrigger={setTrigger}
+      />
     </CommentWrapperDiv>
   );
 };

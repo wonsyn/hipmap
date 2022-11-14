@@ -9,6 +9,7 @@ import {
   MyFollowListDiv,
   MyFollowProfileImg,
   MyFollowProfileWrapper,
+  MyFollowProfileWrapperDiv,
   MyFollowSearchAreaDiv,
   MyFollowSearchBarInput,
   MyFollowSearchBarWrapper,
@@ -23,6 +24,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
   const [followingSearchWord, setFollowingSearchWord] = useState<string>();
   const [followerSearchWord, setFollowerSearchWord] = useState<string>();
+
   const [followingList, setFollowingList] = useState<
     {
       userId: number;
@@ -144,7 +146,7 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
                     <AccountCircleIcon sx={{ fontSize: 60 }} />
                   </MyFollowProfileWrapper>
                 ) : (
-                  <MyFollowProfileImg src={e.proImgSrc} alt="프로필 이미지" />
+                  <MyFollowProfileWrapperDiv url={e.proImgSrc} />
                 )}
                 <MyFollowIdWrapper
                   onClick={() => {
@@ -187,7 +189,7 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
                     <AccountCircleIcon sx={{ fontSize: 60 }} />
                   </MyFollowProfileWrapper>
                 ) : (
-                  <MyFollowProfileImg src={e.proImgSrc} alt="프로필 이미지" />
+                  <MyFollowProfileWrapperDiv url={e.proImgSrc} />
                 )}
                 <MyFollowIdWrapper
                   onClick={() => {

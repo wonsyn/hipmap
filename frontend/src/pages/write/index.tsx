@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useUploadShorts } from "../../hoc/useMutation";
 import theme from "../../styles/theme";
 import KakaoMapWrapper from "./component/KakaoMapWrapper";
 import MovieUpload from "./component/MovieUpload";
+import WriteColorAlerts from "./writeAlert";
 
 const Write = () => {
   //업로드 할 동영상/ 사진 정보 가져오기
@@ -18,9 +20,27 @@ const Write = () => {
     gu: string | null;
     gun: string | null;
   }>();
-  // console.log(position);
-
+  console.log("position", position);
+  const [uploadResult, setUploadResult] = useState<boolean>(false);
   const { mutate, isLoading } = useUploadShorts();
+  const navigator = useNavigate();
+  const openUploadResultHandler = () => {
+    setUploadResult((prev) => {
+      return !prev;
+    });
+  };
+
+  useEffect(() => {
+    if (uploadResult) {
+      navigator("/");
+    }
+    return () => {
+      <WriteColorAlerts
+        open={uploadResult}
+        openHandler={openUploadResultHandler}
+      />;
+    };
+  }, [uploadResult]);
 
   return (
     <div
@@ -80,17 +100,27 @@ const Write = () => {
           `}
           onClick={() => {
             if (position) {
-              mutate({
-                shorts: {
-                  file: uploadInfo,
-                  si: position.si,
-                  gu: position.gu ? position.gu : null,
-                  gun: position.gun ? position.gun : null,
-                  lat: position.lat,
-                  lng: position.lng,
+              mutate(
+                {
+                  shorts: {
+                    file: uploadInfo,
+                    si: position.si,
+                    gu: position.gu ? position.gu : null,
+                    gun: position.gun ? position.gun : null,
+                    lat: position.lat,
+                    lng: position.lng,
+                  },
+                  file_type: "video",
                 },
-                file_type: "video",
-              });
+                {
+                  onSuccess(data, variables, context) {
+                    console.log("캬아아아악");
+                    setUploadResult(true);
+
+                    // navigator("/");
+                  },
+                }
+              );
             }
           }}
         >
