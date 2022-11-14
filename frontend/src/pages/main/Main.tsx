@@ -40,7 +40,7 @@ const Main = () => {
     return (
       <div>
         <BestHipPlace />
-        <button onClick={test}>재발급 테스트</button>
+
         <MyHipContainer username={username} />
         <div
           css={css`

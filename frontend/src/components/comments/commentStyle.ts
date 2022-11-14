@@ -89,6 +89,7 @@ export const CommentWriteInput = styled.input`
   border-left: none;
   border-right: none;
   margin-right: 2%;
+  color: white;
   @media (max-width: 699px) {
     max-width: 170px;
   }

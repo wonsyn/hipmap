@@ -42,8 +42,8 @@ function App() {
   const client = new QueryClient();
   return (
     <BrowserRouter>
-      <Layout>
-        <QueryClientProvider client={client}>
+      <QueryClientProvider client={client}>
+        <Layout>
           <Routes>
             <Route element={<PrivateRoute authentication={true} />}>
               <Route path="/main" element={<Main />} />
@@ -78,9 +78,9 @@ function App() {
             </Route>
             <Route path="/*" element={<NotFound />} />
           </Routes>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </Layout>
+        </Layout>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }

@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { FailedAlerts } from "../components/alert/Alert";
 import http from "../utils/http-commons";
 
 interface userinformationProps {
@@ -44,7 +45,9 @@ export const useFetchUserInfo = (id: number) => {
       const response = await http.get(`/user/${id}`);
       return response.data;
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 };
 
@@ -112,6 +115,7 @@ export const useFetchShortsInfinite = () => {
       },
       refetchOnWindowFocus: true,
       refetchOnMount: true,
+      cacheTime: 0,
     }
   );
 };
