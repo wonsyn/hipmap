@@ -207,7 +207,7 @@ public class UserControllerTest {
 
         JwtUserInfo userInfo = getJwtUserInfo(user);
 
-        String accessToken = jwtUtil.generateToken(userInfo.toEntity());
+        String accessToken = jwtUtil.generateToken(userInfo.getId(), userInfo.getUsername());
         return accessToken;
     }
 
