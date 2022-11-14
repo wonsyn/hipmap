@@ -55,8 +55,8 @@ public class S3Util {
             objectOutputStream.writeObject(uploadFile);
 //            objectOutputStream.close();
 
-            FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg"); // ffmpge 리눅스 경로
-            FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe"); // ffprobe 리눅스 경로
+            FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
+            FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
 
             FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //원본파일경로
                     .overrideOutputFiles(true)
