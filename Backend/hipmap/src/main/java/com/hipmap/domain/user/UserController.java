@@ -132,7 +132,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "해당하는 유저가 없음. 또는 업로드 실패"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<String> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) {
+    public ResponseEntity<String> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) throws Exception {
         Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
         userService.uploadProfile(file, userId);
         return ResponseEntity.ok().body("업로드 성공");
