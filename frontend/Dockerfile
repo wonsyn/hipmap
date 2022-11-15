@@ -21,7 +21,7 @@ RUN yarn install
 
 WORKDIR /var/jenkins_home/envfile
 RUN pwd
-COPY .env .
+# COPY .env .
 
 WORKDIR /var/jenkins_home/workspace/hipmapDeploy/frontend
 RUN pwd

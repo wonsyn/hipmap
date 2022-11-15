@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import {
   MyProfileModifyLabelingButton,
   MyProfileModifyLabelingDiv,
@@ -11,22 +13,31 @@ import {
   MyProfileModifyLabelingWrapper,
   MyProfileModifyWrapper,
 } from "../styles/MyProfileModify";
-import { useEffect, useState } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hoc/useStoreHooks";
 import { useFetchUserInfo } from "../../../hoc/useFetch";
 import { useNavigate } from "react-router-dom";
-import { useUserInfoModify } from "../../../hoc/useMutation";
+import {
+  useUploadProfileImg,
+  useUserInfoModify,
+} from "../../../hoc/useMutation";
 import { userModify } from "../../../store/login/loginStore";
+import { MyFollowProfileWrapperDiv } from "../styles/MyFollowWrapperStyle";
+import http from "../../../utils/http-commons";
 
 const MyProfileModify = () => {
   const userInfo = useAppSelector((store) => store.userReducer.user);
+  const [profileImg, setProfileImg] = useState<File>();
+  const profileRef = useRef<HTMLInputElement>(null);
   const { data, isLoading, isError } = useFetchUserInfo(userInfo.user_id);
   const [followOpen, setFollowOpen] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const navigator = useNavigate();
   const { mutate, isLoading: mutateLoading } = useUserInfoModify();
+  const { mutate: myProfileUploadMutate } = useUploadProfileImg();
   const dispatch = useAppDispatch();
-
+  console.log(data);
   useEffect(() => {
     if (
       !isLoading &&
@@ -38,6 +49,16 @@ const MyProfileModify = () => {
       setNickname(data.userInfo.nickname);
     }
   }, [isLoading, data]);
+
+  const profileImgModify = async (e: any) => {
+    myProfileUploadMutate({ file: e.target.files[0] });
+  };
+  const profileImgModifyButton = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (profileRef !== null && profileRef.current) {
+      profileRef.current.click();
+    }
+  };
   if (isLoading) {
     return <div>로딩중?</div>;
   } else if (!isLoading && data) {
@@ -58,6 +79,25 @@ const MyProfileModify = () => {
         </MyProfileModifyLabelingWrapper>
         {/* 정보 바꾸기 */}
         <MyProfileModifyLabelingInputWrapper>
+          <div onClick={profileImgModifyButton}>
+            {data.userInfo.proImgSrc ? (
+              <MyFollowProfileWrapperDiv url={data.userInfo.proImgSrc} />
+            ) : (
+              <AccountCircleIcon sx={{ fontSize: 60 }} />
+            )}
+          </div>
+
+          <input
+            type="File"
+            ref={profileRef}
+            accept=".png, .jpg"
+            name="imgFile"
+            onChange={profileImgModify}
+            css={css`
+              display: none;
+            `}
+          />
+
           <MyProfileModifyLabelingInput
             value={data.userInfo.username}
             disabled

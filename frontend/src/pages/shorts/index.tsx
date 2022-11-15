@@ -14,9 +14,9 @@ import {
 import { useMediaQuery } from "@material-ui/core";
 import { useFetchShortsInfinite } from "../../hoc/useFetch";
 import { MyButton } from "../myPage/styles/MyInfoWrapperStyle";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Shorts = () => {
-
   const [nextPage, setNextPage] = useState<number>(-1);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [shortsId, setShortsId] = useState<number>(0);
@@ -24,13 +24,17 @@ const Shorts = () => {
   const [prevScroll, setPrevScroll] = useState<number>(0);
   const [isNext, setIsNext] = useState<boolean>(false);
   const isMobile = useMediaQuery("(max-width:699px)");
-
+  const [test, setTest] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const {
     data: shortsData,
     fetchNextPage,
     hasNextPage,
+    refetch,
   } = useFetchShortsInfinite();
+
+  console.log(test);
   console.log(nextPage);
   console.log(shortsData);
 
@@ -97,7 +101,11 @@ const Shorts = () => {
                   shortsData.pages[nextPage].result.shortsList.map((e, i) => (
                     <Slide key={i}>
                       <ShortsVideoElementWrapperDiv>
-                        <ShortsVideoWrapper shorts={e} modalOpen={modalOpen} />
+                        <ShortsVideoWrapper
+                          refetch={refetch}
+                          shorts={e}
+                          modalOpen={modalOpen}
+                        />
                       </ShortsVideoElementWrapperDiv>
                     </Slide>
                   ))}
@@ -119,7 +127,7 @@ const Shorts = () => {
               <Modal
                 modalHandler={modalClose}
                 width={isMobile ? "90%" : "700px"}
-                height="85%"
+                height="90%"
                 backgroundcolor="#222222"
                 color="white"
               >

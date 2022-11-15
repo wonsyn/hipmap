@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { FailedAlerts } from "../components/alert/Alert";
 import http from "../utils/http-commons";
 
 interface userinformationProps {
@@ -18,7 +19,7 @@ interface userinformationProps {
   };
 }
 
-interface shortsList {
+export interface shortsList {
   shortsList: {
     commentsCount: number;
     createTime: string;
@@ -31,7 +32,7 @@ interface shortsList {
     locationGu: string | null;
     locationSi: string | null;
     shortsId: number;
-    thumbnailSrc: String | null;
+    thumbnailSrc: string;
   }[];
   totalPage: number;
 }
@@ -44,7 +45,9 @@ export const useFetchUserInfo = (id: number) => {
       const response = await http.get(`/user/${id}`);
       return response.data;
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 };
 
@@ -110,8 +113,9 @@ export const useFetchShortsInfinite = () => {
         if (!LastPage.isLast) return LastPage.nextPage;
         return undefined;
       },
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       refetchOnMount: true,
+      cacheTime: 0,
     }
   );
 };
@@ -172,6 +176,8 @@ export const useFetchShortsComments = (id: number) => {
 
 export const useFetchSingleShorts = (id: number) => {
   return useQuery<{
+    userId: number;
+    nickname: string;
     commentsCount: number;
     createTime: string;
     fileSrc: string;
@@ -190,7 +196,7 @@ export const useFetchSingleShorts = (id: number) => {
       const response = await http.get(`/shorts/` + id);
       return response.data;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, cacheTime: 0 }
   );
 };
 
@@ -245,6 +251,18 @@ export const useFetchBookMark = () => {
     }[]
   >(["bookmarkList"], async () => {
     const response = await http.get(`/hip/bookmark`);
+    return response.data;
+  });
+};
+
+export const useFetchShortsSameLabel = (label: string) => {
+  return useQuery<{
+    shortsList: {
+      thumbnailSrc: string;
+      shortsId: number;
+    }[];
+  }>(["sameLabel"], async () => {
+    const response = await http.get(`/shorts/samelabel?labeling=` + label);
     return response.data;
   });
 };
