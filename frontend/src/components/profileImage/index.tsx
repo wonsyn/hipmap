@@ -20,6 +20,10 @@ const ProfileImgWrapper = () => {
   );
   const [openNoti, setOpenNoti] = useState<boolean>(false);
   const userId = useAppSelector((store) => store.userReducer.user.user_id);
+  const userProfile = useAppSelector(
+    (store) => store.userReducer.user.profileImg
+  );
+  console.log(userProfile);
   const {
     isLoading: notiLoading,
     data: noti,
@@ -47,7 +51,7 @@ const ProfileImgWrapper = () => {
     <div
       css={css`
         display: flex;
-        width: 70%;
+        width: 90%;
         height: 100%;
         align-items: center;
         margin-left: auto;
@@ -63,6 +67,20 @@ const ProfileImgWrapper = () => {
         `}
         onClick={myPageHandler}
       >
+        {userProfile && userProfile.length > 0 ? (
+          <img
+            css={css`
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              margin-right: 3%;
+            `}
+            src={userProfile}
+            alt="프로필이미지"
+          />
+        ) : (
+          <AccountCircleIcon sx={{ fontSize: 30 }} />
+        )}
         {userNickName}님
       </div>
       {openNoti && (

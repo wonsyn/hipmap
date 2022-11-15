@@ -23,7 +23,7 @@ import {
   useUploadProfileImg,
   useUserInfoModify,
 } from "../../../hoc/useMutation";
-import { userModify } from "../../../store/login/loginStore";
+import { proFileModify, userModify } from "../../../store/login/loginStore";
 import { MyFollowProfileWrapperDiv } from "../styles/MyFollowWrapperStyle";
 import http from "../../../utils/http-commons";
 import ColorAlerts from "../../shorts/component/colorAlerts";
@@ -35,7 +35,9 @@ const MyProfileModify = () => {
   const userInfo = useAppSelector((store) => store.userReducer.user);
   const [profileImg, setProfileImg] = useState<File>();
   const profileRef = useRef<HTMLInputElement>(null);
-  const { data, isLoading, isError } = useFetchUserInfo(userInfo.user_id);
+  const { data, isLoading, isError, refetch } = useFetchUserInfo(
+    userInfo.user_id
+  );
   const [followOpen, setFollowOpen] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const navigator = useNavigate();
@@ -44,6 +46,17 @@ const MyProfileModify = () => {
   const dispatch = useAppDispatch();
   const [modifyOpen, setModifyOpen] = useState<boolean>(false);
   console.log(data);
+  useEffect(() => {
+    if (data && data.userInfo.proImgSrc) {
+      if (data.userInfo.proImgSrc) {
+        console.log(data.userInfo.proImgSrc);
+        dispatch(proFileModify({ profileImg: data.userInfo.proImgSrc }));
+      } else if (data.userInfo.proImgSrc === null) {
+        console.log(data.userInfo.proImgSrc);
+        dispatch(proFileModify({ profileImg: undefined }));
+      }
+    }
+  }, [data, data?.userInfo.proImgSrc, dispatch]);
   useEffect(() => {
     if (
       !isLoading &&
@@ -66,13 +79,14 @@ const MyProfileModify = () => {
     }
   };
   const { mutate: profileImgMutate } = useMutation(
-    async () => {
+    async (id: number) => {
       const response = await http.delete(`/user/profile/img`);
       return response.data;
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["userInfomation"]);
+        refetch();
       },
     }
   );
@@ -124,9 +138,10 @@ const MyProfileModify = () => {
                   flex-direction: column;
                   align-items: center;
                 `}
-                onClick={profileImgModifyButton}
               >
-                <MyModifyProfileWrapperDiv url={data.userInfo.proImgSrc} />
+                <div onClick={profileImgModifyButton}>
+                  <MyModifyProfileWrapperDiv url={data.userInfo.proImgSrc} />
+                </div>
                 <button
                   css={css`
                     width: 100px;
@@ -138,7 +153,11 @@ const MyProfileModify = () => {
                     color: white;
                   `}
                   onClick={() => {
-                    profileImgMutate();
+                    profileImgMutate(1, {
+                      onSuccess: () => {
+                        dispatch(proFileModify({ profileImg: undefined }));
+                      },
+                    });
                   }}
                 >
                   삭제하기
@@ -205,7 +224,11 @@ const MyProfileModify = () => {
                 {
                   onSuccess: () => {
                     dispatch(
-                      userModify({ nickname, labeling: userInfo.labeling })
+                      userModify({
+                        nickname,
+                        labeling: userInfo.labeling,
+                        followPrivate: followOpen,
+                      })
                     );
                     setModifyOpen(true);
                   },
