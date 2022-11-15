@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { useParams } from "react-router-dom";
 import Shorts from "./component/Shorts";
 import { css } from "@emotion/react";
 

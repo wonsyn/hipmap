@@ -103,6 +103,7 @@ export const MyFollowProfileWrapperDiv = styled.div<{ url: string }>`
   margin-right: 2%;
   background-image: url(${(props) => props.url});
   background-size: contain;
+  background-position: center;
 `;
 export const MyFollowProfileImg = styled.img`
   width: auto;

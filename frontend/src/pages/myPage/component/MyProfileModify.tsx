@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import {
+  MyModifyProfileWrapperDiv,
   MyProfileModifyLabelingButton,
   MyProfileModifyLabelingDiv,
   MyProFileModifyLabelingFollowOpenButton,
@@ -25,8 +26,12 @@ import {
 import { userModify } from "../../../store/login/loginStore";
 import { MyFollowProfileWrapperDiv } from "../styles/MyFollowWrapperStyle";
 import http from "../../../utils/http-commons";
+import ColorAlerts from "../../shorts/component/colorAlerts";
+import theme from "../../../styles/theme";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 
 const MyProfileModify = () => {
+  const queryClient = new QueryClient();
   const userInfo = useAppSelector((store) => store.userReducer.user);
   const [profileImg, setProfileImg] = useState<File>();
   const profileRef = useRef<HTMLInputElement>(null);
@@ -37,6 +42,7 @@ const MyProfileModify = () => {
   const { mutate, isLoading: mutateLoading } = useUserInfoModify();
   const { mutate: myProfileUploadMutate } = useUploadProfileImg();
   const dispatch = useAppDispatch();
+  const [modifyOpen, setModifyOpen] = useState<boolean>(false);
   console.log(data);
   useEffect(() => {
     if (
@@ -59,17 +65,47 @@ const MyProfileModify = () => {
       profileRef.current.click();
     }
   };
+  const { mutate: profileImgMutate } = useMutation(
+    async () => {
+      const response = await http.delete(`/user/profile/img`);
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["userInfomation"]);
+      },
+    }
+  );
   if (isLoading) {
     return <div>로딩중?</div>;
   } else if (!isLoading && data) {
     return (
       <MyProfileModifyWrapper>
+        {modifyOpen && (
+          <ColorAlerts
+            open={modifyOpen}
+            openHandler={() => {
+              setModifyOpen((prev) => {
+                return !prev;
+              });
+            }}
+            content={"회원 정보 수정 완료"}
+          />
+        )}
         {/* 레이블링 */}
         <MyProfileModifyLabelingWrapper>
           <h2>당신의 레이블링</h2>
 
           <MyProfileModifyLabelingDiv>
-            <MyProfileModifyLabelingButton>
+            <MyProfileModifyLabelingButton
+              onClick={() => {
+                navigator("/labeling/welcome", {
+                  state: {
+                    followPrivate: data.userInfo.followPrivate,
+                  },
+                });
+              }}
+            >
               재검사 하러가기
             </MyProfileModifyLabelingButton>
             <MyProfileModifyLabelingNameDiv>
@@ -79,11 +115,39 @@ const MyProfileModify = () => {
         </MyProfileModifyLabelingWrapper>
         {/* 정보 바꾸기 */}
         <MyProfileModifyLabelingInputWrapper>
-          <div onClick={profileImgModifyButton}>
+          <div>
             {data.userInfo.proImgSrc ? (
-              <MyFollowProfileWrapperDiv url={data.userInfo.proImgSrc} />
+              <div
+                css={css`
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                `}
+                onClick={profileImgModifyButton}
+              >
+                <MyModifyProfileWrapperDiv url={data.userInfo.proImgSrc} />
+                <button
+                  css={css`
+                    width: 100px;
+                    border-radius: 8px;
+                    height: 30px;
+                    margin-top: 1vh;
+                    border: none;
+                    background: ${theme.colors.subColorGradient3};
+                    color: white;
+                  `}
+                  onClick={() => {
+                    profileImgMutate();
+                  }}
+                >
+                  삭제하기
+                </button>
+              </div>
             ) : (
-              <AccountCircleIcon sx={{ fontSize: 60 }} />
+              <div onClick={profileImgModifyButton}>
+                <AccountCircleIcon sx={{ fontSize: 60 }} />
+              </div>
             )}
           </div>
 
@@ -99,7 +163,7 @@ const MyProfileModify = () => {
           />
 
           <MyProfileModifyLabelingInput
-            value={data.userInfo.username}
+            value={data.userInfo.username + " - 아이디는 변경 불가"}
             disabled
           />
           <MyProfileModifyLabelingInput
@@ -110,7 +174,10 @@ const MyProfileModify = () => {
               });
             }}
           />
-          <MyProfileModifyLabelingInput value={data.userInfo.email} disabled />
+          <MyProfileModifyLabelingInput
+            value={data.userInfo.email + " - 이메일은 변경 불가"}
+            disabled
+          />
         </MyProfileModifyLabelingInputWrapper>
         {/* 팔로워 팔로잉 공개 여부 */}
         <MyProfileModifyLabelingFollowOpenWrapper>
@@ -122,7 +189,7 @@ const MyProfileModify = () => {
               });
             }}
           >
-            {followOpen ? "공개" : "비공개"}
+            {followOpen ? "비공개" : "공개"}
           </MyProFileModifyLabelingFollowOpenButton>
         </MyProfileModifyLabelingFollowOpenWrapper>
         {/* 수정 버튼 */}
@@ -140,7 +207,7 @@ const MyProfileModify = () => {
                     dispatch(
                       userModify({ nickname, labeling: userInfo.labeling })
                     );
-                    alert("회?원?정?보?변?경?완?료?");
+                    setModifyOpen(true);
                   },
                 }
               );
