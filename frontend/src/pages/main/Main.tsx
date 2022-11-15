@@ -18,6 +18,7 @@ const Main = () => {
   useEffect(() => {
     queryClient.invalidateQueries(["shortsInfinite"]);
   }, []);
+  console.log("쇼츠 데이터", shortsData);
 
   const test = async () => {
     const token = localStorage.getItem("token");
@@ -49,12 +50,17 @@ const Main = () => {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin-bottom: 3vh;
           `}
         >
           {userLabel && <SameHipPlace label={userLabel} />}
         </div>
-        {shortsData && shortsData.pages && (
+        {shortsData &&
+        shortsData.pages &&
+        shortsData.pages[0].result.totalPage > 0 ? (
           <HipVote shortsData={shortsData.pages} />
+        ) : (
+          <h2>아직 아무런 쇼츠가 없어요!</h2>
         )}
 
         <div

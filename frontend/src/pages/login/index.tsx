@@ -50,7 +50,7 @@ const LoginWrapper = () => {
   };
   return (
     <LoginFormLoginWrapper>
-      <LoginFormBackgroundVideo muted loop autoPlay>
+      <LoginFormBackgroundVideo muted loop autoPlay playsInline>
         <source src="/movie/login2.mp4" type="video/mp4"></source>
       </LoginFormBackgroundVideo>
       <LogoWrapper src="/img/logo.png"></LogoWrapper>
@@ -78,12 +78,12 @@ const LoginWrapper = () => {
             color: cyan;
           `}
           onClick={() => {
-            navigate("/signup");
+            navigate("/labeling/welcome");
           }}
         >
           회원가입
         </div>
-        <KakaoLogin />
+        {/* <KakaoLogin /> */}
       </LoginFormLoginDiv>
     </LoginFormLoginWrapper>
   );

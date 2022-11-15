@@ -66,7 +66,7 @@ export const MyProfileModifyLabelingInput = styled.input`
   border-bottom: 3px solid;
   border-image: ${(props) => props.theme.colors.subColorGradient1};
   border-image-slice: 1;
-  color: white;
+  color: gray;
   height: 5vh;
   margin-top: 2vh;
 `;
@@ -111,5 +111,17 @@ export const MyProFileModifyLabelingModifyWrapper = styled.div`
   width: 80%;
   display: flex;
   justify-content: end;
-  margin-top: auto;
+  margin-top: 5vh;
+`;
+
+export const MyModifyProfileWrapperDiv = styled.div<{ url: string }>`
+  width: 10vh;
+  max-width: 100px;
+  max-height: 100px;
+  height: 10vh;
+  border-radius: 50%;
+  margin-right: 2%;
+  background-image: url(${(props) => props.url});
+  background-size: cover;
+  background-position: center;
 `;

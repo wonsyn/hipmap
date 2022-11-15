@@ -30,8 +30,9 @@ interface userInfo {
 }
 
 const SignUpWrapper = () => {
-  console.log(useLocation())
-  const labelingName = useLocation()?.state?.labelingName ?? "아직 정해지지 않음"
+  console.log(useLocation());
+  const labelingName =
+    useLocation()?.state?.labelingName ?? "아직 정해지지 않음";
   const [selectEmail, setSelectEmail] = useState("self");
   const [emailState, setEmailState] = useState("");
   const [emailFrontState, setEmailFrontState] = useState("");
@@ -149,7 +150,11 @@ const SignUpWrapper = () => {
     const test = new RegExp(regex.userId);
     if (test.test(id)) {
       http.get(`/user/${id}/exists`).then((response) => {
-        if (response.status === 200 && response.data.result) setAcceptId(true);
+        if (response.status === 200 && response.data.result) {
+          setAcceptId(true);
+        } else {
+          setAcceptId(false);
+        }
       });
     } else {
       setAcceptId(false);
@@ -168,7 +173,7 @@ const SignUpWrapper = () => {
         fetchSignUpThunk({
           user_id: userInfoState.id,
           username: userInfoState.nickname,
-          labeling: "조선힙스터",
+          labeling: labelingName,
           email: emailFrontState + "@" + emailState,
           password: userInfoState.password,
         })
@@ -204,6 +209,9 @@ const SignUpWrapper = () => {
           아이디는 영어와 숫자를 사용할 수 있으며 영어는 필수로 들어가야합니다.
           5자~20까지 가능합니다.
         </SignUpInformation>
+        {!acceptId && userInfoState.id.length > 4 && (
+          <h4>중복된 아이디입니다.</h4>
+        )}
         <SignUpInput
           placeholder="Password"
           id="password"

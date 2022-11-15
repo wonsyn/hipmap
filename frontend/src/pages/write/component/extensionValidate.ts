@@ -1,4 +1,4 @@
-const ALLOW_FILE = "mp4,mov";
+const ALLOW_FILE = "mp4,mov,jpg,png";
 const MAX_SIZE_LIMIT = 15 * 1024 * 1024;
 
 export const fileExtensionValid = ({ name }: { name: string }): boolean => {
@@ -9,7 +9,7 @@ export const fileExtensionValid = ({ name }: { name: string }): boolean => {
   return true;
 };
 
-const removeFileName = (originalFileName: string): string => {
+export const removeFileName = (originalFileName: string): string => {
   const lastIndex = originalFileName.lastIndexOf(".");
 
   if (lastIndex < 0) {

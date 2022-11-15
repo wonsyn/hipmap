@@ -3,7 +3,7 @@ import { FailedAlerts } from "../components/alert/Alert";
 import http from "../utils/http-commons";
 
 interface userinformationProps {
-  isFollow: boolean;
+  follow: boolean;
   userInfo: {
     email: string;
     followPrivate: boolean;

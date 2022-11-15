@@ -13,7 +13,7 @@ export default function PrivateRoute({
 
   if (authentication) {
     return isAuthenticated === null || isAuthenticated === "false" ? (
-      <Navigate to="/login" />
+      <Navigate to="/labeling/welcome" />
     ) : (
       <Outlet />
     );
