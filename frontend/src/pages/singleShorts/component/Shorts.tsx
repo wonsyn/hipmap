@@ -10,10 +10,11 @@ import {
   SingleShortsVideoDiv,
   SingleShortsWrapper,
 } from "../style/singleShorts";
+import { useAppSelector } from "../../../hoc/useStoreHooks";
 
 const Shorts = ({ id }: { id: number }) => {
   console.log(id);
-  const { data } = useFetchSingleShorts(id);
+  const { data, isFetching } = useFetchSingleShorts(id);
   const [showShortsData, setShowShortsData] = useState<boolean>(false);
   const [location, setLocation] = useState<string>();
   useEffect(() => {
@@ -31,35 +32,55 @@ const Shorts = ({ id }: { id: number }) => {
     });
   };
 
-  if (
-    window.location.pathname.includes("/myProfile") ||
-    window.location.pathname.includes("/myPage")
-  ) {
-    return (
-      <SingleShortsWrapper>
-        {data && (
-          <div
-            css={css`
-              width: 100%;
-              height: 100%;
-            `}
-          >
-            {showShortsData ? (
-              <ShortsData
-                like={data.likeCount}
-                hate={data.hateCount}
-                shortsId={data.shortsId}
-                shortsDataHandler={shortsDataHandler}
-              />
-            ) : (
-              <SingleShortsVideoDiv>
-                <ShortsVideoPlayer file_src={data?.fileSrc} />
-                <LocationDiv>{location}</LocationDiv>
+  if (isFetching) {
+    return <h2>로딩중...</h2>;
+  }
+  return (
+    <SingleShortsWrapper>
+      {data && (
+        <div
+          css={css`
+            width: 100%;
+            height: 100%;
+          `}
+        >
+          {showShortsData ? (
+            <ShortsData
+              like={data.likeCount}
+              hate={data.hateCount}
+              shortsId={data.shortsId}
+              shortsDataHandler={shortsDataHandler}
+              id={data.userId}
+            />
+          ) : (
+            <SingleShortsVideoDiv>
+              <ShortsVideoPlayer file_src={data?.fileSrc} />
+              <LocationDiv>{location}</LocationDiv>
+              <div>
+                <div
+                  css={css`
+                    position: absolute;
+                    right: 1%;
+                    bottom: 60px;
+                    font-size: 1rem;
+                    text-shadow: 1px 1px 0 #f447bd, -1px 1px 0 #f447bd,
+                      1px -1px 0 #f447bd, -1px -1px 0 #f447bd, 0px 1px 0 #f447bd,
+                      0px -1px 0 #f447bd, -1px 0px 0 #f447bd, 1px 0px 0 #f447bd,
+                      2px 2px 0 #f447bd, -2px 2px 0 #f447bd, 2px -2px 0 #f447bd,
+                      -2px -2px 0 #f447bd, 0px 2px 0 #f447bd, 0px -2px 0 #f447bd,
+                      -2px 0px 0 #f447bd, 2px 0px 0 #f447bd, 1px 2px 0 #f447bd,
+                      -1px 2px 0 #f447bd, 1px -2px 0 #f447bd,
+                      -1px -2px 0 #f447bd, 2px 1px 0 #f447bd, -2px 1px 0 #f447bd,
+                      2px -1px 0 #f447bd, -2px -1px 0 #f447bd;
+                  `}
+                >
+                  {data.nickname}
+                </div>
                 <button
                   css={css`
                     position: absolute;
                     right: 1%;
-                    bottom: 1%;
+                    bottom: 10px;
                     border: none;
                     border-radius: 8px;
                     width: 60px;
@@ -73,20 +94,10 @@ const Shorts = ({ id }: { id: number }) => {
                 >
                   자세히
                 </button>
-              </SingleShortsVideoDiv>
-            )}
-          </div>
-        )}
-      </SingleShortsWrapper>
-    );
-  }
-  return (
-    <SingleShortsWrapper>
-      {data && (
-        <SingleShortsVideoDiv>
-          <ShortsVideoPlayer file_src={data?.fileSrc} />
-          <LocationDiv>{location}</LocationDiv>
-        </SingleShortsVideoDiv>
+              </div>
+            </SingleShortsVideoDiv>
+          )}
+        </div>
       )}
     </SingleShortsWrapper>
   );

@@ -15,7 +15,7 @@ export const MentionWrappingDIv = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items:flex-start;
-    position: sticky;
+    position: fixed;
     top: 1vh;
     left: 2vw;
     width: 700px;
@@ -60,21 +60,63 @@ export const ScrollMentionDiv = styled.div`
         margin-top: 5vh;
     }
 `
-export const ShortsWrappingDiv = styled.div`
-    perspective: 400px;
-    /* margin-top: -200px; */
-`
-export const ShortsDiv = styled.div`
-    position: sticky;
-    top: 15vh;
+
+export const ShortsBody = styled.div`
+    overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height:100vh;
-    @media screen and (max-width: 700px) {
-        margin-top: -20vh;
+    width: 100%;
+    ::-webkit-scrollbar {
+    display: none;
     }
 `
+export const ShortsWrappingDiv = styled.div`
+   min-height: 100%;
+`
+export const ShortsDiv = styled.div`
+    position: absolute;
+    /* top: 30%; */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    @media screen and (max-width: 700px){
+        top: 30%;
+        width: 100%;
+        height: 80%;
+        }
+`
+
+export const ShortsUl = styled.ul`
+    position: absolute;
+    width: 14rem;
+    height: 18rem;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @media screen and (max-width: 700px){
+        width: 60%;
+        height: 50%;
+        top: 40%;
+        left: 50%;
+        }
+    > li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 30vw;
+        height: 50vh;
+        /* line-height: 18rem; */
+     
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 0.8rem;
+        @media screen and (max-width: 700px){
+            width: 100%;
+            height: 100%;
+        }
+    }
+`
+
 const ShortsImage = styled.img`
     width: 500px;
     height: 350px;
@@ -95,7 +137,7 @@ const ShortsImage = styled.img`
     }
 `
 export const ShortsImage1 = styled(ShortsImage)`
-    transform: rotate(10deg);
+    /* transform: rotate(10deg); */
 `
 export const ShortsImage2 = styled(ShortsImage)`
     transform: rotate(0deg);

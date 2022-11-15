@@ -1,6 +1,7 @@
 import { useMediaQuery } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import Card from "../../../../components/card/Card";
+import { useFetchBookMark, useFetchMyShorts } from "../../../../hoc/useFetch";
 import {
   MyHipCardFont,
   MyHipContainerDiv,
@@ -8,79 +9,23 @@ import {
 } from "../../styles/MyHip";
 import MyHipContent from "./myHipContent";
 
-interface shorts {
-  thumbnail_src: string;
-  shortsId: number;
-}
-
-// interface myHipPlace{
-//     shortsList: shorts[];
-// }
-
-// interface myContent {
-//     shortsList: shorts[];
-//   };
-
-interface MyHipContainerProps {
-  // 내가 등록한 게시물 중 힙 플레이스만
-  myHipPlace: {
-    shortsList: shorts[];
-  };
-  // 내가 등록한 장소
-  myContent: {
-    shortsList: shorts[];
-  };
-}
-
-const DummyData: MyHipContainerProps = {
-  myHipPlace: {
-    shortsList: [
-      {
-        thumbnail_src: "/img/1.jpg",
-        shortsId: 1,
-      },
-      {
-        thumbnail_src: "/img/2.png",
-        shortsId: 2,
-      },
-      {
-        thumbnail_src: "/img/3.png",
-        shortsId: 3,
-      },
-      {
-        thumbnail_src: "/img/4.png",
-        shortsId: 4,
-      },
-    ],
-  },
-  myContent: {
-    shortsList: [
-      {
-        thumbnail_src: "/img/1.jpg",
-        shortsId: 1,
-      },
-      {
-        thumbnail_src: "/img/2.png",
-        shortsId: 2,
-      },
-      {
-        thumbnail_src: "/img/3.png",
-        shortsId: 3,
-      },
-      {
-        thumbnail_src: "/img/4.png",
-        shortsId: 4,
-      },
-    ],
-  },
-};
-
-const MyHipContainer = () => {
-  const [myHipData, setMyHipData] = useState<MyHipContainerProps>();
+const MyHipContainer = ({ username }: { username: string }) => {
+  const [myHipData, setMyHipData] = useState<
+    {
+      shortsId: number;
+      thumbnailSrc: string;
+      nickname: string;
+    }[]
+  >();
+  const { data: myShorts } = useFetchMyShorts(username);
+  const { data: bookmark } = useFetchBookMark();
   const isMobile = useMediaQuery("(max-width:1024px)");
   useEffect(() => {
-    setMyHipData(DummyData);
-  }, []);
+    if (bookmark) {
+      setMyHipData(bookmark);
+    }
+  }, [bookmark]);
+
   return (
     <MyHipContainerDiv>
       <Card
@@ -91,17 +36,15 @@ const MyHipContainer = () => {
         <div>
           <MyHipCardFont>My HIP</MyHipCardFont>
           <div>
-            {myHipData !== undefined && (
+            {myHipData !== undefined && myHipData.length > 0 ? (
               <MyHipContentDiv>
-                <MyHipContent
-                  content={myHipData.myHipPlace}
-                  text="인정 받은 당신의 힙 플레이스"
-                />
-                <MyHipContent
-                  content={myHipData.myContent}
-                  text="최근 등록한 장소"
-                />
+                <MyHipContent content={myHipData} text="북마크" />
+                {myShorts && (
+                  <MyHipContent content={myShorts} text="최근 등록한 장소" />
+                )}
               </MyHipContentDiv>
+            ) : (
+              <h3>아직 아무것도 없어요!</h3>
             )}
           </div>
         </div>

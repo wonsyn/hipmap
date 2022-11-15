@@ -21,6 +21,8 @@ import { useAppDispatch, useAppSelector } from "./hoc/useStoreHooks";
 import { fetchLoginRefreshThunk } from "./store/login/loginStore";
 import PrivateRoute from "./components/PrivateRouter";
 import NotFound from "./pages/NotFound";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import CameraPage from "./pages/labeling/camera";
 
 function App() {
   const isAuth = useAppSelector((store) => store.userReducer.auth);
@@ -41,8 +43,8 @@ function App() {
   const client = new QueryClient();
   return (
     <BrowserRouter>
-      <Layout>
-        <QueryClientProvider client={client}>
+      <QueryClientProvider client={client}>
+        <Layout>
           <Routes>
             <Route element={<PrivateRoute authentication={true} />}>
               <Route path="/main" element={<Main />} />
@@ -62,6 +64,7 @@ function App() {
               <Route path="/profileModify" element={<MyProfileModify />} />
               <Route path="/" element={<Navigate replace to="/main" />} />
             </Route>
+            <Route path="/camera" element={<CameraPage />} />
             <Route element={<PrivateRoute authentication={false} />}>
               <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
               <Route
@@ -77,8 +80,9 @@ function App() {
             </Route>
             <Route path="/*" element={<NotFound />} />
           </Routes>
-        </QueryClientProvider>
-      </Layout>
+        </Layout>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }

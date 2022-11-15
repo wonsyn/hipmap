@@ -20,6 +20,7 @@ import {
   useLikeVote,
 } from "../../../hoc/useMutation";
 import ColorAlerts from "./colorAlerts";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface shortsInterface {
   shorts: {
@@ -37,9 +38,14 @@ interface shortsInterface {
     thumbnailSrc: String | null;
   };
   modalOpen: (e: number) => void;
+  refetch: () => void;
 }
 
-const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
+const ShortsVideoWrapper = ({
+  shorts,
+  modalOpen,
+  refetch,
+}: shortsInterface) => {
   const [location, setLocation] = useState<string>();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [disLike, setDisLike] = useState<boolean>(false);
@@ -50,7 +56,7 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
   const { mutate: likeVote } = useLikeVote();
   const { mutate: deleteVote } = useLikeDelete();
   const { mutate: bookMark } = useBookMarkAdd();
-
+  const queryClient = useQueryClient();
   const openHandler = () => {
     setOpen((prev) => {
       return !prev;
@@ -106,11 +112,32 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
           <ShortVoteDiv
             onClick={() => {
               if (shorts.isLike === "none") {
-                firstVote({ id: shorts.shortsId, vote: true });
+                firstVote(
+                  { id: shorts.shortsId, vote: true },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else if (shorts.isLike === "love") {
-                deleteVote({ id: shorts.shortsId });
+                deleteVote(
+                  { id: shorts.shortsId },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else {
-                likeVote({ id: shorts.shortsId, vote: true });
+                likeVote(
+                  { id: shorts.shortsId, vote: true },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               }
             }}
           >
@@ -124,11 +151,32 @@ const ShortsVideoWrapper = ({ shorts, modalOpen }: shortsInterface) => {
           <ShortVoteDiv
             onClick={() => {
               if (shorts.isLike === "none") {
-                firstVote({ id: shorts.shortsId, vote: false });
+                firstVote(
+                  { id: shorts.shortsId, vote: false },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else if (shorts.isLike === "hate") {
-                deleteVote({ id: shorts.shortsId });
+                deleteVote(
+                  { id: shorts.shortsId },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               } else {
-                likeVote({ id: shorts.shortsId, vote: false });
+                likeVote(
+                  { id: shorts.shortsId, vote: false },
+                  {
+                    onSuccess: () => {
+                      refetch();
+                    },
+                  }
+                );
               }
             }}
           >

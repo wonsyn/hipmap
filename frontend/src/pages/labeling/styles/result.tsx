@@ -64,9 +64,9 @@ export const KakaoShareImg = styled.img`
 export const LabelingCharacterDiv = styled.div`
     display: flex;
     flex-direction: column;
-    width: 40%;
-    max-width: 200px;
-    height: 20%;
+    width: 100wv;
+    max-width: 300px;
+    height: 40vh;
 `
 
 export const LabelingDetailDiv = styled.div`

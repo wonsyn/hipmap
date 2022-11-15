@@ -55,11 +55,12 @@ function Hoseo(){
                 if(dot !== -1){
                     if(j === 6 || j === 7 || j === 8){
                       data.shortsList.map((shorts: any) => {
-                        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
-                         && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
+                        if( ((shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
+                         && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1) )) )) )
                          {
                           mapDot[i][j] += 1
                           console.log("진행 완료")
+                          // console.log("맵입니다", mapDot)
                         }
                       })
                     }
@@ -72,11 +73,13 @@ function Hoseo(){
                   if(dot !== -1){
                       if(j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6 || j === 7 || j === 8 || j === 9){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
+                            console.log("맵입니다", mapDot)
                           }
                         })
                       }
@@ -88,11 +91,13 @@ function Hoseo(){
                   if(dot !== -1){
                       if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6 || j === 7){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
+                            console.log("맵입니다", mapDot)
                           }
                         })
                       }
@@ -104,11 +109,13 @@ function Hoseo(){
                   if(dot !== -1){
                       if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
+                            console.log("맵입니다", mapDot)
                           }
                         })
                       }
@@ -120,11 +127,13 @@ function Hoseo(){
                   if(dot !== -1){
                       if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
+                            console.log("맵입니다", mapDot)
                           }
                         })
                       }
@@ -136,11 +145,13 @@ function Hoseo(){
                   if(dot !== -1){
                       if(j === 5 || j === 6){
                         data.shortsList.map((shorts: any) => {
-                          if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+
+                          if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
                             console.log("진행 완료")
+                            console.log("맵입니다", mapDot)
                           }
                         })
                       }
@@ -173,7 +184,7 @@ function Hoseo(){
     function HoseoClick(i: number, j: number){
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
-        if( ( (shorts.lattitude >= (38.40 - (0.2432)*(i+1))) && (shorts.lattitude <= (38.40 - (0.2432)*(i))) )
+        if( ( (shorts.latitude >= (38.40 - (0.2432)*(i+1))) && (shorts.latitude <= (38.40 - (0.2432)*(i))) )
          && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
          {
           shortsList.push(shorts)
@@ -197,7 +208,7 @@ function Hoseo(){
                       if(dot !== -1){
                           if(j === 6 || j === 7 || j === 8){
                             return(
-                              <HoseoSpanRegional onClick={() => HoseoClick(i, j)}>
+                              <HoseoSpanRegional onClick={() => HoseoClick(i, j)} number={dot}>
                                 {dot}
                               </HoseoSpanRegional>
                             )
@@ -221,7 +232,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6 || j === 7 || j === 8 || j === 9){
                               return(
-                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)}>
+                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)} number={dot}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -244,7 +255,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6 || j === 7){
                               return(
-                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)}>
+                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)} number={dot}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -267,7 +278,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)}>
+                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)} number={dot}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -290,7 +301,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 2 || j === 3 || j === 4 || j === 5 || j === 6){
                               return(
-                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)}>
+                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)} number={dot}>
                                   {dot}
                                 </HoseoSpanRegional>
                               )
@@ -313,7 +324,7 @@ function Hoseo(){
                         if(dot !== -1){
                             if(j === 5 || j === 6){
                                 return(
-                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)}>
+                                <HoseoSpanRegional onClick={() => HoseoClick(i, j)} number={dot}>
                                     {dot}
                                 </HoseoSpanRegional>
                                 )

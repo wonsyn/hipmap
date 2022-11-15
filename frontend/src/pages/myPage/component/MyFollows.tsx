@@ -9,6 +9,7 @@ import {
   MyFollowListDiv,
   MyFollowProfileImg,
   MyFollowProfileWrapper,
+  MyFollowProfileWrapperDiv,
   MyFollowSearchAreaDiv,
   MyFollowSearchBarInput,
   MyFollowSearchBarWrapper,
@@ -145,7 +146,7 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
                     <AccountCircleIcon sx={{ fontSize: 60 }} />
                   </MyFollowProfileWrapper>
                 ) : (
-                  <MyFollowProfileImg src={e.proImgSrc} alt="프로필 이미지" />
+                  <MyFollowProfileWrapperDiv url={e.proImgSrc} />
                 )}
                 <MyFollowIdWrapper
                   onClick={() => {
@@ -188,7 +189,7 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
                     <AccountCircleIcon sx={{ fontSize: 60 }} />
                   </MyFollowProfileWrapper>
                 ) : (
-                  <MyFollowProfileImg src={e.proImgSrc} alt="프로필 이미지" />
+                  <MyFollowProfileWrapperDiv url={e.proImgSrc} />
                 )}
                 <MyFollowIdWrapper
                   onClick={() => {
