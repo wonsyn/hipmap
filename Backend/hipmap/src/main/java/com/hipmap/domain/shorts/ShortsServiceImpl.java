@@ -45,7 +45,7 @@ public class ShortsServiceImpl implements ShortsService {
 
     @Override
     public Page<ShortsResponse> getShorts(Pageable pageable, Long userId) {
-        Page<ShortsEntity> shortsEntities = shortsRepository.findAll(pageable);
+        Page<ShortsEntity> shortsEntities = shortsRepository.findByIsMappedFalseAndCreateTimeGreaterThanEqual(pageable, LocalDateTime.now().minusDays(30));
         Page<ShortsResponse> boardDtoList = shortsEntities.map(m -> ShortsResponse.builder()
                 .shortsId(m.getShortsId())
                 .fileSrc(m.getFileSrc())
