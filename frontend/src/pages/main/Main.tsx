@@ -50,6 +50,7 @@ const Main = () => {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin-bottom: 3vh;
           `}
         >
           {userLabel && <SameHipPlace label={userLabel} />}

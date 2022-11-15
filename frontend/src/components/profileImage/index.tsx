@@ -12,6 +12,7 @@ import { useState } from "react";
 import Noti from "../noti";
 import { useQuery } from "@tanstack/react-query";
 import http from "../../utils/http-commons";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const ProfileImgWrapper = () => {
   const userNickName = useSelector(
@@ -31,6 +32,7 @@ const ProfileImgWrapper = () => {
     },
     {}
   );
+  console.log(noti);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = () => {
@@ -87,6 +89,20 @@ const ProfileImgWrapper = () => {
           });
         }}
       >
+        {noti && (
+          <div
+            css={css`
+              position: absolute;
+              right: 0;
+              top: 0;
+            `}
+          >
+            {noti.unreadCount > 0 && (
+              <CircleIcon sx={{ fontSize: 15, color: "red" }} />
+            )}
+          </div>
+        )}
+
         <NotificationsIcon />
       </div>
       <img

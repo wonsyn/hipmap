@@ -150,7 +150,11 @@ const SignUpWrapper = () => {
     const test = new RegExp(regex.userId);
     if (test.test(id)) {
       http.get(`/user/${id}/exists`).then((response) => {
-        if (response.status === 200 && response.data.result) setAcceptId(true);
+        if (response.status === 200 && response.data.result) {
+          setAcceptId(true);
+        } else {
+          setAcceptId(false);
+        }
       });
     } else {
       setAcceptId(false);
@@ -205,6 +209,9 @@ const SignUpWrapper = () => {
           아이디는 영어와 숫자를 사용할 수 있으며 영어는 필수로 들어가야합니다.
           5자~20까지 가능합니다.
         </SignUpInformation>
+        {!acceptId && userInfoState.id.length > 4 && (
+          <h4>중복된 아이디입니다.</h4>
+        )}
         <SignUpInput
           placeholder="Password"
           id="password"

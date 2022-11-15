@@ -36,12 +36,14 @@ const Footer = () => {
                 navigate("/write");
               }}
             >
-              <FooterWriteImg
-                src="/img/writeButton.png"
-                width="auto"
-                height="100%"
-                alt="글작성 버튼"
-              />
+              {window.location.pathname !== "/write" && (
+                <FooterWriteImg
+                  src="/img/writeButton.png"
+                  width="auto"
+                  height="100%"
+                  alt="글작성 버튼"
+                />
+              )}
             </FooterWriteButton>
             <FooterShortsButtons
               onClick={() => {

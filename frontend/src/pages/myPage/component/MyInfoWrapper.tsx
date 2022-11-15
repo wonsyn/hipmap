@@ -85,13 +85,13 @@ const MyInfoWrapper = ({
                     if (isMyPage) {
                       navigate("/profileModify");
                     } else {
-                      if (data.isFollow) {
+                      if (data.follow) {
                         followDelete(data.userInfo.userId, {
                           onSuccess: () => {
                             queryClient.invalidateQueries(["userInformation"]);
                           },
                         });
-                      } else if (!data.isFollow) {
+                      } else if (!data.follow) {
                         followAdd(data.userInfo.userId, {
                           onSuccess: () => {
                             queryClient.invalidateQueries(["userInformation"]);
@@ -119,13 +119,13 @@ const MyInfoWrapper = ({
                   if (isMyPage) {
                     navigate("/profileModify");
                   } else {
-                    if (data.isFollow) {
+                    if (data.follow) {
                       followDelete(data.userInfo.userId, {
                         onSuccess: () => {
                           queryClient.invalidateQueries(["userInformation"]);
                         },
                       });
-                    } else if (!data.isFollow) {
+                    } else if (!data.follow) {
                       followAdd(data.userInfo.userId, {
                         onSuccess: () => {
                           queryClient.invalidateQueries(["userInformation"]);
@@ -138,7 +138,7 @@ const MyInfoWrapper = ({
                 {isMyPage ? (
                   `프로필수정`
                 ) : (
-                  <> {data.isFollow ? `팔로우 해제` : `팔로우`}</>
+                  <> {data.follow ? `팔로우 해제` : `팔로우`}</>
                 )}
               </MyButton>
             )}
