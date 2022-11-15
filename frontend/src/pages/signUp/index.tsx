@@ -196,7 +196,7 @@ const SignUpWrapper = () => {
     <SignUpWrapperDiv>
       <SignUpLabelingWrapperDiv>
         <SignUpLabelingDiv>당신의 유형은</SignUpLabelingDiv>
-        <SignUpYourLabelingDiv>조선 힙스터</SignUpYourLabelingDiv>
+        <SignUpYourLabelingDiv>{labelingName}</SignUpYourLabelingDiv>
       </SignUpLabelingWrapperDiv>
       <SignUpInputWrapper>
         <SignUpInput placeholder="ID" onChange={IDCheck} />

@@ -26,14 +26,16 @@ function ResultPage(){
     },[])
     const clickEvent = () => {
        // 메인 페이지로 연결
-       navigate(`/main`)
+       navigate(`/signup`, {state : {
+        labelingName: labelingResult
+       }})
     }
 
     return(
         <WrappingDiv>
             <ContainerDiv>
                 <LabelingName name={labelingResult}/>
-                {/* <LabelingCharacter url={labelingChar}/> */}
+                <LabelingCharacter /> 
                 <LabelingDetail list={labelingDetail}/>
                 <With clickEvent={clickEvent}/>
                 <KakaoShare/>
