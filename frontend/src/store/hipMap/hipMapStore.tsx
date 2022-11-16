@@ -25,6 +25,9 @@ interface hipMapState {
    jejuAnime: boolean
    sameLabelingCheck: boolean
    region: string
+   si: string
+   gu: string
+   dong: string
 
 
 }
@@ -52,7 +55,10 @@ const initialState: hipMapState = {
    yungnamAnime: false,
    jejuAnime: false,
    sameLabelingCheck: false,
-   region: ""
+   region: "",
+   si: "",
+   gu: "", 
+   dong: "",
 }
 
 export const HipMapSlice = createSlice({
@@ -127,6 +133,11 @@ export const HipMapSlice = createSlice({
       },
       saveRegion(state, action){
         state.region = action.payload.region
+      },
+      saveSiGuDong(state, action){
+        state.si = action.payload.si
+        state.gu = action.payload.gu
+        state.dong = action.payload.dong
       }
     },
   });
@@ -137,6 +148,7 @@ export const { saveSudogwanMobile, saveGwandongMobile, saveHoseoMobile, saveHona
 export const { saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime } = HipMapSlice.actions
 export const { saveSameLabelingCheck } = HipMapSlice.actions
 export const { saveRegion } =  HipMapSlice.actions 
+export const { saveSiGuDong } =  HipMapSlice.actions 
 export const hipMapState = (state: RootState) => state.labelingReducer;
 
 export default HipMapSlice.reducer;

@@ -85,6 +85,7 @@ export const WrappingDiv = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    width: 100%;
 `
 
 export const FullMapWrappingDiv = styled.div`
@@ -92,6 +93,10 @@ export const FullMapWrappingDiv = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    @media screen and (max-width: 700px){
+        margin-top: -7%;
+    }
+   
 `
 export const FullMapDiv = styled.div`
     display: flex;
@@ -100,8 +105,8 @@ export const FullMapDiv = styled.div`
     align-items: center;
     width: 100vw;
     max-width: 600px;
-    height: 69vh;
-    margin: 30px 0 0 0;
+    height: 65vh;
+    /* margin: 30px 0 0 0; */
     @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
@@ -218,6 +223,7 @@ export const YungnamMapDiv = styled.div`
     margin: 0 300px 0 0;
     position: fixed;
     left: 24vw;
+    top: 10vh;
     @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
@@ -643,8 +649,8 @@ export const ArrowDiv = styled.div`
 `
 
 export const RegionNameDiv = styled.div`
-    margin: -5vh 0 0 20vh;
-    font-size: 1.3rem;
+    margin: 2vh 0 0 0;
+    font-size: 1.5rem;
     font-weight: bold;
     
 `
@@ -668,13 +674,17 @@ export const RegionNameButton = styled.button<ButtonProps>`
     }
 `
 export const FilterWrappingDiv = styled.div`
-    /* width: 100vw; */
+    width: 100vw;
+    max-width: 600px;
     height: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 5%;
+    @media screen and (max-width: 700px){
+       /* margin-top: 10%; */
+    }
 `
 
 // export const FilterInput = styled.input`
@@ -697,18 +707,32 @@ export const FilterCheckBox = styled.input`
     margin-right:2%;
 `
 
-
-
+export const SelectWrappingDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+    width: 100%;
+    color: black;
+`
 export const SelectDiv = styled.div`
     display: flex;
     flex-direction: row;
-    z-index: 10;
     background-color: white;
+    width: 15vh;
+    height: 6vh;
+    border-radius: 10%;
+    margin: 0 3%; 
+    @media screen and (max-width: 700px){
+        width: 10vh;
+        height: 8vh;
+    }
 
 `
 export const EmphasizingDiv = styled.div<NumberProps>`
-    width: 70%;
-    height: 70%;
+    width: 100%;
+    height: 100%;
     display: ${(props) => props.number === 0? `none`: `block`}; ; 
     background-color: ${(props) => props.number === 0  && `white`};
     background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
@@ -716,37 +740,9 @@ export const EmphasizingDiv = styled.div<NumberProps>`
     background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
     background-color: ${(props) => props.number > 10   && `red`};
 `
-// export const SudogwanImg = styled.img`
-//     /* width: 185px;
-//     height: 145px; */
-//     width: 38vw;
-//     height: 17vh;
-//     position: absolute;
-//     top: 14.5%;
-//     left: 13.5%;
-// `
-
-// export const GwandongImg = styled.img`
-//     width: 50%;
-//     height: 50%;
-//     position: absolute;
-// `
-
-// export const HoseoImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute; 
-// `
-
-// export const HonamImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `
-
-// export const YungnamImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `
-
+export const EmphasizingImg = styled.img<NumberProps>`
+    width: 60px;
+    height: 60px;
+    display: ${(props) => props.number === 0? `none`: `block`}; ; 
+    /* margin: 0 0 30px 0px; */
+`
