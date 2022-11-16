@@ -64,12 +64,35 @@ const Write = () => {
       )}
       {modalOpen && (
         <Modal
-          backgroundcolor="linear-gradient(92.79deg,#EA047E,#FFC23C)"
+          backgroundcolor="#240046"
           modalHandler={modalOpenHandler}
+          width="300px"
+          height="300px"
         >
-          <div>
-            <h2>업로드에 성공하였습니다.</h2>
+          <div
+            css={css`
+              color: white;
+              width: 100%;
+              height: 100%;
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            `}
+          >
+            <h5 css={css``}>업로드에 성공하였습니다.</h5>
             <button
+              css={css`
+                width: 100px;
+                height: 50px;
+                position: absolute;
+                bottom: 10px;
+                border: none;
+                border-radius: 8px;
+                background: ${theme.colors.subColorGradient2};
+                font-weight: bolder;
+              `}
               onClick={() => {
                 navigator("/");
               }}
