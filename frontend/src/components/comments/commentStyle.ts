@@ -91,7 +91,7 @@ export const CommentWriteInput = styled.input`
   margin-right: 2%;
   color: white;
   @media (max-width: 699px) {
-    max-width: 170px;
+    /* max-width: 170px; */
   }
 `;
 

@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { useEffect, useState, useCallback } from "react";
 import theme from "../../../styles/theme";
 import { useDropzone } from "react-dropzone";
-import { fileExtensionValid } from "./extensionValidate";
+import { fileExtensionValid, removeFileName } from "./extensionValidate";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const ALLOW_FILE = "mp4,mov";
@@ -11,14 +11,26 @@ const MAX_SIZE_LIMIT = 15 * 1024 * 1024;
 
 const MovieUpload = ({
   setUploadInfo,
+  fileTypeHandler,
 }: {
   setUploadInfo: (e: any) => void;
+  fileTypeHandler: (e: string) => void;
 }) => {
   const [file, setFile] = useState<any>();
+  const [fileType, setFileType] = useState<string>();
+
   const onDrop = useCallback((acceptedFiles: any) => {
     console.log(acceptedFiles);
     if (fileExtensionValid(acceptedFiles[0])) {
       if (acceptedFiles[0].size < MAX_SIZE_LIMIT) {
+        const extension = removeFileName(acceptedFiles[0].name);
+        if (extension === "mov" || extension === "mp4") {
+          setFileType("video");
+          fileTypeHandler("video");
+        } else if (extension === "jpg" || extension === "png") {
+          setFileType("image");
+          fileTypeHandler("image");
+        }
         setFile(acceptedFiles[0]);
       } else {
         alert("업로드 가능한 최대 용량은 15MB입니다.");
@@ -27,9 +39,7 @@ const MovieUpload = ({
       alert("사용 가능한 확장자가 아닙니다.");
     }
   }, []);
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
   useEffect(() => {
     if (file) {
       setUploadInfo(file);
@@ -91,16 +101,29 @@ const MovieUpload = ({
             >
               <ClearIcon sx={{ fontSize: 40, color: "white" }} />
             </button>
-            <video
-              src={URL.createObjectURL(file)}
-              muted
-              controls
-              css={css`
-                width: 100%;
-                height: 100%;
-                z-index: 2;
-              `}
-            ></video>
+            {fileType === "video" ? (
+              <video
+                src={URL.createObjectURL(file)}
+                muted
+                controls
+                css={css`
+                  width: 100%;
+                  height: 100%;
+                  z-index: 2;
+                `}
+              ></video>
+            ) : (
+              <img
+                src={URL.createObjectURL(file)}
+                alt="미리보기"
+                css={css`
+                  width: 100%;
+                  height: auto;
+                  max-height: 100%;
+                  z-index: 2;
+                `}
+              />
+            )}
           </div>
         ) : (
           <div>
@@ -115,7 +138,8 @@ const MovieUpload = ({
             />
             {isDragActive ? (
               <p>
-                사용 가능한 확장자는 mp4, mov 이며 최대 용량은 15MB까지입니다.
+                사용 가능한 확장자는 JPG, PNG, mp4, mov 이며 최대 용량은
+                15MB까지입니다.
               </p>
             ) : (
               <div
@@ -146,7 +170,9 @@ const MovieUpload = ({
                     opacity: 0.6;
                   `}
                 >
-                  <div css={css``}>사용 가능한 확장자는 mp4, mov 이며</div>
+                  <div css={css``}>
+                    사용 가능한 확장자는 JPG, PNG, mp4, mov 이며
+                  </div>
                   <div> 최대 용량은 15MB까지입니다.</div>
                 </div>
               </div>
@@ -159,5 +185,3 @@ const MovieUpload = ({
 };
 
 export default MovieUpload;
-{
-}

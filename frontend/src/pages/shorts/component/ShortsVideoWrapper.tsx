@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import {
   LocationDiv,
   ShortsVideoDiv,
@@ -21,6 +22,8 @@ import {
 } from "../../../hoc/useMutation";
 import ColorAlerts from "./colorAlerts";
 import { useQueryClient } from "@tanstack/react-query";
+import ErrorAlerts from "./ErrorAlerts";
+import { css } from "@emotion/react";
 
 interface shortsInterface {
   shorts: {
@@ -51,7 +54,8 @@ const ShortsVideoWrapper = ({
   const [disLike, setDisLike] = useState<boolean>(false);
   //북마크 저장 성공 알림 띄우기용
   const [open, setOpen] = useState<boolean>(false);
-
+  const [content, setContent] = useState<string>("");
+  const [errorOpen, setErrorOpen] = useState<boolean>(false);
   const { mutate: firstVote } = useFirstLikeVote();
   const { mutate: likeVote } = useLikeVote();
   const { mutate: deleteVote } = useLikeDelete();
@@ -60,6 +64,9 @@ const ShortsVideoWrapper = ({
   const openHandler = () => {
     setOpen((prev) => {
       return !prev;
+    });
+    setContent((prev) => {
+      return "";
     });
   };
 
@@ -89,9 +96,40 @@ const ShortsVideoWrapper = ({
 
   return (
     <ShortsVideoElementDiv>
-      {open && <ColorAlerts open={open} openHandler={openHandler} />}
+      {open && (
+        <ColorAlerts open={open} openHandler={openHandler} content={content} />
+      )}
+      {errorOpen && (
+        <ErrorAlerts
+          open={errorOpen}
+          openHandler={() => {
+            setErrorOpen((prev) => {
+              return !prev;
+            });
+          }}
+        />
+      )}
       <ShortsVideoDiv>
-        <ShortsVideoPlayer file_src={shorts.fileSrc} />
+        {shorts.fileType === "video" ? (
+          <ShortsVideoPlayer file_src={shorts.fileSrc} />
+        ) : (
+          <>
+            {shorts.fileType === "image" && (
+              <img
+                css={css`
+                  width: auto;
+                  max-width: 100%;
+                  height: auto;
+                  max-height: 100%;
+                  z-index: 2;
+                `}
+                src={shorts.fileSrc}
+                alt="쇼츠이미지"
+              />
+            )}
+          </>
+        )}
+
         <LocationDiv>{location}</LocationDiv>
         <ShortsVoteCommentWrapperDiv>
           <div>
@@ -102,7 +140,11 @@ const ShortsVideoWrapper = ({
                   { shortsId: shorts.shortsId },
                   {
                     onSuccess: () => {
+                      setContent("북마크 저장에 성공했습니다.");
                       setOpen(true);
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );
@@ -116,7 +158,12 @@ const ShortsVideoWrapper = ({
                   { id: shorts.shortsId, vote: true },
                   {
                     onSuccess: () => {
+                      setContent("투표가 완료 되었습니다.");
+                      setOpen(true);
                       refetch();
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );
@@ -125,7 +172,12 @@ const ShortsVideoWrapper = ({
                   { id: shorts.shortsId },
                   {
                     onSuccess: () => {
+                      setContent("투표가 취소 되었습니다.");
+                      setOpen(true);
                       refetch();
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );
@@ -134,7 +186,12 @@ const ShortsVideoWrapper = ({
                   { id: shorts.shortsId, vote: true },
                   {
                     onSuccess: () => {
+                      setContent("투표가 완료 되었습니다.");
+                      setOpen(true);
                       refetch();
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );
@@ -155,7 +212,12 @@ const ShortsVideoWrapper = ({
                   { id: shorts.shortsId, vote: false },
                   {
                     onSuccess: () => {
+                      setContent("투표가 완료 되었습니다.");
+                      setOpen(true);
                       refetch();
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );
@@ -164,7 +226,12 @@ const ShortsVideoWrapper = ({
                   { id: shorts.shortsId },
                   {
                     onSuccess: () => {
+                      setContent("투표가 취소 되었습니다.");
+                      setOpen(true);
                       refetch();
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );
@@ -173,7 +240,12 @@ const ShortsVideoWrapper = ({
                   { id: shorts.shortsId, vote: false },
                   {
                     onSuccess: () => {
+                      setContent("투표가 완료 되었습니다.");
+                      setOpen(true);
                       refetch();
+                    },
+                    onError: () => {
+                      setErrorOpen(true);
                     },
                   }
                 );

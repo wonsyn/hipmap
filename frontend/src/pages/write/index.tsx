@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../components/modal/Modal";
 import { useUploadShorts } from "../../hoc/useMutation";
 import theme from "../../styles/theme";
+import ErrorAlerts from "../shorts/component/ErrorAlerts";
 import KakaoMapWrapper from "./component/KakaoMapWrapper";
 import MovieUpload from "./component/MovieUpload";
-import WriteColorAlerts from "./writeAlert";
 
 const Write = () => {
   //업로드 할 동영상/ 사진 정보 가져오기
@@ -21,26 +22,29 @@ const Write = () => {
     gun: string | null;
   }>();
   console.log("position", position);
-  const [uploadResult, setUploadResult] = useState<boolean>(false);
   const { mutate, isLoading } = useUploadShorts();
-  const navigator = useNavigate();
-  const openUploadResultHandler = () => {
-    setUploadResult((prev) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [errorOpen, setErrorOpen] = useState<boolean>(false);
+  const [fileType, setFileType] = useState<string>("");
+
+  const fileTypeHandler = (e: string) => {
+    setFileType(e);
+  };
+
+  const modalOpenHandler = () => {
+    navigator("/");
+    setModalOpen((prev) => {
       return !prev;
     });
   };
 
-  useEffect(() => {
-    if (uploadResult) {
-      navigator("/");
-    }
-    return () => {
-      <WriteColorAlerts
-        open={uploadResult}
-        openHandler={openUploadResultHandler}
-      />;
-    };
-  }, [uploadResult]);
+  const errorOpenHandler = () => {
+    setErrorOpen((prev) => {
+      return !prev;
+    });
+  };
+
+  const navigator = useNavigate();
 
   return (
     <div
@@ -55,6 +59,26 @@ const Write = () => {
         margin-bottom: 2vh;
       `}
     >
+      {errorOpen && (
+        <ErrorAlerts open={errorOpen} openHandler={errorOpenHandler} />
+      )}
+      {modalOpen && (
+        <Modal
+          backgroundcolor="linear-gradient(92.79deg,#EA047E,#FFC23C)"
+          modalHandler={modalOpenHandler}
+        >
+          <div>
+            <h2>업로드에 성공하였습니다.</h2>
+            <button
+              onClick={() => {
+                navigator("/");
+              }}
+            >
+              확인
+            </button>
+          </div>
+        </Modal>
+      )}
       <h1
         css={css`
           width: 100%;
@@ -82,7 +106,10 @@ const Write = () => {
           }
         `}
       >
-        <MovieUpload setUploadInfo={setUploadInfo} />
+        <MovieUpload
+          setUploadInfo={setUploadInfo}
+          fileTypeHandler={fileTypeHandler}
+        />
         <KakaoMapWrapper setPosition={setPosition} />
       </div>
       <div>
@@ -110,14 +137,14 @@ const Write = () => {
                     lat: position.lat,
                     lng: position.lng,
                   },
-                  file_type: "video",
+                  file_type: fileType,
                 },
                 {
                   onSuccess(data, variables, context) {
-                    console.log("캬아아아악");
-                    setUploadResult(true);
-
-                    // navigator("/");
+                    setModalOpen(true);
+                  },
+                  onError() {
+                    setErrorOpen(true);
                   },
                 }
               );
