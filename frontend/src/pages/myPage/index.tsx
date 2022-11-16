@@ -11,6 +11,9 @@ const MyPage = () => {
   const [username, setUsername] = useState<string>();
   const params = useParams();
   const isAuth = useAppSelector((store) => store.userReducer.auth);
+  if (window.location.pathname.includes("myProfile")) {
+    
+  }
   useEffect(() => {
     return setUsername(undefined);
   }, []);

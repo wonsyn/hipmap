@@ -118,7 +118,7 @@ const ShortsData = ({
         <div
           css={css`
             margin-left: 3%;
-            margin-top: 1%;
+            margin-top: 5vh;
             margin-bottom: 1%;
             font-size: 1.2rem;
           `}

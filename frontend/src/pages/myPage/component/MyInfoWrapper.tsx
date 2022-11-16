@@ -9,7 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MyFollowWrapper from "./MyFollowWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {useFetchUserInfo } from "../../../hoc/useFetch";
+import { useFetchUserInfo } from "../../../hoc/useFetch";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 import {
   MyFollowProfileWrapper,
@@ -69,27 +69,63 @@ const MyInfoWrapper = ({
           <div>{data.userInfo.nickname}</div>
           <div>{data.userInfo.labelName}</div>
         </MyInfoDiv>
-        <MyInfoButtonWrapperDiv>
-          <MyFollowWrapper
-            shortsCount={data.userInfo.shortsCount}
-            userId={data.userInfo.userId}
-            followerCount={data.userInfo.followerCount}
-            followingCount={data.userInfo.followingCount}
-          />
-          {isMyPage ? (
-            <MyButtonWrapperDiv>
+        {/* 팔로우 구역 */}
+        {!data.userInfo.followPrivate || isMyPage ? (
+          <MyInfoButtonWrapperDiv>
+            <MyFollowWrapper
+              shortsCount={data.userInfo.shortsCount}
+              userId={data.userInfo.userId}
+              followerCount={data.userInfo.followerCount}
+              followingCount={data.userInfo.followingCount}
+            />
+            {isMyPage ? (
+              <MyButtonWrapperDiv>
+                <MyButton
+                  onClick={() => {
+                    if (isMyPage) {
+                      navigate("/profileModify");
+                    } else {
+                      if (data.follow) {
+                        followDelete(data.userInfo.userId, {
+                          onSuccess: () => {
+                            queryClient.invalidateQueries(["userInformation"]);
+                          },
+                        });
+                      } else if (!data.follow) {
+                        followAdd(data.userInfo.userId, {
+                          onSuccess: () => {
+                            queryClient.invalidateQueries(["userInformation"]);
+                          },
+                        });
+                      }
+                    }
+                  }}
+                >
+                  프로필수정
+                </MyButton>
+                {isMyPage && (
+                  <MyButton
+                    onClick={() => {
+                      navigate("/myPage/bookmark");
+                    }}
+                  >
+                    북마크
+                  </MyButton>
+                )}
+              </MyButtonWrapperDiv>
+            ) : (
               <MyButton
                 onClick={() => {
                   if (isMyPage) {
                     navigate("/profileModify");
                   } else {
-                    if (data.isFollow) {
+                    if (data.follow) {
                       followDelete(data.userInfo.userId, {
                         onSuccess: () => {
                           queryClient.invalidateQueries(["userInformation"]);
                         },
                       });
-                    } else if (!data.isFollow) {
+                    } else if (!data.follow) {
                       followAdd(data.userInfo.userId, {
                         onSuccess: () => {
                           queryClient.invalidateQueries(["userInformation"]);
@@ -99,48 +135,19 @@ const MyInfoWrapper = ({
                   }
                 }}
               >
-                프로필수정
+                {isMyPage ? (
+                  `프로필수정`
+                ) : (
+                  <> {data.follow ? `팔로우 해제` : `팔로우`}</>
+                )}
               </MyButton>
-              {isMyPage && (
-                <MyButton
-                  onClick={() => {
-                    navigate("/myPage/bookmark");
-                  }}
-                >
-                  북마크
-                </MyButton>
-              )}
-            </MyButtonWrapperDiv>
-          ) : (
-            <MyButton
-              onClick={() => {
-                if (isMyPage) {
-                  navigate("/profileModify");
-                } else {
-                  if (data.isFollow) {
-                    followDelete(data.userInfo.userId, {
-                      onSuccess: () => {
-                        queryClient.invalidateQueries(["userInformation"]);
-                      },
-                    });
-                  } else if (!data.isFollow) {
-                    followAdd(data.userInfo.userId, {
-                      onSuccess: () => {
-                        queryClient.invalidateQueries(["userInformation"]);
-                      },
-                    });
-                  }
-                }
-              }}
-            >
-              {isMyPage ? (
-                `프로필수정`
-              ) : (
-                <> {data.isFollow ? `팔로우 해제` : `팔로우`}</>
-              )}
-            </MyButton>
-          )}
-        </MyInfoButtonWrapperDiv>
+            )}
+          </MyInfoButtonWrapperDiv>
+        ) : (
+          <h2>비공개 계정입니다.</h2>
+        )}
+
+        {/* 여기 까지 */}
       </MyInfoWrapperDiv>
     );
   } else {

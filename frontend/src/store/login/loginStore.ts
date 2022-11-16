@@ -14,6 +14,10 @@ interface userLoginState {
     username: string;
     nickname: string;
     labeling: string;
+    followPrivate: boolean;
+    labelCharSrc: string;
+    profileImg: string | undefined;
+
     email: string;
     isAdmin: string;
   };
@@ -107,6 +111,9 @@ const initialState: userLoginState = {
     labeling: "",
     email: "",
     isAdmin: "",
+    followPrivate: false,
+    labelCharSrc: "",
+    profileImg: "",
   },
   auth: false,
 };
@@ -123,6 +130,9 @@ export const LoginSlice = createSlice({
         labeling: "",
         email: "",
         isAdmin: "",
+        followPrivate: false,
+        labelCharSrc: "",
+        profileImg: "",
       };
       state.auth = false;
       localStorage.removeItem("token");
@@ -131,7 +141,15 @@ export const LoginSlice = createSlice({
       state.user = {
         ...state.user,
         nickname: action.payload.nickname,
+        followPrivate: action.payload.followPrivate,
         labeling: action.payload.labeling,
+      };
+    },
+    proFileModify: (state, action) => {
+      console.log(action.payload);
+      state.user = {
+        ...state.user,
+        profileImg: action.payload.profileImg,
       };
     },
   },
@@ -153,6 +171,9 @@ export const LoginSlice = createSlice({
         nickname: action.payload.userInfo.nickname,
         isAdmin: action.payload.userInfo.isAdmin,
         username: action.payload.userInfo.username,
+        followPrivate: action.payload.userInfo.followPrivate,
+        labelCharSrc: action.payload.userInfo.labelCharSrc,
+        profileImg: action.payload.userInfo.profileImg,
       };
     });
     builder.addCase(fetchLoginRefreshThunk.rejected, (state) => {
@@ -185,6 +206,9 @@ export const LoginSlice = createSlice({
         nickname: action.payload.user.nickname,
         isAdmin: action.payload.user.isAdmin,
         username: action.payload.user.username,
+        followPrivate: action.payload.user.followPrivate,
+        labelCharSrc: action.payload.user.labelCharSrc,
+        profileImg: action.payload.user.profileImg,
       };
     });
     builder.addCase(fetchLoginThunk.rejected, (state) => {
@@ -193,7 +217,7 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const { logout, userModify } = LoginSlice.actions;
+export const { logout, userModify, proFileModify } = LoginSlice.actions;
 
 export const loginState = (state: RootState) => state.userReducer;
 
