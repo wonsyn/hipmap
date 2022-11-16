@@ -41,7 +41,7 @@ const emphasizingSlide = keyframes`
 
 `
 export const TieStyle = styled.div`
-    background: ${palette.subColorGradient2};
+    /* background: ${palette.subColorGradient2}; */
     height: 4%;
     width: 100%;
     margin-top: -2.5vh;
@@ -86,12 +86,12 @@ export const EmphasizingImg = styled.img<AnimationProps>`
 export const QuestionDiv = styled.div<AnimationProps>`
     width: 80%;
     height: 40%;
-    background: ${palette.subColorGradient1};
+    background: ${palette.subColorDarkPurple};
     color: white;
     border-radius: 8px;
     padding: 5%;
     font-size: 1.3rem;
-    text-shadow: 2px 2px 4px black;
+    text-shadow: 2px 2px 4px purple;
     animation-fill-mode: ${(props) => props.number? `forwards`: ``};
     animation-name: ${(props) => props.number? css`${fadeOutLeft}, ${fadeInRight}`: ``};
     animation-delay: ${(props) => props.number? `0s, 0.3s`: ``};
@@ -103,7 +103,7 @@ export const QuestionDiv = styled.div<AnimationProps>`
 export const SelectButton = styled.button<AnimationProps>`
     width: 85%;
     height: 12%;
-    background: ${palette.subColorGradient3};
+    background: ${palette.mainColor};
     color: white;
     font-weight: bold;
     border-radius: 8px ;

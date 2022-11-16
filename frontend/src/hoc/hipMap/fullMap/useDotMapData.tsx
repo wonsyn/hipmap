@@ -32,7 +32,7 @@ export function useDotMapData({queryKey, uri, startLat, endLat, startLng, endLng
             console.log(response)
             return response.data
         }, 
-        {refetchOnWindowFocus: false,
+        {refetchOnWindowFocus: false, cacheTime: 0,
         onError: (error) => {console.log(error)}}            
     )
 }

@@ -1,14 +1,23 @@
-import { StartButtonStyled } from "../../../styles/welcome"
+import { StartButtonStyled, LoginDiv } from "../../../styles/welcome"
 import { useNavigate } from "react-router-dom"
 function StartButton(){
     const navigate = useNavigate()
-    const clickEvent = () => {
+    const goProcessing = () => {
         navigate(`/labeling/processing`)
     }
+    const goLogin = () => {
+        navigate(`/login`)
+    }
     return(
-            <StartButtonStyled onClick={clickEvent} >
+        <>
+            <StartButtonStyled onClick={goProcessing} >
                 Let's Hip!
             </StartButtonStyled>
+            <LoginDiv onClick={goLogin}>
+                이미 회원이시라면 이곳을 클릭!
+            </LoginDiv>
+
+        </>
     )
 }
 

@@ -7,7 +7,7 @@ function Filter(){
     return(
         <FilterWrappingDiv>
             <CheckBox/>
-            {/* <SelectBox/> */}
+            <SelectBox/>
         </FilterWrappingDiv>
 
         
