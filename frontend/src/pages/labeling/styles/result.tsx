@@ -117,6 +117,7 @@ export const LabelingNameLi = styled.li<LabelingNameProps>`
 export const WithButton = styled.button`
     width: 80%;
     height: 7vh;
+    max-height: 100px;
     font-size: 80%;
     color: white;
     border-radius: 10px;

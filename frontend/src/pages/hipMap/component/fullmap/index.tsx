@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FullMapWrappingDiv, FullMapDiv, GridDiv, NotDotSpan } from "../../styles/fullmap";
 import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveName,
 saveSudogwanMobile, saveGwandongMobile, saveHoseoMobile, saveHonamMobile, saveYungnamMobile, saveJejuMobile, saveDeskTop, 
 saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime } from "../../../../store/hipMap/hipMapStore";
-import { SudogwanSpan, GwandongSpan, HoseoSpan, HonamSpan, YungnamSpan, JejuSpan, EmphasizingDiv } from "../../styles/fullmap";
+import { SudogwanSpan, GwandongSpan, HoseoSpan, HonamSpan, YungnamSpan, JejuSpan, EmphasizingDiv, EmphasizingImg } from "../../styles/fullmap";
 import type { RootState } from "../../../../store/store";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
+import { ImgContainer } from "../../../main/styles/ImgStyle";
+import emphasizingStar from "../../../../assets/hipMap/emphasizingStar.png"
+import { useQueryClient } from "@tanstack/react-query";
+
 function FullMap(){
+  const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const [sudogwan, setSudogwan] = useState<boolean>(false)
   const [gwandong, setGwandong] = useState<boolean>(false) 
   const [hoseo, setHoseo] = useState<boolean>(false)
@@ -17,7 +23,6 @@ function FullMap(){
   const [jeju, setJeju] = useState<boolean>(false)
   const [region, setRegion] = useState<string>("")
 
-  const dispatch = useDispatch()
   const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
   
   function SudogwanClickFunc(){
@@ -328,6 +333,16 @@ function FullMap(){
   }
 
   const isMobile = useMediaQuery('(max-width: 700px)')
+  useEffect(()=>{
+    if(hipmapSelector && hipmapSelector.si && hipmapSelector.gu && hipmapSelector.dong ){
+      setTimeout(() => {
+        queryClient.invalidateQueries();
+        refetch();
+      }, 1);
+      console.log("안녕", hipmapSelector.si, hipmapSelector.gu, hipmapSelector.dong)
+    }
+  },[hipmapSelector]);
+
   const mapDot = [
     [-1, -1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1],
     [-1, -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, -1, -1],
@@ -354,7 +369,7 @@ function FullMap(){
    ]
 
    // 내륙지방 검색
-   const {data: checkLand,isLoading: landIsLoading} = useDotMapData(
+   const {data: checkLand,isLoading: landIsLoading, refetch} = useDotMapData(
     {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
@@ -363,11 +378,13 @@ function FullMap(){
         startLng: 125.0667,
         endLng: 129.58355,
         isFilterChecked: hipmapSelector.sameLabelingCheck,
-        locationSi: null,
-        locationGu: null,
-        locationDong: null
+        locationSi: hipmapSelector.si,
+        locationGu: hipmapSelector.gu,
+        locationDong: hipmapSelector.dong
     }
-  )
+    )
+    console.log("어떻게 나오니?", checkLand)
+    console.log(mapDot)
   if(!landIsLoading){
     {mapDot.map((dots, i) => {
         {dots.map((dot, j) =>{
@@ -379,7 +396,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                   
                   }
                 })
               }
@@ -391,7 +408,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                  
                   }
                 })
               }
@@ -401,7 +418,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                 
                   }
                 })
               }
@@ -413,7 +430,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                  
                   }
                 })
               }
@@ -423,7 +440,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                   
                   }
                 })
               }
@@ -435,7 +452,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                   
                   }
                 })
               }
@@ -445,7 +462,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -457,7 +474,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                  
                   }
                 })
               }
@@ -467,7 +484,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -479,7 +496,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -489,7 +506,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -499,7 +516,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -511,7 +528,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -521,7 +538,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -533,7 +550,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -543,7 +560,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -555,7 +572,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -565,7 +582,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -577,7 +594,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -587,7 +604,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -599,7 +616,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -609,7 +626,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -619,7 +636,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -631,7 +648,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -641,7 +658,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -653,7 +670,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -663,7 +680,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -675,7 +692,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -685,7 +702,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -697,7 +714,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -707,7 +724,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               } 
@@ -719,7 +736,7 @@ function FullMap(){
                   && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -729,7 +746,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               }
@@ -741,7 +758,7 @@ function FullMap(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                    {
                     mapDot[i][j] += 1
-                    console.log("진행 완료")
+                    
                   }
                 })
               } 
@@ -750,8 +767,9 @@ function FullMap(){
           
       })}
     })}
+    
   }
-  console.log("내륙", checkLand)
+
   // 제주도 검색
   const {data: checkIsland, isLoading: jejuIsLoading} = useDotMapData(
     {
@@ -778,7 +796,7 @@ function FullMap(){
                              && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                              {
                               mapDot[i][j] += 1
-                              console.log("진행 완료")
+                              
                             }
                           })
                         }
@@ -794,7 +812,7 @@ function FullMap(){
                              && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                              {
                               mapDot[i][j] += 1
-                              console.log("진행 완료")
+                              
                             }
                           })
                         }
@@ -806,7 +824,6 @@ function FullMap(){
           })}
            
         })}
-        console.log("제주", checkIsland)
   }
 
 
@@ -823,14 +840,13 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime} region={hipmapSelector.region}>
-                          <EmphasizingDiv number={dot}>
+                            <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
+                          {/* <EmphasizingDiv number={dot}>
                             {dot}
-                          </EmphasizingDiv>
+                          </EmphasizingDiv> */}
                         </GwandongSpan>): 
                         (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                            <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>)}
                       </>
                     )
@@ -842,14 +858,11 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan}  animation={hipmapSelector.sudogwanAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>): 
                         (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                        
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>)}
                       </>
                     )
@@ -859,14 +872,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>): 
                         (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>)}
                       </>
                     )
@@ -878,14 +887,10 @@ function FullMap(){
                      <>
                         {isMobile? 
                         (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>): 
                         (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>)}
                       </>
                     )
@@ -895,14 +900,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>): 
                         (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>)}
                       </>
                     )
@@ -914,14 +915,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>): 
                         (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime} region={region}> 
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>)}
                       </>
                     )
@@ -931,14 +928,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>): 
                         (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>)}
                       </>
                     )
@@ -950,14 +943,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>): 
                         (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>)}
                       </>
                     )
@@ -967,14 +956,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>): 
                         (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>)}
                       </>
                     )
@@ -986,14 +971,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<SudogwanSpan onTouchStart={() => SudogwanMobileFunc()} select={sudogwan} animation={hipmapSelector.sudogwanAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>): 
                         (<SudogwanSpan onMouseOver={()=>SudogwanFunc()} onMouseOut={() => SudogwanFunc()} select={sudogwan} onClick={() => SudogwanClickFunc()} animation={hipmapSelector.sudogwanAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </SudogwanSpan>)}
                       </>
                     )
@@ -1003,14 +984,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>): 
                         (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>)}
                       </>
                     )
@@ -1020,14 +997,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<GwandongSpan onTouchStart={() => GwandongMobileFunc()} select={gwandong} animation={hipmapSelector.gwandongAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>): 
                         (<GwandongSpan onMouseOver={()=>GwandongFunc()} onMouseOut={() => GwandongFunc()} select={gwandong} onClick={() => GwandongClickFunc()} animation={hipmapSelector.gwandongAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </GwandongSpan>)}
                       </>
                     )
@@ -1039,14 +1012,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>): 
                         (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>)}
                       </>
                     )
@@ -1056,14 +1025,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1075,14 +1040,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>): 
                         (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>)}
                       </>
                     )
@@ -1092,14 +1053,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1111,14 +1068,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>): 
                         (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>)}
                       </>
                     )
@@ -1128,14 +1081,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1147,14 +1096,10 @@ function FullMap(){
                      <>
                         {isMobile? 
                         (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>): 
                         (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>)}
                       </>
                     )
@@ -1164,14 +1109,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1183,14 +1124,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                       </>
                     )
@@ -1200,14 +1137,10 @@ function FullMap(){
                      <>
                         {isMobile? 
                         (<HoseoSpan onTouchStart={() => HoseoMobileFunc()} select={hoseo} animation={hipmapSelector.hoseoAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>): 
                         (<HoseoSpan onMouseOver={()=>HoseoFunc()} onMouseOut={() => HoseoFunc()} select={hoseo} onClick={() => HoseoClickFunc()} animation={hipmapSelector.hoseoAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HoseoSpan>)}
                       </>
                     )
@@ -1217,14 +1150,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1236,14 +1165,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                       </>
                     )
@@ -1253,14 +1178,10 @@ function FullMap(){
                      <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1272,14 +1193,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                       </>
                     )
@@ -1289,14 +1206,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1308,14 +1221,10 @@ function FullMap(){
                        <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                       </>
                     )
@@ -1325,14 +1234,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1344,14 +1249,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                     </>
                     )
@@ -1361,14 +1262,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1380,14 +1277,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                     </>
                     )
@@ -1397,14 +1290,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<YungnamSpan onTouchStart={() => YungnamMobileFunc()} select={yungnam} animation={hipmapSelector.yungnamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>): 
                         (<YungnamSpan onMouseOver={()=>YungnamFunc()} onMouseOut={() => YungnamFunc()} select={yungnam} onClick={() => YungnamClickFunc()} animation={hipmapSelector.yungnamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </YungnamSpan>)}
                       </>
                     )
@@ -1416,14 +1305,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<HonamSpan onTouchStart={() => HonamMobileFunc()} select={honam} animation={hipmapSelector.honamAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>): 
                         (<HonamSpan onMouseOver={()=>HonamFunc()} onMouseOut={() => HonamFunc()} select={honam} onClick={() => HonamClickFunc()} animation={hipmapSelector.honamAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </HonamSpan>)}
                       </>
                     )
@@ -1435,14 +1320,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<JejuSpan onTouchStart={() => JejuMobileFunc()} select={jeju} animation={hipmapSelector.jejuAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </JejuSpan>): 
                         (<JejuSpan onMouseOver={()=>JejuFunc()} onMouseOut={() => JejuFunc()} select={jeju} onClick={() => JejuClickFunc()} animation={hipmapSelector.jejuAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </JejuSpan>)}
                       </>
                     )
@@ -1454,14 +1335,10 @@ function FullMap(){
                       <>
                         {isMobile? 
                         (<JejuSpan onTouchStart={() => JejuMobileFunc()} select={jeju} animation={hipmapSelector.jejuAnime} region={hipmapSelector.region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </JejuSpan>): 
                         (<JejuSpan onMouseOver={()=>JejuFunc()} onMouseOut={() => JejuFunc()} select={jeju} onClick={() => JejuClickFunc()} animation={hipmapSelector.jejuAnime} region={region}>
-                         <EmphasizingDiv number={dot}>
-                            {dot}
-                          </EmphasizingDiv>
+                          <EmphasizingImg src={emphasizingStar} alt="x" number={dot}/>
                         </JejuSpan>)}
                       </>
                     )

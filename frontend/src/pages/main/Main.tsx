@@ -53,9 +53,9 @@ const Main = () => {
         >
           {userLabel && <SameHipPlace label={userLabel} />}
         </div>
-        {shortsData && shortsData.pages && (
+        {/* {shortsData && shortsData.pages && (
           <HipVote shortsData={shortsData.pages} />
-        )}
+        )} */}
 
         <div
           css={css`
