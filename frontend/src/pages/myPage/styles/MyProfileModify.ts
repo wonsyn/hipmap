@@ -92,7 +92,21 @@ export const MyProFileModifyLabelingFollowOpenButton = styled.button`
   padding: 18px;
   border: none;
 `;
-
+export const MyProFileModifyLabelingDeleteButton = styled.button`
+  width: 150px;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+  height: 2vh;
+  color: white;
+  background: ${(props) => props.theme.colors.subColorGradient1};
+  border-radius: 8px;
+  padding: 18px;
+  border: none;
+  margin-right: 5vh;
+`;
 export const MyProFileModifyLabelingModifyButton = styled.button`
   width: 150px;
   font-size: 1.3rem;

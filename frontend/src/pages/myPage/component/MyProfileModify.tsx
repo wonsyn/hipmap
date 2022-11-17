@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import {
   MyModifyProfileWrapperDiv,
   MyProfileModifyLabelingButton,
+  MyProFileModifyLabelingDeleteButton,
   MyProfileModifyLabelingDiv,
   MyProFileModifyLabelingFollowOpenButton,
   MyProfileModifyLabelingFollowOpenWrapper,
@@ -297,13 +298,13 @@ const MyProfileModify = () => {
         </MyProfileModifyLabelingFollowOpenWrapper>
         {/* 수정 버튼 */}
         <MyProFileModifyLabelingModifyWrapper>
-          <MyProFileModifyLabelingModifyButton
+          <MyProFileModifyLabelingDeleteButton
             onClick={() => {
               setOpenModal(true);
             }}
           >
             탈퇴
-          </MyProFileModifyLabelingModifyButton>
+          </MyProFileModifyLabelingDeleteButton>
           <MyProFileModifyLabelingModifyButton
             onClick={() => {
               mutate(
