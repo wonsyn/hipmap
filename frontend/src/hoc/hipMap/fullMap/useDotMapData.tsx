@@ -29,7 +29,7 @@ export function useDotMapData({queryKey, uri, startLat, endLat, startLng, endLng
                     locationDong: locationDong
                 
             })
-            console.log(response)
+            // console.log(response)
             return response.data
         }, 
         {refetchOnWindowFocus: false, cacheTime: 0,
