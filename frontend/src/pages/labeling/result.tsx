@@ -7,9 +7,8 @@ import { WrappingDiv } from "./styles/result"
 import { ContainerDiv } from "./styles/result"
 import { SelectLabeling, SelectLabelingChar, SelectLabelingDetail } from "./component/result/labelingCalc";
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "../../store/store"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 import { useAppSelector } from "../../hoc/useStoreHooks"
 import { useUserInfoModify } from "../../hoc/useMutation"
 import { userModify } from "../../store/login/loginStore"
@@ -18,6 +17,7 @@ function ResultPage(){
     const [labelingResult, setLabelingResult ] = useState<any>("");
     const [labelingChar, setLabelingChar ] = useState<any>("");
     const [labelingDetail, setLabelingDetail ] = useState<any>([]);
+    const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const labelName = SelectLabeling()
@@ -56,10 +56,18 @@ function ResultPage(){
             navigate(`/myProfile/${isUser.user_id}`)
         }
         else{
-            // 회원가입 페이지로 연결
-            navigate(`/signup`, {state : {
-             labelingName: labelingResult
-            }})
+            // 회원가입 페이지로 연결 
+            if(location.state === null){
+              navigate(`/signup`, {state : {
+                labelingName: labelingResult
+               }})
+            }
+            else{
+              navigate(`/signup`, {state : {
+                labelingName: labelingResult,
+                email: location.state.email
+               }})
+            }
         }
     }
 
@@ -69,7 +77,7 @@ function ResultPage(){
                 <LabelingName name={labelingResult}/>
                 <LabelingCharacter /> 
                 <LabelingDetail list={labelingDetail}/>
-                <With clickEvent={clickEvent}/>
+                <With clickEvent={clickEvent} isAuth={isAuth}/>
                 <KakaoShare/>
             </ContainerDiv>
         </WrappingDiv>
