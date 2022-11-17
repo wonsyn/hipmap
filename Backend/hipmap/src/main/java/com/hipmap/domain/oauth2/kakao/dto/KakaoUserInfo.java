@@ -19,19 +19,28 @@ public class KakaoUserInfo {
     String nickname;
     @ApiModelProperty(value = "유저 labeling")
     String labeling;
+    @ApiModelProperty(value = "labeling 캐릭터 소스")
+    String labelCharSrc;
     @ApiModelProperty(value = "유저 email")
     String email;
     @ApiModelProperty(value = "유저 권한(ROLE_USER, ROLE_ADMIN)")
     Admin role;
+    @ApiModelProperty(value = "팔로우 비공개 여부 (true: 비공개, false: 공개)")
+    boolean followPrivate;
+    @ApiModelProperty(value = "프로필 이미지 주소")
+    String profileImg;
 
     public static KakaoUserInfo makeInfo(UserEntity user) {
         return KakaoUserInfo.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
+                .labelCharSrc(user.getLabelCharSrc())
                 .labeling(user.getLabelName())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .followPrivate(user.getFollowPrivate())
+                .profileImg(user.getProImgSrc())
                 .build();
     }
 }
