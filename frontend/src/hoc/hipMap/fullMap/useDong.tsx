@@ -15,7 +15,7 @@ export function useDong({queryKey, uri, gugun}: useDongProps){
                 gugun: gugun
             }
             })
-            console.log(response)
+            // console.log(response)
             return response.data
         }, 
         {refetchOnWindowFocus: false,

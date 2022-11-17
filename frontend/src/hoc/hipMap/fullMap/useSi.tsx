@@ -11,7 +11,7 @@ export function useSi({queryKey, uri}: useSiProps){
         async () => {
             const response = await http.get(uri,{
             })
-            console.log(response)
+            // console.log(response)
             return response.data
         }, 
         {refetchOnWindowFocus: false,

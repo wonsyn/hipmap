@@ -24,6 +24,7 @@ interface hipMapState {
    yungnamAnime: boolean
    jejuAnime: boolean
    sameLabelingCheck: boolean
+   sameLabelingCheck2: boolean
    region: string
    si: string
    gu: string
@@ -55,6 +56,7 @@ const initialState: hipMapState = {
    yungnamAnime: false,
    jejuAnime: false,
    sameLabelingCheck: false,
+   sameLabelingCheck2: true,
    region: "",
    si: "",
    gu: "", 
@@ -130,6 +132,7 @@ export const HipMapSlice = createSlice({
       },
       saveSameLabelingCheck(state){
         state.sameLabelingCheck = !state.sameLabelingCheck
+        state.sameLabelingCheck2 = !state.sameLabelingCheck2
       },
       saveRegion(state, action){
         state.region = action.payload.region

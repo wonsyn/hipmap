@@ -4,7 +4,7 @@ import { FullMapWrappingDiv, FullMapDiv, GridDiv, NotDotSpan } from "../../style
 import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveName,
 saveSudogwanMobile, saveGwandongMobile, saveHoseoMobile, saveHonamMobile, saveYungnamMobile, saveJejuMobile, saveDeskTop, 
 saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime } from "../../../../store/hipMap/hipMapStore";
-import { SudogwanSpan, GwandongSpan, HoseoSpan, HonamSpan, YungnamSpan, JejuSpan, EmphasizingDiv, EmphasizingImg } from "../../styles/fullmap";
+import { SudogwanSpan, GwandongSpan, HoseoSpan, HonamSpan, YungnamSpan, JejuSpan, EmphasizingImg } from "../../styles/fullmap";
 import type { RootState } from "../../../../store/store";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
@@ -334,12 +334,14 @@ function FullMap(){
 
   const isMobile = useMediaQuery('(max-width: 700px)')
   useEffect(()=>{
-    if(hipmapSelector && hipmapSelector.si && hipmapSelector.gu && hipmapSelector.dong ){
+    if(hipmapSelector && ( hipmapSelector.si || hipmapSelector.gu || hipmapSelector.dong || hipmapSelector.sameLabelingCheck || hipmapSelector.sameLabelingCheck2) ){
       setTimeout(() => {
         queryClient.invalidateQueries();
-        refetch();
+        landRefetch();
+        islandRefetch();
       }, 1);
       console.log("안녕", hipmapSelector.si, hipmapSelector.gu, hipmapSelector.dong)
+      console.log("이건?", hipmapSelector.sameLabelingCheck)
     }
   },[hipmapSelector]);
 
@@ -371,7 +373,7 @@ function FullMap(){
    ]
 
    // 내륙지방 검색
-   const {data: checkLand,isLoading: landIsLoading, refetch} = useDotMapData(
+   const {data: checkLand,isLoading: landIsLoading, refetch: landRefetch} = useDotMapData(
     {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
@@ -773,7 +775,7 @@ function FullMap(){
   }
 
   // 제주도 검색
-  const {data: checkIsland, isLoading: jejuIsLoading} = useDotMapData(
+  const {data: checkIsland, isLoading: jejuIsLoading, refetch: islandRefetch} = useDotMapData(
     {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
@@ -782,9 +784,9 @@ function FullMap(){
         startLng: 126.1660,
         endLng: 126.9723,
         isFilterChecked: hipmapSelector.sameLabelingCheck,
-        locationSi: null,
-        locationGu: null,
-        locationDong: null
+        locationSi: hipmapSelector.si,
+        locationGu: hipmapSelector.gu,
+        locationDong: hipmapSelector.dong
     }
   )
   if(!jejuIsLoading){
