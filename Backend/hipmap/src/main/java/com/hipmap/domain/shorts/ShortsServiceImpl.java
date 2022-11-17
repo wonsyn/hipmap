@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -147,11 +148,12 @@ public class ShortsServiceImpl implements ShortsService {
             }else{
                 dirname = "voices";
             }
-            String storedFileSrc = s3Uploader.upload(file, dirname, userId);
+            Map<String, String> srcUrls = s3Uploader.upload(file, dirname, userId);
+
             UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException ::new);
             ShortsEntity shorts = ShortsEntity.builder()
-                    .fileSrc(storedFileSrc)
-                    .thumbnailSrc("https://hipmap.s3.ap-northeast-2.amazonaws.com/images/%EC%A0%9C%EB%AA%A9%EC%9D%84+%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94_-005+(1).png") // 차후 올바른 썸네일 주소 입력 예정
+                    .fileSrc(srcUrls.get("uploadImageUrl"))
+                    .thumbnailSrc(srcUrls.get("uploadThumbnailUrl")) // 차후 올바른 썸네일 주소 입력 예정
                     .locationSi(request.getLocationSi())
                     .locationGu(request.getLocationGu())
                     .locationDong(request.getLocationDong())

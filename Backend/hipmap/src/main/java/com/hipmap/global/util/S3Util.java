@@ -6,7 +6,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,14 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
-
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
 @Slf4j
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
 @Component
@@ -34,20 +32,26 @@ public class S3Util {
     private String bucket;
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile multipartFile, String dirName, Long userId) throws IOException, Exception{
+    public Map<String, String> upload(MultipartFile multipartFile, String dirName, Long userId) throws IOException, Exception{
 
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
         return upload(uploadFile, dirName, userId);
     }
 
-    private String upload(File uploadFile, String dirName, Long userId) throws Exception{
+    private Map<String, String> upload(File uploadFile, String dirName, Long userId) throws Exception{
         String origName = uploadFile.getName();
         String ext = origName.substring(origName.lastIndexOf('.')); // 확장자
 //        String saveFileName = userId+ "-" +getUuid() + ext; // 파일 저장 이름
         String saveFileNameExceptExt = userId+ "-" +getUuid(); // 파일 저장 이름
         String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
         boolean isMp4 = false;
+
+        FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
+        FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
+//        FFmpeg ffmpeg = new FFmpeg("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffmpeg"); // ffmpge 로컬 경로
+//        FFprobe ffprobe = new FFprobe("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffprobe"); // ffmpge 로컬 경로
+
         if(!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".mp4")) {
             // 파일 생성
             FileOutputStream fileStream = new FileOutputStream("/var/jenkins_home/encoding/origin/" + origName);
@@ -55,9 +59,7 @@ public class S3Util {
             objectOutputStream.writeObject(uploadFile);
 //            objectOutputStream.close();
 
-            FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
-            FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
-
+            // 인코딩 로직
             FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //원본파일경로
                     .overrideOutputFiles(true)
                     .addOutput("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
@@ -69,22 +71,49 @@ public class S3Util {
             executor.createJob(builder).run();
             isMp4 = true;
         }
+
+
         File encodingUploadFile;
         if(isMp4){
             encodingUploadFile = new File("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4");
         }else {
             encodingUploadFile = uploadFile;
         }
+
+        String uploadThumbnailUrl = null;
+        if(dirName.equals("video")) {
+            FFmpegBuilder thumbnailBuilder = new FFmpegBuilder()
+                    .overrideOutputFiles(true)
+                    .setInput("/var/jenkins_home/encoding/origin/" + origName)
+                    .addExtraArgs("--ss", "00:00:01")
+                    .addOutput("/var/jenkins_home/thumbnail/result/" + saveFileNameExceptExt + "tn.png")
+                    .setFrames(1)
+                    .done();
+            FFmpegExecutor thumbnailExecutor = new FFmpegExecutor(ffmpeg, ffprobe);
+            thumbnailExecutor.createJob(thumbnailBuilder).run();
+            File thumbnail = new File("/var/jenkins_home/thumbnail/result/" + saveFileNameExceptExt + "tn.png");
+            String thumbnailName = dirName + "/" + thumbnail.getName();
+            uploadThumbnailUrl = putS3(thumbnail, thumbnailName);
+            removeNewFile(thumbnail);
+        }
+
         // uploadFile = 저장된 파일로 재지정
-
-
-        String fileName = dirName + "/" + saveFileName;
+        String fileName = dirName + "/" + encodingUploadFile.getName();
 //        String uploadImageUrl = putS3(uploadFile, fileName);
         String uploadImageUrl = putS3(encodingUploadFile, fileName);
 
+        if(dirName.equals("image")) {
+            uploadThumbnailUrl = uploadImageUrl;
+        }
+
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
 
-        return uploadImageUrl;      // 업로드된 파일의 S3 URL 주소 반환
+        Map<String, String> result = new HashMap<>();
+
+        result.put("uploadImageUrl", uploadImageUrl);
+        result.put("uploadThumbnailUrl", uploadThumbnailUrl);
+
+        return result;      // 업로드된 파일의 S3 URL 주소 반환
     }
 
     private String putS3(File uploadFile, String fileName) {
