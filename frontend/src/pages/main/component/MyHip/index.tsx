@@ -19,6 +19,7 @@ const MyHipContainer = ({ username }: { username: string }) => {
   >();
   const { data: myShorts } = useFetchMyShorts(username);
   const { data: bookmark } = useFetchBookMark();
+  console.log("내 힙 데이터 : ", myHipData);
   const isMobile = useMediaQuery("(max-width:1024px)");
   useEffect(() => {
     if (bookmark) {
@@ -36,9 +37,12 @@ const MyHipContainer = ({ username }: { username: string }) => {
         <div>
           <MyHipCardFont>My HIP</MyHipCardFont>
           <div>
-            {myHipData !== undefined && myHipData.length > 0 ? (
+            {(myHipData !== undefined && myHipData.length > 0) ||
+            (myShorts !== undefined && myShorts.length > 0) ? (
               <MyHipContentDiv>
-                <MyHipContent content={myHipData} text="북마크" />
+                {myHipData !== undefined && myHipData.length > 0 && (
+                  <MyHipContent content={myHipData} text="북마크" />
+                )}
                 {myShorts && (
                   <MyHipContent content={myShorts} text="최근 등록한 장소" />
                 )}

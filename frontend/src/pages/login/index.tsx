@@ -83,7 +83,7 @@ const LoginWrapper = () => {
         >
           회원가입
         </div>
-        {/* <KakaoLogin /> */}
+        <KakaoLogin />
       </LoginFormLoginDiv>
     </LoginFormLoginWrapper>
   );
