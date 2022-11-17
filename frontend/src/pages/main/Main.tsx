@@ -18,7 +18,7 @@ const Main = () => {
   useEffect(() => {
     queryClient.invalidateQueries(["shortsInfinite"]);
   }, []);
-  console.log("쇼츠 데이터", shortsData);
+  console.log("유저 네임", username);
 
   const test = async () => {
     const token = localStorage.getItem("token");
