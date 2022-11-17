@@ -69,7 +69,7 @@ export const LoginFormLoginButton = styled.button`
   max-width: 300px;
   height: 10vh;
   max-height: 50px;
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 3%;
   font-size: 1.2rem;
   border: none;

@@ -21,23 +21,32 @@ import { useFetchUserInfo } from "../../../hoc/useFetch";
 import { useNavigate } from "react-router-dom";
 import {
   useUploadProfileImg,
+  useUserDelete,
   useUserInfoModify,
 } from "../../../hoc/useMutation";
-import { proFileModify, userModify } from "../../../store/login/loginStore";
+import {
+  logout,
+  proFileModify,
+  userModify,
+} from "../../../store/login/loginStore";
 import { MyFollowProfileWrapperDiv } from "../styles/MyFollowWrapperStyle";
 import http from "../../../utils/http-commons";
 import ColorAlerts from "../../shorts/component/colorAlerts";
 import theme from "../../../styles/theme";
 import { QueryClient, useMutation } from "@tanstack/react-query";
+import Modal from "../../../components/modal/Modal";
 
 const MyProfileModify = () => {
   const queryClient = new QueryClient();
   const userInfo = useAppSelector((store) => store.userReducer.user);
   const [profileImg, setProfileImg] = useState<File>();
+  const [userDeleteComplete, setUserDeleteComplete] = useState<boolean>();
+
   const profileRef = useRef<HTMLInputElement>(null);
   const { data, isLoading, isError, refetch } = useFetchUserInfo(
     userInfo.user_id
   );
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [followOpen, setFollowOpen] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>("");
   const navigator = useNavigate();
@@ -90,11 +99,86 @@ const MyProfileModify = () => {
       },
     }
   );
+  const { mutate: userDelete } = useUserDelete();
   if (isLoading) {
     return <div>로딩중?</div>;
   } else if (!isLoading && data) {
     return (
       <MyProfileModifyWrapper>
+        {openModal && (
+          <Modal
+            backgroundcolor="#240046"
+            width="300px"
+            height="300px"
+            modalHandler={() => {
+              setOpenModal((prev) => {
+                return !prev;
+              });
+            }}
+          >
+            <div
+              css={css`
+                color: white;
+              `}
+            >
+              {userDeleteComplete ? (
+                <div>
+                  <h5>탈퇴처리가 완료 되었습니다.</h5>
+                </div>
+              ) : (
+                <div>
+                  <h5>정말로 탈퇴 하시겠습니까?</h5>
+                  <div>
+                    <button
+                      css={css`
+                        width: 70px;
+                        height: 30px;
+                        position: absolute;
+                        /* left: 10px; */
+                        right: 90px;
+                        bottom: 10px;
+                        border: none;
+                        border-radius: 8px;
+                        background: ${theme.colors.subColorGradient2};
+                        font-weight: bolder;
+                      `}
+                      onClick={() => {
+                        userDelete(
+                          { num: 1 },
+                          {
+                            onSuccess: () => {
+                              setUserDeleteComplete(true);
+                            },
+                          }
+                        );
+                      }}
+                    >
+                      예
+                    </button>
+                    <button
+                      css={css`
+                        width: 70px;
+                        height: 30px;
+                        position: absolute;
+                        right: 10px;
+                        bottom: 10px;
+                        border: none;
+                        border-radius: 8px;
+                        background: ${theme.colors.subColorGradient2};
+                        font-weight: bolder;
+                      `}
+                      onClick={() => {
+                        setOpenModal(false);
+                      }}
+                    >
+                      아니오
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </Modal>
+        )}
         {modifyOpen && (
           <ColorAlerts
             open={modifyOpen}
@@ -213,6 +297,13 @@ const MyProfileModify = () => {
         </MyProfileModifyLabelingFollowOpenWrapper>
         {/* 수정 버튼 */}
         <MyProFileModifyLabelingModifyWrapper>
+          <MyProFileModifyLabelingModifyButton
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
+            탈퇴
+          </MyProFileModifyLabelingModifyButton>
           <MyProFileModifyLabelingModifyButton
             onClick={() => {
               mutate(

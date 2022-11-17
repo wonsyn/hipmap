@@ -121,7 +121,6 @@ const ShortsVideoWrapper = ({
                   max-width: 100%;
                   height: auto;
                   max-height: 100%;
-                  z-index: 2;
                 `}
                 src={shorts.fileSrc}
                 alt="쇼츠이미지"

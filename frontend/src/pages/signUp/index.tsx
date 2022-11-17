@@ -30,9 +30,10 @@ interface userInfo {
 }
 
 const SignUpWrapper = () => {
+  const location = useLocation();
   console.log(useLocation());
-  const labelingName =
-    useLocation()?.state?.labelingName ?? "아직 정해지지 않음";
+  const labelingName = location.state?.labelingName ?? "아직 정해지지 않음";
+  const [snsSign, setSnsSign] = useState<boolean>(false);
   const [selectEmail, setSelectEmail] = useState("self");
   const [emailState, setEmailState] = useState("");
   const [emailFrontState, setEmailFrontState] = useState("");
@@ -51,6 +52,25 @@ const SignUpWrapper = () => {
   const [acceptId, setAcceptId] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state && location.state.email) {
+      setSnsSign(true);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (snsSign && location.state && location.state.email) {
+      const emailTemp = location.state.email;
+      const emailfront = emailTemp.slice(0, emailTemp.indexOf("@"));
+      const email = emailTemp.slice(emailTemp.indexOf("@") + 1);
+      console.log(emailfront);
+      console.log(email);
+      setEmailFrontState(emailfront);
+      setEmailState(email);
+      setAcceptEmail(true);
+    }
+  }, [snsSign, location, location.state, location.state.email]);
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSignUpPressCheck(false);
@@ -229,29 +249,44 @@ const SignUpWrapper = () => {
           type="password"
           onChange={correct}
         />
-        <SignUpEmailWrapper>
-          <SignUpEmail placeholder="Email" type="email" onChange={emailFront} />
-          @
-          {selectEmail !== "self" ? (
-            <SignUpEmail value={selectEmail} readOnly />
-          ) : (
-            <SignUpEmail value={emailState} onChange={emailInput} />
-          )}
-          <SignUpSelect onChange={onChange} defaultValue="self">
-            <SignUpOption key="self" value="self">
-              직접 입력
-            </SignUpOption>
-            <SignUpOption key="gmail.com" value="gmail.com">
-              gmail.com
-            </SignUpOption>
-            <SignUpOption key="naver.com" value="naver.com">
-              naver.com
-            </SignUpOption>
-            <SignUpOption key="hanmail.net" value="hanmail.net">
-              hanmail.net
-            </SignUpOption>
-          </SignUpSelect>
-        </SignUpEmailWrapper>
+
+        {snsSign ? (
+          <SignUpEmailWrapper>
+            <SignUpEmail
+              value={emailFrontState + "@" + emailState}
+              disabled={true}
+            />
+          </SignUpEmailWrapper>
+        ) : (
+          <SignUpEmailWrapper>
+            <SignUpEmail
+              placeholder="Email"
+              type="email"
+              onChange={emailFront}
+            />
+            @
+            {selectEmail !== "self" ? (
+              <SignUpEmail value={selectEmail} readOnly />
+            ) : (
+              <SignUpEmail value={emailState} onChange={emailInput} />
+            )}
+            <SignUpSelect onChange={onChange} defaultValue="self">
+              <SignUpOption key="self" value="self">
+                직접 입력
+              </SignUpOption>
+              <SignUpOption key="gmail.com" value="gmail.com">
+                gmail.com
+              </SignUpOption>
+              <SignUpOption key="naver.com" value="naver.com">
+                naver.com
+              </SignUpOption>
+              <SignUpOption key="hanmail.net" value="hanmail.net">
+                hanmail.net
+              </SignUpOption>
+            </SignUpSelect>
+          </SignUpEmailWrapper>
+        )}
+
         <SignUpInput
           placeholder="닉네임"
           onChange={(e) => {

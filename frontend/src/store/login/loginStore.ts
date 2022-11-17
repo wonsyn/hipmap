@@ -137,6 +137,30 @@ export const LoginSlice = createSlice({
       state.auth = false;
       localStorage.removeItem("token");
     },
+    snsLogin: (state, action) => {
+      console.log(action.payload);
+      state.token = {
+        ...state.token,
+        access_token: action.payload.accessToken,
+        refresh_token: action.payload.refreshToken,
+      };
+      state.auth = true;
+      state.user = {
+        ...state.user,
+        user_id: action.payload.user_id,
+        username: action.payload.username,
+        nickname: action.payload.nickname,
+        labeling: action.payload.labeling,
+        isAdmin: action.payload.isAdmin,
+        email: action.payload.email,
+      };
+      const token = JSON.stringify({
+        accessToken: action.payload.accessToken,
+        expireTime: action.payload.expireTime,
+        refreshToken: action.payload.refreshToken,
+      });
+      localStorage.setItem("token", token);
+    },
     userModify: (state, action) => {
       state.user = {
         ...state.user,
@@ -178,6 +202,7 @@ export const LoginSlice = createSlice({
     });
     builder.addCase(fetchLoginRefreshThunk.rejected, (state) => {
       state.isLoading = false;
+      alert("로그인에 실패하였습니다.");
     });
     builder.addCase(fetchSignUpThunk.pending, (state) => {
       state.isLoading = true;
@@ -185,9 +210,11 @@ export const LoginSlice = createSlice({
     builder.addCase(fetchSignUpThunk.fulfilled, (state, action) => {
       state.isLoading = false;
       console.log(action.payload);
+      alert("회원가입에 성공하였습니다.");
     });
     builder.addCase(fetchSignUpThunk.rejected, (state) => {
       state.isLoading = false;
+      alert("회원가입에 실패하였습니다.");
     });
     builder.addCase(fetchLoginThunk.pending, (state) => {
       state.isLoading = true;
@@ -213,11 +240,13 @@ export const LoginSlice = createSlice({
     });
     builder.addCase(fetchLoginThunk.rejected, (state) => {
       state.isLoading = false;
+      alert("로그인에 실패하였습니다.");
     });
   },
 });
 
-export const { logout, userModify, proFileModify } = LoginSlice.actions;
+export const { logout, userModify, proFileModify, snsLogin } =
+  LoginSlice.actions;
 
 export const loginState = (state: RootState) => state.userReducer;
 
