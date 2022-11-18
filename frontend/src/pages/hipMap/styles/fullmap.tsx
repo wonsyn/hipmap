@@ -86,6 +86,10 @@ export const WrappingDiv = styled.div`
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
+    margin-top: 2%;
+    @media screen and (max-width: 700px){
+        margin-top: 5%;
+    }
 `
 
 export const FullMapWrappingDiv = styled.div`
@@ -647,8 +651,8 @@ export const JejuSpanRegional = styled.span<NumberProps>`
 
 export const ArrowDiv = styled.div`
     position: fixed;
-    top: 15vh;
-    left: 2vw;
+    top: 7vh;
+    left: 1vw;
     z-index: 10000;
     :hover{
         cursor: pointer;
@@ -656,7 +660,7 @@ export const ArrowDiv = styled.div`
 `
 
 export const RegionNameDiv = styled.div`
-    margin: 2vh 0 0 0;
+    margin: 0 0 0 0;
     font-size: 1.5rem;
     font-weight: bold;
     
@@ -688,7 +692,7 @@ export const FilterWrappingDiv = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 5%;
+    margin-bottom: 5%;
     z-index: 2022;
     @media screen and (max-width: 700px){
        /* margin-top: 10%; */
@@ -707,6 +711,7 @@ export const CheckBoxDiv = styled.div`
     justify-content: center;
     align-items: center;
     width: 80vw;
+    margin-bottom: 3%;
 `
 
 export const FilterCheckBox = styled.input`
@@ -720,9 +725,9 @@ export const SelectWrappingDiv = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10%;
     width: 100%;
     color: black;
+    /* margin-top: 2%; */
 `
 export const SelectDiv = styled.div`
     display: flex;
