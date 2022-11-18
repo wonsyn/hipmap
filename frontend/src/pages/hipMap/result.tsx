@@ -3,12 +3,11 @@ import ResultMention from "./component/resultMention"
 import ResultShorts from "./component/resultShorts"
 import { useLocation } from "react-router-dom"
 function HipMapResultPage(){
-    // const shorts = useLocation()?.state.shortsList
-    // console.log(shorts)
+    const shorts = useLocation()?.state.shortsList
     return(
         <WrappingDiv>
             <ResultMention/>
-            <ResultShorts />
+            <ResultShorts shorts={shorts} />
         </WrappingDiv>
     )
 }

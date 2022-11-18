@@ -66,7 +66,7 @@ export const MyProfileModifyLabelingInput = styled.input`
   border-bottom: 3px solid;
   border-image: ${(props) => props.theme.colors.subColorGradient1};
   border-image-slice: 1;
-  color: white;
+  color: gray;
   height: 5vh;
   margin-top: 2vh;
 `;
@@ -92,7 +92,21 @@ export const MyProFileModifyLabelingFollowOpenButton = styled.button`
   padding: 18px;
   border: none;
 `;
-
+export const MyProFileModifyLabelingDeleteButton = styled.button`
+  width: 150px;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+  height: 2vh;
+  color: white;
+  background: ${(props) => props.theme.colors.subColorGradient1};
+  border-radius: 8px;
+  padding: 18px;
+  border: none;
+  margin-right: 5vh;
+`;
 export const MyProFileModifyLabelingModifyButton = styled.button`
   width: 150px;
   font-size: 1.3rem;
@@ -111,5 +125,17 @@ export const MyProFileModifyLabelingModifyWrapper = styled.div`
   width: 80%;
   display: flex;
   justify-content: end;
-  margin-top: auto;
+  margin-top: 5vh;
+`;
+
+export const MyModifyProfileWrapperDiv = styled.div<{ url: string }>`
+  width: 10vh;
+  max-width: 100px;
+  max-height: 100px;
+  height: 10vh;
+  border-radius: 50%;
+  margin-right: 2%;
+  background-image: url(${(props) => props.url});
+  background-size: cover;
+  background-position: center;
 `;

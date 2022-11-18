@@ -2,20 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
-import { ShortsBody, ShortsWrappingDiv, ShortsDiv, ShortsUl, ShortsImage1 } from "../../styles/result";
-import Image1 from "../../../../assets/hipMap/bg1.jpg"
-import Image2 from "../../../../assets/hipMap/bg2.png"
-import Image3 from "../../../../assets/hipMap/bg3.jpg"
-import Image4 from "../../../../assets/hipMap/bg4.jpg"
-import Image5 from "../../../../assets/hipMap/bg5.jpg"
-import Image6 from "../../../../assets/hipMap/bg6.jpg"
-import { useMediaQuery } from "@mui/material";
-
+import { ShortsBody, ShortsWrappingDiv, ShortsDiv, ShortsUl, ShortsImage , ErrorMessageDiv} from "../../styles/result";
+import NoImage from "../../../../assets/hipMap/noImage.png"
+import { List, useMediaQuery } from "@mui/material";
+import Modal from "../../../../components/modal/Modal";
+import SingleShorts from "../../../singleShorts";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function ResultShorts(shorts) {
-    console.log("너희는 누구냐?", shorts.shorts);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectId, setSelectId] = useState();
     const isMobile = useMediaQuery("(max-width:1023px)");
@@ -194,6 +189,14 @@ function ResultShorts(shorts) {
     };
   }, []);
 
+  useEffect(() => {
+    if (selectId !== undefined && !isModalOpen) {
+      setIsModalOpen((prev) => {
+        return !prev;
+      });
+    }
+  }, [isModalOpen, selectId]);
+
   const addToRefs = (el) => {
     if (el && !liRef.current.includes(el)) {
       liRef.current.push(el);
@@ -201,25 +204,132 @@ function ResultShorts(shorts) {
   };
   const ListFunc = () => {
     const Lists = [];
-    const urlList = [`${Image1}`,`${Image2}`,`${Image3}`,`${Image4}`,`${Image5}`,`${Image6}`]
-    urlList.map((url, i) => {
+    // const urlList = [`${Image1}`,`${Image2}`,`${Image3}`,`${Image4}`,`${Image5}`,`${Image6}`]
+    const urlList = shorts.shorts
+    urlList.map((shorts, i) => {
         Lists.push(
-            <li key={url} ref={addToRefs}>
-                <ShortsImage1 src={urlList[i]}></ShortsImage1>
+            <li key={i} ref={addToRefs}>
+                <ShortsImage  onClick={() => {
+                  setSelectId(shorts.shortsId);
+                }} src={shorts.thumbnailSrc}></ShortsImage>
             </li>
         )
     })
+    if(Lists.length < 8){
+      urlList.map((shorts, i) => {
+        Lists.push(
+            <li key={i + Lists.length} ref={addToRefs}>
+                <ShortsImage  onClick={() => {
+                  setSelectId(shorts.shortsId);
+                }} src={shorts.thumbnailSrc}></ShortsImage>
+            </li>
+        )
+      })
+      if(Lists.length < 8){
+        urlList.map((shorts, i) => {
+          Lists.push(
+              <li key={i + Lists.length} ref={addToRefs}>
+                  <ShortsImage  onClick={() => {
+                    setSelectId(shorts.shortsId);
+                  }} src={shorts.thumbnailSrc}></ShortsImage>
+              </li>
+          )
+        })
+        if(Lists.length < 8){
+          urlList.map((shorts, i) => {
+            Lists.push(
+                <li key={i + Lists.length} ref={addToRefs}>
+                    <ShortsImage  onClick={() => {
+                      setSelectId(shorts.shortsId);
+                    }} src={shorts.thumbnailSrc}></ShortsImage>
+                </li>
+            )
+          })
+          if(Lists.length < 8){
+            urlList.map((shorts, i) => {
+              Lists.push(
+                  <li key={i + Lists.length} ref={addToRefs}>
+                      <ShortsImage  onClick={() => {
+                        setSelectId(shorts.shortsId);
+                      }} src={shorts.thumbnailSrc}></ShortsImage>
+                  </li>
+              )
+            })
+            if(Lists.length < 8){
+              urlList.map((shorts, i) => {
+                Lists.push(
+                    <li key={i + Lists.length} ref={addToRefs}>
+                        <ShortsImage  onClick={() => {
+                          setSelectId(shorts.shortsId);
+                        }} src={shorts.thumbnailSrc}></ShortsImage>
+                    </li>
+                )
+              })
+              if(Lists.length < 8){
+                urlList.map((shorts, i) => {
+                  Lists.push(
+                      <li key={i + Lists.length} ref={addToRefs}>
+                          <ShortsImage  onClick={() => {
+                            setSelectId(shorts.shortsId);
+                          }} src={shorts.thumbnailSrc}></ShortsImage>
+                      </li>
+                  )
+                })
+                if(Lists.length < 8){
+                  urlList.map((shorts, i) => {
+                    Lists.push(
+                        <li key={i + Lists.length} ref={addToRefs}>
+                            <ShortsImage  onClick={() => {
+                              setSelectId(shorts.shortsId);
+                            }} src={shorts.thumbnailSrc}></ShortsImage>
+                        </li>
+                    )
+                  })
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    console.log("list?", Lists)
     return Lists;
   };
   return (
-    <ShortsBody>
-      <ShortsWrappingDiv>
-        <ShortsDiv ref={pinRef}>
-          <ShortsUl>{ListFunc()}</ShortsUl>
-          
-        </ShortsDiv>
-      </ShortsWrappingDiv>
-    </ShortsBody>
+    <>
+    {isModalOpen && selectId !== undefined && (
+        <Modal
+          width={isMobile ? "80%" : "1024px"}
+          height="80%"
+          modalHandler={() => {
+            setIsModalOpen((prev) => {
+              return !prev;
+            });
+            setSelectId(undefined);
+          }}
+        >
+          <SingleShorts shortsId={selectId} />
+        </Modal>
+      )}
+      <ShortsBody>
+        <ShortsWrappingDiv>
+          <ShortsDiv ref={pinRef}>
+            {shorts.shorts.length === 0
+            ?(<ShortsUl>
+                <li> 
+                  <ShortsImage src={NoImage}>
+                </ShortsImage>
+                <ErrorMessageDiv>
+                No Shorts
+                </ErrorMessageDiv>
+              </li>
+            </ShortsUl>)
+            :(<ShortsUl>{ListFunc()}</ShortsUl>)}
+            
+          </ShortsDiv>
+        </ShortsWrappingDiv>
+      </ShortsBody>
+    </>
   );
 }
 

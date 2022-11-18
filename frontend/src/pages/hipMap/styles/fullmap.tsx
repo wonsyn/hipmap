@@ -85,6 +85,7 @@ export const WrappingDiv = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    width: 100%;
 `
 
 export const FullMapWrappingDiv = styled.div`
@@ -92,6 +93,10 @@ export const FullMapWrappingDiv = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    @media screen and (max-width: 700px){
+        margin-top: -7%;
+    }
+   
 `
 export const FullMapDiv = styled.div`
     display: flex;
@@ -100,8 +105,8 @@ export const FullMapDiv = styled.div`
     align-items: center;
     width: 100vw;
     max-width: 600px;
-    height: 69vh;
-    margin: 30px 0 0 0;
+    height: 65vh;
+    /* margin: 30px 0 0 0; */
     @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
@@ -218,6 +223,7 @@ export const YungnamMapDiv = styled.div`
     margin: 0 300px 0 0;
     position: fixed;
     left: 24vw;
+    top: 10vh;
     @media screen and (max-width: 700px){
         display: flex;
         flex-direction: column;
@@ -340,12 +346,13 @@ export const SudogwanSpanRegional = styled.span<NumberProps>`
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    color: red;
+    /* color: red; */
+    font-size: 0;
     background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `rgba(255,0,0, 0.7)`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `rgba(255,0,0, 0.8)`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `rgba(255,0,0, 0.9)`};
+    background-color: ${(props) => props.number >= 10   && `rgba(255,0,0, 1.0)`};
     :hover{
         cursor: pointer;
     }
@@ -397,12 +404,13 @@ export const GwandongSpanRegional = styled.span<NumberProps>`
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    color: red;
+    /* color: red; */
+    font-size: 0;
     background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `rgba(0,128,0, 0.7)`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `rgba(0,128,0, 0.8)`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `rgba(0,128,0, 0.9)`};
+    background-color: ${(props) => props.number >= 10   && `rgba(0,128,0, 1.0)`};
     :hover{
         cursor: pointer;
     }
@@ -431,7 +439,8 @@ export const HoseoSpan = styled.span<SelectProps>`
     animation-timing-function: ${(props) => ((props.region === "Sudogwan") || (props.region === "Gwandong")  || (props.region === "Honam") 
      || (props.region === "Yungnam")  || (props.region === "Jeju")) && `ease-in`};
   
-    color: red;
+    /* color: red; */
+    font-size: 0;
     :hover{
         cursor: pointer;
     }
@@ -452,12 +461,13 @@ export const HoseoSpanRegional = styled.span<NumberProps>`
     margin: 0 10px 0 0;
     border-radius: 20%;
     background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `rgba(0,0,255, 0.7)`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `rgba(0,0,255, 0.8)`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `rgba(0,0,255, 0.9)`};
+    background-color: ${(props) => props.number >= 10   && `rgba(0,0,255, 1.0)`};
     /* font-size: 0; */
-    color: red;
+    /* color: red; */
+    font-size: 0;
     :hover{
         cursor: pointer;
     }
@@ -508,12 +518,13 @@ export const HonamSpanRegional = styled.span<NumberProps>`
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    color: red;
+    /* color: red; */
+    font-size: 0;
     background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `	rgba(165,42,42, 0.7)`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `rgba(165,42,42, 0.8)`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `rgba(165,42,42, 0.9)`};
+    background-color: ${(props) => props.number >= 10   && `rgba(165,42,42, 1.0)`};
     :hover{
         cursor: pointer;
     }
@@ -565,12 +576,13 @@ export const YungnamSpanRegional = styled.span<NumberProps>`
     margin: 0 10px 0 0;
     border-radius: 20%;
     background-color: white;
-    color: red;
+    /* color: red; */
+    font-size: 0;
     background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `rgba(128,0,128, 0.7)`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `rgba(128,0,128, 0.8)`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `rgba(128,0,128, 0.9)`};
+    background-color: ${(props) => props.number >= 10   && `rgba(128,0,128, 1.0)`};
     :hover{
         cursor: pointer;
     }
@@ -621,12 +633,13 @@ export const JejuSpanRegional = styled.span<NumberProps>`
     height: 3vh;
     margin: 0 10px 0 0;
     border-radius: 20%;
-    color: red;
+    /* color: red; */
+    font-size: 0;
     background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `rgba(255,105,180,0.7)`};
+    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `rgba(255,105,180,0.8)`};
+    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `rgba(255,105,180,0.9)`};
+    background-color: ${(props) => props.number >= 10   && `rgba(255,105,180,1.0)`};
     :hover{
         cursor: pointer;
     }
@@ -643,8 +656,8 @@ export const ArrowDiv = styled.div`
 `
 
 export const RegionNameDiv = styled.div`
-    margin: -5vh 0 0 20vh;
-    font-size: 1.3rem;
+    margin: 2vh 0 0 0;
+    font-size: 1.5rem;
     font-weight: bold;
     
 `
@@ -668,13 +681,18 @@ export const RegionNameButton = styled.button<ButtonProps>`
     }
 `
 export const FilterWrappingDiv = styled.div`
-    /* width: 100vw; */
+    width: 100vw;
+    max-width: 600px;
     height: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 5%;
+    z-index: 2022;
+    @media screen and (max-width: 700px){
+       /* margin-top: 10%; */
+    }
 `
 
 // export const FilterInput = styled.input`
@@ -697,56 +715,42 @@ export const FilterCheckBox = styled.input`
     margin-right:2%;
 `
 
-
-
+export const SelectWrappingDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+    width: 100%;
+    color: black;
+`
 export const SelectDiv = styled.div`
     display: flex;
     flex-direction: row;
-    z-index: 10;
     background-color: white;
+    width: 15vh;
+    height: 6vh;
+    border-radius: 10%;
+    margin: 0 3%; 
+    @media screen and (max-width: 700px){
+        width: 10vh;
+        height: 8vh;
+    }
 
 `
-export const EmphasizingDiv = styled.div<NumberProps>`
-    width: 70%;
-    height: 70%;
+// export const EmphasizingDiv = styled.div<NumberProps>`
+//     width: 100%;
+//     height: 100%;
+//     display: ${(props) => props.number === 0? `none`: `block`}; ; 
+//     background-color: ${(props) => props.number === 0  && `white`};
+//     background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
+//     background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
+//     background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
+//     background-color: ${(props) => props.number > 10   && `red`};
+// `
+export const EmphasizingImg = styled.img<NumberProps>`
+    width: 60px;
+    height: 60px;
     display: ${(props) => props.number === 0? `none`: `block`}; ; 
-    background-color: ${(props) => props.number === 0  && `white`};
-    background-color: ${(props) => ((props.number > 0) && (props.number < 3))  && `gray`};
-    background-color: ${(props) => ((props.number >= 3) && (props.number < 6))  && `blue`};
-    background-color: ${(props) => ((props.number >= 6) && (props.number < 10))  && `orange`};
-    background-color: ${(props) => props.number > 10   && `red`};
+    /* margin: 0 0 30px 0px; */
 `
-// export const SudogwanImg = styled.img`
-//     /* width: 185px;
-//     height: 145px; */
-//     width: 38vw;
-//     height: 17vh;
-//     position: absolute;
-//     top: 14.5%;
-//     left: 13.5%;
-// `
-
-// export const GwandongImg = styled.img`
-//     width: 50%;
-//     height: 50%;
-//     position: absolute;
-// `
-
-// export const HoseoImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute; 
-// `
-
-// export const HonamImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `
-
-// export const YungnamImg = styled.img`
-//     width: 50%;
-//     height: 50%; 
-//     position: absolute;
-// `
-

@@ -35,7 +35,7 @@ export const AnnouncementStyle = styled.div`
     justify-content: center;
     align-items: center;
     height: 25vh;
-    margin-bottom: 15%;
+    margin-bottom: 10%;
 `
 export const StartButtonStyled = styled.button`
     background: ${palette.subColorGradient3};
@@ -52,3 +52,21 @@ export const StartButtonStyled = styled.button`
 
 `
 
+export const LoginDiv = styled.div`
+    font-size: 0.8rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 ${palette.mainColor}, -1px 1px 0 ${palette.mainColor}, 1px -1px 0 ${palette.mainColor},
+    -1px -1px 0 ${palette.mainColor}, 0px 1px 0 ${palette.mainColor}, 0px -1px 0 ${palette.mainColor},
+    -1px 0px 0 ${palette.mainColor}, 1px 0px 0 ${palette.mainColor}, 2px 2px 0 ${palette.mainColor}, -2px 2px 0 ${palette.mainColor},
+    2px -2px 0 ${palette.mainColor}, -2px -2px 0 ${palette.mainColor}, 0px 2px 0 ${palette.mainColor},
+    0px -2px 0 ${palette.mainColor}, -2px 0px 0 ${palette.mainColor}, 2px 0px 0 ${palette.mainColor}, 1px 2px 0 ${palette.mainColor},
+    -1px 2px 0 ${palette.mainColor}, 1px -2px 0 ${palette.mainColor}, -1px -2px 0 ${palette.mainColor},
+    2px 1px 0 ${palette.mainColor}, -2px 1px 0 ${palette.mainColor}, 2px -1px 0 ${palette.mainColor},
+    -2px -1px 0 ${palette.mainColor};
+    margin-bottom: 2%;
+    :hover{
+        cursor: pointer;
+    }
+
+`

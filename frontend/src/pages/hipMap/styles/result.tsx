@@ -1,10 +1,10 @@
 import { palette } from "../../../assets/Palette";
 import styled from "@emotion/styled";
 
-// version 1: 그냥 스크롤 시 쭈루룩 나오도록
 export const WrappingDiv = styled.div`
     display: flex;
     flex-direction: row;
+    /* max-width: 1024px; */
     @media screen and (max-width: 700px){
         flex-direction: column;
     }
@@ -20,11 +20,13 @@ export const MentionWrappingDIv = styled.div`
     left: 2vw;
     width: 700px;
     height: 700px;
+    margin-top: 2vh;
     @media screen and (max-width: 700px){
         top: 7vh;
         left: 2vw;
         width: 100vw;
         height: 20vh;
+        margin-top: 2vh;
     }
 `
 export const TextDiv = styled.div`
@@ -117,7 +119,7 @@ export const ShortsUl = styled.ul`
     }
 `
 
-const ShortsImage = styled.img`
+export const ShortsImage = styled.img`
     width: 500px;
     height: 350px;
     border-radius: 5px;
@@ -136,22 +138,16 @@ const ShortsImage = styled.img`
         /* margin-top: -10vh; */
     }
 `
-export const ShortsImage1 = styled(ShortsImage)`
-    /* transform: rotate(10deg); */
-`
-export const ShortsImage2 = styled(ShortsImage)`
-    transform: rotate(0deg);
-`
-export const ShortsImage3 = styled(ShortsImage)`
-    transform: rotate(-10deg);
-`
-export const ShortsImage4 = styled(ShortsImage)`
-    transform: rotate(0deg);
-`
-export const ShortsImage5 = styled(ShortsImage)`
-    transform: rotate(10deg);
-`
-export const ShortsImage6 = styled(ShortsImage)`
-    transform: rotate(0deg);
+export const ErrorMessageDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    margin-top: 5%;
+    width: 500px;
+    @media screen and (max-width: 700px){
+        width: 33vh;
+        font-size: 1.5rem;
+    }
 `
 /////////////////////////////////////////////////////

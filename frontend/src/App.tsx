@@ -44,9 +44,12 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={client}>
+        
+  
+      
         <Layout>
           <Routes>
-            <Route element={<PrivateRoute authentication={true} />}>
+            {/* <Route element={<PrivateRoute authentication={true} />}> */}
               <Route path="/main" element={<Main />} />
               <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
               <Route
@@ -63,21 +66,20 @@ function App() {
               <Route path="/write" element={<Write />} />
               <Route path="/profileModify" element={<MyProfileModify />} />
               <Route path="/" element={<Navigate replace to="/main" />} />
-            </Route>
+            {/* </Route> */}
             <Route path="/camera" element={<CameraPage />} />
-            <Route element={<PrivateRoute authentication={false} />}>
-              <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
-              <Route
-                path="/labeling/processing"
-                element={<ProcessingPage />}
-              ></Route>
-              <Route path="/labeling/result" element={<ResultPage />}></Route>
 
-              <Route path="/login" element={<LoginWrapper />} />
-              <Route path="/signup" element={<SignUpWrapper />} />
+            <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
+            <Route
+              path="/labeling/processing"
+              element={<ProcessingPage />}
+            ></Route>
+            <Route path="/labeling/result" element={<ResultPage />}></Route>
 
-              <Route path="/oauth/kakao" element={<KakaoRedirect />} />
-            </Route>
+            <Route path="/login" element={<LoginWrapper />} />
+            <Route path="/signup" element={<SignUpWrapper />} />
+
+            <Route path="/oauth/kakao" element={<KakaoRedirect />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </Layout>

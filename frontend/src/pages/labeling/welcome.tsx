@@ -5,8 +5,12 @@ import Character from "./component/welcome/character"
 import Announcement from "./component/welcome/announcement/indexl"
 import StartButton from "./component/welcome/startButton"
 import welcomePage from "../../assets/labeling/welcome/welcomePage.jpg";
+import { useLocation } from "react-router-dom"
 
 function WelcomePage() {
+    const location = useLocation()
+    const kakaoData = location.state ?? {snsSign: false}
+    console.log(kakaoData)
     return (
         <Wrapper>
             <Container>
@@ -14,7 +18,7 @@ function WelcomePage() {
                 <LogoName/>
                 <Character/>
                 <Announcement/>
-                <StartButton/>
+                <StartButton kakaoData={kakaoData}/>
             </Container>
         </Wrapper>
         

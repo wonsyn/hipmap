@@ -8,9 +8,11 @@ function Alert(props: AlertProps) {
 
 const ColorAlerts = ({
   open,
+  content,
   openHandler,
 }: {
   open: boolean;
+  content: string;
   openHandler: () => void;
 }) => {
   return (
@@ -22,7 +24,7 @@ const ColorAlerts = ({
       key={"bottom" + "center"}
     >
       <Alert onClose={openHandler} severity="success">
-        북마크 저장에 성공 했습니다.
+        {content}
       </Alert>
     </Snackbar>
   );

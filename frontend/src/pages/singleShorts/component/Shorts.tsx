@@ -10,10 +10,13 @@ import {
   SingleShortsVideoDiv,
   SingleShortsWrapper,
 } from "../style/singleShorts";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 
 const Shorts = ({ id }: { id: number }) => {
   console.log(id);
+  const userId = useAppSelector((store) => store.userReducer.user.user_id);
+  const navigator = useNavigate();
   const { data, isFetching } = useFetchSingleShorts(id);
   const [showShortsData, setShowShortsData] = useState<boolean>(false);
   const [location, setLocation] = useState<string>();
@@ -54,7 +57,22 @@ const Shorts = ({ id }: { id: number }) => {
             />
           ) : (
             <SingleShortsVideoDiv>
-              <ShortsVideoPlayer file_src={data?.fileSrc} />
+              {data.fileType === "video" ? (
+                <ShortsVideoPlayer file_src={data?.fileSrc} />
+              ) : (
+                <img
+                  css={css`
+                    width: auto;
+                    max-width: 100%;
+                    height: auto;
+                    max-height: 100%;
+                    z-index: 2;
+                  `}
+                  src={data.fileSrc}
+                  alt="쇼츠이미지"
+                />
+              )}
+
               <LocationDiv>{location}</LocationDiv>
               <div>
                 <div
@@ -73,6 +91,13 @@ const Shorts = ({ id }: { id: number }) => {
                       -1px -2px 0 #f447bd, 2px 1px 0 #f447bd, -2px 1px 0 #f447bd,
                       2px -1px 0 #f447bd, -2px -1px 0 #f447bd;
                   `}
+                  onClick={() => {
+                    if (userId === data.userId) {
+                      navigator("/myProfile/" + userId);
+                    } else if (userId !== data.userId) {
+                      navigator("/myPage/" + data.userId);
+                    }
+                  }}
                 >
                   {data.nickname}
                 </div>

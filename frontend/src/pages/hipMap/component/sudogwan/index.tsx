@@ -1,18 +1,28 @@
 import { FullMapWrappingDiv, SudogwanMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { SudogwanSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveClick, saveSudogwan, saveSudogwanMobile, saveName, saveSudogwanAnime, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
-import { useEffect, useState } from "react";
+import { RootState } from "../../../../store/store";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 function Sudogwan(){
-    const [coordinateI, setCoordinateI] = useState<number>(0)
-    const [coordinateJ, setCoordinateJ] = useState<number>(0)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-   
-    const {data,isLoading} = useDotMapData(
+    const queryClient = useQueryClient()
+    const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
+    useEffect(()=>{
+      if(hipmapSelector && ( hipmapSelector.si || hipmapSelector.gu || hipmapSelector.dong || hipmapSelector.sameLabelingCheck || hipmapSelector.sameLabelingCheck2) ){
+        setTimeout(() => {
+          queryClient.invalidateQueries();
+         refetch()
+        }, 1);
+      }
+    },[hipmapSelector]);
+    const {data,isLoading, refetch} = useDotMapData(
       {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
@@ -20,10 +30,10 @@ function Sudogwan(){
         endLat: 37.9136,
         startLng: 125.41415 ,
         endLng: 127.49885,
-        isFilterChecked: false,
-        locationSi: null,
-        locationGu: null,
-        locationDong: null
+        isFilterChecked: hipmapSelector.sameLabelingCheck,
+        locationSi: hipmapSelector.si,
+        locationGu: hipmapSelector.gu,
+        locationDong: hipmapSelector.dong
       }
     )
     const mapDot = [
@@ -52,7 +62,6 @@ function Sudogwan(){
        ]
 
     if(!isLoading){
-      console.log("넌 뭐니? ", data.shortsList)
       mapDot.map((dots, i) => {
         dots.map((dot, j) => {
             if(i === 1){
@@ -63,7 +72,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -78,7 +86,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -94,7 +101,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -110,7 +116,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -147,7 +152,6 @@ function Sudogwan(){
          {
           shortsList.push(shorts)
         }
-        console.log("진행 완료")
       })
      
       navigate('/hipmap/result',
