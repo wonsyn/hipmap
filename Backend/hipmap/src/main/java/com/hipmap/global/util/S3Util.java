@@ -49,8 +49,8 @@ public class S3Util {
         String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
         boolean isMp4 = false;
 
-        FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
-        FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
+//        FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
+//        FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
 //        FFmpeg ffmpeg = new FFmpeg("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffmpeg"); // ffmpeg 로컬 경로
 //        FFprobe ffprobe = new FFprobe("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffprobe"); // ffmpeg 로컬 경로
 
@@ -79,17 +79,12 @@ public class S3Util {
 //        }
 
 
-        File encodingUploadFile;
-        if(isMp4){
-//            encodingUploadFile = new File("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4");
-            encodingUploadFile = new File("C:/ssafy/cd/shorts/encoding/result" + saveFileNameExceptExt + ".mp4");
-        }else {
-            encodingUploadFile = uploadFile;
-        }
+        File encodingUploadFile = uploadFile;
+
 
         String uploadThumbnailUrl = null;
         if(dirName.equals("videos")) {
-            File thumbnail = JCodecUtil.getThumbnail(encodingUploadFile, new File("C:/ssafy/cd/shorts/thumb/result/" + saveFileNameExceptExt + ".png"));
+            File thumbnail = JCodecUtil.getThumbnail(encodingUploadFile, new File("/var/jenkins_home/thumbnail/" + saveFileNameExceptExt + ".png"));
             String thumbnailName = dirName + "/" + thumbnail.getName();
             uploadThumbnailUrl = putS3(thumbnail, thumbnailName);
             removeNewFile(thumbnail);
