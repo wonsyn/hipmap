@@ -29,7 +29,8 @@ function Header() {
     window.location.pathname === "/labeling/welcome" ||
     window.location.pathname === "/labeling/processing" ||
     window.location.pathname === "/labeling/result" ||
-    window.location.pathname === "/login"
+    window.location.pathname === "/login" ||
+    window.location.pathname === "/camera"
   ) {
     return <></>;
   } else {
