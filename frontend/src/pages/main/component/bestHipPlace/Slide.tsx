@@ -63,7 +63,9 @@ const Slide = ({
             setSelectId(undefined);
           }}
         >
-          <SingleShorts shortsId={selectId} />
+          <SingleShorts
+            shortsId={selectId}
+          />
         </Modal>
       )}
       <Slider {...autoPlayState}>

@@ -1,15 +1,28 @@
 import { FullMapWrappingDiv, YungnamMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { YungnamSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveClick, saveYungnam, saveYungnamMobile, saveName, saveYungnamAnime, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
+import { useEffect } from "react";
+import type { RootState } from "../../../../store/store";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Yungnam(){
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {data,isLoading} = useDotMapData(
+    const queryClient = useQueryClient()
+    const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
+    useEffect(()=>{
+      if(hipmapSelector && ( hipmapSelector.si || hipmapSelector.gu || hipmapSelector.dong || hipmapSelector.sameLabelingCheck || hipmapSelector.sameLabelingCheck2) ){
+        setTimeout(() => {
+          queryClient.invalidateQueries();
+         refetch()
+        }, 1);
+      }
+    },[hipmapSelector]);
+    const {data,isLoading, refetch} = useDotMapData(
       {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
@@ -17,10 +30,10 @@ function Yungnam(){
         endLat: 36.9408,
         startLng: 126.80395,
         endLng: 129.58835,
-        isFilterChecked: false,
-        locationSi: null,
-        locationGu: null,
-        locationDong: null
+        isFilterChecked: hipmapSelector.sameLabelingCheck,
+        locationSi: hipmapSelector.si,
+        locationGu: hipmapSelector.gu,
+        locationDong: hipmapSelector.dong
       }
     )
     const mapDot = [
@@ -59,7 +72,6 @@ function Yungnam(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -74,7 +86,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -90,7 +101,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -106,7 +116,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -122,7 +131,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -138,7 +146,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -154,7 +161,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -170,7 +176,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -186,7 +191,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -202,7 +206,6 @@ function Yungnam(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -240,7 +243,6 @@ function Yungnam(){
          {
           shortsList.push(shorts)
         }
-        console.log("진행 완료")
       })
      
       navigate('/hipmap/result',

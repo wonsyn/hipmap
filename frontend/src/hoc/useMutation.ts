@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import http from "../utils/http-commons";
 import axios from "axios";
 import { useAppSelector } from "./useStoreHooks";
@@ -205,6 +209,7 @@ export const useUploadProfileImg = () => {
           },
         }
       );
+      console.log(response.data);
       return response.data;
     },
     {
@@ -269,9 +274,7 @@ export const useCommentDelete = () => {
 
   return useMutation(
     async ({ commentId }: { commentId: number }) => {
-      const response = await http.delete(
-        `/hip/comment/{shortsId}/{commentId}?commentId=` + commentId
-      );
+      const response = await http.delete(`/hip/comment?commentId=` + commentId);
 
       return response.data;
     },
@@ -297,6 +300,35 @@ export const useBookMarkAdd = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(["bookmarkList"]);
       },
+    }
+  );
+};
+
+export const useUserDelete = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ num }: { num: number }) => {
+      const response = await http.delete(`/user`);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries();
+      },
+    }
+  );
+};
+
+export const useShortsDelete = () => {
+  return useMutation(
+    async ({ shortsId }: { shortsId: number }) => {
+      const response = await http.delete(`/shorts/delete/${shortsId}`);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {},
     }
   );
 };

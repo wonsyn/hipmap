@@ -14,6 +14,10 @@ interface userLoginState {
     username: string;
     nickname: string;
     labeling: string;
+    followPrivate: boolean;
+    labelCharSrc: string;
+    profileImg: string | undefined;
+
     email: string;
     isAdmin: string;
   };
@@ -107,6 +111,9 @@ const initialState: userLoginState = {
     labeling: "",
     email: "",
     isAdmin: "",
+    followPrivate: false,
+    labelCharSrc: "",
+    profileImg: "",
   },
   auth: false,
 };
@@ -123,15 +130,50 @@ export const LoginSlice = createSlice({
         labeling: "",
         email: "",
         isAdmin: "",
+        followPrivate: false,
+        labelCharSrc: "",
+        profileImg: "",
       };
       state.auth = false;
       localStorage.removeItem("token");
+    },
+    snsLogin: (state, action) => {
+      console.log(action.payload);
+      state.token = {
+        ...state.token,
+        access_token: action.payload.accessToken,
+        refresh_token: action.payload.refreshToken,
+      };
+      state.auth = true;
+      state.user = {
+        ...state.user,
+        user_id: action.payload.user_id,
+        username: action.payload.username,
+        nickname: action.payload.nickname,
+        labeling: action.payload.labeling,
+        isAdmin: action.payload.isAdmin,
+        email: action.payload.email,
+      };
+      const token = JSON.stringify({
+        accessToken: action.payload.accessToken,
+        expireTime: action.payload.expireTime,
+        refreshToken: action.payload.refreshToken,
+      });
+      localStorage.setItem("token", token);
     },
     userModify: (state, action) => {
       state.user = {
         ...state.user,
         nickname: action.payload.nickname,
+        followPrivate: action.payload.followPrivate,
         labeling: action.payload.labeling,
+      };
+    },
+    proFileModify: (state, action) => {
+      console.log(action.payload);
+      state.user = {
+        ...state.user,
+        profileImg: action.payload.profileImg,
       };
     },
   },
@@ -153,10 +195,14 @@ export const LoginSlice = createSlice({
         nickname: action.payload.userInfo.nickname,
         isAdmin: action.payload.userInfo.isAdmin,
         username: action.payload.userInfo.username,
+        followPrivate: action.payload.userInfo.followPrivate,
+        labelCharSrc: action.payload.userInfo.labelCharSrc,
+        profileImg: action.payload.userInfo.profileImg,
       };
     });
     builder.addCase(fetchLoginRefreshThunk.rejected, (state) => {
       state.isLoading = false;
+      alert("로그인에 실패하였습니다.");
     });
     builder.addCase(fetchSignUpThunk.pending, (state) => {
       state.isLoading = true;
@@ -164,9 +210,11 @@ export const LoginSlice = createSlice({
     builder.addCase(fetchSignUpThunk.fulfilled, (state, action) => {
       state.isLoading = false;
       console.log(action.payload);
+      alert("회원가입에 성공하였습니다.");
     });
     builder.addCase(fetchSignUpThunk.rejected, (state) => {
       state.isLoading = false;
+      alert("회원가입에 실패하였습니다.");
     });
     builder.addCase(fetchLoginThunk.pending, (state) => {
       state.isLoading = true;
@@ -185,15 +233,20 @@ export const LoginSlice = createSlice({
         nickname: action.payload.user.nickname,
         isAdmin: action.payload.user.isAdmin,
         username: action.payload.user.username,
+        followPrivate: action.payload.user.followPrivate,
+        labelCharSrc: action.payload.user.labelCharSrc,
+        profileImg: action.payload.user.profileImg,
       };
     });
     builder.addCase(fetchLoginThunk.rejected, (state) => {
       state.isLoading = false;
+      alert("로그인에 실패하였습니다.");
     });
   },
 });
 
-export const { logout, userModify } = LoginSlice.actions;
+export const { logout, userModify, proFileModify, snsLogin } =
+  LoginSlice.actions;
 
 export const loginState = (state: RootState) => state.userReducer;
 

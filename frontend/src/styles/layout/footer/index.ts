@@ -29,6 +29,9 @@ export const FooterShortsButtons = styled.button`
   background: none;
   border: none;
   height: 3vh;
+  :hover{
+    cursor: pointer;
+  }
 `;
 
 export const FooterShortsImg = styled.img`

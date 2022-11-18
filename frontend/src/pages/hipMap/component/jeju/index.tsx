@@ -1,14 +1,27 @@
 import { FullMapWrappingDiv, JejuMapDiv, GridDivRegional, NotDotSpanRegional, ArrowDiv } from "../../styles/fullmap";
 import { JejuSpanRegional } from "../../styles/fullmap";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveClick, saveJeju, saveJejuAnime, saveJejuMobile, saveName, saveRegion } from "../../../../store/hipMap/hipMapStore";
 import { useNavigate } from "react-router-dom";
 import { useDotMapData } from "../../../../hoc/hipMap/fullMap/useDotMapData";
+import { useEffect } from "react";
+import type { RootState } from "../../../../store/store";
+import { useQueryClient } from "@tanstack/react-query";
 function Jeju(){
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {data,isLoading} = useDotMapData(
+    const queryClient = useQueryClient()
+    const hipmapSelector = useSelector((store:RootState) => store.hipMapReducer)
+    useEffect(()=>{
+      if(hipmapSelector && ( hipmapSelector.si || hipmapSelector.gu || hipmapSelector.dong || hipmapSelector.sameLabelingCheck || hipmapSelector.sameLabelingCheck2) ){
+        setTimeout(() => {
+          queryClient.invalidateQueries();
+         refetch()
+        }, 1);
+      }
+    },[hipmapSelector]);
+    const {data,isLoading, refetch} = useDotMapData(
       {
         queryKey: "dotMapData",
         uri: "/shorts/maplist",
@@ -16,10 +29,10 @@ function Jeju(){
         endLat: 33.5626,
         startLng: 126.1660,
         endLng: 126.9723,
-        isFilterChecked: false,
-        locationSi: null,
-        locationGu: null,
-        locationDong: null
+        isFilterChecked: hipmapSelector.sameLabelingCheck,
+        locationSi: hipmapSelector.si,
+        locationGu: hipmapSelector.gu,
+        locationDong: hipmapSelector.dong
       }
     )
     const mapDot = [
@@ -58,7 +71,6 @@ function Jeju(){
                            && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -74,8 +86,6 @@ function Jeju(){
                            && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
-                            console.log(mapDot)
                           }
                         })
                       }
@@ -106,7 +116,6 @@ function Jeju(){
       ))
     }
     function JejuClick(i: number, j: number){
-      console.log(i,j)
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
         if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
@@ -114,7 +123,6 @@ function Jeju(){
          {
           shortsList.push(shorts)
         }
-        console.log(i, j, shortsList)
       })
      
       navigate('/hipmap/result',
@@ -134,7 +142,7 @@ function Jeju(){
                             if(j === 1 || j === 2 || j === 3){
                               
                               return(
-                                <JejuSpanRegional onClick={() =>{ console.log(i, j); JejuClick(i, j)}} number={dot}>
+                                <JejuSpanRegional onClick={() =>{JejuClick(i, j)}} number={dot}>
                                   {dot}
                                 </JejuSpanRegional>
                               )

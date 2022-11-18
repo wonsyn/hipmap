@@ -3,6 +3,9 @@ import { css } from "@emotion/react";
 import { useMediaQuery } from "@material-ui/core";
 import Card from "../../../../components/card/Card";
 import { SameHipPlaceCardWrapperDiv } from "../../styles/sameHipPlace";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveSameLabelingCheck } from "../../../../store/hipMap/hipMapStore";
 
 const SameHipPlaceCardWrapper = ({
   data,
@@ -15,10 +18,23 @@ const SameHipPlaceCardWrapper = ({
   };
 }) => {
   const isMobile = useMediaQuery("(max-width:1024px)");
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  function ClickEvent(){
+    dispatch(saveSameLabelingCheck())
+    setTimeout(() => {
+      navigate(`/hipmap/fullmap`, {
+        state: {
+          sameHipPlace: true
+        }
+      })
+    }, 1);
+  }
   console.log("데이터?", data);
 
   return (
-    <SameHipPlaceCardWrapperDiv>
+    <SameHipPlaceCardWrapperDiv onClick={ClickEvent}>
+      asdfsdfadf
       {data.shortsList[0] && (
         <Card
           width="50vh"
