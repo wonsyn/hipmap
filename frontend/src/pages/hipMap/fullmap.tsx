@@ -86,7 +86,6 @@ function FullMapPage(){
                     region: "Jeju"
                 }))
         }
-        console.log("변화가 있나요?", hipmapSelector)
     }
     return(
         <WrappingDiv>

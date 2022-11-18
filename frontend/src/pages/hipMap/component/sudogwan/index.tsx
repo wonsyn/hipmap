@@ -62,7 +62,6 @@ function Sudogwan(){
        ]
 
     if(!isLoading){
-      console.log("넌 뭐니? ", data.shortsList)
       mapDot.map((dots, i) => {
         dots.map((dot, j) => {
             if(i === 1){
@@ -73,7 +72,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -88,7 +86,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -104,7 +101,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -120,7 +116,6 @@ function Sudogwan(){
                        && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                        {
                         mapDot[i][j] += 1
-                        console.log("진행 완료")
                       }
                     })
                   }
@@ -157,7 +152,6 @@ function Sudogwan(){
          {
           shortsList.push(shorts)
         }
-        console.log("진행 완료")
       })
      
       navigate('/hipmap/result',
