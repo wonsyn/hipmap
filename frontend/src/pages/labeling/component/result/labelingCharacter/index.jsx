@@ -11,6 +11,7 @@ import PureHipster from "./characters/pureHipster";
 import SaltOfHipster from "./characters/saltOfHipster";
 import SixthSense from "./characters/sixthSense";
 import WarmAndroid from "./characters/warmAndroid";
+import { OrbitControls } from "@react-three/drei";
 
 function Model(labelName) {
   console.log(labelName.labelName.name)
@@ -42,6 +43,7 @@ function LabelingCharacter(name){
             <Canvas>
             <Suspense fallback={null}>
             <ambientLight />
+            <OrbitControls />
               <Model labelName={name}/>
               </Suspense>
             </Canvas>       

@@ -10,7 +10,15 @@ function Question({text, number}: QuestionProps){
     return(<>
         {console.log(number)}
         <QuestionDiv number={number}>
-            {text}
+            {text &&
+          text.split("\n").map((line, index) => {
+            return (
+              <>
+                {line}
+                <br />
+              </>
+            );
+          })}
         </QuestionDiv>
     
     </>

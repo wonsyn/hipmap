@@ -6,6 +6,10 @@ interface LabelingNameProps{
     number: number
 }
 
+const animationted = keyframes`
+0% { background-position: 0% 0%; }
+100% { background-position: 0% 100%; }
+`
 
 const infiniteRotate = keyframes`
     100%{
@@ -34,14 +38,18 @@ export const ContainerDiv = styled.div`
     width: 80vw;
     max-width: 500px;
     /* height: 92vh; */
-    background-color: ${palette.mainColor};
+    // background-color: black;
+    animation: ${animationted} 5s linear infinite;
+    background-image: linear-gradient(0deg,#cf5c5c,#c19b4a,#def2a0,#c6ee4a,#42eca6,#64b3d9,#208ea2,#498ada,#5b73df,#897ed3,#cf5c5c,#c19b4a);
+    background-size: 100% 1100%;
     // border 관련
     border: 5px solid transparent;
     border-radius: 20px;
     border-image: ${palette.subColorGradient4};
-    border-image-slice: 1;
+    border-image-slice: 1;3
     margin: 10px;
 `
+
 export const KakaoShareDiv = styled.div`
     display: flex;
     flex-direction: column;

@@ -11,7 +11,8 @@ const Footer = () => {
   const navigate = useNavigate();
   return (
     <>
-      {(window.location.pathname === "/labeling/welcome") || (window.location.pathname === "/labeling/processing") || (window.location.pathname === "/labeling/result")?
+      {(window.location.pathname === "/labeling/welcome") || (window.location.pathname === "/labeling/processing") || (window.location.pathname === "/labeling/result" ||
+    window.location.pathname === "/camera")?
       (<></>):
     (<FooterWrapper>
       <FooterContentsWrapperDiv>

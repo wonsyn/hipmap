@@ -44,9 +44,12 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={client}>
+        
+  
+      
         <Layout>
           <Routes>
-            <Route element={<PrivateRoute authentication={true} />}>
+            {/* <Route element={<PrivateRoute authentication={true} />}> */}
               <Route path="/main" element={<Main />} />
               <Route path="/hipmap/fullmap" element={<FullMapPage />}></Route>
               <Route
@@ -63,7 +66,7 @@ function App() {
               <Route path="/write" element={<Write />} />
               <Route path="/profileModify" element={<MyProfileModify />} />
               <Route path="/" element={<Navigate replace to="/main" />} />
-            </Route>
+            {/* </Route> */}
             <Route path="/camera" element={<CameraPage />} />
             <Route element={<PrivateRoute authentication={false} />}>
               <Route path="/labeling/welcome" element={<WelcomePage />}></Route>

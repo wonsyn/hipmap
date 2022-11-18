@@ -1,7 +1,7 @@
 import KakaoShare from "./component/result/kakaoShare"
 import LabelingCharacter from "./component/result/labelingCharacter"
 import LabelingDetail from "./component/result/labelingDetail"
-import LabelingName from "./component/result/labelingName/indes"
+import LabelingName from "./component/result/labelingName"
 import With from "./component/result/withButton"
 import { WrappingDiv } from "./styles/result"
 import { ContainerDiv } from "./styles/result"
