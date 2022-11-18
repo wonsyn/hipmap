@@ -9,7 +9,7 @@ import {
   MyHipContentWrapperDiv,
 } from "../../styles/MyHip";
 
-interface MyHipContainerProps {
+export interface MyHipContainerProps {
   content: {
     shortsId: number;
     thumbnailSrc: string;

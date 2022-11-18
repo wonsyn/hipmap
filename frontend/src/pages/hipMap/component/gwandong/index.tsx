@@ -72,7 +72,6 @@ function Gwandong(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       } 
@@ -86,7 +85,6 @@ function Gwandong(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -102,7 +100,6 @@ function Gwandong(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -118,7 +115,6 @@ function Gwandong(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -134,7 +130,6 @@ function Gwandong(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -149,7 +144,6 @@ function Gwandong(){
                            && ((shorts.longitude >= (125.0667 + (0.34745*j))) && (shorts.longitude <= (125.0667 + (0.34745*(j+1))))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                         }  
@@ -184,7 +178,6 @@ function Gwandong(){
          {
           shortsList.push(shorts)
         }
-        console.log("진행 완료")
       })
      
       navigate('/hipmap/result',

@@ -9,7 +9,15 @@ interface SelectButtonProps{
 function Select({text,clickEvent,number}: SelectButtonProps){
     return(
         <SelectButton onClick={clickEvent} number={number}>
-            {text}
+            {text &&
+          text.split("\n").map((line, index) => {
+            return (
+              <>
+                {line}
+                <br />
+              </>
+            );
+          })}
         </SelectButton>
     )
 }

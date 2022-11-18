@@ -7,14 +7,18 @@ import {
   FooterWriteImg,
 } from "../../../styles/layout/footer";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveSiGuDong, saveSameLabelingReset } from "../../../store/hipMap/hipMapStore";
 const Footer = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <>
-      {window.location.pathname === "/labeling/welcome" ||
+      {(window.location.pathname === "/labeling/welcome" ||
       window.location.pathname === "/labeling/processing" ||
       window.location.pathname === "/labeling/result" ||
-      window.location.pathname === "/login" ? (
+      window.location.pathname === "/login"||
+      window.location.pathname === "/camera") ? (
         <></>
       ) : (
         <FooterWrapper>
@@ -47,7 +51,17 @@ const Footer = () => {
             </FooterWriteButton>
             <FooterShortsButtons
               onClick={() => {
-                navigate("/hipmap/fullmap");
+                dispatch(saveSameLabelingReset())
+                dispatch(saveSiGuDong(
+                  {
+                    si: "",
+                    gu: "",
+                    dong: ""
+                  }
+                ))
+                setTimeout(() => {
+                  navigate("/hipmap/fullmap");
+                }, 1);
               }}
             >
               <FooterShortsImg

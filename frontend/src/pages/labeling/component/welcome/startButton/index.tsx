@@ -1,9 +1,17 @@
 import { StartButtonStyled, LoginDiv } from "../../../styles/welcome"
 import { useNavigate } from "react-router-dom"
-function StartButton(){
+function StartButton(kakaoData: any){
     const navigate = useNavigate()
     const goProcessing = () => {
-        navigate(`/labeling/processing`)
+        if(kakaoData.kakaoData.snsSign){
+            navigate(`/labeling/processing`, {state : {
+                email: kakaoData.kakaoData.email,
+                snsSign: kakaoData.kakaoData.snsSign
+            }})
+        }
+        else{
+            navigate(`/labeling/processing`)
+        }
     }
     const goLogin = () => {
         navigate(`/login`)

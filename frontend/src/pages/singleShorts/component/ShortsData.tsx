@@ -8,6 +8,8 @@ import {
   SingleShortsVoteProgressBarWrapperDiv,
 } from "../style/singleShorts";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useShortsDelete } from "../../../hoc/useMutation";
 
 const ShortsData = ({
   shortsId,
@@ -24,7 +26,7 @@ const ShortsData = ({
 }) => {
   const userId = useAppSelector((store) => store.userReducer.user.user_id);
   console.log("투표?", userId, id);
-
+  const { mutate: shortsDelete } = useShortsDelete();
   const percent = (like / (like + hate)) * 100;
   return (
     <div
@@ -60,7 +62,31 @@ const ShortsData = ({
       {/* 투표시작 */}
       {userId === id && (
         <>
-          {" "}
+          <div
+            css={css`
+              position: absolute;
+              right: 10px;
+            `}
+          >
+            <button
+              css={css`
+                border: none;
+                background: none;
+              `}
+              onClick={() => {
+                shortsDelete(
+                  { shortsId },
+                  {
+                    onSuccess: () => {
+                      window.location.reload();
+                    },
+                  }
+                );
+              }}
+            >
+              <DeleteIcon sx={{ color: "white" }} />
+            </button>
+          </div>
           <div
             css={css`
               font-size: 1.2rem;

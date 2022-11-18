@@ -30,12 +30,12 @@ const KakaoRedirect = () => {
   }, [isAuth, navigator]);
   useEffect(() => {
     if (data && !data.signed) {
-      // navigator("/labeling/welcome", {
-      //   state: { email: data.email, snsSign: true },
-      // });
-      navigator("/signup", {
+      navigator("/labeling/welcome", {
         state: { email: data.email, snsSign: true },
       });
+      // navigator("/signup", {
+      //   state: { email: data.email, snsSign: true },
+      // });
     } else if (data && data.signed) {
       console.log(data);
       const res = data.userInfo;
