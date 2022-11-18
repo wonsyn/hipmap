@@ -6,15 +6,16 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class S3Util {
     }
 
     private Map<String, String> upload(File uploadFile, String dirName, Long userId) throws Exception{
+        System.out.println("dirName = " + dirName);
         String origName = uploadFile.getName();
         String ext = origName.substring(origName.lastIndexOf('.')); // 확장자
 //        String saveFileName = userId+ "-" +getUuid() + ext; // 파일 저장 이름
@@ -47,51 +49,42 @@ public class S3Util {
         String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
         boolean isMp4 = false;
 
-        FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
-        FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
-//        FFmpeg ffmpeg = new FFmpeg("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffmpeg"); // ffmpge 로컬 경로
-//        FFprobe ffprobe = new FFprobe("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffprobe"); // ffmpge 로컬 경로
+//        FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
+//        FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
+//        FFmpeg ffmpeg = new FFmpeg("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffmpeg"); // ffmpeg 로컬 경로
+//        FFprobe ffprobe = new FFprobe("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffprobe"); // ffmpeg 로컬 경로
 
-        if(!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".mp4")) {
-            // 파일 생성
-            FileOutputStream fileStream = new FileOutputStream("/var/jenkins_home/encoding/origin/" + origName);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileStream);
-            objectOutputStream.writeObject(uploadFile);
-//            objectOutputStream.close();
+//        if(!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".mp4")) {
+//            // 파일 생성
+////            FileOutputStream fileStream = new FileOutputStream("/var/jenkins_home/encoding/origin/" + origName);
+//            FileOutputStream fileStream = new FileOutputStream("C:/ssafy/cd/shorts/encoding" + origName);
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileStream);
+//            objectOutputStream.writeObject(uploadFile);
+////            objectOutputStream.close();
+//
+//            // 인코딩 로직
+////            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //원본파일경로
+////            FFmpegBuilder builder = new FFmpegBuilder().setInput("C:/ssafy/cd/shorts/encoding" + origName) //원본파일경로
+//            FFmpegBuilder builder = new FFmpegBuilder().setInput(origName) //원본파일경로
+//                    .overrideOutputFiles(true)
+////                    .addOutput("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
+//                    .addOutput("C:/ssafy/cd/shorts/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
+//                    .setFilename("mp4")
+//                    .setVideoCodec("libx264")
+//                    .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
+//                    .done();
+//            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+//            executor.createJob(builder).run();
+//            isMp4 = true;
+//        }
 
-            // 인코딩 로직
-            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //원본파일경로
-                    .overrideOutputFiles(true)
-                    .addOutput("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
-                    .setFilename("mp4")
-                    .setVideoCodec("libx264")
-                    .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
-                    .done();
-            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-            executor.createJob(builder).run();
-            isMp4 = true;
-        }
 
+        File encodingUploadFile = uploadFile;
 
-        File encodingUploadFile;
-        if(isMp4){
-            encodingUploadFile = new File("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4");
-        }else {
-            encodingUploadFile = uploadFile;
-        }
 
         String uploadThumbnailUrl = null;
-        if(dirName.equals("video")) {
-            FFmpegBuilder thumbnailBuilder = new FFmpegBuilder()
-                    .overrideOutputFiles(true)
-                    .setInput("/var/jenkins_home/encoding/origin/" + origName)
-                    .addExtraArgs("--ss", "00:00:01")
-                    .addOutput("/var/jenkins_home/thumbnail/result/" + saveFileNameExceptExt + "tn.png")
-                    .setFrames(1)
-                    .done();
-            FFmpegExecutor thumbnailExecutor = new FFmpegExecutor(ffmpeg, ffprobe);
-            thumbnailExecutor.createJob(thumbnailBuilder).run();
-            File thumbnail = new File("/var/jenkins_home/thumbnail/result/" + saveFileNameExceptExt + "tn.png");
+        if(dirName.equals("videos")) {
+            File thumbnail = JCodecUtil.getThumbnail(encodingUploadFile, new File("/var/jenkins_home/thumbnail/" + saveFileNameExceptExt + ".png"));
             String thumbnailName = dirName + "/" + thumbnail.getName();
             uploadThumbnailUrl = putS3(thumbnail, thumbnailName);
             removeNewFile(thumbnail);
@@ -102,7 +95,7 @@ public class S3Util {
 //        String uploadImageUrl = putS3(uploadFile, fileName);
         String uploadImageUrl = putS3(encodingUploadFile, fileName);
 
-        if(dirName.equals("image")) {
+        if(dirName.equals("images")) {
             uploadThumbnailUrl = uploadImageUrl;
         }
 
