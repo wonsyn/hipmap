@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useMediaQuery } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import Card from "../../../../components/card/Card";
@@ -10,13 +12,14 @@ import {
 import MyHipContent from "./myHipContent";
 
 const MyHipContainer = ({ username }: { username: string }) => {
-  const [myHipData, setMyHipData] = useState<
-    {
-      shortsId: number;
-      thumbnailSrc: string;
-      nickname: string;
-    }[]
-  >();
+  const [myHipData, setMyHipData] =
+    useState<
+      {
+        shortsId: number;
+        thumbnailSrc: string;
+        nickname: string;
+      }[]
+    >();
   const { data: myShorts } = useFetchMyShorts(username);
   const { data: bookmark } = useFetchBookMark();
   console.log("내 힙 데이터 : ", myHipData);
@@ -43,12 +46,18 @@ const MyHipContainer = ({ username }: { username: string }) => {
                 {myHipData !== undefined && myHipData.length > 0 && (
                   <MyHipContent content={myHipData} text="북마크" />
                 )}
-                {myShorts && (
+                {myShorts !== undefined && myShorts.length > 0 && (
                   <MyHipContent content={myShorts} text="최근 등록한 장소" />
                 )}
               </MyHipContentDiv>
             ) : (
-              <h3>아직 아무것도 없어요!</h3>
+              <h3
+                css={css`
+                  margin: 5%;
+                `}
+              >
+                아직 아무것도 없어요!
+              </h3>
             )}
           </div>
         </div>

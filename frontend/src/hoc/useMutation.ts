@@ -319,3 +319,16 @@ export const useUserDelete = () => {
     }
   );
 };
+
+export const useShortsDelete = () => {
+  return useMutation(
+    async ({ shortsId }: { shortsId: number }) => {
+      const response = await http.delete(`/shorts/delete/${shortsId}`);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {},
+    }
+  );
+};
