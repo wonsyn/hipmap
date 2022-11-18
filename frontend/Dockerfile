@@ -38,5 +38,5 @@ COPY --from=build-stage /var/jenkins_home/workspace/hipmapDeploy/frontend/deploy
 RUN pwd
 # COPY --from=build-stage /var/jenkins_home/workspace/hipmapdpl/frontend/ws2 /usr
 # COPY --from=build-stage /var/jenkins_home/ws2/private.key /var
-EXPOSE 80
+EXPOSE 3000
 CMD ["nginx", "-g", "daemon off;"]
