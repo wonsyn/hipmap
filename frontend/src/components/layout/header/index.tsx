@@ -12,17 +12,19 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import ProfileImgWrapper from "../../profileImage";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { css } from "@emotion/react";
 import CommonButton from "../../button/CommonButton";
 import { useMediaQuery } from "@material-ui/core";
 import { FooterShortsImg } from "../../../styles/layout/footer";
-
+import { saveSiGuDong, saveSameLabelingReset } from "../../../store/hipMap/hipMapStore";
 function Header() {
   const auth = useSelector((store: RootState) => store.userReducer.auth);
-  const navigator = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width:700px)");
   const onClick = () => {
-    navigator(`/login`);
+    navigate(`/login`);
   };
 
   if (
@@ -51,7 +53,7 @@ function Header() {
             <HeaderContentsWrapperDiv>
               <HeaderShortsButtons
                 onClick={() => {
-                  navigator("/shorts");
+                  navigate("/shorts");
                 }}
               >
                 <FooterShortsImg
@@ -61,7 +63,20 @@ function Header() {
                   alt="shorts 버튼"
                 />
               </HeaderShortsButtons>
-              <HeaderShortsButtons>
+              <HeaderShortsButtons
+              onClick={() => {
+                dispatch(saveSameLabelingReset())
+                dispatch(saveSiGuDong(
+                  {
+                    si: "",
+                    gu: "",
+                    dong: ""
+                  }
+                ))
+                setTimeout(() => {
+                  navigate("/hipmap/fullmap");
+                }, 1);
+              }}>
                 <FooterShortsImg
                   src="/img/randomHip.png"
                   width="auto"
@@ -72,7 +87,7 @@ function Header() {
               {auth && (
                 <HeaderContentWriteButton
                   onClick={() => {
-                    navigator("/write");
+                    navigate("/write");
                   }}
                 >
                   <img
