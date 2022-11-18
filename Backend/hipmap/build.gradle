@@ -91,6 +91,14 @@ dependencies {
 
     // json
     implementation 'org.json:json:20220924'
+
+    // jcodec
+    // https://mvnrepository.com/artifact/org.jcodec/jcodec
+    implementation group: 'org.jcodec', name: 'jcodec', version: '0.2.3'
+    // jcodec-javase
+    // https://mvnrepository.com/artifact/org.jcodec/jcodec-javase
+    implementation group: 'org.jcodec', name: 'jcodec-javase', version: '0.2.3'
+
 }
 
 tasks.named('test') {
