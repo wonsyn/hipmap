@@ -114,13 +114,6 @@ export default function SelectBox() {
         }}
           options={SelectDong(gu)}
           placeholder="동 / 면"/>
-        {/* <button onClick={() => {dispatch(saveSiGuDong(
-      {
-        si: siName,
-        gu: guName,
-        dong: dongName
-      }
-    ))}}>dfdsf</button> */}
     </SelectWrappingDiv>
     </>
   )
