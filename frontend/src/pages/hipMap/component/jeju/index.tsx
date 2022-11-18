@@ -71,7 +71,6 @@ function Jeju(){
                            && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
                           }
                         })
                       }
@@ -87,8 +86,6 @@ function Jeju(){
                            && ((shorts.longitude >= (126.1660 + (0.26877*(j-1)))) && (shorts.longitude <= (126.1660 + (0.26877*j)))) )
                            {
                             mapDot[i][j] += 1
-                            console.log("진행 완료")
-                            console.log(mapDot)
                           }
                         })
                       }
@@ -119,7 +116,6 @@ function Jeju(){
       ))
     }
     function JejuClick(i: number, j: number){
-      console.log(i,j)
       const shortsList: any = []
       data.shortsList.map((shorts: any) => {
         if( ( (shorts.latitude >= (33.10 + (0.2328)*(i-20))) && (shorts.latitude <= (33.10 + (0.2328)*(i-19))) )
@@ -127,7 +123,6 @@ function Jeju(){
          {
           shortsList.push(shorts)
         }
-        console.log(i, j, shortsList)
       })
      
       navigate('/hipmap/result',
@@ -147,7 +142,7 @@ function Jeju(){
                             if(j === 1 || j === 2 || j === 3){
                               
                               return(
-                                <JejuSpanRegional onClick={() =>{ console.log(i, j); JejuClick(i, j)}} number={dot}>
+                                <JejuSpanRegional onClick={() =>{JejuClick(i, j)}} number={dot}>
                                   {dot}
                                 </JejuSpanRegional>
                               )

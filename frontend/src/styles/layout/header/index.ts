@@ -66,6 +66,9 @@ export const HeaderShortsButtons = styled.button`
   border: none;
   height: 3vh;
   margin-right: 1vw;
+  :hover{
+    cursor: pointer;
+  }
 `;
 
 export const HeaderContentWriteButton = styled.button`
@@ -76,4 +79,7 @@ export const HeaderContentWriteButton = styled.button`
   height: 5vh;
   margin-left: auto;
   margin-top: 2%;
+  :hover{
+    cursor: pointer;
+  }
 `;

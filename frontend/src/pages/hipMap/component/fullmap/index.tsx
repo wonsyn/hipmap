@@ -340,8 +340,6 @@ function FullMap(){
         landRefetch();
         islandRefetch();
       }, 1);
-      console.log("안녕", hipmapSelector.si, hipmapSelector.gu, hipmapSelector.dong)
-      console.log("이건?", hipmapSelector.sameLabelingCheck)
     }
   },[hipmapSelector]);
 
@@ -387,8 +385,6 @@ function FullMap(){
         locationDong: hipmapSelector.dong
     }
     )
-    console.log("어떻게 나오니?", checkLand)
-    console.log(mapDot)
   if(!landIsLoading){
     {mapDot.map((dots, i) => {
         {dots.map((dot, j) =>{
