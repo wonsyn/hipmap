@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { RegionNameDiv, RegionNameButton } from "./styles/fullmap"
 import { saveClick, saveSudogwan, saveGwandong, saveHoseo, saveHonam, saveYungnam, saveJeju, saveSudogwanAnime, saveGwandongAnime, saveHoseoAnime, saveHonamAnime, saveYungnamAnime, saveJejuAnime, saveRegion } from "../../store/hipMap/hipMapStore"
+import { useSi } from "../../hoc/hipMap/fullMap/useSi"
+import { useGu } from "../../hoc/hipMap/fullMap/useGu"
+import { useDong } from "../../hoc/hipMap/fullMap/useDong"
 
 function FullMapPage(){
     const dispatch = useDispatch()

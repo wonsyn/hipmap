@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { saveCountE, saveCountI, saveCountN, saveCountS, saveCountT, saveCountF, saveCountJ, saveCountP, 
     saveCountChill, saveCountHeng, saveCountFashion, saveCountZzin } from "../../store/labeling/labelingStore"
 import type { RootState } from "../../store/store"
+import { useLocation } from "react-router-dom"
 
 function ProcessingPage(){
     const [processNumber, setProcessNumber] = useState<number>(0)
@@ -26,6 +27,8 @@ function ProcessingPage(){
     const [Fashion, setFashion] = useState(0)
     const [Zzin, setZzin] = useState(0)
     
+    const location = useLocation()
+    console.log("뭐가 나오니?", location.state)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const selectorCount = useSelector((store:RootState) => store.labelingReducer)
@@ -141,7 +144,17 @@ function ProcessingPage(){
             console.log(E, I, N, S, T, P, J, Chill, Zzin, Fashion)
         
             //결과 페이지로 navigate
-            navigate(`/labeling/result`)
+            if(location.state === null){
+                navigate(`/labeling/result`)
+            }
+            else{
+                navigate(`/labeling/result`, {
+                    state: {
+                        email: location.state.email,
+                        snsSign: location.state.snsSign
+                    } 
+                })
+            }
         }
     }
     const clickEvent2 = () => {
@@ -262,7 +275,17 @@ function ProcessingPage(){
             console.log(E, I, N, S, T, P, J, Chill, Zzin, Fashion)
 
             //결과 페이지로 navigate
-            navigate(`/labeling/result`)
+            if(location.state === null){
+                navigate(`/labeling/result`)
+            }
+            else{
+                navigate(`/labeling/result`, {
+                    state: {
+                        email: location.state.email,
+                        snsSign: location.state.snsSign
+                    } 
+                })
+            }
         }
     }
     const question = [

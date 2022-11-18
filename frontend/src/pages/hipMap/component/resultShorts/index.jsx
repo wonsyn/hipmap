@@ -9,8 +9,9 @@ import Image3 from "../../../../assets/hipMap/bg3.jpg"
 import Image4 from "../../../../assets/hipMap/bg4.jpg"
 import Image5 from "../../../../assets/hipMap/bg5.jpg"
 import Image6 from "../../../../assets/hipMap/bg6.jpg"
-import { useMediaQuery } from "@mui/material";
-
+import { List, useMediaQuery } from "@mui/material";
+import Modal from "../../../../components/modal/Modal";
+import SingleShorts from "../../../singleShorts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -194,6 +195,15 @@ function ResultShorts(shorts) {
     };
   }, []);
 
+  useEffect(() => {
+    if (selectId !== undefined && !isModalOpen) {
+      console.log("지금 선택된?", selectId);
+      setIsModalOpen((prev) => {
+        return !prev;
+      });
+    }
+  }, [isModalOpen, selectId]);
+
   const addToRefs = (el) => {
     if (el && !liRef.current.includes(el)) {
       liRef.current.push(el);
@@ -201,25 +211,89 @@ function ResultShorts(shorts) {
   };
   const ListFunc = () => {
     const Lists = [];
-    const urlList = [`${Image1}`,`${Image2}`,`${Image3}`,`${Image4}`,`${Image5}`,`${Image6}`]
+    // const urlList = [`${Image1}`,`${Image2}`,`${Image3}`,`${Image4}`,`${Image5}`,`${Image6}`]
+    const urlList = shorts.shorts
     urlList.map((url, i) => {
         Lists.push(
-            <li key={url} ref={addToRefs}>
-                <ShortsImage1 src={urlList[i]}></ShortsImage1>
+            <li key={i} ref={addToRefs}>
+                <ShortsImage1  onClick={() => {
+                  setSelectId(urlList[i].shortsId);
+                }} src={urlList[i].thumbnailSrc}></ShortsImage1>
             </li>
         )
     })
+    console.log(Lists)
+    if(Lists.length < 7){
+      urlList.map((url, i) => {
+        Lists.push(
+            <li key={i} ref={addToRefs}>
+                <ShortsImage1  onClick={() => {
+                  setSelectId(urlList[i].shortsId);
+                }} src={urlList[i].thumbnailSrc}></ShortsImage1>
+            </li>
+        )
+    })
+      if(Lists.length < 7){
+        urlList.map((url, i) => {
+          Lists.push(
+              <li key={i} ref={addToRefs}>
+                  <ShortsImage1  onClick={() => {
+                    setSelectId(urlList[i].shortsId);
+                  }} src={urlList[i].thumbnailSrc}></ShortsImage1>
+              </li>
+          )
+      })
+        if(Lists.length < 7){
+          urlList.map((url, i) => {
+            Lists.push(
+                <li key={i} ref={addToRefs}>
+                    <ShortsImage1  onClick={() => {
+                      setSelectId(urlList[i].shortsId);
+                    }} src={urlList[i].thumbnailSrc}></ShortsImage1>
+                </li>
+            )
+        })
+          if(Lists.length < 7){
+            urlList.map((url, i) => {
+              Lists.push(
+                  <li key={i} ref={addToRefs}>
+                      <ShortsImage1  onClick={() => {
+                        setSelectId(urlList[i].shortsId);
+                      }} src={urlList[i].thumbnailSrc}></ShortsImage1>
+                  </li>
+              )
+          })
+          }
+        }
+      }
+    }
     return Lists;
   };
   return (
-    <ShortsBody>
-      <ShortsWrappingDiv>
-        <ShortsDiv ref={pinRef}>
-          <ShortsUl>{ListFunc()}</ShortsUl>
-          
-        </ShortsDiv>
-      </ShortsWrappingDiv>
-    </ShortsBody>
+    <>
+    {isModalOpen && selectId !== undefined && (
+        <Modal
+          width={isMobile ? "80%" : "1024px"}
+          height="80%"
+          modalHandler={() => {
+            setIsModalOpen((prev) => {
+              return !prev;
+            });
+            setSelectId(undefined);
+          }}
+        >
+          <SingleShorts shortsId={selectId} />
+        </Modal>
+      )}
+      <ShortsBody>
+        <ShortsWrappingDiv>
+          <ShortsDiv ref={pinRef}>
+            <ShortsUl>{ListFunc()}</ShortsUl>
+            
+          </ShortsDiv>
+        </ShortsWrappingDiv>
+      </ShortsBody>
+    </>
   );
 }
 

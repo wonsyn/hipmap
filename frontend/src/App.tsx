@@ -68,19 +68,18 @@ function App() {
               <Route path="/" element={<Navigate replace to="/main" />} />
             {/* </Route> */}
             <Route path="/camera" element={<CameraPage />} />
-            <Route element={<PrivateRoute authentication={false} />}>
-              <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
-              <Route
-                path="/labeling/processing"
-                element={<ProcessingPage />}
-              ></Route>
-              <Route path="/labeling/result" element={<ResultPage />}></Route>
 
-              <Route path="/login" element={<LoginWrapper />} />
-              <Route path="/signup" element={<SignUpWrapper />} />
+            <Route path="/labeling/welcome" element={<WelcomePage />}></Route>
+            <Route
+              path="/labeling/processing"
+              element={<ProcessingPage />}
+            ></Route>
+            <Route path="/labeling/result" element={<ResultPage />}></Route>
 
-              <Route path="/oauth/kakao" element={<KakaoRedirect />} />
-            </Route>
+            <Route path="/login" element={<LoginWrapper />} />
+            <Route path="/signup" element={<SignUpWrapper />} />
+
+            <Route path="/oauth/kakao" element={<KakaoRedirect />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </Layout>

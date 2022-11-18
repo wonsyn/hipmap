@@ -6,7 +6,7 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const WriteColorAlerts = ({
+const ErrorAlerts = ({
   open,
   openHandler,
 }: {
@@ -21,11 +21,11 @@ const WriteColorAlerts = ({
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       key={"bottom" + "center"}
     >
-      <Alert onClose={openHandler} severity="success">
-        쇼츠 업로드에 성공했습니다.
+      <Alert onClose={openHandler} severity="error">
+        문제가 발생하였습니다.
       </Alert>
     </Snackbar>
   );
 };
 
-export default WriteColorAlerts;
+export default ErrorAlerts;

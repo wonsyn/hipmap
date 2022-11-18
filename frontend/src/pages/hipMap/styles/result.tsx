@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 export const WrappingDiv = styled.div`
     display: flex;
     flex-direction: row;
+    /* max-width: 1024px; */
     @media screen and (max-width: 700px){
         flex-direction: column;
     }
@@ -20,11 +21,13 @@ export const MentionWrappingDIv = styled.div`
     left: 2vw;
     width: 700px;
     height: 700px;
+    margin-top: 2vh;
     @media screen and (max-width: 700px){
         top: 7vh;
         left: 2vw;
         width: 100vw;
         height: 20vh;
+        margin-top: 2vh;
     }
 `
 export const TextDiv = styled.div`
