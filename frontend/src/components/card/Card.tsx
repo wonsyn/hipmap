@@ -58,7 +58,7 @@ Card.defaultProps = {
   overflow: "",
   color: "white",
   border_radius: 14,
-  background: "linear-gradient(183.5deg, #FA2FB5, #CEEEEC)",
+  background: "#FA2FB5",
   width: "50vw",
   height: "50vh",
   font_size: "2rem",

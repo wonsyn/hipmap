@@ -15,7 +15,6 @@ export function useGu({queryKey, uri, sido}: useGuProps){
                 sido: sido
             }
             })
-            // console.log(response)
             return response.data
         }, 
         {refetchOnWindowFocus: false,

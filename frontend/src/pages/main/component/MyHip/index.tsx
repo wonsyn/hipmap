@@ -22,7 +22,6 @@ const MyHipContainer = ({ username }: { username: string }) => {
     >();
   const { data: myShorts } = useFetchMyShorts(username);
   const { data: bookmark } = useFetchBookMark();
-  console.log("내 힙 데이터 : ", myHipData);
   const isMobile = useMediaQuery("(max-width:1024px)");
   useEffect(() => {
     if (bookmark) {

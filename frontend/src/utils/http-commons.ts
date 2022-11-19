@@ -67,7 +67,6 @@ http.interceptors.response.use(
           return await axios(originalRequest);
         }
       } catch (e: any) {
-        console.log(e);
         localStorage.removeItem("token");
         alert("로그인이 풀렸습니다. 다시 로그인 해주시기 바랍니다.");
         window.location.href = "/login";

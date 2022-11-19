@@ -23,7 +23,6 @@ const ProfileImgWrapper = () => {
   const userProfile = useAppSelector(
     (store) => store.userReducer.user.profileImg
   );
-  console.log("나는 겁쟁이가 아니다.", userId);
   const {
     isLoading: notiLoading,
     data: noti,
@@ -36,7 +35,6 @@ const ProfileImgWrapper = () => {
     },
     {}
   );
-  console.log(noti);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = () => {

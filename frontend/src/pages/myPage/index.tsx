@@ -17,7 +17,6 @@ const MyPage = () => {
   useEffect(() => {
     return setUsername(undefined);
   }, []);
-  console.log(username);
   if (isAuth) {
     return (
       <MyPageDiv>

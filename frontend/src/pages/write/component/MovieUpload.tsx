@@ -20,7 +20,6 @@ const MovieUpload = ({
   const [fileType, setFileType] = useState<string>();
 
   const onDrop = useCallback((acceptedFiles: any) => {
-    console.log(acceptedFiles);
     if (fileExtensionValid(acceptedFiles[0])) {
       if (acceptedFiles[0].size < MAX_SIZE_LIMIT) {
         const extension = removeFileName(acceptedFiles[0].name);
