@@ -7,7 +7,6 @@ import Slide from "./Slide";
 
 const BestHipPlace = () => {
   const { data, isLoading } = useFetchMainBest();
-  console.log(data);
   if (data) {
     return (
       <BestHipPlaceWrapper>

@@ -25,7 +25,6 @@ export const useUserInfoModify = () => {
         label,
         nickname,
       });
-      console.log(response);
       return response.data;
     },
     {
@@ -118,7 +117,6 @@ export const useUploadShorts = () => {
           { type: "application/json" }
         )
       );
-      console.log(temp);
 
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/shorts/upload`,
@@ -130,8 +128,6 @@ export const useUploadShorts = () => {
           },
         }
       );
-
-      console.log(response);
 
       return response.data;
     },
@@ -152,7 +148,6 @@ export const useFirstLikeVote = () => {
         shortsId: id,
         vote,
       });
-      console.log("투표를 이미 했다.", response.data);
       return response.data;
     },
     {
@@ -172,12 +167,10 @@ export const useLikeVote = () => {
         shortsId: id,
         vote,
       });
-      console.log("투표를 이미 했다.", response.data);
       return response.data;
     },
     {
       onSuccess: () => {
-        console.log("aaaa");
         queryClient.invalidateQueries();
       },
     }
@@ -196,7 +189,6 @@ export const useUploadProfileImg = () => {
         access_token = tokenObj.accessToken;
         const refreshToken = tokenObj.refreshToken;
       }
-      console.log(access_token);
       let temp = new FormData();
       temp.append("file", file);
       const response = await axios.post(
@@ -209,7 +201,6 @@ export const useUploadProfileImg = () => {
           },
         }
       );
-      console.log(response.data);
       return response.data;
     },
     {
@@ -226,7 +217,6 @@ export const useLikeDelete = () => {
   return useMutation(
     async ({ id }: { id: number }) => {
       const response = await http.delete(`/like?shortsId=` + id);
-      console.log("투표를 이미 했다.", response.data);
       return response.data;
     },
     {

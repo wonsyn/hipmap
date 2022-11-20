@@ -21,13 +21,9 @@ const MyPagePostWrapper = ({ username }: { username: string }) => {
   const isMobile = useMediaQuery("(max-width:1023px)");
   const flag = window.location.pathname.includes("/myProfile");
   const userIn = useAppSelector((store) => store.userReducer.user.username);
-  console.log("rorkxms", userIn, username);
-  console.log(isMobile);
-  console.log(username);
   const { data: MyPagePost, isLoading } = useFetchMyShorts(
     flag ? userIn : username
   );
-  console.log(MyPagePost);
   if (isLoading) {
     return <div>로딩중...</div>;
   } else if (userIn && !isLoading && MyPagePost && MyPagePost.length > 0) {

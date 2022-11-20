@@ -35,7 +35,6 @@ export const myFindFollows = (
   const result = follower.map((e) => {
     return myFindFollow(following, e.userId);
   });
-  console.log(result);
   if (result !== undefined) {
     return result;
   } else {

@@ -18,24 +18,6 @@ const Main = () => {
   useEffect(() => {
     queryClient.invalidateQueries(["shortsInfinite"]);
   }, []);
-  console.log("유저 네임", username);
-
-  const test = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const tokenObj = JSON.parse(token);
-      const refreshToken = tokenObj.refreshToken;
-      const response = await axios.get(
-        process.env.REACT_APP_BACKEND_URL + `/jwt/re-issue`,
-        {
-          headers: {
-            refreshToken: refreshToken,
-          },
-        }
-      );
-      console.log(response.data);
-    }
-  };
 
   if (userLabel) {
     return (

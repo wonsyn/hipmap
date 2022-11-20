@@ -34,12 +34,7 @@ const Shorts = () => {
     refetch,
   } = useFetchShortsInfinite();
 
-  console.log(test);
-  console.log(nextPage);
-  console.log(shortsData);
-
   useEffect(() => {
-    console.log("ddkdkd");
     if (shortsData && shortsData?.pages.length > 1) {
       setNextPage((prev) => {
         return prev + 1;
@@ -56,9 +51,7 @@ const Shorts = () => {
       setIsNext(false);
     }
   }, [isNext]);
-  console.log(isNext);
   const getCurrentIndex = () => {
-    console.log(prevScroll, window.scrollY);
     const scroll = window.scrollY;
     if (prevScroll < scroll) {
       setCurrentIndex((prev) => {

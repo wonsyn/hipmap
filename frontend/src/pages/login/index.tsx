@@ -27,10 +27,8 @@ const LoginWrapper = () => {
       dispatch(fetchLoginThunk({ id: username, password: password }))
         .unwrap()
         .then((res) => {
-          console.log("rest", res);
         })
         .catch((e) => {
-          console.log("rest", e);
           setCorrectLogin(true);
         });
     }

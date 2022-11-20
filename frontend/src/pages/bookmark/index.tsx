@@ -19,7 +19,6 @@ const BookMark = () => {
     setBookMarkShorts(data);
   }, [data]);
   const navigator = useNavigate();
-  console.log(data);
   return (
     <div
       css={css`
