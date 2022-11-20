@@ -118,8 +118,8 @@ const ProfileImgWrapper = () => {
               right: 0;
               top: 0;
               :hover {
-                cursor: pointer;
-              }
+            cursor: pointer;
+          }
             `}
           >
             {noti.unreadCount > 0 && (
