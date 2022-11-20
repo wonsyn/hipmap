@@ -39,6 +39,9 @@ export const HeaderTitleWrapper = styled.div`
 
 export const LogoImg = styled.img`
   max-height: 80%;
+  :hover {
+    cursor: pointer;
+  }
   /* max-width: 100%; */
 `;
 
@@ -48,6 +51,9 @@ export const HeaderTitleTextWrapper = styled.div`
   height: 60%;
   display: flex;
   align-items: center;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const HeaderContentsWrapperDiv = styled.div`

@@ -36,6 +36,9 @@ export const FooterShortsButtons = styled.button`
 
 export const FooterShortsImg = styled.img`
   height: 4vh;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const FooterWriteButton = styled.button`
@@ -46,6 +49,7 @@ export const FooterWriteButton = styled.button`
   align-items: center;
   background: none;
   border: none;
+  
 `;
 
 export const FooterWriteImg = styled.img`
