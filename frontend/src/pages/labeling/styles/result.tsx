@@ -46,7 +46,7 @@ export const ContainerDiv = styled.div`
     border: 5px solid transparent;
     border-radius: 20px;
     border-image: ${palette.subColorGradient4};
-    border-image-slice: 1;3
+    border-image-slice: 1;
     margin: 10px;
 `
 
@@ -100,11 +100,12 @@ export const  LabelingNameDiv = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     //
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin: 6%;
-    /* overflow: hidden;
-    z-index: 100; */
+    @media screen and (max-width :700px) {
+        font-size: 7.5vw;
+    }
 `
 export const LabelingNameUl = styled.ul`
     margin: 0;
