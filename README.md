@@ -1,5 +1,3 @@
-# 시연시나리오
-
 ![Untitled](%E1%84%89%E1%85%B5%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%89%E1%85%B5%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A9%20a54c41f0d53043fc85ad825dee11bd41/Untitled.png)
 
 ### 랜딩 페이지
@@ -94,7 +92,16 @@
 
 ---
 
-![Untitled](%E1%84%89%E1%85%B5%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%89%E1%85%B5%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A9%20a54c41f0d53043fc85ad825dee11bd41/Untitled%208.png)
+![img](https://lh6.googleusercontent.com/m2hvHnuO7o-CEvDboBKAfwYQ4odKnNI4tSc1v05d98bREL140aVIsI8K3XTO5ak4y5M_TTZxwGirl6Xv-Lq5i63ouuO5iyZG9pfr2qvD55OkS9ZdkBW7mcbGz3maxS565-uYUBpbIW73XKs__u3s2O4I-GpiJ6QLu1DzQu9sWqNlC55JI3WpXMwMkr8kp6ea)
+
+### 쇼츠 및 투표 기능
+
+- 지역 상관없이 짧은 영상과 이미지를 볼 수 있음.
+- 영상과 이미지를 보고 투표를 진행
+
+---
+
+![img](https://lh5.googleusercontent.com/_0LpCn6ATS_7IcTR06RRVyAfVaOcnbjsv8Kr7_AU2EGA3jpbh2ieQBMouiaC58pncLAqir9x65sM31FUdhU13EsECnLrk1FS1Hj8A_sIQ446XXD9KXISfcpjDa6mxOLZ9tlmz263PYIuSmsd8ep3Ya6DbjdHajrpiUHYlukK4vZADK9ltBfVbC8jPgtMZi-e)
 
 ### 마이페이지
 
@@ -125,7 +132,7 @@
 
 ---
 
-![Untitled](%E1%84%89%E1%85%B5%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%89%E1%85%B5%E1%84%82%E1%85%A1%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A9%20a54c41f0d53043fc85ad825dee11bd41/Untitled%2010.png)
+![img](https://lh3.googleusercontent.com/LAofa4wepMXZ52QMMtmagRSOyPCiJIrt2zMAkCAFIz7pEF1xWlQrQLMte40Z9oB-QHmtZw-vtUFv8tghIIzoqxberUufauZfKeE4_GZ4-dvDlZBlJ9TcnZHyzqvxjaZCDZDzk5BVZifMHLTVdYtuH7D2zvFDdlgqpHLgdW3Hj_sGoLL-atKB6qKLhdnlTurE)
 
 ### 북마크 페이지
 
