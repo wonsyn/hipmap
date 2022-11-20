@@ -25,9 +25,9 @@ const ShortsData = ({
   shortsDataHandler: () => void;
 }) => {
   const userId = useAppSelector((store) => store.userReducer.user.user_id);
-  console.log("투표?", userId, id);
   const { mutate: shortsDelete } = useShortsDelete();
-  const percent = (like / (like + hate)) * 100;
+
+  const percent = like === 0 && hate === 0 ? 0 : (like / (like + hate)) * 100;
   return (
     <div
       css={css`

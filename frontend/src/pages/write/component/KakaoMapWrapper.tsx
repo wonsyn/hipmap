@@ -14,16 +14,12 @@ const KakaoMapWrapper = ({
   setPosition: (e: any) => void;
 }) => {
   const [userPosition, setUserPosition] = useState<positionInfo>();
-  console.log(userPosition);
   useEffect(() => {
     if (navigator.geolocation) {
-      console.log("aaaaaa");
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const latitude = pos.coords.latitude;
           const longtitude = pos.coords.longitude;
-
-          console.log("geolocation", pos.coords);
           setUserPosition((prev) => {
             return {
               lat: latitude,

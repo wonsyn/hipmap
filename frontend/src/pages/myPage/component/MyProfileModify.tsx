@@ -55,14 +55,11 @@ const MyProfileModify = () => {
   const { mutate: myProfileUploadMutate } = useUploadProfileImg();
   const dispatch = useAppDispatch();
   const [modifyOpen, setModifyOpen] = useState<boolean>(false);
-  console.log(data);
   useEffect(() => {
     if (data && data.userInfo.proImgSrc) {
       if (data.userInfo.proImgSrc) {
-        console.log(data.userInfo.proImgSrc);
         dispatch(proFileModify({ profileImg: data.userInfo.proImgSrc }));
       } else if (data.userInfo.proImgSrc === null) {
-        console.log(data.userInfo.proImgSrc);
         dispatch(proFileModify({ profileImg: undefined }));
       }
     }
@@ -334,7 +331,6 @@ const MyProfileModify = () => {
       </MyProfileModifyWrapper>
     );
   } else {
-    console.log(isError);
     return (
       <div>
         에러가 발생하였습니다.

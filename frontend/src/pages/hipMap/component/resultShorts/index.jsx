@@ -292,7 +292,6 @@ function ResultShorts(shorts) {
         }
       }
     }
-    console.log("list?", Lists)
     return Lists;
   };
   return (

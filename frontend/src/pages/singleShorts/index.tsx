@@ -3,7 +3,6 @@ import Shorts from "./component/Shorts";
 import { css } from "@emotion/react";
 
 const SingleShorts = ({ shortsId }: { shortsId: number }) => {
-  console.log(shortsId);
   return (
     <div
       css={css`

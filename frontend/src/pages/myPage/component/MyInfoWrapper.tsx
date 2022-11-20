@@ -27,10 +27,8 @@ const MyInfoWrapper = ({
 }) => {
   const [isMyPage, setIsMyPage] = useState<boolean>(false);
   const userIn = useAppSelector((store) => store.userReducer.user.user_id);
-  console.log(userIn);
   const params = useParams();
   const flag = window.location.pathname.includes("/myProfile");
-  console.log("플래그", flag);
   const navigate = useNavigate();
   const { data, isLoading } = useFetchUserInfo(
     flag ? userIn : parseInt(username!)
@@ -53,7 +51,6 @@ const MyInfoWrapper = ({
   if (isLoading) {
     return <div>로딩중...</div>;
   } else if (!isLoading && data) {
-    console.log(data);
     return (
       <MyInfoWrapperDiv>
         <MyInfoDiv>

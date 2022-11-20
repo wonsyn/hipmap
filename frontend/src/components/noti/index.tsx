@@ -18,7 +18,6 @@ const Noti = ({
   const queryClient = new QueryClient();
 
   const { mutate } = useMutation(async ({ id }: { id: any }) => {
-    console.log(id);
     const response = await http.patch(`/notifications/` + id);
     return response.data;
   });
@@ -26,7 +25,6 @@ const Noti = ({
   if (isLoading || !data) {
     return <div>로딩중...</div>;
   }
-  console.log(data);
   return (
     <div
       css={css`

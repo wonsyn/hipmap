@@ -19,7 +19,6 @@ const MyFollowWrapper = ({
 }) => {
   // 유저 아이디 얻어와서 팔로우 리스트에 같이 넣어주기
   const navigate = useNavigate();
-  console.log(shortsCount);
   return (
     <MyFollowWrapperDiv>
       <MyFollowElementWrapperDiv>
