@@ -48,7 +48,7 @@ export const fetchSignUpThunk = createAsyncThunk(
         username: user_id,
       }
     );
-    console.log(response);
+
     return response.data;
   }
 );
@@ -81,7 +81,6 @@ export const fetchLoginThunk = createAsyncThunk(
         }
       );
 
-      console.log(response);
       const issuedTImeString = `&{new Date().getTime()}`;
       const issuedTime = parseInt(issuedTImeString);
 
@@ -138,7 +137,6 @@ export const LoginSlice = createSlice({
       localStorage.removeItem("token");
     },
     snsLogin: (state, action) => {
-      console.log(action.payload);
       state.token = {
         ...state.token,
         access_token: action.payload.accessToken,
@@ -170,7 +168,6 @@ export const LoginSlice = createSlice({
       };
     },
     proFileModify: (state, action) => {
-      console.log(action.payload);
       state.user = {
         ...state.user,
         profileImg: action.payload.profileImg,
@@ -209,7 +206,6 @@ export const LoginSlice = createSlice({
     });
     builder.addCase(fetchSignUpThunk.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       alert("회원가입에 성공하였습니다.");
     });
     builder.addCase(fetchSignUpThunk.rejected, (state) => {

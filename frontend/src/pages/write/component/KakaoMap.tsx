@@ -26,7 +26,6 @@ const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
   const [address, setAddress] = useState<addressType>();
   // const mapRef = useRef<any>();
 
-  console.log(lat, lng);
   useEffect(() => {
     if (address) {
       setPosition({
@@ -74,7 +73,6 @@ const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
           if (isLoading) {
             const geocoder = new kakao.maps.services.Geocoder();
             geocoder.coord2Address(lng, lat, function (result, status) {
-              console.log(result);
               if (status === kakao.maps.services.Status.OK) {
                 setAddress((prev) => {
                   return {
@@ -99,7 +97,6 @@ const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
             mouseEvent.latLng.getLng(),
             mouseEvent.latLng.getLat(),
             function (result, status) {
-              console.log(result);
               if (status === kakao.maps.services.Status.OK) {
                 setAddress((prev) => {
                   return {

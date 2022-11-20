@@ -22,7 +22,6 @@ const MyFollowList = () => {
   if (params.userid !== undefined) {
     id = parseInt(params.userid);
   }
-  console.log(params);
   useEffect(() => {
     const state = location.state.click;
     if (state === "following") {

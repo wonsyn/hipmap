@@ -30,7 +30,6 @@ const SameHipPlaceCardWrapper = ({
       })
     }, 1);
   }
-  console.log("데이터?", data);
 
   return (
     <SameHipPlaceCardWrapperDiv onClick={ClickEvent}>

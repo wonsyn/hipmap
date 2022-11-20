@@ -6,7 +6,6 @@ interface element {
 }
 
 export default function regTest(e: element) {
-  console.log(e);
   let result = false;
   if (e.num === 1) {
     const reg = new RegExp(regex.nickname);
@@ -18,7 +17,7 @@ export default function regTest(e: element) {
     const reg = new RegExp(regex.password);
     result = reg.test(e.content);
   }
-  console.log(result);
+
 
   return result;
 }

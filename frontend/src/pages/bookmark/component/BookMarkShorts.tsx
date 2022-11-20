@@ -20,7 +20,6 @@ const BookMarkShorts = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectId, setSelectId] = useState<number>();
   const isMobile = useMediaQuery("(max-width:1023px)");
-  console.log(bookmarkList);
   return (
     <MyPagePostWrapperUl>
       {isModalOpen && selectId !== undefined && (

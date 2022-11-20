@@ -10,9 +10,9 @@ const style = css`
     background-color: black;
     color: white;
   }
-  /* ::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     display: none;
-  } */
+  }
 `;
 
 const GlobalStyle = () => {

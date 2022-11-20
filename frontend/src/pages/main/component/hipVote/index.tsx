@@ -24,7 +24,6 @@ const HipVote = ({
     isLast: boolean;
   }[];
 }) => {
-  console.log(shortsData);
   const [voteState, setVoteState] = useState<shortsList>();
   const [thumbnailState, setTumbnailState] = useState<short>();
   useEffect(() => {

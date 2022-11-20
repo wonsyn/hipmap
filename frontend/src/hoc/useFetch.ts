@@ -69,11 +69,8 @@ export const useFetchUserFollow = ({
   }>(
     [fetchType],
     async () => {
-      console.log(id, fetchType);
       if (fetchType === "follower") {
         const response = await http.get(`/follow/followerList?userId=` + id);
-
-        console.log(response.data);
         return response.data;
       } else {
         const response = await http.get(`/follow/followingList?userId=` + id);
@@ -87,7 +84,6 @@ export const useFetchUserFollow = ({
 export const useFetchFollowSearch = (word: string) => {
   return useQuery<{ follow: string[] }>(["followSearch"], async () => {
     const response = await http.get(`/follow?keyword=` + word);
-    console.log(response.data);
     return response.data;
   });
 };
@@ -144,7 +140,6 @@ export const useFetchShortsComments = (id: number) => {
     ["shortsComments"],
     async () => {
       const response = await http.get(`/hip/comment/` + id);
-      console.log(response.data);
       const result = response.data.comments.sort(function (
         a: comment,
         b: comment
@@ -205,7 +200,6 @@ export const useFetchMyShorts = (username: string) => {
     ["myPageShorts"],
     async () => {
       const response = await http.get(`/shorts/getusershorts/` + username);
-      console.log("내 게시글", response.data);
       return response.data;
     },
     { refetchOnWindowFocus: true, refetchOnMount: true }
