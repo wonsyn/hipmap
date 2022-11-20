@@ -122,7 +122,7 @@ export const QuestionDiv = styled.div<AnimationProps>`
     align-items: center;
     border-radius: 8px;
     padding: 5%;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     text-shadow: 2px 2px 4px purple;
     animation-fill-mode: ${(props) => props.number? `forwards`: ``};
     animation-name: ${(props) => props.number? css`${fadeOutLeft}, ${fadeInRight}`: ``};
@@ -135,6 +135,7 @@ export const QuestionDiv = styled.div<AnimationProps>`
 export const SelectButton = styled.button<AnimationProps>`
     width: 85%;
     height: 12%;
+    font-size: 0.9rem;
     background: ${palette.mainColor};
     color: white;
     font-weight: bold;
