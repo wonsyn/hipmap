@@ -1,10 +1,11 @@
 package com.hipmap.domain.bookmark;
 
+import com.hipmap.domain.bookmark.dto.response.GetBookmarkResponse;
 import com.hipmap.domain.shorts.ShortsEntity;
 import com.hipmap.domain.shorts.ShortsRepository;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,19 +14,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
 
-    @Autowired
-    BookmarkRepository bookmarkRepository;
+    private final BookmarkRepository bookmarkRepository;
 
-    @Autowired
-    BookmarkRepositorySupport bookmarkRepositorySupport;
+    private final UserRepository userRepository;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    ShortsRepository shortsRepository;
+    private final ShortsRepository shortsRepository;
 
     @Override
     public BookmarkEntity createBookmark(Long userId, Long shortsId) {

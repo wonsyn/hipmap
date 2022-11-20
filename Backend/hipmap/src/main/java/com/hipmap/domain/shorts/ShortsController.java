@@ -1,17 +1,16 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.like.LikeService;
-import com.hipmap.domain.like.dto.LikeTop5ResponseDto;
-import com.hipmap.domain.shorts.request.CreateShortsRequest;
-import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.*;
+import com.hipmap.domain.like.dto.response.LikeTop5ResponseDto;
+import com.hipmap.domain.shorts.dto.request.CreateShortsRequest;
+import com.hipmap.domain.shorts.dto.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.dto.response.*;
 import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -35,11 +34,9 @@ public class ShortsController {
     private final LikeService likeService;
 
     private final JwtUtil jwtUtil;
-    @Autowired
-    ShortsService shortsService;
+    private final ShortsService shortsService;
 
-    @Autowired
-    ShortsRepositorySupport shortsRepositorySupport;
+    private final ShortsRepositorySupport shortsRepositorySupport;
     @GetMapping()
     @ApiOperation(value = "쇼츠 조회 - 위 아래로 넘기기", notes = "pagenation으로 10개씩 조회")
     @ApiResponses({
@@ -50,15 +47,6 @@ public class ShortsController {
         Page<ShortsResponse> shorts = shortsService.getShorts(pageable, userId);
         return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
     }
-//    @GetMapping("/v2")
-//    @ApiOperation(value = "쇼츠 조회 version2", notes = "pagenation으로 10개씩 조회")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<?> getShortsRandom(@PageableDefault(size = 10)Pageable pageable) {
-//        Page<ShortsResponse> shorts = shortsService.getShorts(pageable);
-//        return new ResponseEntity<>(new ShortsPageListResponse<>(shorts.getTotalPages(), shorts.getContent()), HttpStatus.OK);
-//    }
 
     @GetMapping("{shortsId}")
     @ApiOperation(value = "쇼츠 상세 조회", notes = "shortId를 이용해 쇼츠 정보 상세 조회")

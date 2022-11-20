@@ -1,7 +1,7 @@
 package com.hipmap.domain.shorts;
 
 import com.hipmap.domain.like.QLikeEntity;
-import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.dto.request.GetMapListFilterRequest;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

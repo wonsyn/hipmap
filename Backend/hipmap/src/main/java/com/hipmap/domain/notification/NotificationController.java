@@ -1,12 +1,9 @@
 package com.hipmap.domain.notification;
 
+import com.hipmap.domain.notification.dto.response.NotificationsResponse;
 import com.hipmap.global.util.JwtUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequiredArgsConstructor
 public class NotificationController {
-    @Autowired
-    NotificationService notificationService;
+    private final NotificationService notificationService;
     private final JwtUtil jwtUtil;
 
 
@@ -29,11 +25,10 @@ public class NotificationController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public SseEmitter subscribe(@RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId, HttpServletRequest httpRequest) {
-        Long userId = jwtUtil.getUserInfo(httpRequest.getHeader("accessToken")).getId();
+    public SseEmitter subscribe(@RequestParam(value = "Last-Event-ID", required = false, defaultValue = "") @ApiParam(value = "마지막으로 수신한 데이터의 ID") String lastEventId,
+                                @RequestParam @ApiParam(value = "유저 ID") Long userId) {
         return notificationService.subscribe(userId, lastEventId);
     }
-
 
     @ApiOperation(value = "알림 조회", notes = "로그인 한 유저의 모든 알림 조회한다")
     @GetMapping("/notifications")

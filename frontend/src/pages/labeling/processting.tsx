@@ -40,7 +40,7 @@ function ProcessingPage(){
         }
         else if (processNumber === 1){
             setE((prev) => {
-                return prev + 3
+                return prev + 1
             })
         }
         else if (processNumber === 2){
@@ -73,7 +73,7 @@ function ProcessingPage(){
         }
         else if (processNumber === 7){
             setE((prev) => {
-                return prev + 3
+                return prev + 2
             })
             setHeng((prev) => {
                 return prev + 1
@@ -225,6 +225,9 @@ function ProcessingPage(){
             setZzin((prev) => {
                 return prev + 3
             })
+            setI((prev) => {
+                return prev + 2
+            })
         }
         else if (processNumber === 10){
             setS((prev) => {
@@ -312,7 +315,7 @@ function ProcessingPage(){
         `..무시하고 음식을 먹기 시작한다`, 
         `니 친구가 내 친구지~ 당장 불러 👌`, 
         `다음에 또 보는구나~`, 
-        `아 이거 저번에 디스이즈스투챔피언에서 s/s로 출시된건데~ \n다 말해준다`,
+        `아 이거 저번에 디스이즈스투챔피언에서 s/s로 출시된건데~  라며 다 말해준다`,
         `환상적인 동화 속 주인공이 되는 꿈 🎆`
     ]
     const button2 = [
@@ -321,13 +324,14 @@ function ProcessingPage(){
         `천천히 조심히 와 🩰`, 
         `이건 운명이야.. 당장 할아버지에게 여쭤본다`, 
         `왜 이렇게 했지..? 식당 후기를 검색한다 🔍`, 
-        `여기까지 왔는데~ 포토존에서 인증샷부터 찍는다📸`, 
+        `여기까지 왔는데~ \n포토존에서 인증샷부터 찍는다📸`, 
         `수저를 내려놓고 내가 지금까지 생각해왔던 \n사후세계에 대한 모든 것들을 쏟아낸다`, 
         `아 부담스러운데 .. 거절한다 🥶`, 
         `다음에 또…? 그냥 하는 소리겟지.. `, 
         `대화를 피하고 웃으며 넘긴다 😅`,
         `사랑하는 사람과 함께하는 꿈 💖`
     ]
+    console.log("animation", animationNumber)
     return(
             <WrapperDiv key={animationNumber}>
                 <ContainerDiv>

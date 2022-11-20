@@ -5,14 +5,14 @@ import com.hipmap.domain.like.LikeEntity;
 import com.hipmap.domain.like.LikeRepository;
 import com.hipmap.domain.like.LikeRepositorySupport;
 import com.hipmap.domain.shorts.Exception.ShortsNotFoundException;
-import com.hipmap.domain.shorts.request.CreateShortsRequest;
-import com.hipmap.domain.shorts.request.GetMapListFilterRequest;
-import com.hipmap.domain.shorts.response.*;
+import com.hipmap.domain.shorts.dto.request.CreateShortsRequest;
+import com.hipmap.domain.shorts.dto.request.GetMapListFilterRequest;
+import com.hipmap.domain.shorts.dto.response.*;
 import com.hipmap.domain.user.Exception.UserNotFoundException;
 import com.hipmap.domain.user.UserEntity;
 import com.hipmap.domain.user.UserRepository;
 import com.hipmap.global.util.S3Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,33 +21,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class ShortsServiceImpl implements ShortsService {
 
-    @Autowired
-    ShortsRepository shortsRepository;
+    private final ShortsRepository shortsRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    LikeRepository likeRepository;
+    private final LikeRepository likeRepository;
 
-    @Autowired
-    ShortsRepositorySupport shortsRepositorySupport;
+    private final ShortsRepositorySupport shortsRepositorySupport;
 
-    @Autowired
-    LikeRepositorySupport likeRepositorySupport;
+    private final LikeRepositorySupport likeRepositorySupport;
 
-    @Autowired
-    CommentReposiotrySupport commentReposiotrySupport;
+    private final CommentReposiotrySupport commentReposiotrySupport;
 
-    @Autowired
-    private S3Util s3Uploader;
+    private final S3Util s3Uploader;
 
     @Override
     public Page<ShortsResponse> getShorts(Pageable pageable, Long userId) {
@@ -117,11 +112,13 @@ public class ShortsServiceImpl implements ShortsService {
 
     @Override
     public Long deleteShorts(Long userId, Long shortsId) {
-        /*
-        S3 로직 파악 후 썸네일, 비디오 삭제하는 코드 필요
-         */
         Optional<ShortsEntity> shortsEntityOP = shortsRepository.findById(shortsId);
         if (shortsEntityOP.isPresent()) {
+            ShortsEntity shorts = shortsEntityOP.get();
+            s3Uploader.delete(shorts.getFileSrc());
+            if(shorts.getThumbnailSrc() != null) {
+                s3Uploader.delete(shorts.getThumbnailSrc());
+            }
             return shortsRepository.deleteByShortsId(shortsId);
         } else {
             throw new IllegalStateException("존재하지 않는 shorts입니다.");
@@ -153,11 +150,12 @@ public class ShortsServiceImpl implements ShortsService {
             }else{
                 dirname = "voices";
             }
-            String storedFileSrc = s3Uploader.upload(file, dirname, userId);
+            Map<String, String> srcUrls = s3Uploader.upload(file, dirname, userId);
+
             UserEntity user = userRepository.findById(userId).orElseThrow(UserNotFoundException ::new);
             ShortsEntity shorts = ShortsEntity.builder()
-                    .fileSrc(storedFileSrc)
-                    .thumbnailSrc("썸네일주소") // 차후 추가 예정
+                    .fileSrc(srcUrls.get("uploadImageUrl"))
+                    .thumbnailSrc(srcUrls.get("uploadThumbnailUrl")) // 차후 올바른 썸네일 주소 입력 예정
                     .locationSi(request.getLocationSi())
                     .locationGu(request.getLocationGu())
                     .locationDong(request.getLocationDong())
