@@ -34,7 +34,6 @@ const SameHipPlaceCardWrapper = ({
 
   return (
     <SameHipPlaceCardWrapperDiv onClick={ClickEvent}>
-      asdfsdfadf
       {data.shortsList[0] && (
         <Card
           width="50vh"
