@@ -5,8 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFprobe;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -44,40 +42,8 @@ public class S3Util {
         System.out.println("dirName = " + dirName);
         String origName = uploadFile.getName();
         String ext = origName.substring(origName.lastIndexOf('.')); // 확장자
-//        String saveFileName = userId+ "-" +getUuid() + ext; // 파일 저장 이름
         String saveFileNameExceptExt = userId+ "-" +getUuid(); // 파일 저장 이름
         String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
-        boolean isMp4 = false;
-
-//        FFmpeg ffmpeg = new FFmpeg("/var/bin/ffmpeg"); // ffmpge 리눅스 경로
-//        FFprobe ffprobe = new FFprobe("/var/bin/ffprobe"); // ffprobe 리눅스 경로
-//        FFmpeg ffmpeg = new FFmpeg("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffmpeg"); // ffmpeg 로컬 경로
-//        FFprobe ffprobe = new FFprobe("C:/ssafy/cd/ffmpeg-2022-11-03-git-5ccd4d3060-essentials_build/bin/ffprobe"); // ffmpeg 로컬 경로
-
-//        if(!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".mp4")) {
-//            // 파일 생성
-////            FileOutputStream fileStream = new FileOutputStream("/var/jenkins_home/encoding/origin/" + origName);
-//            FileOutputStream fileStream = new FileOutputStream("C:/ssafy/cd/shorts/encoding" + origName);
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileStream);
-//            objectOutputStream.writeObject(uploadFile);
-////            objectOutputStream.close();
-//
-//            // 인코딩 로직
-////            FFmpegBuilder builder = new FFmpegBuilder().setInput("/var/jenkins_home/encoding/origin/" + origName) //원본파일경로
-////            FFmpegBuilder builder = new FFmpegBuilder().setInput("C:/ssafy/cd/shorts/encoding" + origName) //원본파일경로
-//            FFmpegBuilder builder = new FFmpegBuilder().setInput(origName) //원본파일경로
-//                    .overrideOutputFiles(true)
-////                    .addOutput("/var/jenkins_home/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
-//                    .addOutput("C:/ssafy/cd/shorts/encoding/result/" + saveFileNameExceptExt + ".mp4")//저장경로
-//                    .setFilename("mp4")
-//                    .setVideoCodec("libx264")
-//                    .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
-//                    .done();
-//            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-//            executor.createJob(builder).run();
-//            isMp4 = true;
-//        }
-
 
         File encodingUploadFile = uploadFile;
 
