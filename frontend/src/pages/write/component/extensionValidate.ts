@@ -1,4 +1,4 @@
-const ALLOW_FILE = "mp4,mov,jpg,png";
+const ALLOW_FILE = "mp4,jpg,png";
 const MAX_SIZE_LIMIT = 15 * 1024 * 1024;
 
 export const fileExtensionValid = ({ name }: { name: string }): boolean => {

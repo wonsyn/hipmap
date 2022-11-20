@@ -6,7 +6,7 @@ import { useDropzone } from "react-dropzone";
 import { fileExtensionValid, removeFileName } from "./extensionValidate";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const ALLOW_FILE = "mp4,mov";
+const ALLOW_FILE = "mp4";
 const MAX_SIZE_LIMIT = 15 * 1024 * 1024;
 
 const MovieUpload = ({
@@ -137,7 +137,7 @@ const MovieUpload = ({
             />
             {isDragActive ? (
               <p>
-                사용 가능한 확장자는 JPG, PNG, mp4, mov 이며 최대 용량은
+                사용 가능한 확장자는 JPG, PNG, mp4 이며 최대 용량은
                 15MB까지입니다.
               </p>
             ) : (
@@ -169,9 +169,7 @@ const MovieUpload = ({
                     opacity: 0.6;
                   `}
                 >
-                  <div css={css``}>
-                    사용 가능한 확장자는 JPG, PNG, mp4, mov 이며
-                  </div>
+                  <div css={css``}>사용 가능한 확장자는 JPG, PNG, mp4 이며</div>
                   <div> 최대 용량은 15MB까지입니다.</div>
                 </div>
               </div>
