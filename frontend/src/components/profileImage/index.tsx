@@ -62,6 +62,9 @@ const ProfileImgWrapper = () => {
           display: flex;
           align-items: center;
           justify-content: end;
+          :hover {
+            cursor: pointer;
+          }
         `}
         onClick={myPageHandler}
       >
@@ -72,6 +75,9 @@ const ProfileImgWrapper = () => {
               height: 30px;
               border-radius: 50%;
               margin-right: 3%;
+              :hover {
+                cursor: pointer;
+  }
             `}
             src={userProfile}
             alt="프로필이미지"
@@ -111,6 +117,9 @@ const ProfileImgWrapper = () => {
               position: absolute;
               right: 0;
               top: 0;
+              :hover {
+                cursor: pointer;
+              }
             `}
           >
             {noti.unreadCount > 0 && (
@@ -128,6 +137,9 @@ const ProfileImgWrapper = () => {
           max-width: 40px;
           margin-left: auto;
           align-items: center;
+          :hover {
+           cursor: pointer;
+          }
         `}
         onClick={logoutHandler}
         src="/img/logout.png"
