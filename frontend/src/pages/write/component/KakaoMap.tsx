@@ -119,8 +119,7 @@ const KakaoMap = ({ lat, lng, setPosition }: positionInfo) => {
             font-size: 1.2rem;
           `}
         >
-          현재 좌표는 {position.lat} {position.lng} {address?.si} {address?.gu}{" "}
-          {address?.gun} 입니다!
+          현재 좌표는 {address?.si} {address?.gu} {address?.gun} 입니다!
         </p>
       )}
     </div>
