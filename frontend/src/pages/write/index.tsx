@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import { useUploadShorts } from "../../hoc/useMutation";
+import SimpleBackdrop from "../../styles/loadingBack";
 import theme from "../../styles/theme";
 import ErrorAlerts from "../shorts/component/ErrorAlerts";
 import KakaoMapWrapper from "./component/KakaoMapWrapper";
@@ -12,16 +13,14 @@ import MovieUpload from "./component/MovieUpload";
 const Write = () => {
   //업로드 할 동영상/ 사진 정보 가져오기
   const [uploadInfo, setUploadInfo] = useState<any>();
-  // console.log(uploadInfo);
-
-  const [position, setPosition] = useState<{
-    lat: number;
-    lng: number;
-    si: string;
-    gu: string | null;
-    gun: string | null;
-  }>();
-  console.log("position", position);
+  const [position, setPosition] =
+    useState<{
+      lat: number;
+      lng: number;
+      si: string;
+      gu: string | null;
+      gun: string | null;
+    }>();
   const { mutate, isLoading } = useUploadShorts();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [errorOpen, setErrorOpen] = useState<boolean>(false);
@@ -59,6 +58,7 @@ const Write = () => {
         margin-bottom: 2vh;
       `}
     >
+      {isLoading && <SimpleBackdrop />}
       {errorOpen && (
         <ErrorAlerts open={errorOpen} openHandler={errorOpenHandler} />
       )}

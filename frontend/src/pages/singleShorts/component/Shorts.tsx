@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hoc/useStoreHooks";
 
 const Shorts = ({ id }: { id: number }) => {
-  console.log(id);
   const userId = useAppSelector((store) => store.userReducer.user.user_id);
   const navigator = useNavigate();
   const { data, isFetching } = useFetchSingleShorts(id);
@@ -28,7 +27,6 @@ const Shorts = ({ id }: { id: number }) => {
       setLocation(si + " " + gu + " " + dong);
     }
   }, [data]);
-  console.log(data);
   const shortsDataHandler = () => {
     setShowShortsData((prev) => {
       return !prev;

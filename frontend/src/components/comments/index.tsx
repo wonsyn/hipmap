@@ -32,13 +32,11 @@ export interface commentsProps {
 const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
   const { data: sortedComments } = useFetchShortsComments(shortsId);
   const [trigger, setTrigger] = useState<boolean>(false);
-  console.log(sortedComments);
   const [selectComments, setSelectComment] = useState<
     selectComment | undefined
   >();
   const { mutate } = useCommentWrite();
   const getComment = (e: selectComment) => {
-    console.log(e);
     setSelectComment(e);
   };
   const cleanSelectComment = () => {
@@ -83,7 +81,6 @@ const CommentsWrapper = ({ shortsId }: { shortsId: number }) => {
         }
       );
     }
-    console.log(e);
   };
 
   return (

@@ -87,7 +87,6 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
         return e.followUserName.includes(followerSearchWord);
       });
       setFollowerList(result);
-      console.log(result);
     } else if (followerData) {
       setFollowerList(followerData.follow);
     }
@@ -120,7 +119,6 @@ const MyFollows = ({ id, select }: { id: number; select: boolean }) => {
     }
   }, [followingIsLoading, followerIsLoading, followingData, followerData]);
   if (followingList) {
-    console.log(followingList);
   }
 
   return (

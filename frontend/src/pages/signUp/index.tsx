@@ -31,7 +31,6 @@ interface userInfo {
 
 const SignUpWrapper = () => {
   const location = useLocation();
-  console.log(useLocation());
   const labelingName = location.state?.labelingName ?? "아직 정해지지 않음";
   const [snsSign, setSnsSign] = useState<boolean>(false);
   const [selectEmail, setSelectEmail] = useState("self");
@@ -64,8 +63,7 @@ const SignUpWrapper = () => {
       const emailTemp = location.state.email;
       const emailfront = emailTemp.slice(0, emailTemp.indexOf("@"));
       const email = emailTemp.slice(emailTemp.indexOf("@") + 1);
-      console.log(emailfront);
-      console.log(email);
+
       setEmailFrontState(emailfront);
       setEmailState(email);
       setAcceptEmail(true);

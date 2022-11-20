@@ -43,7 +43,6 @@ const Slide = ({
 
   useEffect(() => {
     if (selectId !== undefined && !isModalOpen) {
-      console.log("지금 선택된?", selectId);
       setIsModalOpen((prev) => {
         return !prev;
       });
@@ -91,7 +90,6 @@ const Slide = ({
               <ImgContainer
                 onClick={() => {
                   setSelectId(e.shortsId);
-                  console.log(e.shortsId);
                 }}
                 src={e.thumbnailSrc}
                 alt="베스트 힙 플레이스"

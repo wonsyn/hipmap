@@ -14,13 +14,11 @@ const KakaoRedirect = () => {
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector((store) => store.userReducer.auth);
   const KAKAO_CODE = location.search.split("=")[1];
-  console.log(KAKAO_CODE);
   const { data, isLoading } = useQuery(["kakaoLogin"], async () => {
     const response = await axios.post(baseURL + "/oauth/kakao", {
       code: KAKAO_CODE,
       redirectUri: frontURL,
     });
-    console.log(response.data);
     return response.data;
   });
   useEffect(() => {
@@ -37,7 +35,6 @@ const KakaoRedirect = () => {
       //   state: { email: data.email, snsSign: true },
       // });
     } else if (data && data.signed) {
-      console.log(data);
       const res = data.userInfo;
       dispatch(
         snsLogin({
