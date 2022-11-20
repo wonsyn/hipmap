@@ -1,4 +1,12 @@
-1. 사용한 JVM, 웹서버, WAS 제품 등의 종류와 설정값, 버전(IDE버전 포함) 기재 **IDE** IntelliJ MySQL Workbench VSCode
+1. 사용한 JVM, 웹서버, WAS 제품 등의 종류와 설정값, 버전(IDE버전 포함) 기재 
+
+   **IDE** 
+
+   IntelliJ 
+
+   MySQL Workbench 
+
+   VSCode
 
    **BE** 
 
@@ -32,7 +40,19 @@
 
    **SERVER** 
 
-   S3 https Ubuntu Nginx PuTTY Docker Jenkins
+   S3 
+
+   https 
+
+   Ubuntu 
+
+   Nginx 
+
+   PuTTY 
+
+   Docker 
+
+   Jenkins
 
    **FE** 
 
