@@ -31,12 +31,12 @@ const fadeInRight = keyframes`
 
 const emphasizingSlide = keyframes`
     0% {
-    -webkit-transform: translateX(0%);
-            transform: translateX(0%);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
     }
     100% {
-    -webkit-transform: translateX(90%);
-            transform: translateX(90%);
+    -webkit-transform: translateX(73%);
+            transform: translateX(73%);
     }
 
 `
@@ -71,58 +71,26 @@ export const ContainerDiv = styled.div`
 
 export const ProcessBarDiv = styled.div`
     width: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-export const ProcessBarDiv2 = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10%
-`
-export const ProcessBarWrapping = styled.div`
-    width: 100%;
-    height: 2vh;
-    border: 2px solid;
-`
-export const ProcessBar = styled.div<AnimationProps>`
-    width: calc(${(props) => props.number * (100/11) + (100/11)}%);
-    height: 2vh;
-    /* border: 2px solid; */
-    border-radius: 10px;
-    margin-left: -33px;
-    background-color: red;
-    animation: ${emphasizingSlide} 1s ease-out;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+    
 `
 export const EmphasizingImg = styled.img<AnimationProps>`
     width: 33px;
     height: 40px;
-    position: fixed;
+    position: relative;
     z-index: 10000;
-    top: 6.5%;
-    left: calc(${(props) => props.number*0.31}%  + 34% );
-    animation: ${emphasizingSlide} 1s ease-out;
-    animation-fill-mode: both;
-    animation-play-state: running;
-    @media screen and (max-width :700px) {
-        left: calc(${(props) => props.number*0.85 }% );
-    }
+    top: 50%;
+    left: calc(${(props) => props.number}% - 11%);
+    animation: ${emphasizingSlide} 0.5s ease-out both;
+    animation-fill-mode: forwards;
 `
 export const QuestionDiv = styled.div<AnimationProps>`
     width: 80%;
     height: 40%;
     background: ${palette.subColorDarkPurple};
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 8px;
     padding: 5%;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     text-shadow: 2px 2px 4px purple;
     animation-fill-mode: ${(props) => props.number? `forwards`: ``};
     animation-name: ${(props) => props.number? css`${fadeOutLeft}, ${fadeInRight}`: ``};

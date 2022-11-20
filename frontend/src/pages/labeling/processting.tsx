@@ -40,7 +40,7 @@ function ProcessingPage(){
         }
         else if (processNumber === 1){
             setE((prev) => {
-                return prev + 1
+                return prev + 3
             })
         }
         else if (processNumber === 2){
@@ -73,7 +73,7 @@ function ProcessingPage(){
         }
         else if (processNumber === 7){
             setE((prev) => {
-                return prev + 2
+                return prev + 3
             })
             setHeng((prev) => {
                 return prev + 1
@@ -225,9 +225,6 @@ function ProcessingPage(){
             setZzin((prev) => {
                 return prev + 3
             })
-            setI((prev) => {
-                return prev + 2
-            })
         }
         else if (processNumber === 10){
             setS((prev) => {
@@ -331,7 +328,6 @@ function ProcessingPage(){
         `대화를 피하고 웃으며 넘긴다 😅`,
         `사랑하는 사람과 함께하는 꿈 💖`
     ]
-    console.log("animation", animationNumber)
     return(
             <WrapperDiv key={animationNumber}>
                 <ContainerDiv>
