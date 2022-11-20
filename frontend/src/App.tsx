@@ -83,7 +83,7 @@ function App() {
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </Layout>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </BrowserRouter>
   );
