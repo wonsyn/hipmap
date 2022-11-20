@@ -100,7 +100,7 @@ export const  LabelingNameDiv = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     //
-    font-size: 1.5rem;
+    font-size: 3rem;
     font-weight: bold;
     margin: 6%;
     @media screen and (max-width :700px) {
