@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -116,12 +117,13 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void uploadProfile(MultipartFile file, Long userId) {
+    public void uploadProfile(MultipartFile file, Long userId) throws Exception {
         String storedFileName;
 
         if(!file.isEmpty()) {
             try {
-                storedFileName = s3util.upload(file, "profile", userId);
+                Map<String, String> urls = s3util.upload(file, "profile", userId);
+                storedFileName = urls.get("uploadImageUrl");
             } catch (IOException e) {
                 throw new FailedUploadProfileException();
             }

@@ -1,7 +1,7 @@
 package com.hipmap.domain.like;
 
-import com.hipmap.domain.like.dto.LikeUpdateRequestDto;
-import com.hipmap.domain.like.dto.LikeUpdateResponseDto;
+import com.hipmap.domain.like.dto.request.LikeUpdateRequestDto;
+import com.hipmap.domain.like.dto.response.LikeUpdateResponseDto;
 import com.hipmap.global.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,8 +21,6 @@ import java.util.Map;
 public class LikeController {
 
     private final LikeService likeService;
-    private final LikeRepositorySupport likeRepositorySupport;
-    private final LikeRepository likeRepository;
     private final JwtUtil jwtUtil;
 
     @PostMapping("isLike")
@@ -51,6 +49,4 @@ public class LikeController {
         result.put("like_count",likeService.delete(userId, shortsId));
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-
-   
 }

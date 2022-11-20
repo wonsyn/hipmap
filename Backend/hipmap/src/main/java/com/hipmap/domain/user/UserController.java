@@ -119,7 +119,7 @@ public class UserController {
     })
     public ResponseEntity<Void> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
         authEmailService.authEmail(key);
-        URI redirectUri = new URI("https://www.naver.com/");
+        URI redirectUri = new URI("https://k7b108.p.ssafy.io/login");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
@@ -132,7 +132,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "해당하는 유저가 없음. 또는 업로드 실패"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    public ResponseEntity<String> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) {
+    public ResponseEntity<String> uploadProfileImg(@ApiParam(value = "업로드 할 파일") MultipartFile file, HttpServletRequest request) throws Exception {
         Long userId = jwtUtil.getUserInfo(request.getHeader("accessToken")).getId();
         userService.uploadProfile(file, userId);
         return ResponseEntity.ok().body("업로드 성공");

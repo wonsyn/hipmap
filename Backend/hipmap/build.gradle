@@ -78,6 +78,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
+
     // redis
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
 //    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.7.5'
@@ -88,6 +89,14 @@ dependencies {
 
     // json
     implementation 'org.json:json:20220924'
+
+    // jcodec
+    // https://mvnrepository.com/artifact/org.jcodec/jcodec
+    implementation group: 'org.jcodec', name: 'jcodec', version: '0.2.3'
+    // jcodec-javase
+    // https://mvnrepository.com/artifact/org.jcodec/jcodec-javase
+    implementation group: 'org.jcodec', name: 'jcodec-javase', version: '0.2.3'
+
 }
 
 tasks.named('test') {

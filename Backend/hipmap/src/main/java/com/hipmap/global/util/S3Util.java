@@ -15,9 +15,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
 @Slf4j
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
 @Component
@@ -30,23 +31,48 @@ public class S3Util {
     private String bucket;
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile multipartFile, String dirName, Long userId) throws IOException {
+    public Map<String, String> upload(MultipartFile multipartFile, String dirName, Long userId) throws IOException, Exception{
 
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
         return upload(uploadFile, dirName, userId);
     }
 
-    private String upload(File uploadFile, String dirName, Long userId) {
+    private Map<String, String> upload(File uploadFile, String dirName, Long userId) throws Exception{
+        System.out.println("dirName = " + dirName);
         String origName = uploadFile.getName();
-        String ext = origName.substring(origName.lastIndexOf('.'));
-        String saveFileName = userId+ "-" +getUuid() + ext;
-        String fileName = dirName + "/" + saveFileName;
-        String uploadImageUrl = putS3(uploadFile, fileName);
+        String ext = origName.substring(origName.lastIndexOf('.')); // 확장자
+        String saveFileNameExceptExt = userId+ "-" +getUuid(); // 파일 저장 이름
+        String saveFileName = saveFileNameExceptExt + ext; // 파일 저장 이름
+
+        File encodingUploadFile = uploadFile;
+
+
+        String uploadThumbnailUrl = null;
+        if(dirName.equals("videos")) {
+            File thumbnail = JCodecUtil.getThumbnail(encodingUploadFile, new File("/var/jenkins_home/thumbnail/" + saveFileNameExceptExt + ".png"));
+            String thumbnailName = dirName + "/" + thumbnail.getName();
+            uploadThumbnailUrl = putS3(thumbnail, thumbnailName);
+            removeNewFile(thumbnail);
+        }
+
+        // uploadFile = 저장된 파일로 재지정
+        String fileName = dirName + "/" + encodingUploadFile.getName();
+//        String uploadImageUrl = putS3(uploadFile, fileName);
+        String uploadImageUrl = putS3(encodingUploadFile, fileName);
+
+        if(dirName.equals("images")) {
+            uploadThumbnailUrl = uploadImageUrl;
+        }
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
 
-        return uploadImageUrl;      // 업로드된 파일의 S3 URL 주소 반환
+        Map<String, String> result = new HashMap<>();
+
+        result.put("uploadImageUrl", uploadImageUrl);
+        result.put("uploadThumbnailUrl", uploadThumbnailUrl);
+
+        return result;      // 업로드된 파일의 S3 URL 주소 반환
     }
 
     private String putS3(File uploadFile, String fileName) {
@@ -70,6 +96,8 @@ public class S3Util {
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
+            }catch (Exception e) {
+                e.printStackTrace();
             }
             return Optional.of(convertFile);
         }
