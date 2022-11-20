@@ -119,7 +119,7 @@ public class UserController {
     })
     public ResponseEntity<Void> authEmail(@PathVariable String key) throws EmailAuthNotFoundException, URISyntaxException {
         authEmailService.authEmail(key);
-        URI redirectUri = new URI("https://www.naver.com/");
+        URI redirectUri = new URI("https://k7b108.p.ssafy.io/login");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
